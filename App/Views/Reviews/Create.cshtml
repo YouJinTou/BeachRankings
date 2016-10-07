@@ -1,0 +1,170 @@
+﻿@model BeachRankings.Models.Review
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Review</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.TextAreaFor(model => model.Content,
+               new { @class = "form-control create-review-textarea", @rows = 5, @cols = 40, @style = "resize: none;", @placeholder = "Share your impressions of this beach" })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                <span class="pull-right"><sub>A minimum of 150 symbols</sub></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WaterQuality, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="water-quality-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-water-quality-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SeafloorCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="seafloor-cleanliness-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-seafloor-cleanliness-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CoralReefFactor, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="coral-reef-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-coral-reef-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="sea-life-diversity-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-sea-life-diversity-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SnorkelingSuitability, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="snorkeling-suitability-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-snorkeling-suitability-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="beach-cleanliness-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-beach-cleanliness-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CrowdFreeFactor, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="crowd-free-factor-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-crowd-free-factor-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SandQuality, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="sand-quality-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-sand-quality-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BreathtakingEnvironment, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="breathtaking-environment-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-breathtaking-environment-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TentSuitability, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="tent-suitability-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-tent-suitability-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KayakSuitability, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="kayak-suitability-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-kayak-suitability-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LongStaySuitability, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="long-stay-suitability-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-long-stay-suitability-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/External/dragdealer.js")
+    @Scripts.Render("~/Scripts/External/rainbowvis.js")
+    @Scripts.Render("~/Scripts/Internal/Reviews/createReview.js")
+}
+
+@section ReviewsStyles {
+    @Styles.Render("~/Content/External/dragdealer.css")
+    @Styles.Render("~/Content/Internal/Reviews/create-review.css")
+}

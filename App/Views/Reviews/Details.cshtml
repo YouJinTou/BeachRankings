@@ -1,0 +1,50 @@
+﻿@model BeachRankings.Models.Review
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Review</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Author.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Author.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SandQuality)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SandQuality)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WaterCleanliness)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WaterCleanliness)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
