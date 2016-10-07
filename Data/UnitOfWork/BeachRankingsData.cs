@@ -2,8 +2,8 @@
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
-    using Repositories;
+    using BeachRankings.Models;
+    using BeachRankings.Data.Repositories;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;

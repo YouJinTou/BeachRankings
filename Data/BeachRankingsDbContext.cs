@@ -1,7 +1,7 @@
 ﻿namespace BeachRankings.Data
 {
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
+    using BeachRankings.Models;
     using System.Data.Entity;
 
     public class BeachRankingsDbContext : IdentityDbContext<User>

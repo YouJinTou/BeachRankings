@@ -1,7 +1,7 @@
 ﻿namespace BeachRankings.Data.UnitOfWork
 {
-    using Data.Repositories;
-    using Models;
+    using BeachRankings.Data.Repositories;
+    using BeachRankings.Models;
 
     public interface IBeachRankingsData
     {
