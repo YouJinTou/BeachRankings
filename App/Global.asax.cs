@@ -1,4 +1,5 @@
-﻿using BeachRankings.Data;
+﻿using App.App_Start;
+using BeachRankings.Data;
 using BeachRankings.Data.Migrations;
 using System.Data.Entity;
 using System.Web.Mvc;
@@ -17,6 +18,7 @@ namespace App
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            MapperConfig.RegisterMappings();
         }
     }
 }

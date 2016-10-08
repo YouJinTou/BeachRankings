@@ -11,9 +11,12 @@
         public User()
         {
             this.Reviews = new HashSet<Review>();
+            this.Photos = new HashSet<BeachPhoto>();
         }
 
         public virtual ICollection<Review> Reviews { get; set; }
+
+        public virtual ICollection<BeachPhoto> Photos { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

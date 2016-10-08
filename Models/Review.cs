@@ -1,14 +1,26 @@
 ﻿namespace BeachRankings.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class Review
     {
         [Key]
-        public int Id { get; set; }        
+        public int Id { get; set; }
+
+        public virtual User Author { get; set; }
 
         [Required]
-        [MinLength(150, ErrorMessage = "Two sentences should get you to 150 characaters, don't you think?")]
+        public string AuthorId { get; set; }
+
+        [Required]
+        public int BeachId { get; set; }
+
+        [Required]
+        public DateTime PostedOn { get; set; }
+
+        [Required(ErrorMessage = "The review field is required.")]
+        [MinLength(150, ErrorMessage = "150 characters should be doable.")]
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         [Display(Name = "Review")]
         public string Content { get; set; }
@@ -47,11 +59,6 @@
         public double? KayakSuitability { get; set; }
 
         [Display(Name = "Long stay suitability")]
-        public double? LongStaySuitability { get; set; }
-
-        public virtual User Author { get; set; }
-
-        [Required]
-        public string AuthorId { get; set; }
+        public double? LongStaySuitability { get; set; }        
     }
 }

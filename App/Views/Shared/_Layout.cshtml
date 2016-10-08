@@ -6,8 +6,8 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("HomeStyles", required: false)
     @RenderSection("ReviewsStyles", required: false)
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,7 +22,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Reviews", "Create", "Reviews")</li>
+                    <li>@Html.ActionLink("Top", "Top", "Beaches")</li>
+                    <li>@Html.ActionLink("Reviews", "Post", "Reviews")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -38,6 +39,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/Internal/main.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

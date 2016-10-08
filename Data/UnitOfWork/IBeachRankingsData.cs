@@ -7,6 +7,10 @@
     {
         IRepository<User> Users { get; }
 
+        IRepository<Beach> Beaches { get; }
+
+        IRepository<BeachPhoto> BeachPhotos { get; }
+
         IRepository<Review> Reviews { get; }
     }
 }

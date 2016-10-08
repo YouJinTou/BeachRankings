@@ -27,14 +27,6 @@
             this.repositories = new Dictionary<Type, object>();
         }
 
-        public IRepository<Review> Reviews
-        {
-            get
-            {
-                return this.GetRepository<Review>();
-            }
-        }
-
         public IRepository<User> Users
         {
             get
@@ -42,6 +34,30 @@
                 return this.GetRepository<User>();
             }
         }
+
+        public IRepository<Beach> Beaches
+        {
+            get
+            {
+                return this.GetRepository<Beach>();
+            }
+        }
+
+        public IRepository<BeachPhoto> BeachPhotos
+        {
+            get
+            {
+                return this.GetRepository<BeachPhoto>();
+            }
+        }
+
+        public IRepository<Review> Reviews
+        {
+            get
+            {
+                return this.GetRepository<Review>();
+            }
+        }    
 
         public IUserStore<User> UserStore
         {

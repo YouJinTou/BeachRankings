@@ -29,8 +29,8 @@
             if (!resetButton.is(':visible')) {
                 resetButton.show();
 
-                resetButton.on('click', function (e) {
-                    e.preventDefault();
+                resetButton.on('click', function (event) {
+                    event.preventDefault();
 
                     dragdealer.disable();
                     dragdealer.setValue(0.5, 0);
@@ -40,7 +40,7 @@
                     $(this).hide();
                 });
             }
-            
+
             var step = Math.floor(x * 100);
             var wrapperColor = ('#' + rainbow.colourAt(step));
             var score = (Math.round(step * 10) / 100);
@@ -49,6 +49,44 @@
             $(dragdealer.handle).text(score);
         }
     };
+
+    $('[data-btn-post-review]').on('click', function (event) {
+        event.preventDefault();
+
+        var reviewJsonData = {
+            content: $('[data-review-content]').val(),
+            waterQuality: $('[data-water-quality-handle]').text(),
+            seafloorCleanliness: $('[data-seafloor-cleanliness-handle]').text(),
+            coralReefFactor: $('[data-coral-reef-handle]').text(),
+            seaLifeDiversity: $('[data-sea-life-diversity-handle]').text(),
+            snorkelingSuitability: $('[data-snorkeling-suitability-handle]').text(),
+            beachCleanliness: $('[data-beach-cleanliness-handle]').text(),
+            crowdFreeFactor: $('[data-crowd-free-factor-handle]').text(),
+            sandQuality: $('[data-sand-quality-handle]').text(),
+            breathtakingEnvironment: $('[data-breathtaking-environment-handle]').text(),
+            tentSuitability: $('[data-tent-suitability-handle]').text(),
+            kayakSuitability: $('[data-kayak-suitability-handle]').text(),
+            longStaySuitability: $('[data-long-stay-suitability-handle]').text()
+        };
+        var reviewForm = $('#submitReviewForm');
+        var csrfToken = $('input[name="__RequestVerificationToken"]', reviewForm).val();
+
+        if (reviewForm.valid()) {
+            $.ajax({
+                url: '/Reviews/Post/',
+                type: 'POST',
+                data: {
+                    __RequestVerificationToken: csrfToken,
+                    bindingModel: reviewJsonData
+                },
+                success: function (result) {
+                    if (result.redirectUrl) {
+                        window.location.href = result.redirectUrl;
+                    }
+                }
+            });
+        }
+    })
 
     initializeDragdealers();
 

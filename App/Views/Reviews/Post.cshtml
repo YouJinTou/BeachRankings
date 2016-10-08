@@ -1,13 +1,12 @@
 ﻿@model BeachRankings.Models.Review
 
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Post review";
 }
 
-<h2>Create</h2>
+<h2>Beach Review</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "submitReviewForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -19,7 +18,15 @@
             @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 @Html.TextAreaFor(model => model.Content,
-               new { @class = "form-control create-review-textarea", @rows = 5, @cols = 40, @style = "resize: none;", @placeholder = "Share your impressions of this beach" })
+            new
+            {
+                data_review_content = "",
+                @class = "form-control create-review-textarea",
+                @rows = 5,
+                @cols = 40,
+                @style = "resize: none;",
+                @placeholder = "Share your impressions of this beach"
+            })
                 @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
                 <span class="pull-right"><sub>A minimum of 150 symbols</sub></span>
             </div>
@@ -147,7 +154,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input data-btn-post-review="" type="submit" value="Post review" class="btn btn-default" />
             </div>
         </div>
     </div>

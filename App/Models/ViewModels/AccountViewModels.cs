@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace App.Models
+namespace App.Models.ViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {
@@ -49,9 +49,8 @@ namespace App.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Username/Email")]
+        public string UsernameEmail { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

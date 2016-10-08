@@ -11,6 +11,10 @@
         {
         }
 
+        public IDbSet<Beach> Beaches { get; set; }
+
+        public IDbSet<BeachPhoto> BeachPhotos { get; set; }
+
         public IDbSet<Review> Reviews { get; set; }
 
         public static BeachRankingsDbContext Create()
@@ -20,6 +24,9 @@
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Beach>()
+                .HasMany(b => b.Photos);
+
             base.OnModelCreating(modelBuilder);
         }
     }
