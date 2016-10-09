@@ -12,9 +12,11 @@
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<PostReviewBindingModel, Review>();
-                cfg.CreateMap<Beach, BeachSummaryViewModel>()
-                    .ForMember(viewModel => viewModel.ImagePath, model => model.MapFrom(m => m.Photos.FirstOrDefault().Path));
+                cfg.CreateMap<Beach, ConciseBeachViewModel>()
+                    .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Photos.FirstOrDefault().Path));
+                cfg.CreateMap<Beach, DetailedBeachViewModel>();
+                cfg.CreateMap<Review, ReviewViewModel>();
+                cfg.CreateMap<PostReviewBindingModel, Review>();                
             });
         }
     }

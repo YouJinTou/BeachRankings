@@ -1,0 +1,23 @@
+﻿@model App.Models.ViewModels.ReviewViewModel
+
+<div class="row">
+    <div class="col-md-2">
+        <img src="@Model.AvatarPath" alt="No profile photo" />
+        <div class="row">
+            <span>@Model.UserName</span>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="row">
+            @{ 
+                string score = (string.IsNullOrEmpty(Model.TotalScore.ToString()) ?
+                        "This user hasn't rated the beach." :
+                        Model.TotalScore.ToString());
+            }
+            <div>Score: @score | @Model.PostedOn</div>
+        </div>
+        <div class="row">
+            <p>@Model.Content</p>
+        </div>
+    </div>
+</div>

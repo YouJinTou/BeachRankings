@@ -4,6 +4,9 @@
 
     public class PostReviewBindingModel
     {
+        [Required]
+        public int BeachId { get; set; }
+
         [Required(ErrorMessage = "The review field is required.")]
         [MinLength(150, ErrorMessage = "150 characters should be doable.")]
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]

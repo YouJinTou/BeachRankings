@@ -227,8 +227,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BindingModels\ReviewsBindingModels.cs" />
+    <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Models\BindingModels\BeachBindingModels.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
+    <Compile Include="Models\ViewModels\ReviewViewModels.cs" />
     <Compile Include="Models\ViewModels\BeachViewModels.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -243,8 +245,9 @@
     <Content Include="Content\Images\bolata.jpg" />
     <Content Include="Content\Images\kamchia_river.jpg" />
     <Content Include="Content\Images\sunny_day.jpg" />
+    <Content Include="Content\Images\unknown_profile.jpg" />
     <Content Include="Content\Internal\Beaches\beaches.css" />
-    <Content Include="Content\Internal\Reviews\create-review.css" />
+    <Content Include="Content\Internal\Reviews\review-creation.css" />
     <Content Include="Content\Internal\home.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -283,7 +286,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\Internal\Reviews\createReview.js" />
+    <Content Include="Scripts\Internal\Reviews\review-creation.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -319,17 +322,15 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Reviews\Reviews.cshtml" />
-    <Content Include="Views\Reviews\Delete.cshtml" />
-    <Content Include="Views\Reviews\Details.cshtml" />
-    <Content Include="Views\Reviews\Edit.cshtml" />
-    <Content Include="Views\Reviews\Index.cshtml" />
-    <Content Include="Views\Reviews\Post.cshtml" />
+    <Content Include="Views\Reviews\Rate.cshtml" />
     <Content Include="Views\Beaches\Top.cshtml" />
-    <Content Include="Views\Beaches\DisplayTemplates\BeachSummaryViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ConciseBeachViewModel.cshtml" />
+    <Content Include="Views\Beaches\Details.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ReviewViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\Internal\Beaches\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -23,18 +23,52 @@
         [MaxLength(100, ErrorMessage = "The location name cannot be longer than 100 characters.")]
         public string Location { get; set; }
 
-        [Required]
-        [Range(0, 100)]
-        public int TotalScore { get; set; }
-
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
 
-        [UIHint("Separate the latitude and longitude with a semicolon(;).")]
         public string Coordinates { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<BeachPhoto> Photos { get; set; }
+
+        [Range(0, 10)]
+        public double? TotalScore { get; set; }
+
+        [Display(Name = "Water quality")]
+        public double? WaterQuality { get; set; }
+
+        [Display(Name = "Seafloor cleanliness")]
+        public double? SeafloorCleanliness { get; set; }
+
+        [Display(Name = "Coral reef wow factor")]
+        public double? CoralReefFactor { get; set; }
+
+        [Display(Name = "Sea life diversity")]
+        public double? SeaLifeDiversity { get; set; }
+
+        [Display(Name = "Good for snorkeling")]
+        public double? SnorkelingSuitability { get; set; }
+
+        [Display(Name = "Beach cleanliness")]
+        public double? BeachCleanliness { get; set; }
+
+        [Display(Name = "Crowd-free factor")]
+        public double? CrowdFreeFactor { get; set; }
+
+        [Display(Name = "Sand quality")]
+        public double? SandQuality { get; set; }
+
+        [Display(Name = "Breathtaking environment")]
+        public double? BreathtakingEnvironment { get; set; }
+
+        [Display(Name = "Tent suitability")]
+        public double? TentSuitability { get; set; }
+
+        [Display(Name = "Suitable for kayaking")]
+        public double? KayakSuitability { get; set; }
+
+        [Display(Name = "Long stay suitability")]
+        public double? LongStaySuitability { get; set; }        
     }
 }

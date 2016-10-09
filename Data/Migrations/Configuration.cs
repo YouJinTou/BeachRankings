@@ -56,7 +56,7 @@ namespace BeachRankings.Data.Migrations
             {
                 var userStore = new UserStore<User>(this.data);
                 var userManager = new UserManager<User>(userStore);
-                var user = new User { UserName = "admin", Email = "dandreevd@gmail.com" };
+                var user = new User { UserName = "admin", Email = "dandreevd@gmail.com", AvatarPath = "/Content/Images/unknown_profile.jpg" };
 
                 userManager.Create(user, "123456");
                 userManager.AddToRole(user.Id, "Admin");
@@ -84,7 +84,6 @@ namespace BeachRankings.Data.Migrations
             {
                 Name = "Kamchia Beach",
                 Location = "Kamchia",
-                TotalScore = 36,
                 Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
                 Photos = new HashSet<BeachPhoto>()
             });
@@ -92,7 +91,6 @@ namespace BeachRankings.Data.Migrations
             {
                 Name = "Bolata",
                 Location = "Kaliakra",
-                TotalScore = 21,
                 Description = "Situated north of Albena, Bolata is an ungainly sight.",
                 Photos = new HashSet<BeachPhoto>()
             });
@@ -100,7 +98,6 @@ namespace BeachRankings.Data.Migrations
             {
                 Name = "Sunny Day Beach",
                 Location = "Varna",
-                TotalScore = 38,
                 Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                 Photos = new HashSet<BeachPhoto>()
             });
@@ -173,6 +170,7 @@ namespace BeachRankings.Data.Migrations
                     AuthorId = (even ? adminId : userId),
                     BeachId = rand.Next(1, beachIds.Count + 1),
                     PostedOn = DateTime.Now.AddDays(-i),
+                    TotalScore = Math.Round(rand.NextDouble() * 10, 1),
                     Content = "This is the content for the " + i + ". review, whether you like it or not." +
                             "There's more to come as well, so you'd better watch out. We have pancakes, too, so shut it.",
                     WaterQuality = Math.Round((rand.NextDouble() * 10), 1),
@@ -189,6 +187,15 @@ namespace BeachRankings.Data.Migrations
                     LongStaySuitability = Math.Round((rand.NextDouble() * 10), 1)
                 });
             }
+
+            this.data.Reviews.Add(new Review()
+            {
+                AuthorId = adminId,
+                BeachId = rand.Next(1, beachIds.Count + 1),
+                PostedOn = DateTime.Now.AddDays(-3),
+                Content = "This is a review without any scores. This is a review without any scores. " +
+                        "This is a review without any scores. This is a review without any scores. This is a review without any scores. "
+            });
 
             this.data.SaveChanges();
         }

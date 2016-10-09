@@ -53,7 +53,10 @@
     $('[data-btn-post-review]').on('click', function (event) {
         event.preventDefault();
 
+        var beachIdIndex = (window.location.href.lastIndexOf('/') + 1);
+        var beachId = window.location.href.substr(beachIdIndex);
         var reviewJsonData = {
+            beachId: beachId,
             content: $('[data-review-content]').val(),
             waterQuality: $('[data-water-quality-handle]').text(),
             seafloorCleanliness: $('[data-seafloor-cleanliness-handle]').text(),
@@ -73,7 +76,7 @@
 
         if (reviewForm.valid()) {
             $.ajax({
-                url: '/Reviews/Post/',
+                url: '/Reviews/Rate/',
                 type: 'POST',
                 data: {
                     __RequestVerificationToken: csrfToken,

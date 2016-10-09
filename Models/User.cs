@@ -14,6 +14,8 @@
             this.Photos = new HashSet<BeachPhoto>();
         }
 
+        public string AvatarPath { get; set; }
+
         public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<BeachPhoto> Photos { get; set; }

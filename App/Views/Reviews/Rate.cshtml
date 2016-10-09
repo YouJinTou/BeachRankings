@@ -1,11 +1,5 @@
 ﻿@model BeachRankings.Models.Review
 
-@{
-    ViewBag.Title = "Post review";
-}
-
-<h2>Beach Review</h2>
-
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "submitReviewForm" }))
 {
     @Html.AntiForgeryToken()
@@ -161,17 +155,17 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Top", "Beaches")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/External/dragdealer.js")
     @Scripts.Render("~/Scripts/External/rainbowvis.js")
-    @Scripts.Render("~/Scripts/Internal/Reviews/createReview.js")
+    @Scripts.Render("~/Scripts/Internal/Reviews/review-creation.js")
 }
 
 @section ReviewsStyles {
     @Styles.Render("~/Content/External/dragdealer.css")
-    @Styles.Render("~/Content/Internal/Reviews/create-review.css")
+    @Styles.Render("~/Content/Internal/Reviews/review-creation.css")
 }

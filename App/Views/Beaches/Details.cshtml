@@ -1,0 +1,19 @@
+﻿@model App.Models.ViewModels.DetailedBeachViewModel
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h3>@Model.Name - @Model.Location</h3>
+@{ 
+    string score = (string.IsNullOrEmpty(Model.TotalScore.ToString()) ?
+                        "This beach has no score yet. Be the first to rate it." :
+                        Model.TotalScore.ToString());
+}
+<h4>Score: @score</h4>
+<p>@Model.Description</p>
+
+<div class="row">
+    @Html.ActionLink("Rate this beach", "Rate", "Reviews", new { id = Model.Id }, new { @class = "btn btn-default" })
+</div>
+
+@Html.DisplayFor(m => m.Reviews)
