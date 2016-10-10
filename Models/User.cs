@@ -8,17 +8,32 @@
 
     public class User : IdentityUser
     {
+        private IEnumerable<Review> reviews;
+        private IEnumerable<BeachPhoto> photos;
+
         public User()
         {
-            this.Reviews = new HashSet<Review>();
-            this.Photos = new HashSet<BeachPhoto>();
+            this.reviews = new HashSet<Review>();
+            this.photos = new HashSet<BeachPhoto>();
         }
 
         public string AvatarPath { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual IEnumerable<Review> Reviews
+        {
+            get
+            {
+                return this.reviews;
+            }
+        }
 
-        public virtual ICollection<BeachPhoto> Photos { get; set; }
+        public virtual IEnumerable<BeachPhoto> Photos
+        {
+            get
+            {
+                return this.photos;
+            }
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

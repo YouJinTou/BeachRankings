@@ -5,10 +5,21 @@
 
     public class BeachPhoto
     {
+        public BeachPhoto()
+        {
+        }
+
+        public BeachPhoto(int beachId, string path)
+        {
+            this.BeachId = beachId;
+            this.UploadedOn = DateTime.Now;
+            this.Path = path;
+        }
+
         [Key]
         public int Id { get; set; }
 
-        public virtual User Author { get; set; }
+        public virtual User Author { get; }
 
         [Required]
         public string AuthorId { get; set; }
@@ -17,7 +28,7 @@
         public int BeachId { get; set; }
 
         [Required]
-        public DateTime UploadedOn { get; set; }
+        public DateTime UploadedOn { get; }
 
         [Required]
         public string Path { get; set; }

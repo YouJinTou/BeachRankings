@@ -3,7 +3,6 @@ namespace BeachRankings.Data.Migrations
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using BeachRankings.Models;
-    using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -26,7 +25,7 @@ namespace BeachRankings.Data.Migrations
             this.SeedUsers();
             this.SeedBeaches();
             this.SeedBeachPhotos();
-            this.SeedReviews();
+            //this.SeedReviews();
         }
 
         private void SeedRoles()
@@ -120,7 +119,6 @@ namespace BeachRankings.Data.Migrations
                 AuthorId = userId,
                 BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Id,
                 Description = "We were pretty happy taking this shot.",
-                UploadedOn = DateTime.Now.AddDays(-2),
                 Path = "/Content/Images/kamchia_river.jpg"
             });
             this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Photos.Add(new BeachPhoto()
@@ -128,7 +126,6 @@ namespace BeachRankings.Data.Migrations
                 AuthorId = adminId,
                 BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Id,
                 Description = "We took this beautiful shot from the chopper.",
-                UploadedOn = DateTime.Now,
                 Path = "/Content/Images/bolata.jpg"
             });
             this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Photos.Add(new BeachPhoto()
@@ -136,68 +133,67 @@ namespace BeachRankings.Data.Migrations
                 AuthorId = userId,
                 BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Id,
                 Description = "The weather was nice.",
-                UploadedOn = DateTime.Now.AddDays(-10),
                 Path = "/Content/Images/sunny_day.jpg"
             });
 
             this.data.SaveChanges();
         }
 
-        private void SeedReviews()
-        {
-            if (this.data.Reviews.Any())
-            {
-                return;
-            }
+        //private void SeedReviews()
+        //{
+        //    if (this.data.Reviews.Any())
+        //    {
+        //        return;
+        //    }
 
-            Random rand = new Random();
-            var adminId = this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id;
-            var userId = this.data.Users.FirstOrDefault(u => u.UserName == "user").Id;
-            var beachIds = new List<int>()
-            {
-                this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Id,
-                this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Id,
-                this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Id,
+        //    Random rand = new Random();
+        //    var adminId = this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id;
+        //    var userId = this.data.Users.FirstOrDefault(u => u.UserName == "user").Id;
+        //    var beachIds = new List<int>()
+        //    {
+        //        this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Id,
+        //        this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Id,
+        //        this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Id,
 
-            };
+        //    };
 
-            for (int i = 0; i < 20; i++)
-            {
-                bool even = ((i % 2) == 0);
+        //    for (int i = 0; i < 20; i++)
+        //    {
+        //        bool even = ((i % 2) == 0);
 
-                this.data.Reviews.Add(new Review()
-                {
-                    AuthorId = (even ? adminId : userId),
-                    BeachId = rand.Next(1, beachIds.Count + 1),
-                    PostedOn = DateTime.Now.AddDays(-i),
-                    TotalScore = Math.Round(rand.NextDouble() * 10, 1),
-                    Content = "This is the content for the " + i + ". review, whether you like it or not." +
-                            "There's more to come as well, so you'd better watch out. We have pancakes, too, so shut it.",
-                    WaterQuality = Math.Round((rand.NextDouble() * 10), 1),
-                    SeafloorCleanliness = Math.Round((rand.NextDouble() * 10), 1),
-                    CoralReefFactor = Math.Round((rand.NextDouble() * 10), 1),
-                    SeaLifeDiversity = Math.Round((rand.NextDouble() * 10), 1),
-                    SnorkelingSuitability = Math.Round((rand.NextDouble() * 10), 1),
-                    BeachCleanliness = Math.Round((rand.NextDouble() * 10), 1),
-                    CrowdFreeFactor = Math.Round((rand.NextDouble() * 10), 1),
-                    SandQuality = Math.Round((rand.NextDouble() * 10), 1),
-                    BreathtakingEnvironment = Math.Round((rand.NextDouble() * 10), 1),
-                    TentSuitability = Math.Round((rand.NextDouble() * 10), 1),
-                    KayakSuitability = Math.Round((rand.NextDouble() * 10), 1),
-                    LongStaySuitability = Math.Round((rand.NextDouble() * 10), 1)
-                });
-            }
+        //        this.data.Reviews.Add(new Review()
+        //        {
+        //            AuthorId = (even ? adminId : userId),
+        //            BeachId = rand.Next(1, beachIds.Count + 1),
+        //            PostedOn = DateTime.Now.AddDays(-i),
+        //            TotalScore = Math.Round(rand.NextDouble() * 10, 1),
+        //            Content = "This is the content for the " + i + ". review, whether you like it or not." +
+        //                    "There's more to come as well, so you'd better watch out. We have pancakes, too, so shut it.",
+        //            WaterQuality = Math.Round((rand.NextDouble() * 10), 1),
+        //            SeafloorCleanliness = Math.Round((rand.NextDouble() * 10), 1),
+        //            CoralReefFactor = Math.Round((rand.NextDouble() * 10), 1),
+        //            SeaLifeDiversity = Math.Round((rand.NextDouble() * 10), 1),
+        //            SnorkelingSuitability = Math.Round((rand.NextDouble() * 10), 1),
+        //            BeachCleanliness = Math.Round((rand.NextDouble() * 10), 1),
+        //            CrowdFreeFactor = Math.Round((rand.NextDouble() * 10), 1),
+        //            SandQuality = Math.Round((rand.NextDouble() * 10), 1),
+        //            BreathtakingEnvironment = Math.Round((rand.NextDouble() * 10), 1),
+        //            TentSuitability = Math.Round((rand.NextDouble() * 10), 1),
+        //            KayakSuitability = Math.Round((rand.NextDouble() * 10), 1),
+        //            LongStaySuitability = Math.Round((rand.NextDouble() * 10), 1)
+        //        });
+        //    }
 
-            this.data.Reviews.Add(new Review()
-            {
-                AuthorId = adminId,
-                BeachId = rand.Next(1, beachIds.Count + 1),
-                PostedOn = DateTime.Now.AddDays(-3),
-                Content = "This is a review without any scores. This is a review without any scores. " +
-                        "This is a review without any scores. This is a review without any scores. This is a review without any scores. "
-            });
+        //    this.data.Reviews.Add(new Review()
+        //    {
+        //        AuthorId = adminId,
+        //        BeachId = rand.Next(1, beachIds.Count + 1),
+        //        PostedOn = DateTime.Now.AddDays(-3),
+        //        Content = "This is a review without any scores. This is a review without any scores. " +
+        //                "This is a review without any scores. This is a review without any scores. This is a review without any scores. "
+        //    });
 
-            this.data.SaveChanges();
-        }
+        //    this.data.SaveChanges();
+        //}
     }
 }
