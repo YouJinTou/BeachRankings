@@ -3,6 +3,7 @@
     using AutoMapper;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using Models.BindingModels;
     using Models.ViewModels;
     using System.Collections.Generic;
     using System.Linq;
@@ -31,6 +32,26 @@
             model.Reviews.OrderByDescending(r => r.PostedOn);
 
             return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add(AddBeachBindingModel bindingModel)
+        {
+            var beach = Mapper.Map<AddBeachBindingModel, Beach>(bindingModel);
+
+            this.Data.Beaches.Add(beach);
+            this.Data.Beaches.SaveChanges();
+
+            return RedirectToAction("Rate", "Reviews", new { id = beach.Id });
         }
     }
 }

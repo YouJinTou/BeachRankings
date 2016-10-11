@@ -1,9 +1,9 @@
 ﻿namespace BeachRankings.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+
     public class Beach
     {
         private ICollection<Review> reviews;
@@ -13,13 +13,14 @@
         {
         }
 
-        public Beach(string name, string location)
+        public Beach(string name, string location, string coordinates)
         {
             this.reviews = new HashSet<Review>();
             this.photos = new HashSet<BeachPhoto>();
 
             this.Name = name;
             this.Location = location;
+            this.Coordinates = coordinates;
         }
 
         [Key]
@@ -35,10 +36,11 @@
         [MaxLength(100, ErrorMessage = "The location name cannot be longer than 100 characters.")]
         public string Location { get; set; }
 
+        [Required(ErrorMessage = "Coordinates are required. Select a beach on the map.")]
+        public string Coordinates { get; set; }
+
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
-
-        public string Coordinates { get; set; }
 
         public virtual ICollection<Review> Reviews
         {

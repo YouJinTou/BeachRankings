@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("HomeStyles", required: false)
     @RenderSection("ReviewsStyles", required: false)
+    @RenderSection("BeachStyles", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -23,6 +24,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Top", "Top", "Beaches")</li>
+                    <li>@Html.ActionLink("Add Beach", "Add", "Beaches")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

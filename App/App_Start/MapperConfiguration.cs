@@ -15,6 +15,7 @@
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Photos.FirstOrDefault().Path));
                 cfg.CreateMap<Beach, DetailedBeachViewModel>();
+                cfg.CreateMap<AddBeachBindingModel, Beach>();
                 cfg.CreateMap<Review, ReviewViewModel>();
                 cfg.CreateMap<PostReviewBindingModel, Review>();                
             });

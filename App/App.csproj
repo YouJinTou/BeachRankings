@@ -227,6 +227,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BindingModels\BeachBindingModels.cs" />
     <Compile Include="Models\BindingModels\ReviewBindingModels.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\ReviewViewModels.cs" />
@@ -270,6 +271,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
+    <Content Include="Scripts\Internal\Beaches\beach-creation.js" />
     <Content Include="Scripts\Internal\main.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -328,10 +330,10 @@
     <Content Include="Views\Shared\DisplayTemplates\ConciseBeachViewModel.cshtml" />
     <Content Include="Views\Beaches\Details.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ReviewViewModel.cshtml" />
+    <Content Include="Views\Beaches\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Scripts\Internal\Beaches\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
