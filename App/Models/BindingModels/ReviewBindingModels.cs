@@ -12,28 +12,48 @@
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         public string Content { get; set; }
 
-        public double? WaterQuality { get; set; }
-
-        public double? SeafloorCleanliness { get; set; }
-
-        public double? CoralReefFactor { get; set; }
-
-        public double? SeaLifeDiversity { get; set; }
-
-        public double? SnorkelingSuitability { get; set; }
-
-        public double? BeachCleanliness { get; set; }
-
-        public double? CrowdFreeFactor { get; set; }
+        #region Beach
 
         public double? SandQuality { get; set; }
 
-        public double? BreathtakingEnvironment { get; set; }
+        public double? BeachCleanliness { get; set; }
 
-        public double? TentSuitability { get; set; }
+        public double? BeautifulScenery { get; set; }
 
-        public double? KayakSuitability { get; set; }
+        public double? CrowdFree { get; set; }
 
-        public double? LongStaySuitability { get; set; }
+        #endregion
+
+        #region Sea
+
+        public double? WaterPurity { get; set; }
+
+        public double? WasteFreeSeabed { get; set; }
+
+        public double? FeetFriendlyBottom { get; set; }
+
+        public double? SeaLifeDiversity { get; set; }
+
+        public double? CoralReef { get; set; }
+
+        #endregion
+
+        #region Activities
+
+        public double? Walking { get; set; }
+
+        public double? Snorkeling { get; set; }
+
+        public double? Kayaking { get; set; }
+
+        public double? Camping { get; set; }
+
+        #endregion
+
+        #region Tourist Infrastructure
+
+        public double? Infrastructure { get; set; }
+
+        #endregion
     }
 }

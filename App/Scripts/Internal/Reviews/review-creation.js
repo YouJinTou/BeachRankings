@@ -1,17 +1,19 @@
 ﻿(function ($) {
     var criteriaNames = [
-        'water-quality',
-        'seafloor-cleanliness',
+        'sand-quality',
+        'beach-cleanliness',
+        'beautiful-scenery',
+        'crowd-free',
+        'water-purity',
+        'wastefree-seabed',
+        'feet-friendly-bottom',
         'coral-reef',
         'sea-life-diversity',
-        'snorkeling-suitability',
-        'beach-cleanliness',
-        'crowd-free-factor',
-        'sand-quality',
-        'breathtaking-environment',
-        'tent-suitability',
-        'kayak-suitability',
-        'long-stay-suitability'
+        'walking',
+        'snorkeling',
+        'kayaking',
+        'camping',
+        'infrastructure',
     ];
     var rainbow = getRainbowGradient();
     var options = {
@@ -58,18 +60,20 @@
         var reviewJsonData = {
             beachId: beachId,
             content: $('[data-review-content]').val(),
-            waterQuality: $('[data-water-quality-handle]').text(),
-            seafloorCleanliness: $('[data-seafloor-cleanliness-handle]').text(),
-            coralReefFactor: $('[data-coral-reef-handle]').text(),
-            seaLifeDiversity: $('[data-sea-life-diversity-handle]').text(),
-            snorkelingSuitability: $('[data-snorkeling-suitability-handle]').text(),
-            beachCleanliness: $('[data-beach-cleanliness-handle]').text(),
-            crowdFreeFactor: $('[data-crowd-free-factor-handle]').text(),
             sandQuality: $('[data-sand-quality-handle]').text(),
-            breathtakingEnvironment: $('[data-breathtaking-environment-handle]').text(),
-            tentSuitability: $('[data-tent-suitability-handle]').text(),
-            kayakSuitability: $('[data-kayak-suitability-handle]').text(),
-            longStaySuitability: $('[data-long-stay-suitability-handle]').text()
+            beachCleanliness: $('[data-beach-cleanliness-handle]').text(),
+            beautifulScenery: $('[data-beautiful-scenery-handle]').text(),
+            crowdFree: $('[data-crowd-free-handle]').text(),
+            waterPurity: $('[data-water-purity-handle]').text(),
+            wasteFreeSeabed: $('[data-wastefree-seabed-handle]').text(),
+            feetFriendlyBottom: $('[data-feet-friendly-bottom-handle]').text(),
+            coralReef: $('[data-coral-reef-handle]').text(),
+            seaLifeDiversity: $('[data-sea-life-diversity-handle]').text(),
+            walking: $('[data-walking-handle]').text(),
+            snorkeling: $('[data-snorkeling-handle]').text(),
+            kayaking: $('[data-kayaking-handle]').text(),
+            camping: $('[data-camping-handle]').text(),
+            infrastructure: $('[data-infrastructure-handle]').text()
         };
         var reviewForm = $('#submitReviewForm');
         var csrfToken = $('input[name="__RequestVerificationToken"]', reviewForm).val();

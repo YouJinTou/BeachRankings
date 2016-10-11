@@ -7,6 +7,7 @@
     {
         public BeachPhoto()
         {
+            this.UploadedOn = DateTime.Now;
         }
 
         public BeachPhoto(int beachId, string path)

@@ -29,51 +29,13 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.WaterQuality, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                <div id="water-quality-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-water-quality-handle=""></div>
-                </div>
-            </div>
-            <button class="btn reset-button" style="display: none;">Ignore</button>
-        </div>
+        <!--Beach-->
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SeafloorCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.SandQuality, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
-                <div id="seafloor-cleanliness-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-seafloor-cleanliness-handle=""></div>
-                </div>
-            </div>
-            <button class="btn reset-button" style="display: none;">Ignore</button>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CoralReefFactor, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                <div id="coral-reef-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-coral-reef-handle=""></div>
-                </div>
-            </div>
-            <button class="btn reset-button" style="display: none;">Ignore</button>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                <div id="sea-life-diversity-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-sea-life-diversity-handle=""></div>
-                </div>
-            </div>
-            <button class="btn reset-button" style="display: none;">Ignore</button>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SnorkelingSuitability, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                <div id="snorkeling-suitability-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-snorkeling-suitability-handle=""></div>
+                <div id="sand-quality-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-sand-quality-handle=""></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -90,64 +52,138 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CrowdFreeFactor, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.BeautifulScenery, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
-                <div id="crowd-free-factor-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-crowd-free-factor-handle=""></div>
+                <div id="beautiful-scenery-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-beautiful-scenery-handle=""></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SandQuality, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.CrowdFree, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
-                <div id="sand-quality-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-sand-quality-handle=""></div>
+                <div id="crowd-free-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-crowd-free-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>        
+
+        <!--End Beach-->
+
+        <!--Sea-->
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WaterPurity, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="water-purity-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-water-purity-handle=""></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BreathtakingEnvironment, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.WasteFreeSeabed, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
-                <div id="breathtaking-environment-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-breathtaking-environment-handle=""></div>
+                <div id="wastefree-seabed-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-wastefree-seabed-handle=""></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TentSuitability, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.FeetFriendlyBottom, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
-                <div id="tent-suitability-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-tent-suitability-handle=""></div>
+                <div id="feet-friendly-bottom-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-feet-friendly-bottom-handle=""></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.KayakSuitability, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
-                <div id="kayak-suitability-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-kayak-suitability-handle=""></div>
+                <div id="sea-life-diversity-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-sea-life-diversity-handle=""></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LongStaySuitability, htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.LabelFor(model => model.CoralReef, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
-                <div id="long-stay-suitability-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-long-stay-suitability-handle=""></div>
+                <div id="coral-reef-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-coral-reef-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>        
+
+        <!--End Sea-->       
+
+        <!--Activities-->
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="walking-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-walking-handle=""></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="snorkeling-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-snorkeling-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Kayaking, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="kayaking-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-kayaking-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="camping-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-camping-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <!--End Activities-->
+
+        <!--Infrastructure-->
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                <div id="infrastructure-dragdealer" class="dragdealer">
+                    <div class="handle oval" data-infrastructure-handle=""></div>
+                </div>
+            </div>
+            <button class="btn reset-button" style="display: none;">Ignore</button>
+        </div>
+
+        <!--End Infrastructure-->
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

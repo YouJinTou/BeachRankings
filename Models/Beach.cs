@@ -69,56 +69,84 @@
         [Range(0, 10)]
         public double? TotalScore { get; private set; }
 
-        [Display(Name = "Water quality")]
-        public double? WaterQuality { get; private set; }
-
-        [Display(Name = "Seafloor cleanliness")]
-        public double? SeafloorCleanliness { get; private set; }
-
-        [Display(Name = "Coral reef wow factor")]
-        public double? CoralReefFactor { get; private set; }
-
-        [Display(Name = "Sea life diversity")]
-        public double? SeaLifeDiversity { get; private set; }
-
-        [Display(Name = "Good for snorkeling")]
-        public double? SnorkelingSuitability { get; private set; }
-
-        [Display(Name = "Beach cleanliness")]
-        public double? BeachCleanliness { get; private set; }
-
-        [Display(Name = "Crowd-free factor")]
-        public double? CrowdFreeFactor { get; private set; }
+        #region Beach
 
         [Display(Name = "Sand quality")]
         public double? SandQuality { get; private set; }
 
-        [Display(Name = "Breathtaking environment")]
-        public double? BreathtakingEnvironment { get; private set; }
+        [Display(Name = "Beach cleanliness")]
+        public double? BeachCleanliness { get; private set; }
 
-        [Display(Name = "Tent suitability")]
-        public double? TentSuitability { get; private set; }
+        [Display(Name = "Beautiful scenery")]
+        public double? BeautifulScenery { get; private set; }
 
-        [Display(Name = "Suitable for kayaking")]
-        public double? KayakSuitability { get; private set; }
+        [Display(Name = "Crowd-free")]
+        public double? CrowdFree { get; private set; }
 
-        [Display(Name = "Long stay suitability")]
-        public double? LongStaySuitability { get; private set; }
-                
+        #endregion
+
+        #region Sea
+
+        [Display(Name = "Water purity")]
+        public double? WaterPurity { get; private set; }
+
+        [Display(Name = "Waste-free seabed")]
+        public double? WasteFreeSeabed { get; private set; }
+
+        [Display(Name = "Feet-friendly bottom")]
+        public double? FeetFriendlyBottom { get; private set; }
+
+        [Display(Name = "Sea life diversity")]
+        public double? SeaLifeDiversity { get; private set; }
+
+        [Display(Name = "Coral reef wow factor")]
+        public double? CoralReef { get; private set; }
+
+        #endregion
+
+        #region Activities
+
+        [Display(Name = "Taking a walk")]
+        public double? Walking { get; private set; }
+
+        [Display(Name = "Snorkeling")]
+        public double? Snorkeling { get; private set; }
+
+        [Display(Name = "Kayaking")]
+        public double? Kayaking { get; private set; }
+
+        [Display(Name = "Camping")]
+        public double? Camping { get; private set; }
+
+        #endregion
+
+        #region Tourist Infrastructure
+
+        [Display(Name = "Environment-friendly infrastructure")]
+        public double? Infrastructure { get; private set; }
+
+        #endregion
+
         public void UpdateScores()
         {
-            this.WaterQuality = this.Reviews.Average(r => r.WaterQuality);
-            this.SeafloorCleanliness = this.Reviews.Average(r => r.SeafloorCleanliness);
-            this.CoralReefFactor = this.Reviews.Average(r => r.CoralReefFactor);
-            this.SeaLifeDiversity = this.Reviews.Average(r => r.SeaLifeDiversity);
-            this.SnorkelingSuitability = this.Reviews.Average(r => r.SnorkelingSuitability);
-            this.BeachCleanliness = this.Reviews.Average(r => r.BeachCleanliness);
-            this.CrowdFreeFactor = this.Reviews.Average(r => r.CrowdFreeFactor);
             this.SandQuality = this.Reviews.Average(r => r.SandQuality);
-            this.BreathtakingEnvironment = this.Reviews.Average(r => r.BreathtakingEnvironment);
-            this.TentSuitability = this.Reviews.Average(r => r.TentSuitability);
-            this.KayakSuitability = this.Reviews.Average(r => r.KayakSuitability);
-            this.LongStaySuitability = this.Reviews.Average(r => r.LongStaySuitability);
+            this.BeachCleanliness = this.Reviews.Average(r => r.BeachCleanliness);
+            this.BeautifulScenery = this.Reviews.Average(r => r.BeautifulScenery);
+            this.CrowdFree = this.Reviews.Average(r => r.CrowdFree);
+
+            this.WaterPurity = this.Reviews.Average(r => r.WaterPurity);
+            this.WasteFreeSeabed = this.Reviews.Average(r => r.WasteFreeSeabed);
+            this.FeetFriendlyBottom = this.Reviews.Average(r => r.FeetFriendlyBottom);
+            this.SeaLifeDiversity = this.Reviews.Average(r => r.SeaLifeDiversity);
+            this.CoralReef = this.Reviews.Average(r => r.CoralReef);
+
+            this.Walking = this.Reviews.Average(r => r.Walking);
+            this.Snorkeling = this.Reviews.Average(r => r.Snorkeling);
+            this.Kayaking = this.Reviews.Average(r => r.Kayaking);
+            this.Camping = this.Reviews.Average(r => r.Camping);
+
+            this.Infrastructure = this.Reviews.Average(r => r.Infrastructure);
+
             this.TotalScore = this.Reviews.Average(r => r.TotalScore);
         }
     }

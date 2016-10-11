@@ -5,7 +5,7 @@
 
     public class Review
     {
-        private const int BeachCriteriaCount = 12;
+        private const int BeachCriteriaCount = 14;
 
         public Review()
         {
@@ -14,35 +14,43 @@
         public Review(
             int beachId,
             string content,
-            double? waterQuality,
-            double? seafloorCleanliness,
-            double? coralReefFactor,
-            double? seaLifeDiversity,
-            double? snorkelingSuitability,
-            double? beachCleanliness,
-            double? crowdFreeFactor,
             double? sandQuality,
-            double? breathtakingEnvironment,
-            double? tentSuitability,
-            double? kayakSuitability,
-            double? longStaySuitability            
+            double? beachCleanliness,
+            double? beautifulScenery,
+            double? crowdFree,
+            double? waterPurity,
+            double? wasteFreeSeabed,
+            double? feetFriendlyBottom,
+            double? seaLifeDiversity,
+            double? coralReef,
+            double? walking,
+            double? snorkeling,
+            double? kayaking,
+            double? camping,
+            double? infrastructure
             )
         {
             this.BeachId = beachId;
             this.PostedOn = DateTime.Now;
             this.Content = content;
-            this.WaterQuality = waterQuality;
-            this.SeafloorCleanliness = seafloorCleanliness;
-            this.CoralReefFactor = coralReefFactor;
-            this.SeaLifeDiversity = seaLifeDiversity;
-            this.SnorkelingSuitability = snorkelingSuitability;
-            this.BeachCleanliness = beachCleanliness;
-            this.CrowdFreeFactor = crowdFreeFactor;
+
             this.SandQuality = sandQuality;
-            this.BreathtakingEnvironment = breathtakingEnvironment;
-            this.TentSuitability = tentSuitability;
-            this.KayakSuitability = kayakSuitability;
-            this.LongStaySuitability = longStaySuitability;
+            this.BeachCleanliness = beachCleanliness;
+            this.BeautifulScenery = beautifulScenery;
+            this.CrowdFree = crowdFree;
+
+            this.WaterPurity = waterPurity;
+            this.WasteFreeSeabed = wasteFreeSeabed;
+            this.FeetFriendlyBottom = feetFriendlyBottom;
+            this.SeaLifeDiversity = seaLifeDiversity;
+            this.CoralReef = coralReef;
+
+            this.Walking = walking;
+            this.Snorkeling = snorkeling;
+            this.Kayaking = kayaking;
+            this.Camping = camping;
+
+            this.Infrastructure = infrastructure;
 
             this.CalculateTotalScore();
         }
@@ -60,91 +68,120 @@
         
         [Required]
         public DateTime PostedOn { get; private set; }
-                
-        public double? TotalScore { get; private set; }
 
         [Required(ErrorMessage = "The review field is required.")]
         [MinLength(100, ErrorMessage = "100 characters should be doable.")]
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         [Display(Name = "Review")]
-        public string Content { get; private set; }        
+        public string Content { get; private set; }
 
-        [Display(Name = "Water quality")]
-        public double? WaterQuality { get; private set; }
+        [Range(0, 10)]
+        public double? TotalScore { get; private set; }
 
-        [Display(Name = "Seafloor cleanliness")]
-        public double? SeafloorCleanliness { get; private set; }
-
-        [Display(Name = "Coral reef wow factor")]
-        public double? CoralReefFactor { get; private set; }
-
-        [Display(Name = "Sea life diversity")]
-        public double? SeaLifeDiversity { get; private set; }
-
-        [Display(Name = "Good for snorkeling")]
-        public double? SnorkelingSuitability { get; private set; }
-
-        [Display(Name = "Beach cleanliness")]
-        public double? BeachCleanliness { get; private set; }
-
-        [Display(Name = "Crowd-free factor")]
-        public double? CrowdFreeFactor { get; private set; }        
+        #region Beach
 
         [Display(Name = "Sand quality")]
         public double? SandQuality { get; private set; }
 
-        [Display(Name = "Breathtaking environment")]
-        public double? BreathtakingEnvironment { get; private set; }
+        [Display(Name = "Beach cleanliness")]
+        public double? BeachCleanliness { get; private set; }
 
-        [Display(Name = "Tent suitability")]
-        public double? TentSuitability { get; private set; }
+        [Display(Name = "Beautiful scenery")]
+        public double? BeautifulScenery { get; private set; }
 
-        [Display(Name = "Suitable for kayaking")]
-        public double? KayakSuitability { get; private set; }
+        [Display(Name = "Crowd-free")]
+        public double? CrowdFree { get; private set; }
 
-        [Display(Name = "Long stay suitability")]
-        public double? LongStaySuitability { get; private set; }
+        #endregion
+
+        #region Sea
+
+        [Display(Name = "Water purity")]
+        public double? WaterPurity { get; private set; }
+
+        [Display(Name = "Waste-free seabed")]
+        public double? WasteFreeSeabed { get; private set; }
+
+        [Display(Name = "Feet-friendly bottom")]
+        public double? FeetFriendlyBottom { get; private set; }
+
+        [Display(Name = "Sea life diversity")]
+        public double? SeaLifeDiversity { get; private set; }
+
+        [Display(Name = "Coral reef wow factor")]
+        public double? CoralReef { get; private set; }
+
+        #endregion
+
+        #region Activities
+
+        [Display(Name = "Taking a walk")]
+        public double? Walking { get; private set; }
+
+        [Display(Name = "Snorkeling")]
+        public double? Snorkeling { get; private set; }
+
+        [Display(Name = "Kayaking")]
+        public double? Kayaking { get; private set; }
+
+        [Display(Name = "Camping")]
+        public double? Camping { get; private set; }
+
+        #endregion
+
+        #region Tourist Infrastructure
+
+        [Display(Name = "Environment-friendly infrastructure")]
+        public double? Infrastructure { get; private set; }
+
+        #endregion
 
         private void CalculateTotalScore()
         {
             double score = 0;
             int nullCount = 0; // Count of criteria NOT voted for
 
-            score += (this.WaterQuality ?? 0);
-            nullCount += ((this.WaterQuality == null) ? 1 : 0);
-
-            score += (this.SeafloorCleanliness ?? 0);
-            nullCount += ((this.SeafloorCleanliness == null) ? 1 : 0);
-
-            score += (this.CoralReefFactor ?? 0);
-            nullCount += ((this.CoralReefFactor == null) ? 1 : 0);
-
-            score += (this.SeaLifeDiversity ?? 0);
-            nullCount += ((this.SeaLifeDiversity == null) ? 1 : 0);
-
-            score += (this.SnorkelingSuitability ?? 0);
-            nullCount += ((this.SnorkelingSuitability == null) ? 1 : 0);
+            score += (this.SandQuality ?? 0);
+            nullCount += ((this.SandQuality == null) ? 1 : 0);
 
             score += (this.BeachCleanliness ?? 0);
             nullCount += ((this.BeachCleanliness == null) ? 1 : 0);
 
-            score += (this.CrowdFreeFactor ?? 0);
-            nullCount += ((this.CrowdFreeFactor == null) ? 1 : 0);
+            score += (this.BeautifulScenery ?? 0);
+            nullCount += ((this.BeautifulScenery == null) ? 1 : 0);
 
-            score += (this.SandQuality ?? 0);
-            nullCount += ((this.SandQuality == null) ? 1 : 0);
+            score += (this.CrowdFree ?? 0);
+            nullCount += ((this.CrowdFree == null) ? 1 : 0);
 
-            score += (this.BreathtakingEnvironment ?? 0);
-            nullCount += ((this.BreathtakingEnvironment == null) ? 1 : 0);
+            score += (this.WaterPurity ?? 0);
+            nullCount += ((this.WaterPurity == null) ? 1 : 0);
 
-            score += (this.TentSuitability ?? 0);
-            nullCount += ((this.TentSuitability == null) ? 1 : 0);
+            score += (this.WasteFreeSeabed ?? 0);
+            nullCount += ((this.WasteFreeSeabed == null) ? 1 : 0);
 
-            score += (this.KayakSuitability ?? 0);
-            nullCount += ((this.KayakSuitability == null) ? 1 : 0);
+            score += (this.FeetFriendlyBottom ?? 0);
+            nullCount += ((this.FeetFriendlyBottom == null) ? 1 : 0);
 
-            score += (this.LongStaySuitability ?? 0);
-            nullCount += ((this.LongStaySuitability == null) ? 1 : 0);
+            score += (this.SeaLifeDiversity ?? 0);
+            nullCount += ((this.SeaLifeDiversity == null) ? 1 : 0);
+
+            score += (this.CoralReef ?? 0);
+            nullCount += ((this.CoralReef == null) ? 1 : 0);
+
+            score += (this.Walking ?? 0);
+            nullCount += ((this.Walking == null) ? 1 : 0);
+
+            score += (this.Snorkeling ?? 0);
+            nullCount += ((this.Snorkeling == null) ? 1 : 0);
+
+            score += (this.Kayaking ?? 0);
+            nullCount += ((this.Kayaking == null) ? 1 : 0);
+
+            score += (this.Camping ?? 0);
+            nullCount += ((this.Camping == null) ? 1 : 0);          
+
+            score += (this.Infrastructure ?? 0);
+            nullCount += ((this.Infrastructure == null) ? 1 : 0);
 
             double? result = null;
 
