@@ -19,7 +19,7 @@
         [Key]
         public int Id { get; set; }
 
-        public virtual User Author { get; }
+        public virtual User Author { get; set; }
 
         [Required]
         public string AuthorId { get; set; }
@@ -28,7 +28,7 @@
         public int BeachId { get; set; }
 
         [Required]
-        public DateTime UploadedOn { get; }
+        public DateTime UploadedOn { get; private set; }
 
         [Required]
         public string Path { get; set; }

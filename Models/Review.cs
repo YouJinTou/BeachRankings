@@ -59,7 +59,7 @@
         public int BeachId { get; private set; }
         
         [Required]
-        public DateTime PostedOn { get; }
+        public DateTime PostedOn { get; private set; }
                 
         public double? TotalScore { get; private set; }
 
