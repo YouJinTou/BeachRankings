@@ -33,8 +33,8 @@
 
         public string Coordinates { get; set; }
 
-        [UIHint("ReviewViewModel.cshtml")]
-        public IEnumerable<ReviewViewModel> Reviews { get; set; }
+        [UIHint("ConciseReviewViewModel.cshtml")]
+        public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }
 
         public IEnumerable<BeachPhoto> Photos { get; set; }
     }

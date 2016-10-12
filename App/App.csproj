@@ -246,8 +246,8 @@
     <Content Include="Content\Images\kamchia_river.jpg" />
     <Content Include="Content\Images\sunny_day.jpg" />
     <Content Include="Content\Images\unknown_profile.jpg" />
-    <Content Include="Content\Internal\Beaches\beaches.css" />
-    <Content Include="Content\Internal\Reviews\review-creation.css" />
+    <Content Include="Content\Internal\beaches.css" />
+    <Content Include="Content\Internal\reviews.css" />
     <Content Include="Content\Internal\home.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -273,6 +273,7 @@
     <Content Include="Scripts\External\rainbowvis.js" />
     <Content Include="Scripts\Internal\Beaches\beach-creation.js" />
     <Content Include="Scripts\Internal\main.js" />
+    <Content Include="Scripts\Internal\Reviews\review-edit.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -329,8 +330,9 @@
     <Content Include="Views\Beaches\Top.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ConciseBeachViewModel.cshtml" />
     <Content Include="Views\Beaches\Details.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\ReviewViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ConciseReviewViewModel.cshtml" />
     <Content Include="Views\Beaches\Add.cshtml" />
+    <Content Include="Views\Reviews\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
