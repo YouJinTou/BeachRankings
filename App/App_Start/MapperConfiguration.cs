@@ -19,6 +19,7 @@
                 cfg.CreateMap<Review, ConciseReviewViewModel>();
                 cfg.CreateMap<PostReviewBindingModel, Review>();                
                 cfg.CreateMap<Review, EditReviewViewModel>();
+                cfg.CreateMap<EditReviewBindingModel, Review>().AfterMap((vm, m) => m.UpdateTotalScore());
             });
         }
     }

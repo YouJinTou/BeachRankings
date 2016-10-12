@@ -52,7 +52,7 @@
 
             this.Infrastructure = infrastructure;
 
-            this.CalculateTotalScore();
+            this.UpdateTotalScore();
         }
 
         [Key]
@@ -134,9 +134,9 @@
         [Display(Name = "Environment-friendly infrastructure")]
         public double? Infrastructure { get; private set; }
 
-        #endregion
+        #endregion        
 
-        private void CalculateTotalScore()
+        public void UpdateTotalScore()
         {
             double score = 0;
             int nullCount = 0; // Count of criteria NOT voted for

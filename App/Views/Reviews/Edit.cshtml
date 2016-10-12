@@ -1,11 +1,11 @@
-﻿@model BeachRankings.Models.Review
+﻿@model App.Models.ViewModels.EditReviewViewModel
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "submitReviewForm" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Post Review</h4>
+        <h4>Edit Review</h4>
 
         <hr />
 
@@ -35,7 +35,7 @@
             @Html.LabelFor(model => model.SandQuality, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="sand-quality-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-sand-quality-handle=""></div>
+                    <div class="handle oval" data-sand-quality-handle="@Model.SandQuality"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -45,7 +45,7 @@
             @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="beach-cleanliness-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-beach-cleanliness-handle=""></div>
+                    <div class="handle oval" data-beach-cleanliness-handle="@Model.BeachCleanliness"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -55,7 +55,7 @@
             @Html.LabelFor(model => model.BeautifulScenery, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="beautiful-scenery-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-beautiful-scenery-handle=""></div>
+                    <div class="handle oval" data-beautiful-scenery-handle="@Model.BeautifulScenery"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -65,7 +65,7 @@
             @Html.LabelFor(model => model.CrowdFree, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="crowd-free-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-crowd-free-handle=""></div>
+                    <div class="handle oval" data-crowd-free-handle="@Model.CrowdFree"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -79,7 +79,7 @@
             @Html.LabelFor(model => model.WaterPurity, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="water-purity-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-water-purity-handle=""></div>
+                    <div class="handle oval" data-water-purity-handle="@Model.WaterPurity"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -89,7 +89,7 @@
             @Html.LabelFor(model => model.WasteFreeSeabed, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="wastefree-seabed-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-wastefree-seabed-handle=""></div>
+                    <div class="handle oval" data-wastefree-seabed-handle="@Model.WasteFreeSeabed"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -99,7 +99,7 @@
             @Html.LabelFor(model => model.FeetFriendlyBottom, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="feet-friendly-bottom-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-feet-friendly-bottom-handle=""></div>
+                    <div class="handle oval" data-feet-friendly-bottom-handle="@Model.FeetFriendlyBottom"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -109,7 +109,7 @@
             @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="sea-life-diversity-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-sea-life-diversity-handle=""></div>
+                    <div class="handle oval" data-sea-life-diversity-handle="@Model.SeaLifeDiversity"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -119,7 +119,7 @@
             @Html.LabelFor(model => model.CoralReef, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="coral-reef-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-coral-reef-handle=""></div>
+                    <div class="handle oval" data-coral-reef-handle="@Model.CoralReef"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -133,7 +133,7 @@
             @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="walking-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-walking-handle=""></div>
+                    <div class="handle oval" data-walking-handle="@Model.Walking"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -143,7 +143,7 @@
             @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="snorkeling-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-snorkeling-handle=""></div>
+                    <div class="handle oval" data-snorkeling-handle="@Model.Snorkeling"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -153,7 +153,7 @@
             @Html.LabelFor(model => model.Kayaking, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="kayaking-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-kayaking-handle=""></div>
+                    <div class="handle oval" data-kayaking-handle="@Model.Kayaking"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -163,7 +163,7 @@
             @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="camping-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-camping-handle=""></div>
+                    <div class="handle oval" data-camping-handle="@Model.Camping"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -177,7 +177,7 @@
             @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="infrastructure-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-infrastructure-handle=""></div>
+                    <div class="handle oval" data-infrastructure-handle="@Model.Infrastructure"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -187,7 +187,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input data-btn-submit-review="" type="submit" value="Post review" class="btn btn-default" />
+                <input data-btn-submit-review="" type="submit" value="Save changes" class="btn btn-default" />
             </div>
         </div>
     </div>

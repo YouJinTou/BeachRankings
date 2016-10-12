@@ -271,9 +271,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
-    <Content Include="Scripts\Internal\Beaches\beach-creation.js" />
+    <Content Include="Scripts\Internal\beaches.js" />
     <Content Include="Scripts\Internal\main.js" />
-    <Content Include="Scripts\Internal\Reviews\review-edit.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -288,7 +287,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\Internal\Reviews\review-creation.js" />
+    <Content Include="Scripts\Internal\reviews.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -330,8 +329,8 @@
     <Content Include="Views\Beaches\Top.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ConciseBeachViewModel.cshtml" />
     <Content Include="Views\Beaches\Details.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\ConciseReviewViewModel.cshtml" />
     <Content Include="Views\Beaches\Add.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ConciseReviewViewModel.cshtml" />
     <Content Include="Views\Reviews\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>

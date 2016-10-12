@@ -80,9 +80,19 @@
                 return View();
             }
 
+            var review = this.Data.Reviews.Find(bindingModel.ReviewId);
 
+            Mapper.Map(bindingModel, review);
 
-            return View();
+            this.Data.Reviews.SaveChanges();
+
+            var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
+
+            reviewedBeach.UpdateScores();
+
+            this.Data.Beaches.SaveChanges();
+
+            return Json(new { redirectUrl = Url.Action("Details", "Reviews", new { id = bindingModel.ReviewId }) });
         }
     }
 }

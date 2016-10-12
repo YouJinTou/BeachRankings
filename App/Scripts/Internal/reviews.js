@@ -1,4 +1,5 @@
 ﻿(function ($) {
+    var mode = (window.location.href.indexOf('Rate/') > -1) ? "post" : "edit";
     var criteriaNames = [
         'sand-quality',
         'beach-cleanliness',
@@ -7,8 +8,8 @@
         'water-purity',
         'wastefree-seabed',
         'feet-friendly-bottom',
-        'coral-reef',
         'sea-life-diversity',
+        'coral-reef',
         'walking',
         'snorkeling',
         'kayaking',
@@ -18,7 +19,7 @@
     var rainbow = getRainbowGradient();
     var options = {
         disabled: 'true',
-        steps: 100,
+        steps: 101,
         x: 0.5,
         animationCallback: function (x) {
             if (this.disabled) {
@@ -34,10 +35,7 @@
                 resetButton.on('click', function (event) {
                     event.preventDefault();
 
-                    dragdealer.disable();
-                    dragdealer.setValue(0.5, 0);
-                    $(dragdealer.wrapper).css('background-color', '#EEE');
-                    $(dragdealer.handle).text('');
+                    disableDragdealer(dragdealer);
 
                     $(this).hide();
                 });
@@ -51,14 +49,16 @@
             $(dragdealer.handle).text(score);
         }
     };
+    var post = (mode === "post");
+    var edit = (mode === "edit");
 
-    $('[data-btn-post-review]').on('click', function (event) {
+    initializeDragdealers();    
+
+    $('[data-btn-submit-review]').on('click', function (event) {
         event.preventDefault();
-
-        var beachIdIndex = (window.location.href.lastIndexOf('/') + 1);
-        var beachId = window.location.href.substr(beachIdIndex);
+               
+        var actionUrl = post ? '/Reviews/Rate/' : '/Reviews/Edit/';
         var reviewJsonData = {
-            beachId: beachId,
             content: $('[data-review-content]').val(),
             sandQuality: $('[data-sand-quality-handle]').text(),
             beachCleanliness: $('[data-beach-cleanliness-handle]').text(),
@@ -74,13 +74,16 @@
             kayaking: $('[data-kayaking-handle]').text(),
             camping: $('[data-camping-handle]').text(),
             infrastructure: $('[data-infrastructure-handle]').text()
-        };
+        };        
         var reviewForm = $('#submitReviewForm');
         var csrfToken = $('input[name="__RequestVerificationToken"]', reviewForm).val();
-
+        var modelData = getModelData();
+        
+        reviewJsonData[modelData.modelName] = modelData.modelId;
+        
         if (reviewForm.valid()) {
             $.ajax({
-                url: '/Reviews/Rate/',
+                url: actionUrl,
                 type: 'POST',
                 data: {
                     __RequestVerificationToken: csrfToken,
@@ -93,9 +96,7 @@
                 }
             });
         }
-    })
-
-    initializeDragdealers();
+    });
 
     function getRainbowGradient() {
         var rainbow = new Rainbow();
@@ -114,8 +115,31 @@
         }
     }
 
+    function disableDragdealer(dragdealer) {
+        dragdealer.disable();
+
+        dragdealer.setValue(0.5, 0);
+        $(dragdealer.wrapper).css('background-color', '#EEE');
+        $(dragdealer.handle).text('');
+    }
+
     function attachDragdealerClickEventListener(dragdealer, i) {
         var handleDataAttribute = ('[data-' + criteriaNames[i] + '-handle]');
+
+        if (edit) {
+            var criterionValue = $(handleDataAttribute).data(criteriaNames[i] + '-handle');
+            var handleXPosition = (criterionValue / 10);
+
+            if (criterionValue !== "") {
+                dragdealer.enable();
+
+                dragdealer.setValue(handleXPosition, 0);
+                $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(criterionValue * 10)));
+                $(dragdealer.handle).text(criterionValue);
+            } else {
+                disableDragdealer(dragdealer);
+            }
+        }
 
         $(handleDataAttribute).on('mousedown', function () {
             dragdealer.enable();
@@ -123,5 +147,16 @@
             $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(50)));
             $(dragdealer.handle).text('5');
         });
+    }
+
+    function getModelData() {
+        var pattern = /^.*?(\d+)\D*$/;
+        var modelId = pattern.exec(window.location.href)[1];
+        var modelName = post ? "beachId" : "reviewId";
+
+        return {
+            modelId: modelId,
+            modelName: modelName
+        }
     }
 })(jQuery);
