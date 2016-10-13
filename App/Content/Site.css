@@ -22,6 +22,11 @@ select {
     max-width: 280px;
 }
 
+.img-container {
+    width: 100px;
+    height: 100px;
+}
+
 img {
     max-height: 100%;
     max-width: 100%;

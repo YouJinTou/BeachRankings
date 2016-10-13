@@ -22,42 +22,43 @@
         'infrastructure',
     ];
     var rainbow = getRainbowGradient();
-    var options = {
-        disabled: 'true',
-        steps: 101,
-        x: 0.5,
-        animationCallback: function (x) {
-            if (reading || this.disabled) {
-                return;
-            }
-
-            var dragdealer = this;
-            var resetButton = $(dragdealer.wrapper).parent().nextUntil('reset-button');
-
-            if (!resetButton.is(':visible')) {
-                resetButton.show();
-
-                resetButton.on('click', function (event) {
-                    event.preventDefault();
-
-                    disableDragdealer(dragdealer);
-
-                    $(this).hide();
-                });
-            }
-
-            var step = Math.floor(x * 100);
-            var wrapperColor = ('#' + rainbow.colourAt(step));
-            var score = (Math.round(step * 10) / 100);
-
-            $(dragdealer.wrapper).css('background-color', wrapperColor);
-            $(dragdealer.handle).text(score);
-        }
-    };
-
-    initializeDragdealers();
 
     if (posting || editing) {
+        var options = {
+            disabled: 'true',
+            steps: 101,
+            x: 0.5,
+            animationCallback: function (x) {
+                if (this.disabled) {
+                    return;
+                }
+
+                var dragdealer = this;
+                var resetButton = $(dragdealer.wrapper).parent().nextUntil('reset-button');
+
+                if (!resetButton.is(':visible')) {
+                    resetButton.show();
+
+                    resetButton.on('click', function (event) {
+                        event.preventDefault();
+
+                        disableDragdealer(dragdealer);
+
+                        $(this).hide();
+                    });
+                }
+
+                var step = Math.floor(x * 100);
+                var wrapperColor = ('#' + rainbow.colourAt(step));
+                var score = (Math.round(step * 10) / 100);
+
+                $(dragdealer.wrapper).css('background-color', wrapperColor);
+                $(dragdealer.handle).text(score);
+            }
+        };
+
+        initializeDragdealers();
+
         $('[data-btn-submit-review]').on('click', function (event) {
             event.preventDefault();
 
@@ -102,6 +103,41 @@
             }
         });
 
+        function initializeDragdealers() {
+            for (var i = 0; i < criteriaNames.length; i++) {
+                var criterionId = (criteriaNames[i] + '-dragdealer');
+                var dragdealer = new Dragdealer(criterionId, options);
+
+                attachDragdealerClickEventListener(dragdealer, i);
+            }
+        }
+
+        function attachDragdealerClickEventListener(dragdealer, i) {
+            var handleDataAttribute = ('[data-' + criteriaNames[i] + '-handle]');
+
+            if (editing) {
+                var criterionValue = $(handleDataAttribute).data(criteriaNames[i] + '-handle');
+                var handleXPosition = (criterionValue / 10);
+
+                if (criterionValue !== "") {
+                    dragdealer.enable();
+
+                    dragdealer.setValue(handleXPosition, 0);
+                    $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(criterionValue * 10)));
+                    $(dragdealer.handle).text(criterionValue);
+                } else {
+                    disableDragdealer(dragdealer);
+                }
+            }
+
+            $(handleDataAttribute).on('mousedown', function () {
+                dragdealer.enable();
+
+                $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(50)));
+                $(dragdealer.handle).text('5');
+            });
+        }
+
         function getModelData() {
             var pattern = /^.*?(\d+)\D*$/;
             var modelId = pattern.exec(window.location.href)[1];
@@ -112,6 +148,38 @@
                 modelName: modelName
             }
         }
+
+        function disableDragdealer(dragdealer) {
+            dragdealer.disable();
+
+            dragdealer.setValue(0.5, 0);
+            $(dragdealer.wrapper).css('background-color', '#EEE');
+            $(dragdealer.handle).text('');
+        }
+    } else if (reading) {
+        initializeMeters();
+
+        function initializeMeters() {
+            for (var i = 0; i < criteriaNames.length; i++) {
+                var criterionId = ('#' + criteriaNames[i] + '-meter');
+                var $meter = $(criterionId);
+                var score = $meter.parent().siblings('.criterion-score-box').text();
+                var step = Math.floor(score * 10);
+                var startingColor = ('#' + rainbow.colorAt(0));
+                var endingColor = ('#' + rainbow.colourAt(step));
+                var wrapperColor = {
+                    background: endingColor,
+                    background: '-webkit-linear-gradient(right, ' + startingColor + ', ' + endingColor + ')',
+                    background: '-o-linear-gradient(right, ' + startingColor + ', ' + endingColor + ')',
+                    background: '-moz-linear-gradient(right, ' + startingColor + ', ' + endingColor + ')',
+                    background: 'linear-gradient(to right, ' + startingColor + ', ' + endingColor + ')',
+                }
+
+                $meter.css(wrapperColor);
+                $meter.width(step + '%');
+                $meter.height('100%');
+            }
+        }
     }
 
     function getRainbowGradient() {
@@ -120,59 +188,5 @@
         rainbow.setSpectrum('#0074ff', '#00ffd0', '#FFd200', '#FF0a00');
 
         return rainbow;
-    }
-
-    function initializeDragdealers() {
-        for (var i = 0; i < criteriaNames.length; i++) {
-            var criterionId = (criteriaNames[i] + '-dragdealer');
-            var dragdealer = new Dragdealer(criterionId, options);
-
-            if (reading) {
-                var score = $(dragdealer.wrapper).siblings('.criterion-score-box').text();
-                var step = Math.floor(score * 10);
-                var wrapperColor = ('#' + rainbow.colourAt(step));
-
-                $(dragdealer.wrapper).css('background-color', wrapperColor);
-
-                dragdealer.setStep(step + 1, 0);
-                dragdealer.enable();
-            } else {
-                attachDragdealerClickEventListener(dragdealer, i);
-            }
-        }
-    }
-
-    function attachDragdealerClickEventListener(dragdealer, i) {
-        var handleDataAttribute = ('[data-' + criteriaNames[i] + '-handle]');
-
-        if (editing) {
-            var criterionValue = $(handleDataAttribute).data(criteriaNames[i] + '-handle');
-            var handleXPosition = (criterionValue / 10);
-
-            if (criterionValue !== "") {
-                dragdealer.enable();
-
-                dragdealer.setValue(handleXPosition, 0);
-                $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(criterionValue * 10)));
-                $(dragdealer.handle).text(criterionValue);
-            } else {
-                disableDragdealer(dragdealer);
-            }
-        }
-
-        $(handleDataAttribute).on('mousedown', function () {
-            dragdealer.enable();
-
-            $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(50)));
-            $(dragdealer.handle).text('5');
-        });
-    }
-
-    function disableDragdealer(dragdealer) {
-        dragdealer.disable();
-
-        dragdealer.setValue(0.5, 0);
-        $(dragdealer.wrapper).css('background-color', '#EEE');
-        $(dragdealer.handle).text('');
-    }
+    }    
 })(jQuery);

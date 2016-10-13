@@ -7,139 +7,164 @@
 <div class="panel panel-default">
     <div class="row">
         <div class="col-md-2">
-            <img src="@Model.AvatarPath" alt="No profile photo" />
-            <div class="row">
-                <span>@Model.UserName</span>
+            <div class="img-container">
+                <img src="@Model.AvatarPath" alt="No profile photo" />
             </div>
+            <span>@Model.UserName</span>
+            <div>@Model.PostedOn</div>
         </div>
-        <div class="col-md-2">
-            @Model.PostedOn
+
+        <div class="col-md-10">
+            <p class="review-content">@Model.Content</p>
+
+            @{
+                if (!string.IsNullOrEmpty(Model.TotalScore.ToString()))
+                {
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h4>Score: @Model.TotalScore</h4>
+
+                            <hr />
+
+                            <!--Beach-->
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SandQuality, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.SandQuality</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="sand-quality-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.BeachCleanliness</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="beach-cleanliness-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BeautifulScenery, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.BeautifulScenery</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="beautiful-scenery-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CrowdFree, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.CrowdFree</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="crowd-free-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Beach-->
+                            <!--Sea-->
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.WaterPurity, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.WaterPurity</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="water-purity-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.WasteFreeSeabed, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.WasteFreeSeabed</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="wastefree-seabed-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FeetFriendlyBottom, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.FeetFriendlyBottom</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="feet-friendly-bottom-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.SeaLifeDiversity</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="sea-life-diversity-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CoralReef, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.CoralReef</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="coral-reef-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Sea-->
+                            <!--Activities-->
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.Walking</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="walking-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.Snorkeling</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="snorkeling-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Kayaking, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.Kayaking</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="kayaking-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.Camping</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="camping-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Activities-->
+                            <!--Infrastructure-->
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-8">
+                                    <div class="criterion-score-box">@Model.Infrastructure</div>
+                                    <div class="criterion-progress-bar">
+                                        <span id="infrastructure-meter"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Infrastructure-->
+                        </div>
+                    </div>
+                }
+            }
         </div>
-    </div>
-
-    @{
-        if (!string.IsNullOrEmpty(Model.TotalScore.ToString()))
-        {
-            <div class="row">
-                <h4>Score: @Model.TotalScore</h4>
-
-                <hr />
-
-                <!--Beach-->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SandQuality, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.SandQuality</div>
-                        <div id="sand-quality-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.BeachCleanliness</div>
-                        <div id="beach-cleanliness-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BeautifulScenery, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.BeautifulScenery</div>
-                        <div id="beautiful-scenery-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CrowdFree, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.CrowdFree</div>
-                        <div id="crowd-free-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <!--End Beach-->
-
-                <!--Sea-->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.WaterPurity, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.WaterPurity</div>
-                        <div id="water-purity-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.WasteFreeSeabed, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.WasteFreeSeabed</div>
-                        <div id="wastefree-seabed-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.FeetFriendlyBottom, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.FeetFriendlyBottom</div>
-                        <div id="feet-friendly-bottom-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.SeaLifeDiversity</div>
-                        <div id="sea-life-diversity-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CoralReef, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.CoralReef</div>
-                        <div id="coral-reef-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <!--End Sea-->
-
-                <!--Activities-->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.Walking</div>
-                        <div id="walking-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.Snorkeling</div>
-                        <div id="snorkeling-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Kayaking, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.Kayaking</div>
-                        <div id="kayaking-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.Camping</div>
-                        <div id="camping-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <!--End Activities-->
-
-                <!--Infrastructure-->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label col-md-3" })
-                    <div class="col-md-5">
-                        <div class="criterion-score-box">@Model.Infrastructure</div>
-                        <div id="infrastructure-dragdealer" class="dragdealer"></div>
-                    </div>
-                </div>
-                <!--End Infrastructure-->
-            </div>
-        }
-    }
-
-    <div class="row">
-        <p>@Model.Content</p>
     </div>
 </div>
 
