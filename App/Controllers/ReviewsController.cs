@@ -15,6 +15,15 @@
         {
         }
 
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            var review = this.Data.Reviews.Find(id);
+            var model = Mapper.Map<Review, DetailedReviewViewModel>(review);            
+
+            return View(model);
+        }
+
         [Authorize]
         [HttpGet]
         public ActionResult Rate(int id)

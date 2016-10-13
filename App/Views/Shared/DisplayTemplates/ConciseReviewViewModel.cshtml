@@ -23,5 +23,12 @@
         <div class="row">
             <p>@Model.Content</p>
         </div>
+        <div class="row">
+            <span>@Html.ActionLink("Read the entire review", "Details", 
+                 controllerName: "Reviews", 
+                 routeValues: new { id = Model.Id }, 
+                 htmlAttributes: null)
+            </span>
+        </div>
     </div>
 </div>
