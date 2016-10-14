@@ -7,7 +7,6 @@
     {
         public int Id { get; set; }
 
-        [Display(Name = "User")]
         public string UserName { get; set; }
 
         public string AvatarPath { get; set; }
@@ -24,7 +23,6 @@
     {
         public int BeachId { get; set; }
 
-        [Display(Name = "User")]
         public string UserName { get; set; }
 
         public string AvatarPath { get; set; }
@@ -91,6 +89,9 @@
 
         [Display(Name = "Environment-friendly infrastructure")]
         public double? Infrastructure { get; private set; }
+
+        [Display(Name = "Long-term stay")]
+        public double? LongTermStay { get; private set; }
 
         #endregion        
     }
@@ -158,6 +159,8 @@
 
         [Display(Name = "Environment-friendly infrastructure")]
         public double? Infrastructure { get; private set; }
+
+        public double? LongTermStay { get; private set; }
 
         #endregion
     }

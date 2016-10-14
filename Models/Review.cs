@@ -5,7 +5,7 @@
 
     public class Review
     {
-        private const int BeachCriteriaCount = 14;
+        private const int BeachCriteriaCount = 15;
 
         public Review()
         {
@@ -27,7 +27,8 @@
             double? snorkeling,
             double? kayaking,
             double? camping,
-            double? infrastructure
+            double? infrastructure,
+            double? longTermStay
             )
         {
             this.BeachId = beachId;
@@ -51,6 +52,7 @@
             this.Camping = camping;
 
             this.Infrastructure = infrastructure;
+            this.LongTermStay = longTermStay;
 
             this.UpdateTotalScore();
         }
@@ -134,6 +136,9 @@
         [Display(Name = "Environment-friendly infrastructure")]
         public double? Infrastructure { get; private set; }
 
+        [Display(Name = "Long-term stay")]
+        public double? LongTermStay { get; private set; }
+
         #endregion        
 
         public void UpdateTotalScore()
@@ -182,6 +187,9 @@
 
             score += (this.Infrastructure ?? 0);
             nullCount += ((this.Infrastructure == null) ? 1 : 0);
+
+            score += (this.LongTermStay ?? 0);
+            nullCount += ((this.LongTermStay == null) ? 1 : 0);
 
             double? result = null;
 

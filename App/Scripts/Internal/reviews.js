@@ -20,6 +20,7 @@
         'kayaking',
         'camping',
         'infrastructure',
+        'long-term-stay'
     ];
     var rainbow = getRainbowGradient();
 
@@ -78,7 +79,8 @@
                 snorkeling: $('[data-snorkeling-handle]').text(),
                 kayaking: $('[data-kayaking-handle]').text(),
                 camping: $('[data-camping-handle]').text(),
-                infrastructure: $('[data-infrastructure-handle]').text()
+                infrastructure: $('[data-infrastructure-handle]').text(),
+                longTermStay: $('[data-long-term-stay-handle]').text()
             };
             var reviewForm = $('#submitReviewForm');
             var csrfToken = $('input[name="__RequestVerificationToken"]', reviewForm).val();
@@ -163,19 +165,19 @@
             for (var i = 0; i < criteriaNames.length; i++) {
                 var criterionId = ('#' + criteriaNames[i] + '-meter');
                 var $meter = $(criterionId);
-                var score = $meter.parent().siblings('.criterion-score-box').text();
+                var $scoreBox = $meter.parent().siblings('.criterion-score-box')
+                var score = $scoreBox.text();
                 var step = Math.floor(score * 10);
-                var startingColor = ('#' + rainbow.colorAt(0));
-                var endingColor = ('#' + rainbow.colourAt(step));
-                var wrapperColor = {
-                    background: endingColor,
-                    background: '-webkit-linear-gradient(right, ' + startingColor + ', ' + endingColor + ')',
-                    background: '-o-linear-gradient(right, ' + startingColor + ', ' + endingColor + ')',
-                    background: '-moz-linear-gradient(right, ' + startingColor + ', ' + endingColor + ')',
-                    background: 'linear-gradient(to right, ' + startingColor + ', ' + endingColor + ')',
+                var color = ('#' + rainbow.colourAt(step));
+
+                if (!score.length) {
+                    $meter.closest('.form-group').remove();
+
+                    continue;
                 }
 
-                $meter.css(wrapperColor);
+                $scoreBox.css('background-color', color);
+                $meter.css('background-color', color);
                 $meter.width(step + '%');
                 $meter.height('100%');
             }

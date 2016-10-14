@@ -21,7 +21,7 @@
                     .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath));
                 cfg.CreateMap<PostReviewBindingModel, Review>();                
                 cfg.CreateMap<Review, EditReviewViewModel>();
-                cfg.CreateMap<EditReviewBindingModel, Review>().AfterMap((vm, m) => m.UpdateTotalScore());
+                cfg.CreateMap<EditReviewBindingModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
                 cfg.CreateMap<Review, DetailedReviewViewModel>()
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))
                     .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath));

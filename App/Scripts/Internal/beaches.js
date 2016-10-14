@@ -14,6 +14,14 @@
         attachEventListeners();
     }
 
+    function getMarkerCoordinates() {
+        if (!markers.length) {
+            return "Nothing selected.";
+        }
+
+        return markers[0].position;
+    }
+
     function attachEventListeners() {
         google.maps.event.addListener(map, "click", function (event) {
             removeMarkers();
@@ -31,6 +39,8 @@
         markers.push(marker);
 
         jQuery('[data-hidden-coordinates]').val(marker.position);
+
+        getGeocoderData();
     }
 
     function removeMarkers() {
@@ -39,8 +49,13 @@
         }
     }
 
-    function getMarkerCoordinates() {
-        return (markers.length ? markers[0].position : "Nothing selected.");
+    function getGeocoderData() {
+        var geocoder = new google.maps.Geocoder();
+        var position = getMarkerCoordinates();
+        var latLngObj = { lat: position.lat(), lng: position.lng() };
+        geocoder.geocode({ 'location': latLngObj }, function (results, status) {
+            console.log(results);
+        });
     }
         
     return {

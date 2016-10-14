@@ -31,3 +31,7 @@ img {
     max-height: 100%;
     max-width: 100%;
 }
+
+.col-no-padding {
+    padding: 0;
+}

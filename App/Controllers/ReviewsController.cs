@@ -103,5 +103,16 @@
 
             return Json(new { redirectUrl = Url.Action("Details", "Reviews", new { id = bindingModel.ReviewId }) });
         }
+
+        [Authorize]
+        public ActionResult Delete(int id)
+        {
+            var review = this.Data.Reviews.Find(id);
+
+            this.Data.Reviews.Remove(review);
+            this.Data.Reviews.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

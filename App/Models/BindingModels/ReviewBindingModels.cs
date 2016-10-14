@@ -54,6 +54,8 @@
 
         public double? Infrastructure { get; set; }
 
+        public double? LongTermStay { get; set; }
+
         #endregion
     }
 
@@ -108,6 +110,8 @@
         #region Tourist Infrastructure
 
         public double? Infrastructure { get; set; }
+
+        public double? LongTermStay { get; set; }
 
         #endregion
     }

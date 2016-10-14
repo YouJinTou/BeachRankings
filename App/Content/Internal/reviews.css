@@ -9,17 +9,28 @@
 /* VIEW */
 
 .criterion-score-box {
-    height: 20px;
-    width: 10px;
+    height: 30px;
+    width: 40px;
+    top: -10px;
+    left: 2px;
+    text-align: center;
+    font-weight: bold;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    /*-webkit-box-shadow: inset 0px -1px 7px 5px rgba(0,0,0,0.75);*/
+    /*-moz-box-shadow: inset 0px -1px 7px 5px rgba(0,0,0,0.75);*/
+    /*box-shadow: inset 0px -1px 7px 5px rgba(0,0,0,0.75);*/
+    box-shadow: inset 0 -1px 1px rgba(255,255,255,1);
 }
 
 .criterion-progress-bar {
-    height: 20px;
+    height: 10px;
     position: relative;
-    background: #08090c;
-    -moz-border-radius: 25px;
-    -webkit-border-radius: 25px;
-    border-radius: 25px;
+    background: #a4a9ad;
+    -moz-border-radius: 0px 5px 5px 0px;
+    -webkit-border-radius: 0px 5px 5px 0px;
+    border-radius: 0px 5px 5px 0px;
     box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
 }
 

@@ -13,14 +13,13 @@
         {
         }
 
-        public Beach(string name, string location, string coordinates)
+        public Beach(string name, string location)
         {
             this.reviews = new HashSet<Review>();
             this.photos = new HashSet<BeachPhoto>();
 
             this.Name = name;
             this.Location = location;
-            this.Coordinates = coordinates;
         }
 
         [Key]
@@ -36,8 +35,7 @@
         [MaxLength(100, ErrorMessage = "The location name cannot be longer than 100 characters.")]
         public string Location { get; set; }
 
-        [Required(ErrorMessage = "Coordinates are required. Select a beach on the map.")]
-        public string Coordinates { get; set; }
+        public virtual BeachLocationInfo LocationInfo { get; set; }
 
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
@@ -125,6 +123,9 @@
         [Display(Name = "Environment-friendly infrastructure")]
         public double? Infrastructure { get; private set; }
 
+        [Display(Name = "Long-term stay")]
+        public double? LongTermStay { get; private set; }
+
         #endregion
 
         public void UpdateScores()
@@ -146,6 +147,7 @@
             this.Camping = this.Reviews.Average(r => r.Camping);
 
             this.Infrastructure = this.Reviews.Average(r => r.Infrastructure);
+            this.LongTermStay = this.Reviews.Average(r => r.LongTermStay);
 
             this.TotalScore = this.Reviews.Average(r => r.TotalScore);
         }
