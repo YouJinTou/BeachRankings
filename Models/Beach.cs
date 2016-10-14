@@ -1,6 +1,7 @@
 ﻿namespace BeachRankings.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
@@ -35,10 +36,15 @@
         [MaxLength(100, ErrorMessage = "The location name cannot be longer than 100 characters.")]
         public string Location { get; set; }
 
-        public virtual BeachLocationInfo LocationInfo { get; set; }
-
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
+
+        [Display(Name = "Body of water")]
+        public string WaterBody { get; set; }
+
+        public string ApproximateAddress { get; set; }
+
+        public string Coordinates { get; set; }
 
         public virtual ICollection<Review> Reviews
         {

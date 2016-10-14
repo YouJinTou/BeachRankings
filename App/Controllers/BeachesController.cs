@@ -51,7 +51,7 @@
             this.Data.Beaches.Add(beach);
             this.Data.Beaches.SaveChanges();
 
-            return RedirectToAction("Rate", "Reviews", new { id = beach.Id });
+            return Json(new { redirectUrl = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
         }
     }
 }

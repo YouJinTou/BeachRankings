@@ -84,24 +84,21 @@ namespace BeachRankings.Data.Migrations
                 Name = "Kamchia Beach",
                 Location = "Kamchia",
                 Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
-                Photos = new HashSet<BeachPhoto>(),
-                Coordinates = "45.1231;31;123123"
+                Photos = new HashSet<BeachPhoto>()
             });
             this.data.Beaches.Add(new Beach()
             {
                 Name = "Bolata",
                 Location = "Kaliakra",
                 Description = "Situated north of Albena, Bolata is an ungainly sight.",
-                Photos = new HashSet<BeachPhoto>(),
-                Coordinates = "31.1231;65;123123"
+                Photos = new HashSet<BeachPhoto>()
             });
             this.data.Beaches.Add(new Beach()
             {
                 Name = "Sunny Day Beach",
                 Location = "Varna",
                 Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
-                Photos = new HashSet<BeachPhoto>(),
-                Coordinates = "12.312;78;441"
+                Photos = new HashSet<BeachPhoto>()
             });
 
             this.data.SaveChanges();

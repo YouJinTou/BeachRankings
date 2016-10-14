@@ -4,7 +4,7 @@
     ViewBag.Title = "Add Beach";
 }
 
-@using (Html.BeginForm("Add", "Beaches", FormMethod.Post, new { id = "addBeachForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "addBeachForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -41,13 +41,24 @@
                     </div>
                 </div>
 
-                @Html.TextBoxFor(model => model.Coordinates, new { style = "display: none;", data_hidden_coordinates = "" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.WaterBody, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.WaterBody, new { @class = "form-control", data_textbox_water_body = "" })
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Coordinates, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Coordinates, new { @class = "form-control", data_textbox_coordinates = "" })
+                        @Html.ValidationMessageFor(model => model.Coordinates, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="col-md-6 google-map" id="map"></div>
-        @Html.ValidationMessageFor(model => model.Coordinates, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
@@ -68,7 +79,7 @@
         jQuery.validator.setDefaults({ ignore: null });
     </script>
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8j9vpJT7miOsV0jLllMmqZdXpSnCzs9c&callback=gMapManager.initMap">
+            src="https://maps.googleapis.com/maps/api/js?language=en&libraries=places&key=AIzaSyC8j9vpJT7miOsV0jLllMmqZdXpSnCzs9c&callback=gMapManager.initMap">
     </script>
 }
 
