@@ -1,8 +1,10 @@
 ﻿namespace BeachRankings.Data.Repositories
 {
     using BeachRankings.Models;
+    using BeachRankings.Data.Services.Search;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Linq;
 
     public class BeachRepository : GenericRepository<Beach>, IBeachRepository
     {
@@ -16,9 +18,18 @@
             this.entitySet = dbContext.Set<Beach>();
         }
 
-        public IList<string> Search(string query)
+        public IEnumerable<int> GetBeachIdsByQuery(string query, string fieldName = null)
         {
-            return new List<string>() { "flower" };
+            if (string.IsNullOrEmpty(query))
+            {
+                return null;
+            }
+
+            var terms = query.Trim().Replace("-", " ").Split(' ')
+                .Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim() + "*");
+            query = string.Join(" ", terms);
+          
+            return LuceneSearch.Search(query, fieldName);
         }
     }
 }

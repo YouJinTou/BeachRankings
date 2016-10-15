@@ -1,8 +1,9 @@
 namespace BeachRankings.Data.Migrations
 {
+    using BeachRankings.Data.Services.Search;
+    using BeachRankings.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using BeachRankings.Models;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -79,29 +80,40 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
-            this.data.Beaches.Add(new Beach()
+            var beaches = new List<Beach>()
             {
-                Name = "Kamchia Beach",
-                Location = "Kamchia",
-                Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
-                Photos = new HashSet<BeachPhoto>()
-            });
-            this.data.Beaches.Add(new Beach()
+                new Beach()
+                {
+                    Name = "Kamchia Beach",
+                    Location = "Kamchia",
+                    Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
+                    Photos = new HashSet<BeachPhoto>()
+                },
+                new Beach()
+                {
+                    Name = "Bolata",
+                    Location = "Kaliakra",
+                    Description = "Situated north of Albena, Bolata is an ungainly sight.",
+                    Photos = new HashSet<BeachPhoto>()
+                },
+                new Beach()
+                {
+                    Name = "Sunny Day Beach",
+                    Location = "Varna",
+                    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
+                    Photos = new HashSet<BeachPhoto>()
+                }
+            };
+
+            foreach (var beach in beaches)
             {
-                Name = "Bolata",
-                Location = "Kaliakra",
-                Description = "Situated north of Albena, Bolata is an ungainly sight.",
-                Photos = new HashSet<BeachPhoto>()
-            });
-            this.data.Beaches.Add(new Beach()
-            {
-                Name = "Sunny Day Beach",
-                Location = "Varna",
-                Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
-                Photos = new HashSet<BeachPhoto>()
-            });
+                this.data.Beaches.Add(beach);
+
+            }
 
             this.data.SaveChanges();
+
+            LuceneSearch.AddBeachIndexEntries(beaches);
         }
 
         private void SeedBeachPhotos()

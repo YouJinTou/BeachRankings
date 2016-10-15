@@ -335,7 +335,7 @@
     <Content Include="Views\Reviews\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\BeachIndex\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

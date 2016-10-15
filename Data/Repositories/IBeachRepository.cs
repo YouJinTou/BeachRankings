@@ -5,6 +5,6 @@
 
     public interface IBeachRepository : IGenericRepository<Beach>
     {
-        IList<string> Search(string query);
+        IEnumerable<int> GetBeachIdsByQuery(string query, string fieldName = null);
     }
 }

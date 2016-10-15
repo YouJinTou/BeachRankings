@@ -1,10 +1,11 @@
 ﻿namespace BeachRankings.Models
 {
+    using BeachRankings.Models.Interfaces;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
-    public class Beach
+    public class Beach : IBeachSearchable
     {
         private ICollection<Review> reviews;
         private ICollection<BeachPhoto> photos;
@@ -13,13 +14,12 @@
         {
         }
 
-        public Beach(string name, string location)
+        public Beach(string name)
         {
             this.reviews = new HashSet<Review>();
             this.photos = new HashSet<BeachPhoto>();
 
             this.Name = name;
-            this.Location = location;
         }
 
         [Key]

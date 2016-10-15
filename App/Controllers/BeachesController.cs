@@ -21,8 +21,6 @@
             var topBeaches = this.Data.Beaches.All();
             var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<ConciseBeachViewModel>>(topBeaches);
             
-            var x = this.Data.Beaches.Search("where");
-
             return View(model);
         }
 
