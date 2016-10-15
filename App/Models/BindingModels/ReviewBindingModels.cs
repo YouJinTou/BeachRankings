@@ -12,7 +12,7 @@
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         public string Content { get; set; }
 
-        #region Beach
+        #region Beachline
 
         public double? SandQuality { get; set; }
 
@@ -24,7 +24,7 @@
 
         #endregion
 
-        #region Sea
+        #region Water
 
         public double? WaterPurity { get; set; }
 
@@ -69,7 +69,7 @@
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         public string Content { get; set; }
 
-        #region Beach
+        #region Beachline
 
         public double? SandQuality { get; set; }
 
@@ -81,7 +81,7 @@
 
         #endregion
 
-        #region Sea
+        #region Water
 
         public double? WaterPurity { get; set; }
 

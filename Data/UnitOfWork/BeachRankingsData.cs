@@ -1,19 +1,19 @@
 ﻿namespace BeachRankings.Data.UnitOfWork
 {
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using BeachRankings.Models;
     using BeachRankings.Data.Repositories;
-    using System;
-    using System.Collections.Generic;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;    
     using System.Data.Entity;
 
     public class BeachRankingsData : IBeachRankingsData
     {
         private readonly DbContext dbContext;
 
-        private readonly IDictionary<Type, object> repositories;
-
+        private IGenericRepository<User> users;
+        private IBeachRepository beaches;
+        private IGenericRepository<BeachPhoto> beachPhotos;
+        private IGenericRepository<Review> reviews;
         private IUserStore<User> userStore;
 
         public BeachRankingsData()
@@ -24,38 +24,57 @@
         public BeachRankingsData(DbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.repositories = new Dictionary<Type, object>();
         }
 
-        public IRepository<User> Users
+        public IGenericRepository<User> Users
         {
             get
             {
-                return this.GetRepository<User>();
+                if (this.users == null)
+                {
+                    this.users = new GenericRepository<User>(this.dbContext);
+                }
+
+                return this.users;
             }
         }
 
-        public IRepository<Beach> Beaches
+        public IBeachRepository Beaches
         {
             get
             {
-                return this.GetRepository<Beach>();
+                if (this.beaches == null)
+                {
+                    this.beaches = new BeachRepository(this.dbContext);
+                }
+
+                return this.beaches;
             }
         }
 
-        public IRepository<BeachPhoto> BeachPhotos
+        public IGenericRepository<BeachPhoto> BeachPhotos
         {
             get
             {
-                return this.GetRepository<BeachPhoto>();
+                if (this.beachPhotos == null)
+                {
+                    this.beachPhotos = new GenericRepository<BeachPhoto>(this.dbContext);
+                }
+
+                return this.beachPhotos;
             }
         }
 
-        public IRepository<Review> Reviews
+        public IGenericRepository<Review> Reviews
         {
             get
             {
-                return this.GetRepository<Review>();
+                if (this.reviews == null)
+                {
+                    this.reviews = new GenericRepository<Review>(this.dbContext);
+                }
+
+                return this.reviews;
             }
         }    
 
@@ -75,18 +94,6 @@
         public void SaveChanges()
         {
             this.dbContext.SaveChanges();
-        }
-
-        private IRepository<T> GetRepository<T>() where T : class
-        {
-            if (!this.repositories.ContainsKey(typeof(T)))
-            {
-                var type = typeof(GenericRepository<T>);
-
-                this.repositories.Add(typeof(T), Activator.CreateInstance(type, this.dbContext));
-            }
-
-            return (IRepository<T>)this.repositories[typeof(T)];
         }
     }
 }

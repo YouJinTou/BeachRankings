@@ -3,7 +3,7 @@
     using System.Data.Entity;
     using System.Linq;
 
-    public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private DbContext dbContext;
         private IDbSet<TEntity> entitySet;

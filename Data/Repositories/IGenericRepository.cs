@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    public interface IRepository<T>
+    public interface IGenericRepository<T>
     {
         IQueryable<T> All();
 

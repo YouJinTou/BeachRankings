@@ -80,7 +80,7 @@
         [Range(0, 10)]
         public double? TotalScore { get; private set; }
 
-        #region Beach
+        #region Beachline
 
         [Display(Name = "Sand quality")]
         public double? SandQuality { get; private set; }
@@ -96,7 +96,7 @@
 
         #endregion
 
-        #region Sea
+        #region Water
 
         [Display(Name = "Water purity")]
         public double? WaterPurity { get; private set; }

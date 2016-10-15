@@ -5,12 +5,12 @@
 
     public interface IBeachRankingsData
     {
-        IRepository<User> Users { get; }
+        IGenericRepository<User> Users { get; }
 
-        IRepository<Beach> Beaches { get; }
+        IBeachRepository Beaches { get; }
 
-        IRepository<BeachPhoto> BeachPhotos { get; }
+        IGenericRepository<BeachPhoto> BeachPhotos { get; }
 
-        IRepository<Review> Reviews { get; }
+        IGenericRepository<Review> Reviews { get; }
     }
 }

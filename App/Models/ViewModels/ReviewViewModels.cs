@@ -34,7 +34,7 @@
 
         public string Content { get; set; }
 
-        #region Beach
+        #region Beachline
 
         [Display(Name = "Sand quality")]
         public double? SandQuality { get; private set; }
@@ -50,7 +50,7 @@
 
         #endregion
 
-        #region Sea
+        #region Water
 
         [Display(Name = "Water purity")]
         public double? WaterPurity { get; private set; }
@@ -104,7 +104,7 @@
         [Display(Name = "Review")]
         public string Content { get; private set; }
 
-        #region Beach
+        #region Beachline
 
         [Display(Name = "Sand quality")]
         public double? SandQuality { get; private set; }
@@ -120,7 +120,7 @@
 
         #endregion
 
-        #region Sea
+        #region Water
 
         [Display(Name = "Water purity")]
         public double? WaterPurity { get; private set; }
