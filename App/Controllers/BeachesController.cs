@@ -16,12 +16,21 @@
         {
         }
 
-        public ActionResult Top()
-        {            
-            var topBeaches = this.Data.Beaches.All();
-            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<ConciseBeachViewModel>>(topBeaches);
+        [HttpPost]
+        public ActionResult Top(FormCollection form)
+        {
+            var query = form["main-search-field"];
+
+            if (string.IsNullOrEmpty(query))
+            {
+                return View("Index", "Home");
+            }
+
+            var beachIds = this.Data.Beaches.GetBeachIdsByQuery(query);
+            var beaches = this.Data.Beaches.All().Where(b => beachIds.Contains(b.Id));
+            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<ConciseBeachViewModel>>(beaches);
             
-            return View(model);
+            return PartialView("_Top", model);
         }
 
         public ActionResult Details(int id)

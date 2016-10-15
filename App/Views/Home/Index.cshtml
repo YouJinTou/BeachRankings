@@ -2,8 +2,24 @@
     ViewBag.Title = "Beach Rankings";
 }
 
-<div class="home-search-header row">
-</div>
+@using (@Ajax.BeginForm("Top", "Beaches", new AjaxOptions
+{
+    HttpMethod = "Post",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "beaches-search-result"
+}))
+{
+    <div class="home-search-header row">
+        <input id="main-search-field" name="main-search-field" type="text" placeholder="Search by name, location, country or sea" />
+        <input type="submit" value="Go" />
+    </div>
+}
+
+<div id="beaches-search-result"></div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
 @section HomeStyles {
     @Styles.Render("~/Content/Internal/home.css")
