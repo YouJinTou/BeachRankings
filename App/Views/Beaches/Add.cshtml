@@ -26,9 +26,9 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-3" })
+                    @Html.LabelFor(model => model.Location.Name, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.TextBoxFor(model => model.Location, new { @class = "form-control", data_textbox_location = "" })
+                        @Html.TextBoxFor(model => model.Location.Name, new { @class = "form-control", data_textbox_location_name = "" })
                         @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                     </div>
                 </div>

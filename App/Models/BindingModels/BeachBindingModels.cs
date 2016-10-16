@@ -14,7 +14,7 @@
         [Required(ErrorMessage = "The location field is required.")]
         [MinLength(2, ErrorMessage = "The location name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The location name cannot be longer than 100 characters.")]
-        public string Location { get; set; }
+        public string LocationName { get; set; }
 
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }

@@ -1,12 +1,13 @@
 namespace BeachRankings.Data.Migrations
 {
-    using BeachRankings.Data.Services.Search;
+    using BeachRankings.Services.Search;
     using BeachRankings.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System;
 
     public sealed class Configuration : DbMigrationsConfiguration<BeachRankingsDbContext>
     {
@@ -24,10 +25,11 @@ namespace BeachRankings.Data.Migrations
 
             this.SeedRoles();
             this.SeedUsers();
+            this.SeedLocations();
             this.SeedBeaches();
             this.SeedBeachPhotos();
             //this.SeedReviews();
-        }
+        }       
 
         private void SeedRoles()
         {
@@ -73,6 +75,32 @@ namespace BeachRankings.Data.Migrations
             }
         }
 
+        private void SeedLocations()
+        {
+            if (this.data.Locations.Any())
+            {
+                return;
+            }
+
+            var locations = new List<Location>()
+            {
+                new Location("Varna"),
+                new Location("Kaliakra"),
+                new Location("Kamchia")
+            };
+
+            foreach (var location in locations)
+            {
+                this.data.Locations.Add(location);
+            }
+
+            this.data.SaveChanges();
+
+            LuceneSearch.Index = Indices.LocationIndex;
+
+            LuceneSearch.AddUpdateIndexEntries(locations);
+        }
+
         private void SeedBeaches()
         {
             if (this.data.Beaches.Any())
@@ -82,24 +110,21 @@ namespace BeachRankings.Data.Migrations
 
             var beaches = new List<Beach>()
             {
-                new Beach()
+                new Beach("Kamchia Beach")
                 {
-                    Name = "Kamchia Beach",
-                    Location = "Kamchia",
+                    LocationId = 3,
                     Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
                     Photos = new HashSet<BeachPhoto>()
                 },
-                new Beach()
+                new Beach("Bolata")
                 {
-                    Name = "Bolata",
-                    Location = "Kaliakra",
+                    LocationId = 2,
                     Description = "Situated north of Albena, Bolata is an ungainly sight.",
                     Photos = new HashSet<BeachPhoto>()
                 },
-                new Beach()
+                new Beach("Sunny Day Beach")
                 {
-                    Name = "Sunny Day Beach",
-                    Location = "Varna",
+                    LocationId = 1,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Photos = new HashSet<BeachPhoto>()
                 }
@@ -108,12 +133,13 @@ namespace BeachRankings.Data.Migrations
             foreach (var beach in beaches)
             {
                 this.data.Beaches.Add(beach);
-
             }
 
             this.data.SaveChanges();
 
-            LuceneSearch.AddBeachIndexEntries(beaches);
+            LuceneSearch.Index = Indices.BeachIndex;
+
+            LuceneSearch.AddUpdateIndexEntries(beaches);
         }
 
         private void SeedBeachPhotos()

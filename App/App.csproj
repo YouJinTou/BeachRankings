@@ -272,7 +272,7 @@
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
     <Content Include="Scripts\Internal\beaches.js" />
-    <Content Include="Scripts\Internal\main.js" />
+    <Content Include="Scripts\Internal\index.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -335,6 +335,8 @@
     <Content Include="Views\Shared\DisplayTemplates\ConciseReviewViewModel.cshtml" />
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
+    <Content Include="Views\Beaches\_Autocomplete.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\AutocompleteViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\BeachIndex\" />

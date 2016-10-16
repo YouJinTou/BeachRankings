@@ -67,7 +67,9 @@
 
         [Required]
         public int BeachId { get; private set; }
-        
+
+        public virtual Beach Beach { get; set; }
+
         [Required]
         public DateTime PostedOn { get; private set; }
 

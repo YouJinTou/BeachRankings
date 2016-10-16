@@ -8,8 +8,8 @@
 
     public class User : IdentityUser
     {
-        private IEnumerable<Review> reviews;
-        private IEnumerable<BeachPhoto> photos;
+        private ICollection<Review> reviews;
+        private ICollection<BeachPhoto> photos;
 
         public User()
         {
@@ -19,7 +19,7 @@
 
         public string AvatarPath { get; set; }
 
-        public virtual IEnumerable<Review> Reviews
+        public virtual ICollection<Review> Reviews
         {
             get
             {
@@ -27,7 +27,7 @@
             }
         }
 
-        public virtual IEnumerable<BeachPhoto> Photos
+        public virtual ICollection<BeachPhoto> Photos
         {
             get
             {

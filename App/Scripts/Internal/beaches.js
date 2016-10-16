@@ -117,7 +117,7 @@ var gMapManager = new GoogleMapManager();
 
         var beachJsonData = {
             name: $('[data-textbox-name]').val(),
-            location: $('[data-textbox-location]').val(),
+            locationName: $('[data-textbox-location-name]').val(),
             description: $('[data-textbox-description]').val(),
             waterBody: $('[data-textbox-water-body]').val(),
             approximateAddress: locationData.approximateAddress,

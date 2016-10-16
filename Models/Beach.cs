@@ -3,6 +3,7 @@
     using BeachRankings.Models.Interfaces;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
     public class Beach : IBeachSearchable
@@ -26,14 +27,15 @@
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The name field is required.")]
+        [Index("IX_BeachName", IsUnique = true)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         public string Name { get; set; }
+                
+        [Required]
+        public int LocationId { get; set; }
 
-        [Required(ErrorMessage = "The location field is required.")]
-        [MinLength(2, ErrorMessage = "The location name should be at least 2 characters long.")]
-        [MaxLength(100, ErrorMessage = "The location name cannot be longer than 100 characters.")]
-        public string Location { get; set; }
+        public virtual Location Location { get; set; }
 
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }

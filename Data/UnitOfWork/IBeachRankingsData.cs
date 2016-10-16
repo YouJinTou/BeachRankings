@@ -7,6 +7,8 @@
     {
         IGenericRepository<User> Users { get; }
 
+        ILocationRepository Locations { get; }
+
         IBeachRepository Beaches { get; }
 
         IGenericRepository<BeachPhoto> BeachPhotos { get; }

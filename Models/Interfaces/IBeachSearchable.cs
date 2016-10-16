@@ -2,7 +2,7 @@
 {
     public interface IBeachSearchable : ISearchable
     {
-        string Location { get; set; }
+        int LocationId { get; set; }
 
         string Description { get; set; }
 

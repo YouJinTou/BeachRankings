@@ -11,6 +11,7 @@
         private readonly DbContext dbContext;
 
         private IGenericRepository<User> users;
+        private ILocationRepository locations;
         private IBeachRepository beaches;
         private IGenericRepository<BeachPhoto> beachPhotos;
         private IGenericRepository<Review> reviews;
@@ -36,6 +37,19 @@
                 }
 
                 return this.users;
+            }
+        }
+
+        public ILocationRepository Locations
+        {
+            get
+            {
+                if (this.locations == null)
+                {
+                    this.locations = new LocationRepository(this.dbContext);
+                }
+
+                return this.locations;
             }
         }
 

@@ -16,7 +16,21 @@
         {
         }
 
-        [HttpPost]
+        public ActionResult Autocomplete(string prefix)
+        {
+            var beachIds = this.Data.Beaches.GetTermsByKeystroke(prefix);
+
+            if (beachIds == null)
+            {
+                return null;
+            }
+
+            var beaches = this.Data.Beaches.All().Where(b => beachIds.Contains(b.Id));
+            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<AutocompleteViewModel>>(beaches);
+
+            return PartialView("_Autocomplete", model);
+        }
+
         public ActionResult Top(FormCollection form)
         {
             var query = form["main-search-field"];
@@ -55,10 +69,26 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachBindingModel bindingModel)
         {
+            var location = this.Data.Locations.All().FirstOrDefault(
+                l => l.Name.ToLower() == bindingModel.LocationName.ToLower());
+
+            if (location == null)
+            {
+                location = new Location(bindingModel.LocationName);
+
+                this.Data.Locations.Add(location);
+                this.Data.Locations.SaveChanges();
+
+                this.Data.Locations.AddLocationToIndex(location);
+            }
+
             var beach = Mapper.Map<AddBeachBindingModel, Beach>(bindingModel);
+            beach.LocationId = location.Id;
 
             this.Data.Beaches.Add(beach);
-            this.Data.Beaches.SaveChanges();
+            this.Data.Beaches.SaveChanges(); // Try catch for duplicates
+
+            this.Data.Beaches.AddBeachToIndex(beach);
 
             return Json(new { redirectUrl = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
         }
