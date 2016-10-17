@@ -39,7 +39,7 @@
         public IEnumerable<BeachPhoto> Photos { get; set; }
     }
 
-    public class AutocompleteViewModel
+    public class AutocompleteBeachViewModel
     {
         public int Id { get; set; }
 
@@ -48,5 +48,5 @@
         public string Location { get; set; }
 
         public string WaterBody { get; set; }
-    }
+    }    
 }

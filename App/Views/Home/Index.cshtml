@@ -2,7 +2,7 @@
     ViewBag.Title = "Beach Rankings";
 }
 
-@using (@Ajax.BeginForm("Top", "Beaches", new AjaxOptions
+@using (@Ajax.BeginForm("Autocomplete", "Home", new AjaxOptions
 {
     HttpMethod = "Post",
     InsertionMode = InsertionMode.Replace,

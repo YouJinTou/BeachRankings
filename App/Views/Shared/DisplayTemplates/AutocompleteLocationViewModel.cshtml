@@ -1,0 +1,11 @@
+﻿@model App.Models.ViewModels.AutocompleteLocationViewModel
+
+@{ 
+    var beachCount = (Model.BeachCount == 0) ? "No beaches" : 
+        (Model.BeachCount == 1) ? "1 beach" : (Model.BeachCount + " beaches");
+}
+<div class="row">
+    <div>
+        <span><strong>@Model.Name (@beachCount)</strong></span>
+    </div>
+</div>

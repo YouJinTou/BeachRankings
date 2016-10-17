@@ -131,18 +131,21 @@ namespace BeachRankings.Data.Migrations
                 {
                     LocationId = 3,
                     Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
+                    WaterBody = "Black Sea",
                     Photos = new HashSet<BeachPhoto>()
                 },
                 new Beach("Bolata")
                 {
                     LocationId = 2,
                     Description = "Situated north of Albena, Bolata is an ungainly sight.",
+                    WaterBody = "Black Sea",
                     Photos = new HashSet<BeachPhoto>()
                 },
                 new Beach("Sunny Day Beach")
                 {
                     LocationId = 1,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
+                    WaterBody = "Black Sea",
                     Photos = new HashSet<BeachPhoto>()
                 }
             };
