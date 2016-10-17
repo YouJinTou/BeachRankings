@@ -61,6 +61,11 @@
         [HttpGet]
         public ActionResult Add()
         {
+            var waterLocations = this.Data.Locations.All().Where(l => l.LocationType == LocationType.WaterBody);
+            var waterBodies = Mapper.Map<IEnumerable<Location>, IEnumerable<WaterBodyViewModel>>(waterLocations);
+
+            this.ViewData["waterBodies"] = waterBodies; 
+
             return View();
         }
 
@@ -74,7 +79,7 @@
 
             if (location == null)
             {
-                location = new Location(bindingModel.LocationName);
+                location = new Location(bindingModel.LocationName, LocationType.Land);
 
                 this.Data.Locations.Add(location);
                 this.Data.Locations.SaveChanges();

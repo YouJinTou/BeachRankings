@@ -29,7 +29,7 @@
                     @Html.LabelFor(model => model.Location.Name, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         @Html.TextBoxFor(model => model.Location.Name, new { @class = "form-control", data_textbox_location_name = "" })
-                        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Location.Name, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -44,7 +44,11 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.WaterBody, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.TextBoxFor(model => model.WaterBody, new { @class = "form-control", data_textbox_water_body = "" })
+                        @Html.DropDownListFor(model => model.WaterBody,
+                        new SelectList(((IEnumerable<App.Models.ViewModels.WaterBodyViewModel>)ViewData["waterBodies"]), "Id", "Name"),
+                        "Select a body of water",
+                        new { @class = "form-control", data_ddl_water_body = "" })
+                        @Html.ValidationMessageFor(model => model.WaterBody, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

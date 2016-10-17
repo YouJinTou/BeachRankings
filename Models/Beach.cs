@@ -40,6 +40,7 @@
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Choose a body of water.")]
         [Display(Name = "Body of water")]
         public string WaterBody { get; set; }
 

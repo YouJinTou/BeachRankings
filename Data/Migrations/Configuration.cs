@@ -8,7 +8,7 @@ namespace BeachRankings.Data.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using System;
-
+    using System.IO;
     public sealed class Configuration : DbMigrationsConfiguration<BeachRankingsDbContext>
     {
         private BeachRankingsDbContext data;
@@ -82,16 +82,33 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
-            var locations = new List<Location>()
+            var locations = new List<Location>();
+            var waterBodiesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodies.txt");
+
+            using (var sr = new StreamReader(waterBodiesPath))
             {
-                new Location("Varna"),
-                new Location("Kaliakra"),
-                new Location("Kamchia")
+                string waterBody;
+
+                while ((waterBody = sr.ReadLine()) != null)
+                {
+                    var waterBodyLocation = new Location(waterBody, LocationType.WaterBody);
+
+                    locations.Add(waterBodyLocation);
+                    this.data.Locations.Add(waterBodyLocation);
+                }
+            }
+
+            var landLocations = new List<Location>()
+            {
+                new Location("Varna", LocationType.Land),
+                new Location("Kaliakra", LocationType.Land),
+                new Location("Kamchia", LocationType.Land)
             };
 
-            foreach (var location in locations)
+            foreach (var landLocation in landLocations)
             {
-                this.data.Locations.Add(location);
+                locations.Add(landLocation);
+                this.data.Locations.Add(landLocation);
             }
 
             this.data.SaveChanges();
