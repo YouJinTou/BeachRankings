@@ -129,21 +129,21 @@ namespace BeachRankings.Data.Migrations
             {
                 new Beach("Kamchia Beach")
                 {
-                    LocationId = 3,
+                    LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Kamchia").Id,
                     Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
                     WaterBody = "Black Sea",
                     Photos = new HashSet<BeachPhoto>()
                 },
                 new Beach("Bolata")
                 {
-                    LocationId = 2,
+                    LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Kaliakra").Id,
                     Description = "Situated north of Albena, Bolata is an ungainly sight.",
                     WaterBody = "Black Sea",
                     Photos = new HashSet<BeachPhoto>()
                 },
                 new Beach("Sunny Day Beach")
                 {
-                    LocationId = 1,
+                    LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Varna").Id,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     WaterBody = "Black Sea",
                     Photos = new HashSet<BeachPhoto>()

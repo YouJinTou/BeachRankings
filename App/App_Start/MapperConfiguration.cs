@@ -16,7 +16,8 @@
                 cfg.CreateMap<Location, AutocompleteLocationViewModel>()
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
 
-                cfg.CreateMap<Beach, AutocompleteBeachViewModel>();
+                cfg.CreateMap<Beach, AutocompleteBeachViewModel>()
+                    .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Photos.FirstOrDefault().Path))
                     .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));

@@ -339,7 +339,6 @@
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="Views\Home\_Autocomplete.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\AutocompleteMainViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteBeachViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteLocationViewModel.cshtml" />
   </ItemGroup>

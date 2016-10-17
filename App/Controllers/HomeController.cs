@@ -5,7 +5,9 @@
     using BeachRankings.Models;
     using Models.ViewModels;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Mvc;
 
     public class HomeController : BaseController
@@ -20,20 +22,17 @@
             return View();
         }
 
-        public ActionResult Autocomplete(string prefix)
+        public async Task<PartialViewResult> Autocomplete(string prefix)
         {
-            //var beachIds = this.Data.Beaches.GetTermsByKeystroke(prefix);
+            if (string.IsNullOrEmpty(prefix))
+            {
+                return null;
+            }
 
-            //if (beachIds == null)
-            //{
-            //    return null;
-            //}
-
-            //var beaches = this.Data.Beaches.All().Where(b => beachIds.Contains(b.Id));
-            var beaches = this.Data.Beaches.All().Where(b => b.Name.StartsWith(prefix));
-            var locations = this.Data.Locations.All()
+            var beaches = await this.Data.Beaches.All().Where(b => b.Name.StartsWith(prefix)).ToListAsync();
+            var locations = await this.Data.Locations.All()
                 .Where(l => l.Name.StartsWith(prefix) ||
-                (l.Name.StartsWith(prefix) && l.LocationType == LocationType.WaterBody));
+                (l.Name.StartsWith(prefix) && l.LocationType == LocationType.WaterBody)).ToListAsync();
             var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<AutocompleteBeachViewModel>>(beaches);
             var locationsModel = Mapper.Map<IEnumerable<Location>, IEnumerable<AutocompleteLocationViewModel>>(locations);
             var model = new AutocompleteMainViewModel()
@@ -51,7 +50,7 @@
 
             if (string.IsNullOrEmpty(query))
             {
-                return View("Index", "Home");
+                return null;
             }
 
             var beachIds = this.Data.Beaches.GetBeachIdsByQuery(query);

@@ -6,7 +6,7 @@
     $mainSearchField.on('keydown', function () {
         $.ajax({
             url: '/Home/Autocomplete/',
-            type: 'POST',
+            type: 'GET',
             data: {
                 prefix: $mainSearchField.val()
             },
