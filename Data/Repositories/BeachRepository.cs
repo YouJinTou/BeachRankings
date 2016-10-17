@@ -20,7 +20,7 @@
             this.entitySet = dbContext.Set<Beach>();
         }
 
-        public IEnumerable<ISearchable> GetBeachIdsByQuery(string query, string fieldName = null)
+        public IEnumerable<ISearchable> GetSearchResults(string query, string fieldName = null)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -35,7 +35,7 @@
             return LuceneSearch.Search(query, fieldName);
         }
 
-        public IEnumerable<ISearchable> GetTermsByKeystroke(string prefix)
+        public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
             LuceneSearch.Index = Index.BeachIndex;
             var results = LuceneSearch.SearchByPrefix(prefix, 10);

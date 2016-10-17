@@ -6,9 +6,9 @@
 
     public interface IBeachRepository : IGenericRepository<Beach>
     {
-        IEnumerable<ISearchable> GetBeachIdsByQuery(string query, string fieldName = null);
+        IEnumerable<ISearchable> GetSearchResults(string query, string fieldName = null);
 
-        IEnumerable<ISearchable> GetTermsByKeystroke(string prefix);
+        IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix);
 
         void AddBeachToIndex(Beach beach);
     }

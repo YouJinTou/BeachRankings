@@ -19,7 +19,7 @@
 
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         public async Task<PartialViewResult> Autocomplete(string prefix)

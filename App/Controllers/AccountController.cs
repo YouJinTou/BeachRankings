@@ -56,7 +56,7 @@ namespace App.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return this.View();
         }
 
         //
@@ -68,7 +68,7 @@ namespace App.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             // This doesn't count login failures towards account lockout
@@ -79,13 +79,13 @@ namespace App.Controllers
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return this.View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    return this.View(model);
             }
         }
 
@@ -97,9 +97,9 @@ namespace App.Controllers
             // Require that the user has already logged in via username/password or external login
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
-                return View("Error");
+                return this.View("Error");
             }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+            return this.View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
         //
@@ -111,7 +111,7 @@ namespace App.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             // The following code protects for brute force attacks against the two factor codes. 
@@ -124,11 +124,11 @@ namespace App.Controllers
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return this.View("Lockout");
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid code.");
-                    return View(model);
+                    return this.View(model);
             }
         }
 
@@ -137,7 +137,7 @@ namespace App.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return this.View();
         }
 
         //
@@ -167,7 +167,7 @@ namespace App.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return this.View(model);
         }
 
         //
@@ -177,10 +177,10 @@ namespace App.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                return this.View("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            return this.View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
         //
@@ -188,7 +188,7 @@ namespace App.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return View();
+            return this.View();
         }
 
         //
@@ -204,7 +204,7 @@ namespace App.Controllers
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    return this.View("ForgotPasswordConfirmation");
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -216,7 +216,7 @@ namespace App.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return this.View(model);
         }
 
         //
@@ -224,7 +224,7 @@ namespace App.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
-            return View();
+            return this.View();
         }
 
         //
@@ -244,7 +244,7 @@ namespace App.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
@@ -258,7 +258,7 @@ namespace App.Controllers
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
-            return View();
+            return this.View();
         }
 
         //
@@ -266,7 +266,7 @@ namespace App.Controllers
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
-            return View();
+            return this.View();
         }
 
         //
@@ -288,11 +288,11 @@ namespace App.Controllers
             var userId = await SignInManager.GetVerifiedUserIdAsync();
             if (userId == null)
             {
-                return View("Error");
+                return this.View("Error");
             }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+            return this.View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
         //
@@ -304,13 +304,13 @@ namespace App.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return this.View();
             }
 
             // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
-                return View("Error");
+                return this.View("Error");
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
@@ -333,7 +333,7 @@ namespace App.Controllers
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return this.View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
@@ -341,7 +341,7 @@ namespace App.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return this.View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
 
@@ -363,7 +363,7 @@ namespace App.Controllers
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    return View("ExternalLoginFailure");
+                    return this.View("ExternalLoginFailure");
                 }
                 var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
@@ -380,7 +380,7 @@ namespace App.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+            return this.View(model);
         }
 
         //
@@ -398,7 +398,7 @@ namespace App.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
-            return View();
+            return this.View();
         }
 
         protected override void Dispose(bool disposing)

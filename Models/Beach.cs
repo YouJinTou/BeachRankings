@@ -8,6 +8,7 @@
 
     public class Beach : IBeachSearchable
     {
+        private string name;
         private ICollection<Review> reviews;
         private ICollection<BeachPhoto> photos;
 
@@ -20,7 +21,7 @@
             this.reviews = new HashSet<Review>();
             this.photos = new HashSet<BeachPhoto>();
 
-            this.Name = name;
+            this.name = name;
         }
 
         [Key]
@@ -30,7 +31,17 @@
         [Index("IX_BeachName", IsUnique = true)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                this.name = value;
+            }
+        }
                 
         [Required]
         public int LocationId { get; set; }
@@ -40,7 +51,7 @@
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Choose a body of water.")]
+        [Required(ErrorMessage = "A body of water is required.")]
         [Display(Name = "Body of water")]
         public string WaterBody { get; set; }
 

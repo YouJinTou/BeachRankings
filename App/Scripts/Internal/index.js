@@ -3,7 +3,7 @@
     var autocompleteBox = '#search-autocomplete-box';
     var $mainSearchField = $(searchFieldBox);
 
-    $mainSearchField.on('keydown', function () {
+    $mainSearchField.on('keyup', function () {
         $.ajax({
             url: '/Home/Autocomplete/',
             type: 'GET',

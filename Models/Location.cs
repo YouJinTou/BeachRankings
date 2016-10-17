@@ -25,7 +25,7 @@
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "The name field is required.")]
+        [Required(ErrorMessage = "The location field is required.")]
         [Index("IX_LocationName", IsUnique = true)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]

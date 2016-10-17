@@ -10,6 +10,10 @@
     @RenderSection("HomeStyles", required: false)
     @RenderSection("ReviewsStyles", required: false)
     @RenderSection("BeachStyles", required: false)
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -37,9 +41,5 @@
             <p>&copy; @DateTime.Now.Year - BeachRankings.com</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

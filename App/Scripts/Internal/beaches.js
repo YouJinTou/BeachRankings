@@ -20,7 +20,7 @@
         var position = getMarkerCoordinates();
         var latLngObj = { lat: parseFloat(position.lat()), lng: parseFloat(position.lng()) };
 
-        geocoder.geocode({ 'location': latLngObj }, function (results, status) {            
+        geocoder.geocode({ 'location': latLngObj }, function (results, status) {
             switch (status) {
                 case 'OK':
                     geocoderFilteredResults = {
@@ -37,7 +37,7 @@
 
     function shiftMap(coordinates) {
         var pattern = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
-        
+
         if (!pattern.test(coordinates)) {
             return;
         }
@@ -92,41 +92,62 @@
 
 var gMapManager = new GoogleMapManager();
 
-(function ($) {
-    $('#map').on('click', function () {
-        var coordObj = gMapManager.getCoordinates();
-        var coordinates = (coordObj.lat() + ',' + coordObj.lng());
+$(document).ready(function () {
+    (function ($) {
+        var $validationSpan = $('[data-generic-validation-alert]');
 
-        $('[data-textbox-coordinates').val(coordinates);
-    });
+        $('[data-textbox-location-name]').autocomplete({
+            source: 'Locations'
+        });
 
-    $('[data-textbox-coordinates]').on('change', function () {
-        var coordinates = $(this).val();
+        $('[data-ddl-water-body]').autocomplete({
+            source: 'WaterBodies'
+        });
 
-        gMapManager.setMap(coordinates);
-    })
+        $('#map').on('click', function () {
+            var coordObj = gMapManager.getCoordinates();
+            var coordinates = (coordObj.lat() + ',' + coordObj.lng());
 
-    $('[data-btn-create-beach]').on('click', function (event) {
-        event.preventDefault();
+            $('[data-textbox-coordinates').val(coordinates);
+        });
 
-        var locationData = gMapManager.getLocationData();
+        $('[data-textbox-coordinates]').on('change', function () {
+            var coordinates = $(this).val();
 
-        if (!locationData) {
-            return false;
-        }
+            gMapManager.setMap(coordinates);
+        });
 
-        var beachJsonData = {
-            name: $('[data-textbox-name]').val(),
-            locationName: $('[data-textbox-location-name]').val(),
-            description: $('[data-textbox-description]').val(),
-            waterBody: $('[data-textbox-water-body]').val(),
-            approximateAddress: locationData.approximateAddress,
-            coordinates: locationData.coordinates
-        };
-        var addBeachForm = $('#addBeachForm');
-        var csrfToken = $('input[name="__RequestVerificationToken"]', addBeachForm).val();
+        $('[data-btn-create-beach]').on('click', function (event) {
+            event.preventDefault();
 
-        if (addBeachForm.valid()) {
+            var $addBeachForm = $('#addBeachForm');
+
+            $.validator.unobtrusive.parse($addBeachForm);
+
+            $addBeachForm.validate();
+
+            if (!$addBeachForm.valid()) {
+                return;
+            }
+
+            var locationData = gMapManager.getLocationData();
+
+            if (!locationData) {
+                $validationSpan.text("We coulnd't gather all the data. Please try again.");
+
+                return false;
+            }
+
+            var beachJsonData = {
+                name: $('[data-textbox-name]').val(),
+                locationName: $('[data-textbox-location-name]').val(),
+                description: $('[data-textbox-description]').val(),
+                waterBody: $('[data-ddl-water-body]').text(),
+                approximateAddress: locationData.approximateAddress,
+                coordinates: locationData.coordinates
+            };
+            var csrfToken = $('input[name="__RequestVerificationToken"]', $addBeachForm).val();
+
             $.ajax({
                 url: '/Beaches/Add/',
                 type: 'POST',
@@ -138,8 +159,13 @@ var gMapManager = new GoogleMapManager();
                     if (result.redirectUrl) {
                         window.location.href = result.redirectUrl;
                     }
+                },
+                error: function () {
+                    $validationSpan.text("Something went wrong. We will look into it.");
+
+                    // TO-DO CONTROLLER
                 }
             });
-        }
-    });
-})(jQuery);
+        });
+    })(jQuery);
+})

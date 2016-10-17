@@ -21,14 +21,14 @@
             var review = this.Data.Reviews.Find(id);
             var model = Mapper.Map<Review, DetailedReviewViewModel>(review);            
 
-            return View(model);
+            return this.View(model);
         }
 
         [Authorize]
         [HttpGet]
         public ActionResult Rate(int id)
         {
-            return View();
+            return this.View();
         }
 
         [Authorize]
@@ -38,7 +38,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return View();
+                return this.View();
             }
 
             var review = Mapper.Map<PostReviewBindingModel, Review>(bindingModel);
@@ -64,7 +64,7 @@
 
             if (review == null)
             {
-                return View(); // Error
+                return this.View(); // Error
             }
 
             var currentUserId = this.UserProfile.Id;
@@ -73,10 +73,10 @@
             {
                 var model = Mapper.Map<Review, EditReviewViewModel>(review);
 
-                return View(model);
+                return this.View(model);
             }
 
-            return View(); // Unauthorized
+            return this.View(); // Unauthorized
         }
 
         [Authorize]
@@ -86,7 +86,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return View();
+                return this.View();
             }
 
             var review = this.Data.Reviews.Find(bindingModel.ReviewId);

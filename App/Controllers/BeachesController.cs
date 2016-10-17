@@ -6,7 +6,9 @@
     using Models.BindingModels;
     using Models.ViewModels;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Mvc;
 
     public class BeachesController : BaseController
@@ -23,7 +25,7 @@
 
             model.Reviews.OrderByDescending(r => r.PostedOn);
 
-            return View(model);
+            return this.View(model);
         }
 
         [Authorize]
@@ -35,7 +37,7 @@
 
             this.ViewData["waterBodies"] = waterBodies; 
 
-            return View();
+            return this.View();
         }
 
         [Authorize]
@@ -43,6 +45,11 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachBindingModel bindingModel)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return null;
+            }
+
             var location = this.Data.Locations.All().FirstOrDefault(
                 l => l.Name.ToLower() == bindingModel.LocationName.ToLower());
 
@@ -64,7 +71,27 @@
 
             this.Data.Beaches.AddBeachToIndex(beach);
 
-            return Json(new { redirectUrl = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
+            return this.Json(new { redirectUrl = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
+        }
+
+        public async Task<JsonResult> Locations(string term)
+        {
+            var locations = await this.Data.Locations.All()
+                .Where(l => l.LocationType == LocationType.Land && l.Name.StartsWith(term))
+                .Select(l => l.Name)
+                .ToListAsync();
+
+            return this.Json(locations, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> WaterBodies(string term)
+        {
+            var waterBodies = await this.Data.Locations.All()
+                .Where(l => l.LocationType == LocationType.WaterBody && l.Name.StartsWith(term))
+                .Select(l => l.Name)
+                .ToListAsync();
+
+            return this.Json(waterBodies, JsonRequestBehavior.AllowGet);
         }
     }
 }
