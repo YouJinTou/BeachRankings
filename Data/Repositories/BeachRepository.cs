@@ -1,7 +1,9 @@
 ﻿namespace BeachRankings.Data.Repositories
 {
     using BeachRankings.Models;
+    using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;
+    using BeachRankings.Services.Search.Enums;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -18,7 +20,7 @@
             this.entitySet = dbContext.Set<Beach>();
         }
 
-        public IEnumerable<int> GetBeachIdsByQuery(string query, string fieldName = null)
+        public IEnumerable<ISearchable> GetBeachIdsByQuery(string query, string fieldName = null)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -28,22 +30,22 @@
             var terms = query.Trim().Replace("-", " ").Split(' ')
                 .Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim() + "*");
             query = string.Join(" ", terms);
-            LuceneSearch.Index = Indices.BeachIndex;
+            LuceneSearch.Index = Index.BeachIndex;
 
             return LuceneSearch.Search(query, fieldName);
         }
 
-        public IEnumerable<int> GetTermsByKeystroke(string prefix)
+        public IEnumerable<ISearchable> GetTermsByKeystroke(string prefix)
         {
-            LuceneSearch.Index = Indices.BeachIndex;
-            var resultIds = LuceneSearch.SearchByPrefix(prefix, 10);
+            LuceneSearch.Index = Index.BeachIndex;
+            var results = LuceneSearch.SearchByPrefix(prefix, 10);
 
-            return resultIds;
+            return results;
         }
 
         public void AddBeachToIndex(Beach beach)
         {
-            LuceneSearch.Index = Indices.BeachIndex;
+            LuceneSearch.Index = Index.BeachIndex;
 
             LuceneSearch.AddUpdateIndexEntry(beach);
         }

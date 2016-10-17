@@ -1,6 +1,7 @@
 ﻿namespace BeachRankings.Services.Search
 {
     using BeachRankings.Models.Interfaces;
+    using BeachRankings.Services.Search.Enums;
     using Lucene.Net.Analysis;
     using Lucene.Net.Analysis.Standard;
     using Lucene.Net.Documents;
@@ -13,14 +14,15 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    
+
     public static class LuceneSearch
     {
         private static string indexDirPath;
         private static FSDirectory indexDir;
-        private static Indices index;
+        private static Index index;
+        private static ModelType modelType;
 
-        public static Indices Index
+        public static Index Index
         {
             get
             {
@@ -32,22 +34,37 @@
 
                 switch (index)
                 {
-                    case Indices.BeachIndex:
+                    case Index.BeachIndex:
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
+                        ModelType = ModelType.Beach;
 
                         break;
-                    case Indices.LocationIndex:
+                    case Index.LocationIndex:
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "LocationIndex");
+                        ModelType = ModelType.Location;
 
                         break;
                     default:
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "LocationIndex");
-                        index = Indices.LocationIndex;
+                        index = Index.LocationIndex;
+                        ModelType = ModelType.Location;
 
                         break;
                 }
 
                 System.IO.Directory.CreateDirectory(indexDirPath);
+            }
+        }
+
+        internal static ModelType ModelType
+        {
+            get
+            {
+                return modelType;
+            }
+            private set
+            {
+                modelType = value;
             }
         }
 
@@ -82,9 +99,9 @@
             {
                 switch (Index)
                 {
-                    case Indices.LocationIndex:
+                    case Index.LocationIndex:
                         return new string[] { "Name" };
-                    case Indices.BeachIndex:
+                    case Index.BeachIndex:
                         return new string[] { "Name", "Description", "WaterBody", "ApproximateAddress" };
                     default:
                         return new string[] { "Name" };
@@ -92,7 +109,7 @@
             }
         }
 
-        public static IEnumerable<int> Search(string searchQuery, string searchField = null)
+        public static IEnumerable<ISearchable> Search(string searchQuery, string searchField = null)
         {
             if (string.IsNullOrEmpty(searchQuery))
             {
@@ -104,7 +121,7 @@
                 var analyzer = new StandardAnalyzer(Version.LUCENE_30);
                 var hitsLimit = 1000;
                 IEnumerable<ScoreDoc> hits;
-                IEnumerable<int> results;
+                IEnumerable<ISearchable> results;
 
                 if (string.IsNullOrEmpty(searchField))
                 {
@@ -117,7 +134,7 @@
                     hits = searcher.Search(query, hitsLimit).ScoreDocs;
                 }
 
-                results = GetDocumentIds(hits, searcher);
+                results = MapDocsToModels(hits, searcher);
 
                 analyzer.Close();
                 searcher.Dispose();
@@ -126,7 +143,7 @@
             }
         }
 
-        public static IEnumerable<int> SearchByPrefix(string prefix, int maxItems)
+        public static IEnumerable<ISearchable> SearchByPrefix(string prefix, int maxItems)
         {
             if (string.IsNullOrEmpty(prefix))
             {
@@ -142,9 +159,9 @@
             using (var searcher = new IndexSearcher(IndexDir, true))
             {
                 var hits = searcher.Search(query, maxItems).ScoreDocs;
-                var resultIds = GetDocumentIds(hits, searcher);
+                var results = MapDocsToModels(hits, searcher);
 
-                return resultIds;
+                return results;
             }
         }
 
@@ -161,7 +178,7 @@
             {
                 foreach (var searchable in searchables)
                 {
-                    LuceneEntryCreator.AddUpdateDocument(searchable, writer);
+                    LuceneEntryFactory.AddUpdateDocument(searchable, writer);
                 }
 
                 analyzer.Close();
@@ -266,19 +283,19 @@
             return hits;
         }
         
-        private static int GetDocumentId(Document doc)
+        private static ISearchable MapDocToModel(Document doc)
         {
-            return int.Parse(doc.Get("Id"));            
+            return LuceneModelFactory.MapDocToModel(doc);            
         }
 
-        private static IEnumerable<int> GetDocumentIds(IEnumerable<Document> docs)
+        private static IEnumerable<ISearchable> MapDocsToModels(IEnumerable<Document> docs)
         {
-            return docs.Select(GetDocumentId).Distinct().ToList();
+            return docs.Select(MapDocToModel).Distinct().ToList();
         }
 
-        private static IEnumerable<int> GetDocumentIds(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
+        private static IEnumerable<ISearchable> MapDocsToModels(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
         {
-            return hits.Select(hit => GetDocumentId(searcher.Doc(hit.Doc))).Distinct().ToList();
+            return hits.Select(hit => MapDocToModel(searcher.Doc(hit.Doc))).Distinct().ToList();
         }        
     }
 }

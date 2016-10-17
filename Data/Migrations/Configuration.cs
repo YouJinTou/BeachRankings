@@ -1,14 +1,16 @@
 namespace BeachRankings.Data.Migrations
 {
-    using BeachRankings.Services.Search;
     using BeachRankings.Models;
+    using BeachRankings.Services.Search;
+    using BeachRankings.Services.Search.Enums;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
-    using System.Linq;
-    using System;
     using System.IO;
+    using System.Linq;
+
     public sealed class Configuration : DbMigrationsConfiguration<BeachRankingsDbContext>
     {
         private BeachRankingsDbContext data;
@@ -113,7 +115,7 @@ namespace BeachRankings.Data.Migrations
 
             this.data.SaveChanges();
 
-            LuceneSearch.Index = Indices.LocationIndex;
+            LuceneSearch.Index = Index.LocationIndex;
 
             LuceneSearch.AddUpdateIndexEntries(locations);
         }
@@ -157,7 +159,7 @@ namespace BeachRankings.Data.Migrations
 
             this.data.SaveChanges();
 
-            LuceneSearch.Index = Indices.BeachIndex;
+            LuceneSearch.Index = Index.BeachIndex;
 
             LuceneSearch.AddUpdateIndexEntries(beaches);
         }

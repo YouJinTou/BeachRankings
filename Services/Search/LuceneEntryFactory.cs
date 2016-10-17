@@ -5,7 +5,7 @@
     using Lucene.Net.Search;
     using Lucene.Net.Documents;
 
-    internal static class LuceneEntryCreator
+    internal static class LuceneEntryFactory
     {
         public static void AddUpdateDocument(ISearchable searchable, IndexWriter writer)
         {

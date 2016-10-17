@@ -360,6 +360,10 @@
       <Project>{ba3c77a3-6cfe-4682-b470-30959db5ee20}</Project>
       <Name>Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{8b27baef-fa17-4aa9-a559-eb79ce95f0ce}</Project>
+      <Name>Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

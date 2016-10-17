@@ -2,6 +2,7 @@
 {
     using BeachRankings.Models;
     using BeachRankings.Services.Search;
+    using BeachRankings.Services.Search.Enums;
     using System.Data.Entity;
 
     public class LocationRepository : GenericRepository<Location>, ILocationRepository
@@ -18,7 +19,7 @@
 
         public void AddLocationToIndex(Location location)
         {
-            LuceneSearch.Index = Indices.LocationIndex;
+            LuceneSearch.Index = Index.LocationIndex;
 
             LuceneSearch.AddUpdateIndexEntry(location);
         }
