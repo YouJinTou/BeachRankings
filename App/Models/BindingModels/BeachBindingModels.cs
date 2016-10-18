@@ -1,4 +1,4 @@
-﻿namespace App.Models.BindingModels
+﻿namespace BeachRankings.App.Models.BindingModels
 {
     using BeachRankings.Models;
     using System.Collections.Generic;
@@ -25,6 +25,7 @@
 
         public string ApproximateAddress { get; set; }
 
+        [Required(ErrorMessage = "The coordinates field is required.")]
         public string Coordinates { get; set; }
 
         public IEnumerable<BeachPhoto> Photos { get; set; }

@@ -1,4 +1,4 @@
-﻿using App.Models.ViewModels;
+﻿using BeachRankings.App.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;

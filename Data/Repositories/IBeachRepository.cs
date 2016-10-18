@@ -3,6 +3,7 @@
     using BeachRankings.Models;
     using BeachRankings.Models.Interfaces;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public interface IBeachRepository : IGenericRepository<Beach>
     {

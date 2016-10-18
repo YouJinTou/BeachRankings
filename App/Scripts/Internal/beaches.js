@@ -117,7 +117,7 @@ var gMapManager = new GoogleMapManager();
 
     function setAutocomplete() {
         $textBoxName.autocomplete({
-            source: 'Names',            
+            source: 'Names',
             minLength: 2
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
             return $('<li class="ui-state-disabled">' + item.label + '</li>').appendTo(ul);
@@ -208,11 +208,13 @@ var gMapManager = new GoogleMapManager();
                     bindingModel: beachJsonData
                 },
                 success: function (result) {
-                    if (result.redirectUrl) {
-                        window.location.href = result.redirectUrl;
+                    if (result.data.indexOf('already exists') > -1) {
+                        $validationSpan.text(result.data);
+                    } else if (result.data.indexOf('Reviews/Rate' > -1)) {
+                        window.location.href = result.data;
                     }
                 },
-                error: function (data) {
+                error: function () {
                     $validationSpan.text("Something went wrong. We will look into it.");
 
                     // TO-DO CONTROLLER

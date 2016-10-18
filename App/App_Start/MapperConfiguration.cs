@@ -2,8 +2,8 @@
 {
     using AutoMapper;
     using BeachRankings.Models;
-    using Models.BindingModels;
-    using Models.ViewModels;
+    using BeachRankings.App.Models.BindingModels;
+    using BeachRankings.App.Models.ViewModels;
     using System.Linq;
 
     public static class MapperConfig
@@ -25,6 +25,7 @@
                     .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));
                 cfg.CreateMap<AddBeachBindingModel, Beach>();
                 cfg.CreateMap<Beach, AutocompleteMainViewModel>();
+                cfg.CreateMap<AddBeachBindingModel, AddBeachViewModel>();
 
                 cfg.CreateMap<Review, ConciseReviewViewModel>()
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))

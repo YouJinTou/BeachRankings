@@ -3,7 +3,7 @@
     using AutoMapper;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
-    using Models.ViewModels;
+    using BeachRankings.App.Models.ViewModels;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;

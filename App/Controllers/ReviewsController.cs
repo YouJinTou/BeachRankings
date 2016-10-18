@@ -4,8 +4,8 @@
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using Microsoft.AspNet.Identity;
-    using Models.BindingModels;
-    using Models.ViewModels;
+    using BeachRankings.App.Models.BindingModels;
+    using BeachRankings.App.Models.ViewModels;
     using System.Web.Mvc;
 
     public class ReviewsController : BaseController

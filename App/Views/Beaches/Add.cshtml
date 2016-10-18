@@ -1,4 +1,4 @@
-﻿@model BeachRankings.Models.Beach
+﻿@model BeachRankings.App.Models.ViewModels.AddBeachViewModel
 
 @{
     ViewBag.Title = "Add Beach";
@@ -15,21 +15,22 @@
 
                 <hr />
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         @Html.TextBoxFor(model => model.Name, new { @class = "form-control", data_textbox_name = "" })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("BeachNameDuplicate")
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Location.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                    @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.TextBoxFor(model => model.Location.Name, new { @class = "form-control", data_textbox_location_name = "" })
-                        @Html.ValidationMessageFor(model => model.Location.Name, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.LocationName, new { @class = "form-control", data_textbox_location_name = "" })
+                        @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

@@ -1,4 +1,4 @@
-﻿namespace App.Models.BindingModels
+﻿namespace BeachRankings.App.Models.BindingModels
 {
     using System.ComponentModel.DataAnnotations;
 

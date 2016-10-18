@@ -134,6 +134,7 @@ namespace BeachRankings.Data.Migrations
                     LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Kamchia").Id,
                     Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
                     WaterBody = "Black Sea",
+                    Coordinates = "43.204666,27.910543",
                     Photos = new HashSet<BeachPhoto>()
                 },
                 new Beach("Bolata")
@@ -141,6 +142,7 @@ namespace BeachRankings.Data.Migrations
                     LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Kaliakra").Id,
                     Description = "Situated north of Albena, Bolata is an ungainly sight.",
                     WaterBody = "Black Sea",
+                    Coordinates = "43.204666,27.910543",
                     Photos = new HashSet<BeachPhoto>()
                 },
                 new Beach("Sunny Day Beach")
@@ -148,6 +150,7 @@ namespace BeachRankings.Data.Migrations
                     LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Varna").Id,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     WaterBody = "Black Sea",
+                    Coordinates = "43.204666,27.910543",
                     Photos = new HashSet<BeachPhoto>()
                 }
             };

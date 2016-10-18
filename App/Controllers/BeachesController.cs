@@ -3,8 +3,8 @@
     using AutoMapper;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
-    using Models.BindingModels;
-    using Models.ViewModels;
+    using BeachRankings.App.Models.BindingModels;
+    using BeachRankings.App.Models.ViewModels;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.SqlClient;
@@ -17,7 +17,7 @@
         public BeachesController(IBeachRankingsData data)
             : base(data)
         {
-        }        
+        }
 
         public ActionResult Details(int id)
         {
@@ -36,7 +36,7 @@
             var waterLocations = this.Data.Locations.All().Where(l => l.LocationType == LocationType.WaterBody);
             var waterBodies = Mapper.Map<IEnumerable<Location>, IEnumerable<WaterBodyViewModel>>(waterLocations);
 
-            this.ViewData["waterBodies"] = waterBodies; 
+            this.ViewData["waterBodies"] = waterBodies;
 
             return this.View();
         }
@@ -46,9 +46,11 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachBindingModel bindingModel)
         {
-            if (!this.ModelState.IsValid)
+            bool beachNameUnique = this.Data.Beaches.All().Any(b => b.Name.ToLower() == bindingModel.Name.ToLower());
+
+            if (beachNameUnique)
             {
-                return null;
+                return this.Json(new { data = "A beach with this name already exists." });
             }
 
             var location = this.Data.Locations.All().FirstOrDefault(
@@ -67,19 +69,13 @@
             var beach = Mapper.Map<AddBeachBindingModel, Beach>(bindingModel);
             beach.LocationId = location.Id;
 
-            try
-            {
-                this.Data.Beaches.Add(beach);
-                this.Data.Beaches.SaveChanges(); // Try catch for duplicates
-            }
-            catch (SqlException )
-            {
+            this.Data.Beaches.Add(beach);
+            this.Data.Beaches.SaveChanges();
 
-            }           
 
             this.Data.Beaches.AddBeachToIndex(beach);
 
-            return this.Json(new { redirectUrl = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
+            return this.Json(new { data = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
         }
 
         public async Task<JsonResult> Names(string term)

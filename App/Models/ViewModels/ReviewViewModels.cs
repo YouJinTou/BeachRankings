@@ -1,4 +1,4 @@
-﻿namespace App.Models.ViewModels
+﻿namespace BeachRankings.App.Models.ViewModels
 {
     using System;
     using System.ComponentModel.DataAnnotations;

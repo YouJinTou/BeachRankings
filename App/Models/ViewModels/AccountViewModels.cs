@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace App.Models.ViewModels
+namespace BeachRankings.App.Models.ViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {

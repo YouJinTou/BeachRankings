@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace App.Models.ViewModels
+namespace BeachRankings.App.Models.ViewModels
 {
     public class IndexViewModel
     {

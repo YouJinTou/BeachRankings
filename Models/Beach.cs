@@ -53,10 +53,12 @@
 
         [Required(ErrorMessage = "A body of water is required.")]
         [Display(Name = "Body of water")]
+        [MaxLength(100, ErrorMessage = "There is no body of water with that long of a name.")]
         public string WaterBody { get; set; }
 
         public string ApproximateAddress { get; set; }
 
+        [Required]
         public string Coordinates { get; set; }
 
         public virtual ICollection<Review> Reviews
