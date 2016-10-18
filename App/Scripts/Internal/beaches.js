@@ -18,6 +18,11 @@
     function getGeocoderData() {
         var geocoder = new google.maps.Geocoder();
         var position = getMarkerCoordinates();
+
+        if (!position) {
+            return false;
+        }
+
         var latLngObj = { lat: parseFloat(position.lat()), lng: parseFloat(position.lng()) };
 
         geocoder.geocode({ 'location': latLngObj }, function (results, status) {
@@ -36,12 +41,6 @@
     }
 
     function shiftMap(coordinates) {
-        var pattern = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
-
-        if (!pattern.test(coordinates)) {
-            return;
-        }
-
         var latLng = coordinates.split(',', 2);
 
         removeMarkers();
@@ -51,7 +50,7 @@
 
     function getMarkerCoordinates() {
         if (!markers.length) {
-            return "Nothing selected.";
+            return false;
         }
 
         return markers[0].position;
@@ -92,16 +91,69 @@
 
 var gMapManager = new GoogleMapManager();
 
-$(document).ready(function () {
-    (function ($) {
-        var $validationSpan = $('[data-generic-validation-alert]');
+(function ($) {
+    var $addBeachForm = $('#addBeachForm');
+    var $ddlWaterBody = $('[data-ddl-water-body]');
+    var $textBoxName = $('[data-textbox-name]');
+    var $textBoxCoordinates = $('[data-textbox-coordinates]');
+    var $validationSpan = $('[data-generic-validation-alert]');
+    var waterBodyValid = false;
+    var waterBodies = [];
+    var previousNameValue;
 
-        $('[data-textbox-location-name]').autocomplete({
-            source: 'Locations'
+    setBindings();
+    setAutocomplete();
+    setEvents();
+
+    function setBindings() {
+        $textBoxName.bind('paste', function (event) {
+            event.preventDefault();
         });
 
-        $('[data-ddl-water-body]').autocomplete({
-            source: 'WaterBodies'
+        $ddlWaterBody.bind('paste', function (event) {
+            event.preventDefault();
+        });
+    }
+
+    function setAutocomplete() {
+        $textBoxName.autocomplete({
+            source: 'Names',            
+            minLength: 2
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            return $('<li class="ui-state-disabled">' + item.label + '</li>').appendTo(ul);
+        };
+
+        $('[data-textbox-location-name]').autocomplete({
+            source: 'Locations',
+            minLength: 2
+        });
+
+        $ddlWaterBody.autocomplete({
+            source: function (request, response) {
+                $.get('WaterBodies', {
+                    term: request.term
+                }, function (data) {
+                    response(data);
+
+                    waterBodies = data;
+                });
+            }
+        });
+    }
+
+    function setEvents() {
+        $ddlWaterBody.on('focusout', function () {
+            var waterBodiesToLower = $.map(waterBodies, function (i) {
+                return i.toLowerCase();
+            });
+
+            waterBodyValid = ($.inArray($ddlWaterBody.val().toLowerCase(), waterBodiesToLower) > -1);
+
+            if (waterBodies.length && !waterBodyValid) {
+                $ddlWaterBody.val(waterBodies[0]); // Fill the body of water field with the first avaialble value in case the user changes focus
+
+                waterBodyValid = true;
+            }
         });
 
         $('#map').on('click', function () {
@@ -111,7 +163,11 @@ $(document).ready(function () {
             $('[data-textbox-coordinates').val(coordinates);
         });
 
-        $('[data-textbox-coordinates]').on('change', function () {
+        $textBoxCoordinates.on('change', function () {
+            if (!coordinatesValid()) {
+                return;
+            }
+
             var coordinates = $(this).val();
 
             gMapManager.setMap(coordinates);
@@ -120,13 +176,9 @@ $(document).ready(function () {
         $('[data-btn-create-beach]').on('click', function (event) {
             event.preventDefault();
 
-            var $addBeachForm = $('#addBeachForm');
+            $validationSpan.text('');
 
-            $.validator.unobtrusive.parse($addBeachForm);
-
-            $addBeachForm.validate();
-
-            if (!$addBeachForm.valid()) {
+            if (!validateForm($addBeachForm)) {
                 return;
             }
 
@@ -135,14 +187,14 @@ $(document).ready(function () {
             if (!locationData) {
                 $validationSpan.text("We coulnd't gather all the data. Please try again.");
 
-                return false;
+                return;
             }
 
             var beachJsonData = {
-                name: $('[data-textbox-name]').val(),
+                name: $textBoxName.val(),
                 locationName: $('[data-textbox-location-name]').val(),
                 description: $('[data-textbox-description]').val(),
-                waterBody: $('[data-ddl-water-body]').text(),
+                waterBody: $('[data-ddl-water-body]').val(),
                 approximateAddress: locationData.approximateAddress,
                 coordinates: locationData.coordinates
             };
@@ -160,12 +212,52 @@ $(document).ready(function () {
                         window.location.href = result.redirectUrl;
                     }
                 },
-                error: function () {
+                error: function (data) {
                     $validationSpan.text("Something went wrong. We will look into it.");
 
                     // TO-DO CONTROLLER
                 }
             });
         });
-    })(jQuery);
-})
+    }
+
+    function validateForm() {
+        $.validator.unobtrusive.parse($addBeachForm);
+
+        $addBeachForm.validate();
+
+        if (!$addBeachForm.valid()) {
+            return false;
+        }
+
+        if (!gMapManager.getCoordinates()) {
+            $validationSpan.text('Please select a beach on the map or input the coordinates manually.')
+
+            return false;
+        }
+
+        if (!coordinatesValid()) {
+            $validationSpan.text('Invalid coordinates.')
+
+            return false;
+        }
+
+        if (!waterBodyValid) {
+            $validationSpan.text('The body of water appears to be spelled incorrectly.')
+
+            return false;
+        }
+
+        return true;
+    }
+
+    function coordinatesValid() {
+        var pattern = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
+
+        if (!pattern.test($textBoxCoordinates.val())) {
+            return false;
+        }
+
+        return true;
+    }
+})(jQuery);

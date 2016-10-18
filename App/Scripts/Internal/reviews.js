@@ -1,4 +1,5 @@
-﻿(function ($) {
+﻿
+(function ($) {
     var postIndex = window.location.href.indexOf('Rate/');
     var readIndex = window.location.href.indexOf('Details/');
     var mode = ((postIndex > -1) ? 'post' : ((readIndex > -1) ? "read" : 'edit'));
@@ -190,5 +191,5 @@
         rainbow.setSpectrum('#0074ff', '#00ffd0', '#FFd200', '#FF0a00');
 
         return rainbow;
-    }    
+    }
 })(jQuery);

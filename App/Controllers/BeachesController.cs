@@ -7,6 +7,7 @@
     using Models.ViewModels;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
@@ -66,12 +67,29 @@
             var beach = Mapper.Map<AddBeachBindingModel, Beach>(bindingModel);
             beach.LocationId = location.Id;
 
-            this.Data.Beaches.Add(beach);
-            this.Data.Beaches.SaveChanges(); // Try catch for duplicates
+            try
+            {
+                this.Data.Beaches.Add(beach);
+                this.Data.Beaches.SaveChanges(); // Try catch for duplicates
+            }
+            catch (SqlException )
+            {
+
+            }           
 
             this.Data.Beaches.AddBeachToIndex(beach);
 
             return this.Json(new { redirectUrl = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
+        }
+
+        public async Task<JsonResult> Names(string term)
+        {
+            var beachNames = await this.Data.Beaches.All()
+                .Where(l => l.Name.StartsWith(term))
+                .Select(l => l.Name)
+                .ToListAsync();
+
+            return this.Json(beachNames, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<JsonResult> Locations(string term)
