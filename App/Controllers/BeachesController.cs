@@ -46,11 +46,12 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachBindingModel bindingModel)
         {
-            bool beachNameUnique = this.Data.Beaches.All().Any(b => b.Name.ToLower() == bindingModel.Name.ToLower());
+            bool beachNameUnique = !this.Data.Beaches.All()
+                .Any(b => b.Name.ToLower() == bindingModel.Name.ToLower());
 
-            if (beachNameUnique)
+            if (!beachNameUnique)
             {
-                return this.Json(new { data = "A beach with this name already exists." });
+                return new HttpStatusCodeResult(412);
             }
 
             var location = this.Data.Locations.All().FirstOrDefault(

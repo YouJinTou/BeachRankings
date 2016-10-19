@@ -214,10 +214,14 @@ var gMapManager = new GoogleMapManager();
                         window.location.href = result.data;
                     }
                 },
-                error: function () {
-                    $validationSpan.text("Something went wrong. We will look into it.");
+                error: function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 412) {
+                        $validationSpan.text('A beach with this name already exiss.');
+                    } else {
+                        $validationSpan.text('Something went wrong. We will look into it.');
 
-                    // TO-DO CONTROLLER
+                        // TO-DO CONTROLLER
+                    }
                 }
             });
         });

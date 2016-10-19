@@ -22,7 +22,6 @@
                     <div class="col-md-5">
                         @Html.TextBoxFor(model => model.Name, new { @class = "form-control", data_textbox_name = "" })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                        @Html.ValidationMessage("BeachNameDuplicate")
                     </div>
                 </div>
 

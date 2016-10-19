@@ -25,7 +25,6 @@
                     .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));
                 cfg.CreateMap<AddBeachBindingModel, Beach>();
                 cfg.CreateMap<Beach, AutocompleteMainViewModel>();
-                cfg.CreateMap<AddBeachBindingModel, AddBeachViewModel>();
 
                 cfg.CreateMap<Review, ConciseReviewViewModel>()
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))
