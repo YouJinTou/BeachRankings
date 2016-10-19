@@ -237,6 +237,7 @@
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\NewFolder1\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\WaterBodies.txt" />

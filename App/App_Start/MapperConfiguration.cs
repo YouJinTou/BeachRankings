@@ -25,17 +25,18 @@
                     .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));
                 cfg.CreateMap<AddBeachBindingModel, Beach>();
                 cfg.CreateMap<Beach, AutocompleteMainViewModel>();
+                cfg.CreateMap<Beach, PostReviewViewModel>()
+                    .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
+                    .ForMember(vm => vm.BeachLocation, model => model.MapFrom(m => m.Location.Name))
+                    .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
+                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Photos))
+                    .ForAllOtherMembers(members => members.Ignore());
 
                 cfg.CreateMap<BeachPhoto, string>().ConvertUsing(bp => bp.Path);
 
                 cfg.CreateMap<Review, ConciseReviewViewModel>()
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))
-                    .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath));
-                cfg.CreateMap<Review, PostReviewViewModel>()
-                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Beach.Photos))
-                    .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
-                    .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.Beach.TotalScore));
-
+                    .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath));                
                 cfg.CreateMap<PostReviewBindingModel, Review>();
                 cfg.CreateMap<Review, EditReviewViewModel>();
                 cfg.CreateMap<EditReviewBindingModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());

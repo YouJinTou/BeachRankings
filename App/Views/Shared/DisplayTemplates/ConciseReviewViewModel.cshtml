@@ -1,4 +1,5 @@
-﻿@model BeachRankings.App.Models.ViewModels.ConciseReviewViewModel
+﻿@using BeachRankings.App.Utils.CustomHelpers
+@model BeachRankings.App.Models.ViewModels.ConciseReviewViewModel
 
 <div class="row">
     <div class="col-md-2">
@@ -10,12 +11,9 @@
     <div class="col-md-10">
         <div class="row">
             <div class="col-md-8">
-                @{
-                    string score = (string.IsNullOrEmpty(Model.TotalScore.ToString()) ?
-                        "This user hasn't rated the beach." :
-                        Model.TotalScore.ToString());
-                }
-                <div>Score: @score | @Model.PostedOn</div>
+                <div>
+                    Score: @Html.ParseNullableScore(Model.TotalScore, "This user hasn't rated the beach.") | @Model.PostedOn
+                </div>
             </div>
             <div class="col-md-4">
             </div>            

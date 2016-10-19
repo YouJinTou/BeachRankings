@@ -28,7 +28,10 @@
         [HttpGet]
         public ActionResult Rate(int id)
         {
-            return this.View();
+            var beach = this.Data.Beaches.Find(id);
+            var model = Mapper.Map<Beach, PostReviewViewModel>(beach);
+
+            return this.View(model);
         }
 
         [Authorize]

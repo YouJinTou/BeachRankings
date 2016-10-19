@@ -1,8 +1,17 @@
-﻿@model BeachRankings.Models.Review
+﻿@using BeachRankings.App.Utils.Extensions
+@model BeachRankings.App.Models.ViewModels.PostReviewViewModel
 
 <div class="row">
     <div class="col-xs-4 col-lg-7">
-
+        <img src="@Model.BeachImagePaths.FirstOrDefault()" alt="No photo available" />
+    </div>
+    <div class="col-xs-4">
+        <span>
+            @Model.BeachName - @Html.ParseNullableScore(Model.BeachTotalScore, "This beach hasn't been rated yet.")
+        </span>
+        <div>
+            <sub><i>@Model.BeachLocation</i></sub>
+        </div>
     </div>
 </div>
 

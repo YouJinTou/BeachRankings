@@ -99,11 +99,13 @@
 
     public class PostReviewViewModel
     {
-        public IEnumerable<string> BeachImagePaths { get; set; }
-
         public string BeachName { get; set; }
 
+        public string BeachLocation { get; set; }
+
         public double? BeachTotalScore { get; set; }
+
+        public IEnumerable<string> BeachImagePaths { get; set; }
 
         [Required(ErrorMessage = "The review field is required.")]
         [MinLength(100, ErrorMessage = "100 characters should be doable.")]
