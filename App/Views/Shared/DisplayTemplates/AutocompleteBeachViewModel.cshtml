@@ -1,10 +1,7 @@
 ﻿@model BeachRankings.App.Models.ViewModels.AutocompleteBeachViewModel
 
-<div class="row">
-    <div>
-        <span><strong>@Model.Name</strong></span>
-    </div>
-    <div>
-        <span><i>@Model.Location</i> - @Model.WaterBody</span>
-    </div>
-</div>
+<li>
+    <h4 class="disable-block"><strong>@Model.Name</strong></h4>
+    <h5 class="disable-block"><i>@Model.Location</i></h5>
+    <h6 class="disable-block">@Model.WaterBody</h6>
+</li>

@@ -6,6 +6,8 @@
     {
         public IEnumerable<AutocompleteBeachViewModel> Beaches { get; set; }
 
+        public IEnumerable<AutocompleteWaterBodyViewModel> WaterBodies { get; set; }
+
         public IEnumerable<AutocompleteLocationViewModel> Locations { get; set; }
     }
 }

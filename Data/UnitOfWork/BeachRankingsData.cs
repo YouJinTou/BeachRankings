@@ -11,6 +11,7 @@
         private readonly DbContext dbContext;
 
         private IGenericRepository<User> users;
+        private IWaterBodyRepository waterBodies;
         private ILocationRepository locations;
         private IBeachRepository beaches;
         private IGenericRepository<BeachPhoto> beachPhotos;
@@ -37,6 +38,19 @@
                 }
 
                 return this.users;
+            }
+        }
+
+        public IWaterBodyRepository WaterBodies
+        {
+            get
+            {
+                if (this.waterBodies == null)
+                {
+                    this.waterBodies = new WaterBodyRepository(this.dbContext);
+                }
+
+                return this.waterBodies;
             }
         }
 

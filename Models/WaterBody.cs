@@ -5,16 +5,16 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Location : ILocationSearchable
+    public class WaterBody : ILocationSearchable
     {
         private string name;
         private ICollection<Beach> beaches;
 
-        public Location()
+        public WaterBody()
         {
         }
 
-        public Location(string name)
+        public WaterBody(string name)
         {
             this.name = name;
             this.beaches = new HashSet<Beach>();
@@ -23,11 +23,11 @@
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "The location field is required.")]
-        [Index("IX_LocationName", IsUnique = true)]
+        [Required(ErrorMessage = "A body of water is required.")]
+        [Index("IX_WaterBody", IsUnique = true)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
-        [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        [Display(Name = "Location")]
+        [MaxLength(100, ErrorMessage = "There is no body of water with that long of a name.")]
+        [Display(Name = "Body of water")]
         public string Name
         {
             get

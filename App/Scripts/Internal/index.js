@@ -1,7 +1,7 @@
 ﻿(function ($) {
     var searchFieldBox = '#main-search-field';
     var autocompleteBox = '#search-autocomplete-box';
-    var $mainSearchField = $(searchFieldBox);
+    var $mainSearchField = $(searchFieldBox);   
 
     $mainSearchField.on('keyup', function () {
         $.ajax({

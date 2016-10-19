@@ -3,6 +3,7 @@
     public enum Index
     {
         LocationIndex,
+        WaterBodyIndex,
         BeachIndex
     }
 }

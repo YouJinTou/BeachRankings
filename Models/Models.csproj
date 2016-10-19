@@ -57,12 +57,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IWaterBodySearchable.cs" />
     <Compile Include="Interfaces\ILocationSearchable.cs" />
+    <Compile Include="WaterBody.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Beach.cs" />
     <Compile Include="Interfaces\IBeachSearchable.cs" />
     <Compile Include="Interfaces\ISearchable.cs" />
-    <Compile Include="LocationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BeachPhoto.cs" />
     <Compile Include="Review.cs" />

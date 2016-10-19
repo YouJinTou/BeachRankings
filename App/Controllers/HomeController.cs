@@ -30,14 +30,15 @@
             }
 
             var beaches = await this.Data.Beaches.All().Where(b => b.Name.StartsWith(prefix)).ToListAsync();
-            var locations = await this.Data.Locations.All()
-                .Where(l => l.Name.StartsWith(prefix) ||
-                (l.Name.StartsWith(prefix) && l.LocationType == LocationType.WaterBody)).ToListAsync();
+            var waterBodies = await this.Data.WaterBodies.All().Where(wb => wb.Name.StartsWith(prefix)).ToListAsync();
+            var locations = await this.Data.Locations.All().Where(l => l.Beaches.Count > 0 && l.Name.StartsWith(prefix)).ToListAsync();
             var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<AutocompleteBeachViewModel>>(beaches);
+            var waterBodiesModel = Mapper.Map<IEnumerable<WaterBody>, IEnumerable<AutocompleteWaterBodyViewModel>>(waterBodies);
             var locationsModel = Mapper.Map<IEnumerable<Location>, IEnumerable<AutocompleteLocationViewModel>>(locations);
             var model = new AutocompleteMainViewModel()
             {
                 Beaches = beachesModel,
+                WaterBodies = waterBodiesModel,
                 Locations = locationsModel
             };
 

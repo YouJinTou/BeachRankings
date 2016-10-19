@@ -93,13 +93,15 @@ var gMapManager = new GoogleMapManager();
 
 (function ($) {
     var $addBeachForm = $('#addBeachForm');
-    var $ddlWaterBody = $('[data-ddl-water-body]');
     var $textBoxName = $('[data-textbox-name]');
+    var $textBoxLocation = $('[data-textbox-location-name]');
+    var $ddlWaterBody = $('[data-ddl-water-body]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
     var $validationSpan = $('[data-generic-validation-alert]');
     var waterBodyValid = false;
+    var waterBodyId;
+    var locations = [];
     var waterBodies = [];
-    var previousNameValue;
 
     setBindings();
     setAutocomplete();
@@ -124,7 +126,15 @@ var gMapManager = new GoogleMapManager();
         };
 
         $('[data-textbox-location-name]').autocomplete({
-            source: 'Locations',
+            source: function (request, response) {
+                $.get('Locations', {
+                    term: request.term
+                }, function (data) {
+                    response(data);
+
+                    locations = data;
+                });
+            },
             minLength: 2
         });
 
@@ -133,25 +143,43 @@ var gMapManager = new GoogleMapManager();
                 $.get('WaterBodies', {
                     term: request.term
                 }, function (data) {
-                    response(data);
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.Name,
+                            value: item.Id
+                        };
+                    }));
 
-                    waterBodies = data;
-                });
+                    waterBodies = $.map(data, function(i){
+                        return i.Name;
+                    });
+                })
+            },
+            autoFocus: true,
+            select: function (event, ui) {
+                waterBodyId = ui.item.value;
             }
         });
     }
 
     function setEvents() {
+        $textBoxLocation.on('keydown', function (event) {
+            if (event.which === 9) {
+                if (locations.length) {
+                    $textBoxLocation.val(locations[0]);
+                }
+            }
+        });
+
         $ddlWaterBody.on('focusout', function () {
             var waterBodiesToLower = $.map(waterBodies, function (i) {
                 return i.toLowerCase();
             });
 
-            waterBodyValid = ($.inArray($ddlWaterBody.val().toLowerCase(), waterBodiesToLower) > -1);
+            waterBodyValid = ($.inArray($ddlWaterBody.text().toLowerCase(), waterBodiesToLower) > -1);
 
             if (waterBodies.length && !waterBodyValid) {
-                $ddlWaterBody.val(waterBodies[0]); // Fill the body of water field with the first avaialble value in case the user changes focus
-
+                $ddlWaterBody.text(waterBodies[0]); // Fill the body of water field with the first avaialble value in case the user changes focus
                 waterBodyValid = true;
             }
         });
@@ -192,9 +220,10 @@ var gMapManager = new GoogleMapManager();
 
             var beachJsonData = {
                 name: $textBoxName.val(),
-                locationName: $('[data-textbox-location-name]').val(),
+                locationName: $textBoxLocation.val(),
                 description: $('[data-textbox-description]').val(),
-                waterBody: $ddlWaterBody.val(),
+                waterBodyId: waterBodyId,
+                waterBodyName: $ddlWaterBody.text(),
                 approximateAddress: locationData.approximateAddress,
                 coordinates: locationData.coordinates
             };

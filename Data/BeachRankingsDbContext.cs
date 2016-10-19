@@ -11,6 +11,8 @@
         {
         }
 
+        public IDbSet<WaterBody> WaterBodies { get; set; }
+
         public IDbSet<Location> Locations { get; set; }
 
         public IDbSet<Beach> Beaches { get; set; }

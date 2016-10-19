@@ -3,6 +3,7 @@
     internal enum ModelType
     {
         Beach,
+        WaterBody,
         Location
     }
 }

@@ -9,6 +9,8 @@
     public class Beach : IBeachSearchable
     {
         private string name;
+        private int waterBodyId;
+        private int locationId;
         private ICollection<Review> reviews;
         private ICollection<BeachPhoto> photos;
 
@@ -16,12 +18,14 @@
         {
         }
 
-        public Beach(string name)
+        public Beach(string name, int waterBodyId, int locationId)
         {
             this.reviews = new HashSet<Review>();
             this.photos = new HashSet<BeachPhoto>();
 
             this.name = name;
+            this.waterBodyId = waterBodyId;
+            this.locationId = locationId;
         }
 
         [Key]
@@ -44,17 +48,40 @@
         }
                 
         [Required]
-        public int LocationId { get; set; }
+        public int LocationId
+        {
+            get
+            {
+                return this.locationId;
+            }
+            set
+            {
+                this.locationId = value;
+            }
+        }
 
         public virtual Location Location { get; set; }
 
+        [Required]
+        public int WaterBodyId
+        {
+            get
+            {
+                return this.waterBodyId;
+            }
+            set
+            {
+                this.waterBodyId = value;
+            }
+        }
+
+        [Required(ErrorMessage = "The body of water's name is required.")]
+        public string WaterBodyName { get; set; }
+
+        public virtual WaterBody WaterBody { get; set; }
+
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
-
-        [Required(ErrorMessage = "A body of water is required.")]
-        [Display(Name = "Body of water")]
-        [MaxLength(100, ErrorMessage = "There is no body of water with that long of a name.")]
-        public string WaterBody { get; set; }
 
         public string ApproximateAddress { get; set; }
 

@@ -33,11 +33,6 @@
         [HttpGet]
         public ActionResult Add()
         {
-            var waterLocations = this.Data.Locations.All().Where(l => l.LocationType == LocationType.WaterBody);
-            var waterBodies = Mapper.Map<IEnumerable<Location>, IEnumerable<WaterBodyViewModel>>(waterLocations);
-
-            this.ViewData["waterBodies"] = waterBodies;
-
             return this.View();
         }
 
@@ -49,7 +44,7 @@
             bool beachNameUnique = !this.Data.Beaches.All()
                 .Any(b => b.Name.ToLower() == bindingModel.Name.ToLower());
 
-            if (!beachNameUnique)
+            if (!beachNameUnique || !this.ModelState.IsValid)
             {
                 return new HttpStatusCodeResult(412);
             }
@@ -59,7 +54,7 @@
 
             if (location == null)
             {
-                location = new Location(bindingModel.LocationName, LocationType.Land);
+                location = new Location(bindingModel.LocationName);
 
                 this.Data.Locations.Add(location);
                 this.Data.Locations.SaveChanges();
@@ -92,21 +87,19 @@
         public async Task<JsonResult> Locations(string term)
         {
             var locations = await this.Data.Locations.All()
-                .Where(l => l.LocationType == LocationType.Land && l.Name.StartsWith(term))
+                .Where(l => l.Name.StartsWith(term))
                 .Select(l => l.Name)
                 .ToListAsync();
-
+            
             return this.Json(locations, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<JsonResult> WaterBodies(string term)
         {
-            var waterBodies = await this.Data.Locations.All()
-                .Where(l => l.LocationType == LocationType.WaterBody && l.Name.StartsWith(term))
-                .Select(l => l.Name)
-                .ToListAsync();
+            var waterBodies = await this.Data.WaterBodies.All().Where(wb => wb.Name.StartsWith(term)).ToListAsync();
+            var model = Mapper.Map<IEnumerable<WaterBody>, IEnumerable<AddBeachWaterBodyViewModel>>(waterBodies);
 
-            return this.Json(waterBodies, JsonRequestBehavior.AllowGet);
+            return this.Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

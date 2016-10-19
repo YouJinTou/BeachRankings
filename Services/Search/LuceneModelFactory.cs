@@ -13,8 +13,10 @@
             {
                 case ModelType.Beach:
                     return MapDocToBeachModel(doc);
+                case ModelType.WaterBody:
+                    return MapDocToWaterBodyModel(doc);
                 case ModelType.Location:
-                    return MapDocToLocationModel(doc);
+                    return MapDocToLocationModel(doc);                
                 default:
                     return null;
             }
@@ -30,6 +32,14 @@
                 WaterBody = doc.Get("WaterBody"),
                 ApproximateAddress = doc.Get("ApproximateAddress"),
                 Coordinates = doc.Get("Coordinates")
+            };
+        }
+        private static ISearchable MapDocToWaterBodyModel(Document doc)
+        {
+            return new WaterBodySearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name")
             };
         }
 

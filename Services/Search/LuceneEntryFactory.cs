@@ -21,6 +21,12 @@
 
                 AddUpdateBeachDoc(beachSearchable, writer);
             }
+            else if (searchable is IWaterBodySearchable)
+            {
+                var waterBodySearchable = (IWaterBodySearchable)searchable;
+
+                AddUpdateWaterBodyDoc(waterBodySearchable, writer);
+            }
         }
 
         private static void AddUpdateBeachDoc(IBeachSearchable searchable, IndexWriter writer)
@@ -33,7 +39,7 @@
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
             var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
             var descriptionField = new Field("Description", searchable.Description ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
-            var waterBodyField = new Field("WaterBody", searchable.WaterBody ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
+            var waterBodyField = new Field("WaterBodyName", searchable.WaterBodyName ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
             var addressField = new Field("ApproximateAddress", searchable.ApproximateAddress ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
             var coordinatesField = new Field("Coordinates", searchable.Coordinates ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
 
@@ -60,8 +66,26 @@
             var newDoc = new Document();
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
             var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
-            
-            nameField.Boost = 3.0f;           
+
+            nameField.Boost = 3.0f;
+
+            newDoc.Add(idField);
+            newDoc.Add(nameField);
+
+            writer.AddDocument(newDoc);
+        }
+
+        private static void AddUpdateWaterBodyDoc(IWaterBodySearchable searchable, IndexWriter writer)
+        {
+            var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
+
+            writer.DeleteDocuments(oldDoc);
+
+            var newDoc = new Document();
+            var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
+            var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
+
+            nameField.Boost = 3.0f;
 
             newDoc.Add(idField);
             newDoc.Add(nameField);

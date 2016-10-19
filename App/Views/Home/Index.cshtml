@@ -10,7 +10,7 @@
 }))
 {
     <div class="home-search-header row">
-        <input id="main-search-field" name="main-search-field" type="text" placeholder="Search by name, location, country or sea" />
+        <input id="main-search-field" name="main-search-field" type="text" autocomplete="off" placeholder="Search by name, location, country or sea" />
         <input type="submit" value="Go" />
         <div id="search-autocomplete-box"></div>
     </div>
@@ -20,9 +20,11 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("/Scripts/jquery-ui.js")
     @Scripts.Render("~/Scripts/Internal/index.js")
 }
 
 @section HomeStyles {
     @Styles.Render("~/Content/Internal/home.css")
+    @Styles.Render("~/Content/jquery-ui.css")
 }

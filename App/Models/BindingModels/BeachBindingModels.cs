@@ -19,9 +19,12 @@
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "The body of water field is required.")]
+        [Required]
+        public int WaterBodyId { get; set; }
+
+        [Required(ErrorMessage = "A body of water is required.")]
         [MaxLength(100, ErrorMessage = "There is no body of water with that long of a name.")]
-        public string WaterBody { get; set; }
+        public string WaterBodyName { get; set; }
 
         public string ApproximateAddress { get; set; }
 

@@ -232,6 +232,7 @@
     <Compile Include="Models\CriteriaBaseModel.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\HomeViewModels.cs" />
+    <Compile Include="Models\ViewModels\WaterBodyViewModels.cs" />
     <Compile Include="Models\ViewModels\LocationViewModels.cs" />
     <Compile Include="Models\ViewModels\ReviewViewModels.cs" />
     <Compile Include="Models\ViewModels\BeachViewModels.cs" />
@@ -345,6 +346,7 @@
     <Content Include="Views\Home\_Autocomplete.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteBeachViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteLocationViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\AutocompleteWaterBodyViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\BeachIndex\" />

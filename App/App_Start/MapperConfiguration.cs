@@ -12,7 +12,9 @@
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Location, WaterBodyViewModel>();
+                cfg.CreateMap<WaterBody, AddBeachWaterBodyViewModel>();
+                cfg.CreateMap<WaterBody, AutocompleteWaterBodyViewModel>();
+
                 cfg.CreateMap<Location, AutocompleteLocationViewModel>()
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
 

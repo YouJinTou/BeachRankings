@@ -2,3 +2,7 @@
     background-color: #EAB126;
     height: 150px;
 }
+
+.disable-block {
+    display: inline;
+}
