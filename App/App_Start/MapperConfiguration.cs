@@ -29,6 +29,7 @@
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
                     .ForMember(vm => vm.BeachLocation, model => model.MapFrom(m => m.Location.Name))
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
+                    .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Photos))
                     .ForAllOtherMembers(members => members.Ignore());
 

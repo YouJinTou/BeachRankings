@@ -1,4 +1,4 @@
-﻿@using BeachRankings.App.Utils.CustomHelpers
+﻿@using BeachRankings.App.Utils
 @model BeachRankings.App.Models.ViewModels.DetailedBeachViewModel
 
 @{
@@ -6,7 +6,7 @@
 }
 
 <h3>@Model.Name - @Model.Location</h3>
-<h4>Score: @Html.ParseNullableScore(Model.TotalScore, "This beach has no score yet. Be the first to rate it.")</h4>
+<h4>Score: @Html.ParseNullableValue(Model.TotalScore, "This beach has no score yet. Be the first to rate it.")</h4>
 <p>@Model.Description</p>
 
 <div class="row">

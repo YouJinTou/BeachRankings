@@ -1,4 +1,4 @@
-﻿@using BeachRankings.App.Utils.CustomHelpers
+﻿@using BeachRankings.App.Utils
 @model BeachRankings.App.Models.ViewModels.ConciseBeachViewModel
 
 <div class="row panel panel-primary">
@@ -16,7 +16,7 @@
         </div>
         <div>
             <span>
-                Score: @Html.ParseNullableScore(Model.TotalScore, "This beach has no score yet. Be the first to rate it.")               
+                Score: @Html.ParseNullableValue(Model.TotalScore, "This beach has no score yet. Be the first to rate it.")               
             </span>
         </div>
     </div>

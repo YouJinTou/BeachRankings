@@ -194,7 +194,7 @@ var gMapManager = new GoogleMapManager();
                 name: $textBoxName.val(),
                 locationName: $('[data-textbox-location-name]').val(),
                 description: $('[data-textbox-description]').val(),
-                waterBody: $('[data-ddl-water-body]').val(),
+                waterBody: $ddlWaterBody.val(),
                 approximateAddress: locationData.approximateAddress,
                 coordinates: locationData.coordinates
             };
