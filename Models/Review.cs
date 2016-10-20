@@ -7,7 +7,7 @@
     {
         private const int BeachCriteriaCount = 15;
 
-        public Review()
+        protected Review()
         {
         }
         
@@ -60,7 +60,7 @@
         [Key]
         public int Id { get; set; }
 
-        public virtual User Author { get; set; }
+        public virtual User Author { get; protected set; }
 
         [Required]
         public string AuthorId { get; set; }
@@ -68,7 +68,7 @@
         [Required]
         public int BeachId { get; private set; }
 
-        public virtual Beach Beach { get; set; }
+        public virtual Beach Beach { get; protected set; }
 
         [Required]
         public DateTime PostedOn { get; private set; }

@@ -99,6 +99,7 @@ var gMapManager = new GoogleMapManager();
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
     var $validationSpan = $('[data-generic-validation-alert]');
     var waterBodyValid = false;
+    var waterBodyName;
     var waterBodyId;
     var locations = [];
     var waterBodies = [];
@@ -135,7 +136,8 @@ var gMapManager = new GoogleMapManager();
                     locations = data;
                 });
             },
-            minLength: 2
+            minLength: 2,
+            autoFocus: true
         });
 
         $ddlWaterBody.autocomplete({
@@ -158,6 +160,7 @@ var gMapManager = new GoogleMapManager();
             autoFocus: true,
             select: function (event, ui) {
                 waterBodyId = ui.item.value;
+                waterBodyName = ui.item.label;
             }
         });
     }
@@ -175,11 +178,11 @@ var gMapManager = new GoogleMapManager();
             var waterBodiesToLower = $.map(waterBodies, function (i) {
                 return i.toLowerCase();
             });
+            waterBodyValid = ($.inArray(waterBodyName.toLowerCase(), waterBodiesToLower) > -1);
 
-            waterBodyValid = ($.inArray($ddlWaterBody.text().toLowerCase(), waterBodiesToLower) > -1);
+            $ddlWaterBody.val(waterBodies[0]); // Fill the body of water field with the first avaialble value in case the user changes focus
 
             if (waterBodies.length && !waterBodyValid) {
-                $ddlWaterBody.text(waterBodies[0]); // Fill the body of water field with the first avaialble value in case the user changes focus
                 waterBodyValid = true;
             }
         });
@@ -188,7 +191,7 @@ var gMapManager = new GoogleMapManager();
             var coordObj = gMapManager.getCoordinates();
             var coordinates = (coordObj.lat() + ',' + coordObj.lng());
 
-            $('[data-textbox-coordinates').val(coordinates);
+            $textBoxCoordinates.val(coordinates);
         });
 
         $textBoxCoordinates.on('change', function () {
@@ -223,7 +226,7 @@ var gMapManager = new GoogleMapManager();
                 locationName: $textBoxLocation.val(),
                 description: $('[data-textbox-description]').val(),
                 waterBodyId: waterBodyId,
-                waterBodyName: $ddlWaterBody.text(),
+                waterBodyName: waterBodyName,
                 approximateAddress: locationData.approximateAddress,
                 coordinates: locationData.coordinates
             };

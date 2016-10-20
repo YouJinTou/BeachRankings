@@ -10,14 +10,13 @@
         private string name;
         private ICollection<Beach> beaches;
 
-        public WaterBody()
+        protected WaterBody()
         {
         }
 
         public WaterBody(string name)
         {
             this.name = name;
-            this.beaches = new HashSet<Beach>();
         }
 
         [Key]
@@ -44,7 +43,7 @@
         {
             get
             {
-                return this.beaches;
+                return this.beaches ?? (this.beaches = new HashSet<Beach>());
             }
             set
             {

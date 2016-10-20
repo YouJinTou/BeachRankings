@@ -19,6 +19,7 @@
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
 
                 cfg.CreateMap<Beach, AutocompleteBeachViewModel>()
+                    .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBodyName))
                     .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Photos.FirstOrDefault().Path))
@@ -32,8 +33,7 @@
                     .ForMember(vm => vm.BeachLocation, model => model.MapFrom(m => m.Location.Name))
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
-                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Photos))
-                    .ForAllOtherMembers(members => members.Ignore());
+                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Photos));
 
                 cfg.CreateMap<BeachPhoto, string>().ConvertUsing(bp => bp.Path);
 

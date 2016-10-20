@@ -7,17 +7,10 @@
 
     public class Location : ILocationSearchable
     {
-        private string name;
         private ICollection<Beach> beaches;
 
         public Location()
         {
-        }
-
-        public Location(string name)
-        {
-            this.name = name;
-            this.beaches = new HashSet<Beach>();
         }
 
         [Key]
@@ -28,25 +21,15 @@
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         [Display(Name = "Location")]
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
+        public string Name { get; set; }
 
         public virtual ICollection<Beach> Beaches
         {
             get
             {
-                return this.beaches;
+                return this.beaches ?? (this.beaches = new HashSet<Beach>());
             }
-            set
+            protected set
             {
                 this.beaches = value;
             }

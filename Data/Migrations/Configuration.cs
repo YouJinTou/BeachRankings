@@ -32,7 +32,7 @@ namespace BeachRankings.Data.Migrations
             this.SeedBeaches();
             this.SeedBeachPhotos();
             //this.SeedReviews();
-        }       
+        }
 
         private void SeedRoles()
         {
@@ -117,9 +117,9 @@ namespace BeachRankings.Data.Migrations
 
             var locations = new List<Location>()
             {
-                new Location("Varna"),
-                new Location("Kaliakra"),
-                new Location("Kamchia")
+                new Location() { Name = "Varna" },
+                new Location() { Name= "Kaliakra" },
+                new Location() { Name = "Kamchia" }
             };
 
             foreach (var location in locations)
@@ -142,32 +142,37 @@ namespace BeachRankings.Data.Migrations
             }
 
             var waterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
-            var kamchiaId = this.data.Locations.FirstOrDefault(l => l.Name == "Kamchia").Id;
             var kaliakraId = this.data.Locations.FirstOrDefault(l => l.Name == "Kaliakra").Id;
             var varnaId = this.data.Locations.FirstOrDefault(l => l.Name == "Varna").Id;
 
             var beaches = new List<Beach>()
             {
-                new Beach("Kamchia Beach", waterBodyId, kamchiaId)
+                new Beach()
                 {
+                    Name = "Kamchia Beach",
+                    LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Kamchia").Id,
+                    WaterBodyId = waterBodyId,
+                    WaterBodyName = "Black Sea",
                     Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
-                    WaterBodyName = "Black Sea",
-                    Coordinates = "43.204666,27.910543",
-                    Photos = new HashSet<BeachPhoto>()
+                    Coordinates = "43.204666,27.910543"
                 },
-                new Beach("Bolata", waterBodyId, kaliakraId)
+                new Beach()
                 {
+                    Name = "Bolata",
+                    LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Kaliakra").Id,
+                    WaterBodyId = waterBodyId,
+                    WaterBodyName = "Black Sea",
                     Description = "Situated north of Albena, Bolata is an ungainly sight.",
-                    WaterBodyName = "Black Sea",
-                    Coordinates = "43.204666,27.910543",
-                    Photos = new HashSet<BeachPhoto>()
+                    Coordinates = "43.204666,27.910543"
                 },
-                new Beach("Sunny Day Beach", waterBodyId, varnaId)
+                new Beach()
                 {
-                    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
+                    Name = "Sunny Day Beach",
+                    LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Varna").Id,
+                    WaterBodyId = waterBodyId,
                     WaterBodyName = "Black Sea",
+                    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Coordinates = "43.204666,27.910543",
-                    Photos = new HashSet<BeachPhoto>()
                 }
             };
 

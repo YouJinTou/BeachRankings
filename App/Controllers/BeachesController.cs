@@ -7,7 +7,6 @@
     using BeachRankings.App.Models.ViewModels;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Data.SqlClient;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
@@ -54,7 +53,10 @@
 
             if (location == null)
             {
-                location = new Location(bindingModel.LocationName);
+                location = new Location()
+                {
+                    Name = bindingModel.LocationName
+                };
 
                 this.Data.Locations.Add(location);
                 this.Data.Locations.SaveChanges();

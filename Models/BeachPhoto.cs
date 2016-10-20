@@ -10,17 +10,10 @@
             this.UploadedOn = DateTime.Now;
         }
 
-        public BeachPhoto(int beachId, string path)
-        {
-            this.BeachId = beachId;
-            this.UploadedOn = DateTime.Now;
-            this.Path = path;
-        }
-
         [Key]
         public int Id { get; set; }
 
-        public virtual User Author { get; set; }
+        public virtual User Author { get; protected set; }
 
         [Required]
         public string AuthorId { get; set; }

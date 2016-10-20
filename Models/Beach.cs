@@ -8,24 +8,11 @@
 
     public class Beach : IBeachSearchable
     {
-        private string name;
-        private int waterBodyId;
-        private int locationId;
         private ICollection<Review> reviews;
         private ICollection<BeachPhoto> photos;
 
         public Beach()
         {
-        }
-
-        public Beach(string name, int waterBodyId, int locationId)
-        {
-            this.reviews = new HashSet<Review>();
-            this.photos = new HashSet<BeachPhoto>();
-
-            this.name = name;
-            this.waterBodyId = waterBodyId;
-            this.locationId = locationId;
         }
 
         [Key]
@@ -35,50 +22,20 @@
         [Index("IX_BeachName", IsUnique = true)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
+        public string Name { get; set; }
                 
         [Required]
-        public int LocationId
-        {
-            get
-            {
-                return this.locationId;
-            }
-            set
-            {
-                this.locationId = value;
-            }
-        }
+        public int LocationId { get; set; }
 
-        public virtual Location Location { get; set; }
+        public virtual Location Location { get; protected set; }
 
         [Required]
-        public int WaterBodyId
-        {
-            get
-            {
-                return this.waterBodyId;
-            }
-            set
-            {
-                this.waterBodyId = value;
-            }
-        }
+        public int WaterBodyId { get; set; }
 
         [Required(ErrorMessage = "The body of water's name is required.")]
         public string WaterBodyName { get; set; }
 
-        public virtual WaterBody WaterBody { get; set; }
+        public virtual WaterBody WaterBody { get; protected set; }
 
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
@@ -92,9 +49,9 @@
         {
             get
             {
-                return this.reviews;
+                return this.reviews ?? (this.reviews = new HashSet<Review>());
             }
-            set
+            protected set
             {
                 this.reviews = value;
             }
@@ -104,9 +61,9 @@
         {
             get
             {
-                return this.photos;
+                return this.photos ?? (this.photos = new HashSet<BeachPhoto>());
             }
-            set
+            protected set
             {
                 this.photos = value;
             }

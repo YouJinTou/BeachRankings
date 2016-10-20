@@ -13,8 +13,6 @@
 
         public User()
         {
-            this.reviews = new HashSet<Review>();
-            this.photos = new HashSet<BeachPhoto>();
         }
 
         public string AvatarPath { get; set; }
@@ -23,7 +21,7 @@
         {
             get
             {
-                return this.reviews;
+                return this.reviews ?? (this.reviews = new HashSet<Review>());
             }
         }
 
@@ -31,7 +29,7 @@
         {
             get
             {
-                return this.photos;
+                return this.photos ?? (this.photos = new HashSet<BeachPhoto>());
             }
         }
 
