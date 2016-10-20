@@ -26,7 +26,7 @@
 
         [Authorize]
         [HttpGet]
-        public ActionResult Rate(int id)
+        public ActionResult Post(int id)
         {
             var beach = this.Data.Beaches.Find(id);
             var model = Mapper.Map<Beach, PostReviewViewModel>(beach);
@@ -37,7 +37,7 @@
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Rate(PostReviewBindingModel bindingModel)
+        public ActionResult Post(PostReviewBindingModel bindingModel)
         {
             if (!this.ModelState.IsValid)
             {

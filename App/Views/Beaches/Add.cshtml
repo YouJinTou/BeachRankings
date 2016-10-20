@@ -23,10 +23,11 @@
                     </div>
                 </div>
 
-                <div data-countries-ddl="" class="form-group" style="display: none;">
+                <div data-countries-form-block="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.CountryName, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.TextBoxFor(model => model.CountryName, new { @class = "form-control", data_textbox_country_name = "" })
+                        @Html.DropDownListFor(model => model.CountryName, new SelectList((IEnumerable<string>)ViewData["ddlCountries"]), string.Empty, 
+                        new { @class = "form-control", data_ddl_country_name = "" })
                     </div>
                 </div>
 

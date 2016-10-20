@@ -32,7 +32,7 @@
         {
             modelBuilder.Entity<Country>()
                 .HasMany(c => c.Locations)
-                .WithRequired(l => l.Country)
+                .WithOptional(l => l.Country)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

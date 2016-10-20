@@ -32,6 +32,10 @@
         [HttpGet]
         public ActionResult Add()
         {
+            var countries = this.Data.Countries.All().Select(c => c.Name).ToList();
+
+            this.ViewData["ddlCountries"] = countries;
+
             return this.View();
         }
 
@@ -40,23 +44,30 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachBindingModel bindingModel)
         {
-            bool beachNameUnique = !this.Data.Beaches.All()
-                .Any(b => b.Name.ToLower() == bindingModel.Name.ToLower());
+            bool beachNameUnique = !this.Data.Beaches.All().Any(b => b.Name.ToLower() == bindingModel.Name.ToLower());
 
-            if (!beachNameUnique || !this.ModelState.IsValid)
+            if (!beachNameUnique)
             {
-                return new HttpStatusCodeResult(412);
+                this.Response.Clear();
+                this.Response.StatusDescription = "A beach with this name already exists.";
+
+                return new HttpStatusCodeResult(412, "A beach with this name already exists.");
             }
 
-            var location = this.Data.Locations.All().FirstOrDefault(
-                l => l.Name.ToLower() == bindingModel.LocationName.ToLower());
+            if (!this.ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(412, "Invalid data. Please review your input and try again.");
+            }
 
-            if (location == null)
+            var location = this.Data.Locations.All().FirstOrDefault(l => l.Name.ToLower() == bindingModel.LocationName.ToLower());
+            var country = this.Data.Countries.All().FirstOrDefault(c => c.Name.ToLower().Contains(bindingModel.CountryName));
+
+            if (location == null) // The location the user has typed in doesn't exist in the database. Store it.
             {
                 location = new Location()
                 {
                     Name = bindingModel.LocationName,
-                    CountryId = this.Data.Countries.All().FirstOrDefault(c => c.Name.ToLower().Contains(bindingModel.CountryName)).Id
+                    CountryId = (country == null) ? (int?)null : country.Id
                 };
 
                 this.Data.Locations.Add(location);
@@ -67,15 +78,14 @@
 
             var beach = Mapper.Map<AddBeachBindingModel, Beach>(bindingModel);
             beach.LocationId = location.Id;
-            beach.CountryId = this.Data.Countries.All().FirstOrDefault(c => c.Name.ToLower().Contains(bindingModel.CountryName)).Id;
+            beach.CountryId = (country == null) ? (int?)null : country.Id;
 
             this.Data.Beaches.Add(beach);
             this.Data.Beaches.SaveChanges();
 
-
             this.Data.Beaches.AddBeachToIndex(beach);
 
-            return this.Json(new { redirectUrl = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
+            return this.Json(new { redirectUrl = Url.Action("Post", "Reviews", new { id = beach.Id }) });
         }
 
         public async Task<JsonResult> Names(string term)

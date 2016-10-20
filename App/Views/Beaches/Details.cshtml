@@ -11,7 +11,7 @@
 <p>@Model.Description</p>
 
 <div class="row">
-    @Html.ActionLink("Rate this beach", "Rate", "Reviews", new { id = Model.Id }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-default" })
 </div>
 
 @Html.DisplayFor(m => m.Reviews)

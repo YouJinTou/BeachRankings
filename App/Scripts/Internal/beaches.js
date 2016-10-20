@@ -87,7 +87,7 @@
         getCoordinates: getMarkerCoordinates,
         setMap: shiftMap
     }
-}
+};
 
 var gMapManager = new GoogleMapManager();
 
@@ -153,15 +153,18 @@ var gMapManager = new GoogleMapManager();
                         };
                     }));
 
-                    waterBodies = $.map(data, function(i){
+                    waterBodies = $.map(data, function (i) {
                         return i.Name;
                     });
                 })
             },
             autoFocus: true,
             select: function (event, ui) {
+                event.preventDefault();
+
                 waterBodyId = ui.item.value;
-                waterBodyName = ui.item.label;
+
+                $ddlWaterBody.val(ui.item.label);
             }
         });
     }
@@ -179,12 +182,16 @@ var gMapManager = new GoogleMapManager();
             var waterBodiesToLower = $.map(waterBodies, function (i) {
                 return i.toLowerCase();
             });
-            waterBodyValid = ($.inArray(waterBodyName.toLowerCase(), waterBodiesToLower) > -1);
+
+            if (waterBodyName) {
+                waterBodyValid = ($.inArray(waterBodyName.toLowerCase(), waterBodiesToLower) > -1);
+            }
 
             $ddlWaterBody.val(waterBodies[0]); // Fill the body of water field with the first avaialble value in case the user changes focus
+            waterBodyName = $ddlWaterBody.val();
 
             if (waterBodies.length && !waterBodyValid) {
-                waterBodyValid = true;
+                waterBodyValid = true; // We always have a valid value if waterBodies isn't empty
             }
         });
 
@@ -214,29 +221,33 @@ var gMapManager = new GoogleMapManager();
                 return;
             }
 
-            var locationData = gMapManager.getLocationData();            
+            var locationData = gMapManager.getLocationData();
+            var countryName;
 
-            if (!locationData) {                
-                $validationSpan.text("We coulnd't gather all the data. Please fill out the country manually.");
-
+            if (locationData) {
+                var approximateAddressTokens = locationData.approximateAddress.split(',');
+                countryName = approximateAddressTokens[approximateAddressTokens.length - 1].trim();
+            } else {
                 googleFailCounter++;
 
-                if (googleFailCounter > 1) {
-                    $('[data-countries-ddl').show();
+                if (googleFailCounter <= 1) {
+                    $validationSpan.text("We coulnd't gather the geodata. Please try again.");
+                } else {
+                    $validationSpan.text("Something went wrong. Please select a country manually.");
+
+                    $('[data-countries-form-block]').show();
                 }
 
                 return;
             }
-            
-            var approximateAddressTokens = locationData.approximateAddress.split(',');
-            var countryName = approximateAddressTokens[approximateAddressTokens.length - 1].trim();
+
             var beachJsonData = {
                 name: $textBoxName.val(),
                 locationName: $textBoxLocation.val(),
                 description: $('[data-textbox-description]').val(),
                 waterBodyId: waterBodyId,
                 waterBodyName: waterBodyName,
-                countryName: countryName,
+                countryName: (googleFailCounter <= 1) ? countryName : $('[data-ddl-country-name]').val(),
                 approximateAddress: locationData.approximateAddress,
                 coordinates: locationData.coordinates
             };
@@ -250,13 +261,13 @@ var gMapManager = new GoogleMapManager();
                     bindingModel: beachJsonData
                 },
                 success: function (result) {
-                    if (redirectUrl) {
+                    if (result.redirectUrl) {
                         window.location.href = result.redirectUrl;
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status === 412) {
-                        $validationSpan.text('A beach with this name already exiss.');
+                        $validationSpan.text(jqXHR.statusText);
                     } else {
                         $validationSpan.text('Something went wrong. We will look into it.');
 
@@ -270,7 +281,7 @@ var gMapManager = new GoogleMapManager();
     function validateForm() {
         $.validator.unobtrusive.parse($addBeachForm);
 
-        $addBeachForm.validate();
+        var validator = $addBeachForm.validate();
 
         if (!$addBeachForm.valid()) {
             return false;
@@ -292,7 +303,7 @@ var gMapManager = new GoogleMapManager();
             $validationSpan.text('The body of water appears to be spelled incorrectly.')
 
             return false;
-        }
+        }        
 
         return true;
     }

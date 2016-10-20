@@ -11,7 +11,6 @@
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         public string Name { get; set; }
 
-        [Required]
         public string CountryName { get; set; }
 
         [Required(ErrorMessage = "The location field is required.")]
