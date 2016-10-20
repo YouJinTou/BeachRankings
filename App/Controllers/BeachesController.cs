@@ -55,7 +55,8 @@
             {
                 location = new Location()
                 {
-                    Name = bindingModel.LocationName
+                    Name = bindingModel.LocationName,
+                    CountryId = this.Data.Countries.All().FirstOrDefault(c => c.Name.ToLower().Contains(bindingModel.CountryName)).Id
                 };
 
                 this.Data.Locations.Add(location);
@@ -66,6 +67,7 @@
 
             var beach = Mapper.Map<AddBeachBindingModel, Beach>(bindingModel);
             beach.LocationId = location.Id;
+            beach.CountryId = this.Data.Countries.All().FirstOrDefault(c => c.Name.ToLower().Contains(bindingModel.CountryName)).Id;
 
             this.Data.Beaches.Add(beach);
             this.Data.Beaches.SaveChanges();
@@ -73,7 +75,7 @@
 
             this.Data.Beaches.AddBeachToIndex(beach);
 
-            return this.Json(new { data = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
+            return this.Json(new { redirectUrl = Url.Action("Rate", "Reviews", new { id = beach.Id }) });
         }
 
         public async Task<JsonResult> Names(string term)
@@ -92,7 +94,7 @@
                 .Where(l => l.Name.StartsWith(term))
                 .Select(l => l.Name)
                 .ToListAsync();
-            
+
             return this.Json(locations, JsonRequestBehavior.AllowGet);
         }
 

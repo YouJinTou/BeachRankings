@@ -6,6 +6,7 @@
 }
 
 <h3>@Model.Name - @Model.Location</h3>
+<h5><sub>@Model.Coordinates</sub></h5>
 <h4>Score: @Html.ParseNullableValue(Model.TotalScore, "This beach has no score yet. Be the first to rate it.")</h4>
 <p>@Model.Description</p>
 

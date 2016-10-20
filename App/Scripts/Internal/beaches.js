@@ -103,6 +103,7 @@ var gMapManager = new GoogleMapManager();
     var waterBodyId;
     var locations = [];
     var waterBodies = [];
+    var googleFailCounter = 0;
 
     setBindings();
     setAutocomplete();
@@ -213,20 +214,29 @@ var gMapManager = new GoogleMapManager();
                 return;
             }
 
-            var locationData = gMapManager.getLocationData();
+            var locationData = gMapManager.getLocationData();            
 
-            if (!locationData) {
-                $validationSpan.text("We coulnd't gather all the data. Please try again.");
+            if (!locationData) {                
+                $validationSpan.text("We coulnd't gather all the data. Please fill out the country manually.");
+
+                googleFailCounter++;
+
+                if (googleFailCounter > 1) {
+                    $('[data-countries-ddl').show();
+                }
 
                 return;
             }
-
+            
+            var approximateAddressTokens = locationData.approximateAddress.split(',');
+            var countryName = approximateAddressTokens[approximateAddressTokens.length - 1].trim();
             var beachJsonData = {
                 name: $textBoxName.val(),
                 locationName: $textBoxLocation.val(),
                 description: $('[data-textbox-description]').val(),
                 waterBodyId: waterBodyId,
                 waterBodyName: waterBodyName,
+                countryName: countryName,
                 approximateAddress: locationData.approximateAddress,
                 coordinates: locationData.coordinates
             };
@@ -240,10 +250,8 @@ var gMapManager = new GoogleMapManager();
                     bindingModel: beachJsonData
                 },
                 success: function (result) {
-                    if (result.data.indexOf('already exists') > -1) {
-                        $validationSpan.text(result.data);
-                    } else if (result.data.indexOf('Reviews/Rate' > -1)) {
-                        window.location.href = result.data;
+                    if (redirectUrl) {
+                        window.location.href = result.redirectUrl;
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

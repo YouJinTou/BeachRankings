@@ -5,27 +5,31 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Location : ILocationSearchable
+    public class Country : ICountrySearchable
     {
+        private ICollection<Location> locations;
         private ICollection<Beach> beaches;
-
-        public Location()
-        {
-        }
 
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "The location field is required.")]
-        [Index("IX_LocationName", IsUnique = true)]
-        [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
-        [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        [Display(Name = "Location")]
+        [Required]
+        [Index("IX_CountryName", IsUnique = true)]
+        [MaxLength(100)]
+        [Display(Name = "Country")]
         public string Name { get; set; }
 
-        public int CountryId { get; set; }
-
-        public virtual Country Country { get; protected set; }
+        public virtual ICollection<Location> Locations
+        {
+            get
+            {
+                return this.locations ?? (this.locations = new HashSet<Location>());
+            }
+            protected set
+            {
+                this.locations = value;
+            }
+        }
 
         public virtual ICollection<Beach> Beaches
         {

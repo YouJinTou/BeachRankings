@@ -11,6 +11,7 @@
         private readonly DbContext dbContext;
 
         private IGenericRepository<User> users;
+        private IGenericRepository<Country> countries;
         private IWaterBodyRepository waterBodies;
         private ILocationRepository locations;
         private IBeachRepository beaches;
@@ -38,6 +39,19 @@
                 }
 
                 return this.users;
+            }
+        }
+
+        public IGenericRepository<Country> Countries
+        {
+            get
+            {
+                if (this.countries == null)
+                {
+                    this.countries = new GenericRepository<Country>(this.dbContext);
+                }
+
+                return this.countries;
             }
         }
 

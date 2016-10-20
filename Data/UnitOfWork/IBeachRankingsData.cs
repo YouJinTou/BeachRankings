@@ -7,6 +7,8 @@
     {
         IGenericRepository<User> Users { get; }
 
+        IGenericRepository<Country> Countries { get; }
+
         IWaterBodyRepository WaterBodies { get; }
 
         ILocationRepository Locations { get; }

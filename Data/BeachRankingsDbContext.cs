@@ -11,6 +11,8 @@
         {
         }
 
+        public IDbSet<Country> Countries { get; set; }
+
         public IDbSet<WaterBody> WaterBodies { get; set; }
 
         public IDbSet<Location> Locations { get; set; }
@@ -28,8 +30,10 @@
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Beach>()
-                .HasMany(b => b.Photos);
+            modelBuilder.Entity<Country>()
+                .HasMany(c => c.Locations)
+                .WithRequired(l => l.Country)
+                .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }

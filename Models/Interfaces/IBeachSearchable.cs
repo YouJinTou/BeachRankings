@@ -2,6 +2,8 @@
 {
     public interface IBeachSearchable : ISearchable
     {
+        int CountryId { get; set; }
+
         int LocationId { get; set; }
 
         int WaterBodyId { get; set; }

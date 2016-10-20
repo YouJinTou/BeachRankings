@@ -102,7 +102,7 @@
                     case Index.LocationIndex:
                         return new string[] { "Name" };
                     case Index.BeachIndex:
-                        return new string[] { "Name", "Description", "WaterBody", "ApproximateAddress" };
+                        return new string[] { "Name", "Description", "WaterBodyName", "ApproximateAddress" };
                     default:
                         return new string[] { "Name" };
                 }                

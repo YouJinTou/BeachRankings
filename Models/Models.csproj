@@ -57,8 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ICountrySearchable.cs" />
     <Compile Include="Interfaces\IWaterBodySearchable.cs" />
     <Compile Include="Interfaces\ILocationSearchable.cs" />
+    <Compile Include="Country.cs" />
     <Compile Include="WaterBody.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Beach.cs" />

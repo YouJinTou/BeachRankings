@@ -23,6 +23,13 @@
                     </div>
                 </div>
 
+                <div data-countries-ddl="" class="form-group" style="display: none;">
+                    @Html.LabelFor(model => model.CountryName, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.CountryName, new { @class = "form-control", data_textbox_country_name = "" })
+                    </div>
+                </div>
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
@@ -51,7 +58,6 @@
                     @Html.LabelFor(model => model.Coordinates, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         @Html.TextBoxFor(model => model.Coordinates, new { @class = "form-control", data_textbox_coordinates = "" })
-                        @Html.ValidationMessageFor(model => model.Coordinates, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

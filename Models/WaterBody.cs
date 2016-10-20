@@ -5,18 +5,12 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class WaterBody : ILocationSearchable
+    public class WaterBody : IWaterBodySearchable
     {
-        private string name;
         private ICollection<Beach> beaches;
-
-        protected WaterBody()
+        
+        public WaterBody()
         {
-        }
-
-        public WaterBody(string name)
-        {
-            this.name = name;
         }
 
         [Key]
@@ -27,17 +21,7 @@
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "There is no body of water with that long of a name.")]
         [Display(Name = "Body of water")]
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
+        public string Name { get; set; }
 
         public virtual ICollection<Beach> Beaches
         {

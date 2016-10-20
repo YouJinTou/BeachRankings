@@ -4,9 +4,13 @@
     using Lucene.Net.Index;
     using Lucene.Net.Search;
     using Lucene.Net.Documents;
+    using System;
+    using System.Collections.Generic;
 
     internal static class LuceneEntryFactory
     {
+        //private static IDictionary<ISearchable, Type> searchables;
+
         public static void AddUpdateDocument(ISearchable searchable, IndexWriter writer)
         {
             if (searchable is ILocationSearchable)

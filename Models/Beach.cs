@@ -23,7 +23,11 @@
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         public string Name { get; set; }
-                
+
+        public int CountryId { get; set; }
+
+        public virtual Country Country { get; set; }
+
         [Required]
         public int LocationId { get; set; }
 
@@ -42,7 +46,6 @@
 
         public string ApproximateAddress { get; set; }
 
-        [Required]
         public string Coordinates { get; set; }
 
         public virtual ICollection<Review> Reviews

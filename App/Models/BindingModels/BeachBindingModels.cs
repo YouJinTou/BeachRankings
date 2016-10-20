@@ -11,6 +11,9 @@
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         public string Name { get; set; }
 
+        [Required]
+        public string CountryName { get; set; }
+
         [Required(ErrorMessage = "The location field is required.")]
         [MinLength(2, ErrorMessage = "The location name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The location name cannot be longer than 100 characters.")]
@@ -28,7 +31,6 @@
 
         public string ApproximateAddress { get; set; }
 
-        [Required(ErrorMessage = "The coordinates field is required.")]
         public string Coordinates { get; set; }
 
         public IEnumerable<BeachPhoto> Photos { get; set; }

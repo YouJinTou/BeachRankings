@@ -27,6 +27,7 @@ namespace BeachRankings.Data.Migrations
 
             this.SeedRoles();
             this.SeedUsers();
+            this.SeedCountries();
             this.SeedWaterBodies();
             this.SeedLocations();
             this.SeedBeaches();
@@ -78,6 +79,32 @@ namespace BeachRankings.Data.Migrations
             }
         }
 
+        private void SeedCountries()
+        {
+            if (this.data.Countries.Any())
+            {
+                return;
+            }
+
+            var countriesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Countries.txt");
+            var countries = new List<Country>();
+
+            using (var sr = new StreamReader(countriesPath))
+            {
+                string countryName;
+
+                while ((countryName = sr.ReadLine()) != null)
+                {
+                    var country = new Country() { Name = countryName };
+
+                    countries.Add(country);
+                    this.data.Countries.Add(country);
+                }
+            }
+
+            this.data.SaveChanges();
+        }
+
         private void SeedWaterBodies()
         {
             if (this.data.WaterBodies.Any())
@@ -85,7 +112,7 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
-            var waterBodiesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodies.txt");
+            var waterBodiesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BodiesOfWater.txt");
             var waterBodies = new List<WaterBody>();
 
             using (var sr = new StreamReader(waterBodiesPath))
@@ -94,7 +121,7 @@ namespace BeachRankings.Data.Migrations
 
                 while ((waterBodyName = sr.ReadLine()) != null)
                 {
-                    var waterBody = new WaterBody(waterBodyName);
+                    var waterBody = new WaterBody() { Name = waterBodyName };
 
                     waterBodies.Add(waterBody);
                     this.data.WaterBodies.Add(waterBody);
@@ -115,11 +142,12 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
+            var countryId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
             var locations = new List<Location>()
             {
-                new Location() { Name = "Varna" },
-                new Location() { Name= "Kaliakra" },
-                new Location() { Name = "Kamchia" }
+                new Location() { Name = "Varna", CountryId = countryId },
+                new Location() { Name= "Kaliakra", CountryId = countryId },
+                new Location() { Name = "Kamchia", CountryId = countryId }
             };
 
             foreach (var location in locations)
@@ -142,14 +170,14 @@ namespace BeachRankings.Data.Migrations
             }
 
             var waterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
-            var kaliakraId = this.data.Locations.FirstOrDefault(l => l.Name == "Kaliakra").Id;
-            var varnaId = this.data.Locations.FirstOrDefault(l => l.Name == "Varna").Id;
+            var countryId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
 
             var beaches = new List<Beach>()
             {
                 new Beach()
                 {
                     Name = "Kamchia Beach",
+                    CountryId = countryId,
                     LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Kamchia").Id,
                     WaterBodyId = waterBodyId,
                     WaterBodyName = "Black Sea",
@@ -159,6 +187,7 @@ namespace BeachRankings.Data.Migrations
                 new Beach()
                 {
                     Name = "Bolata",
+                    CountryId = countryId,
                     LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Kaliakra").Id,
                     WaterBodyId = waterBodyId,
                     WaterBodyName = "Black Sea",
@@ -168,6 +197,7 @@ namespace BeachRankings.Data.Migrations
                 new Beach()
                 {
                     Name = "Sunny Day Beach",
+                    CountryId = countryId,
                     LocationId = this.data.Locations.FirstOrDefault(l => l.Name == "Varna").Id,
                     WaterBodyId = waterBodyId,
                     WaterBodyName = "Black Sea",
