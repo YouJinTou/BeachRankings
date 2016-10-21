@@ -1,0 +1,11 @@
+﻿@model BeachRankings.App.Models.ViewModels.CountryBeachesViewModel
+
+@{
+    ViewBag.Title = "Beaches in " + Model.Name;
+}
+
+<h2>@Model.Name</h2>
+
+<hr />
+
+@Html.DisplayFor(model => model.Beaches)

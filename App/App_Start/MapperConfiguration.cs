@@ -12,11 +12,18 @@
         {
             Mapper.Initialize(cfg =>
             {
+                cfg.CreateMap<Country, AutocompleteCountryViewModel>()
+                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
+                cfg.CreateMap<Country, CountryBeachesViewModel>();
+
                 cfg.CreateMap<WaterBody, AddBeachWaterBodyViewModel>();
-                cfg.CreateMap<WaterBody, AutocompleteWaterBodyViewModel>();
+                cfg.CreateMap<WaterBody, AutocompleteWaterBodyViewModel>()
+                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
+                cfg.CreateMap<WaterBody, WaterBodyBeachesViewModel>();
 
                 cfg.CreateMap<Location, AutocompleteLocationViewModel>()
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
+                cfg.CreateMap<Location, LocationBeachesViewModel>();
 
                 cfg.CreateMap<Beach, AutocompleteBeachViewModel>()
                     .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBodyName))

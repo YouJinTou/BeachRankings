@@ -24,22 +24,25 @@
 
         public async Task<PartialViewResult> Autocomplete(string prefix)
         {
-            if (string.IsNullOrEmpty(prefix))
+            if (prefix.Length <= 1)
             {
                 return null;
             }
 
-            var beaches = await this.Data.Beaches.All().Where(b => b.Name.StartsWith(prefix)).ToListAsync();
-            var waterBodies = await this.Data.WaterBodies.All().Where(wb => wb.Name.StartsWith(prefix)).ToListAsync();
+            var waterBodies = await this.Data.WaterBodies.All().Where(wb => wb.Beaches.Count > 0 && wb.Name.StartsWith(prefix)).ToListAsync();
+            var countries = await this.Data.Countries.All().Where(c => c.Beaches.Count > 0 && c.Name.StartsWith(prefix)).ToListAsync();
             var locations = await this.Data.Locations.All().Where(l => l.Beaches.Count > 0 && l.Name.StartsWith(prefix)).ToListAsync();
+            var beaches = await this.Data.Beaches.All().Where(b => b.Name.StartsWith(prefix)).ToListAsync();
             var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<AutocompleteBeachViewModel>>(beaches);
-            var waterBodiesModel = Mapper.Map<IEnumerable<WaterBody>, IEnumerable<AutocompleteWaterBodyViewModel>>(waterBodies);
             var locationsModel = Mapper.Map<IEnumerable<Location>, IEnumerable<AutocompleteLocationViewModel>>(locations);
+            var countriesModel = Mapper.Map<IEnumerable<Country>, IEnumerable<AutocompleteCountryViewModel>>(countries);
+            var waterBodiesModel = Mapper.Map<IEnumerable<WaterBody>, IEnumerable<AutocompleteWaterBodyViewModel>>(waterBodies);
             var model = new AutocompleteMainViewModel()
             {
                 Beaches = beachesModel,
                 WaterBodies = waterBodiesModel,
-                Locations = locationsModel
+                Locations = locationsModel,
+                Countries = countriesModel
             };
 
             return PartialView("_Autocomplete", model);

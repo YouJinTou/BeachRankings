@@ -9,5 +9,7 @@
         public IEnumerable<AutocompleteWaterBodyViewModel> WaterBodies { get; set; }
 
         public IEnumerable<AutocompleteLocationViewModel> Locations { get; set; }
+
+        public IEnumerable<AutocompleteCountryViewModel> Countries { get; set; }
     }
 }

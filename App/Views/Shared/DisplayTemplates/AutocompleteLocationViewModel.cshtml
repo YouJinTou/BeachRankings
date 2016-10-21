@@ -2,6 +2,8 @@
 @model BeachRankings.App.Models.ViewModels.AutocompleteLocationViewModel
 
 <li>
-    <h4 class="disable-block"><strong>@Model.Name</strong></h4>
-    <h5><i>@Html.PluralizeValue(Model.BeachCount, "beach")</i></h5>
+    <a href="/Locations/Beaches/@Model.Id">
+        <h4 class="disable-block"><strong>@Model.Name</strong></h4>
+        <h5 class="disable-block"><i>@Html.PluralizeValue(Model.BeachCount, "beach")</i></h5>
+    </a>    
 </li>

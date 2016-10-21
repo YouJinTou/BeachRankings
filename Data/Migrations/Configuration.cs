@@ -112,7 +112,7 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
-            var waterBodiesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BodiesOfWater.txt");
+            var waterBodiesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodies.txt");
             var waterBodies = new List<WaterBody>();
 
             using (var sr = new StreamReader(waterBodiesPath))

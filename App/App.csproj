@@ -221,6 +221,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
+    <Compile Include="Controllers\WaterBodiesController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
@@ -232,6 +235,7 @@
     <Compile Include="Models\CriteriaBaseModel.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\HomeViewModels.cs" />
+    <Compile Include="Models\ViewModels\CountryViewModels.cs" />
     <Compile Include="Models\ViewModels\WaterBodyViewModels.cs" />
     <Compile Include="Models\ViewModels\LocationViewModels.cs" />
     <Compile Include="Models\ViewModels\ReviewViewModels.cs" />
@@ -243,7 +247,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Countries.txt" />
-    <Content Include="App_Data\BodiesOfWater.txt" />
+    <Content Include="App_Data\WaterBodies.txt" />
     <Content Include="App_Data\LocationInfo.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -349,6 +353,10 @@
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteBeachViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteLocationViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteWaterBodyViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\AutocompleteCountryViewModel.cshtml" />
+    <Content Include="Views\Countries\Beaches.cshtml" />
+    <Content Include="Views\Locations\Beaches.cshtml" />
+    <Content Include="Views\WaterBodies\Beaches.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\BeachIndex\" />

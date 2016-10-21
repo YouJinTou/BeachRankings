@@ -20,6 +20,8 @@
             }         
 
             string pluralForm = singularObject.EndsWith("s") ? (singularObject + "es") :
+                singularObject.EndsWith("f") ? (singularObject.TrimEnd('f') + "ves") :
+                singularObject.EndsWith("h") ? (singularObject + "es") :
                 singularObject.EndsWith("y") ? (singularObject.TrimEnd('y') + "ies") : 
                 (singularObject + "s");  
             string htmlString = (value == 1) ? ("1 " + singularObject) : (value.ToString() + " " + pluralForm);
