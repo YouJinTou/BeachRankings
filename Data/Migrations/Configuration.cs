@@ -31,7 +31,7 @@ namespace BeachRankings.Data.Migrations
             this.SeedWaterBodies();
             this.SeedLocations();
             this.SeedBeaches();
-            this.SeedBeachPhotos();
+            this.SeedBeachImages();
             //this.SeedReviews();
         }
 
@@ -218,9 +218,9 @@ namespace BeachRankings.Data.Migrations
             LuceneSearch.AddUpdateIndexEntries(beaches);
         }
 
-        private void SeedBeachPhotos()
+        private void SeedBeachImages()
         {
-            if (this.data.BeachPhotos.Any())
+            if (this.data.BeachImages.Any())
             {
                 return;
             }
@@ -228,26 +228,26 @@ namespace BeachRankings.Data.Migrations
             var adminId = this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id;
             var userId = this.data.Users.FirstOrDefault(u => u.UserName == "user").Id;
 
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Photos.Add(new BeachPhoto()
+            this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Images.Add(new BeachImage()
             {
                 AuthorId = userId,
                 BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Id,
-                Description = "We were pretty happy taking this shot.",
-                Path = "/Content/Images/kamchia_river.jpg"
+                Path = "/Content/Images/kamchia_river.jpg",
+                Name = "kamchia_river.jpg"
             });
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Photos.Add(new BeachPhoto()
+            this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Images.Add(new BeachImage()
             {
                 AuthorId = adminId,
                 BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Id,
-                Description = "We took this beautiful shot from the chopper.",
-                Path = "/Content/Images/bolata.jpg"
+                Path = "/Content/Images/bolata.jpg",
+                Name = "bolata.jpg"
             });
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Photos.Add(new BeachPhoto()
+            this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Images.Add(new BeachImage()
             {
                 AuthorId = userId,
                 BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Id,
-                Description = "The weather was nice.",
-                Path = "/Content/Images/sunny_day.jpg"
+                Path = "/Content/Images/sunny_day.jpg",
+                Name = "sunny_day.jpg"
             });
 
             this.data.SaveChanges();

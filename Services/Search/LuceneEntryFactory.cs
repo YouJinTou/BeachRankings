@@ -4,13 +4,9 @@
     using Lucene.Net.Index;
     using Lucene.Net.Search;
     using Lucene.Net.Documents;
-    using System;
-    using System.Collections.Generic;
 
     internal static class LuceneEntryFactory
     {
-        //private static IDictionary<ISearchable, Type> searchables;
-
         public static void AddUpdateDocument(ISearchable searchable, IndexWriter writer)
         {
             if (searchable is ILocationSearchable)
@@ -30,6 +26,11 @@
                 var waterBodySearchable = (IWaterBodySearchable)searchable;
 
                 AddUpdateWaterBodyDoc(waterBodySearchable, writer);
+            } else if (searchable is ICountrySearchable)
+            {
+                var countrySearchable = (ICountrySearchable)searchable;
+
+                AddUpdateCountryDoc(countrySearchable, writer);
             }
         }
 
@@ -42,21 +43,40 @@
             var newDoc = new Document();
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
             var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
+            var waterBodyNameField = new Field("WaterBodyName", searchable.WaterBodyName ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
             var descriptionField = new Field("Description", searchable.Description ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
-            var waterBodyField = new Field("WaterBodyName", searchable.WaterBodyName ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
             var addressField = new Field("ApproximateAddress", searchable.ApproximateAddress ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
             var coordinatesField = new Field("Coordinates", searchable.Coordinates ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
 
             nameField.Boost = 3.0f;
+            waterBodyNameField.Boost = 2.0f;
             descriptionField.Boost = 0.7f;
             addressField.Boost = 1.8f;
 
             newDoc.Add(idField);
             newDoc.Add(nameField);
+            newDoc.Add(waterBodyNameField);
             newDoc.Add(descriptionField);
-            newDoc.Add(waterBodyField);
             newDoc.Add(addressField);
             newDoc.Add(coordinatesField);
+
+            writer.AddDocument(newDoc);
+        }
+
+        private static void AddUpdateCountryDoc(ICountrySearchable searchable, IndexWriter writer)
+        {
+            var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
+
+            writer.DeleteDocuments(oldDoc);
+
+            var newDoc = new Document();
+            var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
+            var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
+
+            nameField.Boost = 3.0f;
+
+            newDoc.Add(idField);
+            newDoc.Add(nameField);
 
             writer.AddDocument(newDoc);
         }

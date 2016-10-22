@@ -38,10 +38,20 @@
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
                         ModelType = ModelType.Beach;
 
-                        break;
+                        break;                    
                     case Index.LocationIndex:
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "LocationIndex");
                         ModelType = ModelType.Location;
+
+                        break;
+                    case Index.WaterBodyIndex:
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodyIndex");
+                        ModelType = ModelType.WaterBody;
+
+                        break;
+                    case Index.CountryIndex:
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "CountryIndex");
+                        ModelType = ModelType.Country;
 
                         break;
                     default:
@@ -101,8 +111,12 @@
                 {
                     case Index.LocationIndex:
                         return new string[] { "Name" };
+                    case Index.WaterBodyIndex:
+                        return new string[] { "Name" };
+                    case Index.CountryIndex:
+                        return new string[] { "Name" };
                     case Index.BeachIndex:
-                        return new string[] { "Name", "Description", "WaterBodyName", "ApproximateAddress" };
+                        return new string[] { "Name", "WaterBodyName", "Description", "ApproximateAddress" };
                     default:
                         return new string[] { "Name" };
                 }                

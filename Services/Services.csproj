@@ -54,6 +54,7 @@
     <Compile Include="Search\LuceneModelFactory.cs" />
     <Compile Include="Search\LuceneSearch.cs" />
     <Compile Include="Search\Enums\ModelTypes.cs" />
+    <Compile Include="Search\Models\CountrySearchResultModel.cs" />
     <Compile Include="Search\Models\WaterBodySearchResultModel.cs" />
     <Compile Include="Search\Models\LocationSearchResultModel.cs" />
     <Compile Include="Search\Models\BeachSearchResultModel.cs" />

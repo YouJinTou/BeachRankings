@@ -19,7 +19,7 @@
 
         public IDbSet<Beach> Beaches { get; set; }
 
-        public IDbSet<BeachPhoto> BeachPhotos { get; set; }
+        public IDbSet<BeachImage> BeachImages { get; set; }
 
         public IDbSet<Review> Reviews { get; set; }
 

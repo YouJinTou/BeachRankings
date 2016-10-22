@@ -16,7 +16,9 @@
                 case ModelType.WaterBody:
                     return MapDocToWaterBodyModel(doc);
                 case ModelType.Location:
-                    return MapDocToLocationModel(doc);                
+                    return MapDocToLocationModel(doc);
+                case ModelType.Country:
+                    return MapDocToCountryModel(doc);          
                 default:
                     return null;
             }
@@ -44,6 +46,15 @@
         }
 
         private static ISearchable MapDocToLocationModel(Document doc)
+        {
+            return new LocationSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name")
+            };
+        }
+
+        private static ISearchable MapDocToCountryModel(Document doc)
         {
             return new LocationSearchResultModel()
             {

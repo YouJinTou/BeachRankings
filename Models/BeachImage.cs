@@ -3,9 +3,9 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class BeachPhoto
+    public class BeachImage
     {
-        public BeachPhoto()
+        public BeachImage()
         {
             this.UploadedOn = DateTime.Now;
         }
@@ -27,7 +27,7 @@
         [Required]
         public string Path { get; set; }
 
-        [MaxLength(250, ErrorMessage = "The description can be up to 250 characters long.")]
-        public string Description { get; set; }   
+        [Required]
+        public string Name { get; set; }
     }
 }

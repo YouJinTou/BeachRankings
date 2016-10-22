@@ -4,6 +4,7 @@
     {
         Beach,
         WaterBody,
-        Location
+        Location,
+        Country
     }
 }

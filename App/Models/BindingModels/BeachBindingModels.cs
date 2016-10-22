@@ -1,7 +1,5 @@
 ﻿namespace BeachRankings.App.Models.BindingModels
 {
-    using BeachRankings.Models;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class AddBeachBindingModel
@@ -32,6 +30,6 @@
 
         public string Coordinates { get; set; }
 
-        public IEnumerable<BeachPhoto> Photos { get; set; }
+        public string Image { get; set; }
     }
 }

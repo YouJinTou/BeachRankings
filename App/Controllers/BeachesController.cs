@@ -5,9 +5,13 @@
     using BeachRankings.Models;
     using BeachRankings.App.Models.BindingModels;
     using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.App.Utils;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
@@ -48,9 +52,6 @@
 
             if (!beachNameUnique)
             {
-                this.Response.Clear();
-                this.Response.StatusDescription = "A beach with this name already exists.";
-
                 return new HttpStatusCodeResult(412, "A beach with this name already exists.");
             }
 
@@ -72,7 +73,6 @@
 
                 this.Data.Locations.Add(location);
                 this.Data.Locations.SaveChanges();
-
                 this.Data.Locations.AddLocationToIndex(location);
             }
 
@@ -82,8 +82,33 @@
 
             this.Data.Beaches.Add(beach);
             this.Data.Beaches.SaveChanges();
-
             this.Data.Beaches.AddBeachToIndex(beach);
+
+            if (!string.IsNullOrEmpty(bindingModel.Image))
+            {
+                // TO-DO: Perform checks
+
+                var formattedBeachName = Regex.Replace(beach.Name, @"[^A-Za-z]", string.Empty);
+                var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads", "Images", "Beaches", formattedBeachName);
+                var uniqueName = Guid.NewGuid().ToString();
+                var imagePath = Path.Combine(beachDir, uniqueName);
+                var image = Helpers.ConvertBase64StringToImage(bindingModel.Image);
+
+                Directory.CreateDirectory(beachDir);
+
+                image.Save(imagePath + ".jpeg");
+
+                var beachPhoto = new BeachImage()
+                {
+                    AuthorId = this.UserProfile.Id,
+                    BeachId = beach.Id,
+                    Name = uniqueName,
+                    Path = imagePath
+                };
+
+                this.Data.BeachImages.Add(beachPhoto);
+                this.Data.BeachImages.SaveChanges();
+            }
 
             return this.Json(new { redirectUrl = Url.Action("Post", "Reviews", new { id = beach.Id }) });
         }

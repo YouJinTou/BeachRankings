@@ -9,7 +9,7 @@
     public class User : IdentityUser
     {
         private ICollection<Review> reviews;
-        private ICollection<BeachPhoto> photos;
+        private ICollection<BeachImage> images;
 
         public User()
         {
@@ -25,11 +25,11 @@
             }
         }
 
-        public virtual ICollection<BeachPhoto> Photos
+        public virtual ICollection<BeachImage> Images
         {
             get
             {
-                return this.photos ?? (this.photos = new HashSet<BeachPhoto>());
+                return this.images ?? (this.images = new HashSet<BeachImage>());
             }
         }
 

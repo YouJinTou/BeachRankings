@@ -15,7 +15,7 @@
 
         IBeachRepository Beaches { get; }
 
-        IGenericRepository<BeachPhoto> BeachPhotos { get; }
+        IGenericRepository<BeachImage> BeachImages { get; }
 
         IGenericRepository<Review> Reviews { get; }
     }

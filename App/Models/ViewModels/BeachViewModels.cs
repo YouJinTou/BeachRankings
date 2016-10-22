@@ -63,7 +63,7 @@
         [UIHint("ConciseReviewViewModel.cshtml")]
         public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }
 
-        public IEnumerable<BeachPhoto> Photos { get; set; }
+        public IEnumerable<BeachImage> Images { get; set; }
     }
 
     public class AutocompleteBeachViewModel

@@ -108,6 +108,7 @@ var gMapManager = new GoogleMapManager();
     setBindings();
     setAutocomplete();
     setEvents();
+    setFileUpload();
 
     function setBindings() {
         $textBoxName.bind('paste', function (event) {
@@ -241,80 +242,104 @@ var gMapManager = new GoogleMapManager();
                 return;
             }
 
-            var beachJsonData = {
-                name: $textBoxName.val(),
-                locationName: $textBoxLocation.val(),
-                description: $('[data-textbox-description]').val(),
-                waterBodyId: waterBodyId,
-                waterBodyName: waterBodyName,
-                countryName: (googleFailCounter <= 1) ? countryName : $('[data-ddl-country-name]').val(),
-                approximateAddress: locationData.approximateAddress,
-                coordinates: locationData.coordinates
-            };
-            var csrfToken = $('input[name="__RequestVerificationToken"]', $addBeachForm).val();
+            getUploadedFiles(makeServerRequest); // Make the AJAX request after we've read the uploaded files
 
-            $.ajax({
-                url: '/Beaches/Add/',
-                type: 'POST',
-                data: {
-                    __RequestVerificationToken: csrfToken,
-                    bindingModel: beachJsonData
-                },
-                success: function (result) {
-                    if (result.redirectUrl) {
-                        window.location.href = result.redirectUrl;
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status === 412) {
-                        $validationSpan.text(jqXHR.statusText);
-                    } else {
-                        $validationSpan.text('Something went wrong. We will look into it.');
+            function makeServerRequest(uploadedFile) {
+                var beachJsonData = {
+                    name: $textBoxName.val(),
+                    locationName: $textBoxLocation.val(),
+                    description: $('[data-textbox-description]').val(),
+                    waterBodyId: waterBodyId,
+                    waterBodyName: waterBodyName,
+                    countryName: (googleFailCounter <= 1) ? countryName : $('[data-ddl-country-name]').val(),
+                    approximateAddress: locationData.approximateAddress,
+                    coordinates: locationData.coordinates,
+                    image: uploadedFile
+                };
+                var csrfToken = $('input[name="__RequestVerificationToken"]', $addBeachForm).val();
 
-                        // TO-DO CONTROLLER
+                $.ajax({
+                    url: '/Beaches/Add/',
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: csrfToken,
+                        bindingModel: beachJsonData
+                    },
+                    success: function (result) {
+                        if (result.redirectUrl) {
+                            window.location.href = result.redirectUrl;
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status === 412) {
+                            $validationSpan.text(jqXHR.statusText);
+                        } else {
+                            $validationSpan.text('Something went wrong. We will look into it.');
+
+                            // TO-DO CONTROLLER
+                        }
                     }
-                }
-            });
+                });
+            }            
         });
+
+        function validateForm() {
+            $.validator.unobtrusive.parse($addBeachForm);
+
+            var validator = $addBeachForm.validate();
+
+            if (!$addBeachForm.valid()) {
+                return false;
+            }
+
+            if (!gMapManager.getCoordinates()) {
+                $validationSpan.text('Please select a beach on the map or input the coordinates manually.')
+
+                return false;
+            }
+
+            if (!coordinatesValid()) {
+                $validationSpan.text('Invalid coordinates.')
+
+                return false;
+            }
+
+            if (!waterBodyValid) {
+                $validationSpan.text('The body of water appears to be spelled incorrectly.')
+
+                return false;
+            }
+
+            return true;
+        }
+
+        function coordinatesValid() {
+            var pattern = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
+
+            if (!pattern.test($textBoxCoordinates.val())) {
+                return false;
+            }
+
+            return true;
+        }
+
+        function getUploadedFiles(callback) {            
+            var fileReader = new FileReader();
+
+            fileReader.onloadend = function (e) {
+                callback(e.target.result);
+            };
+
+            fileReader.readAsDataURL($('#uploader')[0].files[0]);
+        }
     }
 
-    function validateForm() {
-        $.validator.unobtrusive.parse($addBeachForm);
-
-        var validator = $addBeachForm.validate();
-
-        if (!$addBeachForm.valid()) {
-            return false;
+    function setFileUpload() {
+        if (window.FileReader != null) {
+            $('#file-reader-not-supported-box').hide();
+        } else {
+            $('#uploader-box').hide();
+            $('.upload').prop('disabled', true);
         }
-
-        if (!gMapManager.getCoordinates()) {
-            $validationSpan.text('Please select a beach on the map or input the coordinates manually.')
-
-            return false;
-        }
-
-        if (!coordinatesValid()) {
-            $validationSpan.text('Invalid coordinates.')
-
-            return false;
-        }
-
-        if (!waterBodyValid) {
-            $validationSpan.text('The body of water appears to be spelled incorrectly.')
-
-            return false;
-        }        
-
-        return true;
-    }
-
-    function coordinatesValid() {
-        var pattern = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
-
-        if (!pattern.test($textBoxCoordinates.val())) {
-            return false;
-        }
-
-        return true;
     }
 })(jQuery);

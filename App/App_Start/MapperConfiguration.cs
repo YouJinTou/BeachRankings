@@ -29,7 +29,7 @@
                     .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBodyName))
                     .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
-                    .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Photos.FirstOrDefault().Path))
+                    .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Images.FirstOrDefault().Path))
                     .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));
                 cfg.CreateMap<Beach, DetailedBeachViewModel>()
                     .ForMember(vm => vm.Location, model => model.MapFrom(m => m.Location.Name));
@@ -40,9 +40,9 @@
                     .ForMember(vm => vm.BeachLocation, model => model.MapFrom(m => m.Location.Name))
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
-                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Photos));
+                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Images));
 
-                cfg.CreateMap<BeachPhoto, string>().ConvertUsing(bp => bp.Path);
+                cfg.CreateMap<BeachImage, string>().ConvertUsing(bp => bp.Path);
 
                 cfg.CreateMap<Review, ConciseReviewViewModel>()
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))

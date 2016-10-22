@@ -2,6 +2,7 @@
 {
     public enum Index
     {
+        CountryIndex,
         LocationIndex,
         WaterBodyIndex,
         BeachIndex

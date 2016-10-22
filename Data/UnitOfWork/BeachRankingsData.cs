@@ -15,7 +15,7 @@
         private IWaterBodyRepository waterBodies;
         private ILocationRepository locations;
         private IBeachRepository beaches;
-        private IGenericRepository<BeachPhoto> beachPhotos;
+        private IGenericRepository<BeachImage> beachImages;
         private IGenericRepository<Review> reviews;
         private IUserStore<User> userStore;
 
@@ -94,16 +94,16 @@
             }
         }
 
-        public IGenericRepository<BeachPhoto> BeachPhotos
+        public IGenericRepository<BeachImage> BeachImages
         {
             get
             {
-                if (this.beachPhotos == null)
+                if (this.beachImages == null)
                 {
-                    this.beachPhotos = new GenericRepository<BeachPhoto>(this.dbContext);
+                    this.beachImages = new GenericRepository<BeachImage>(this.dbContext);
                 }
 
-                return this.beachPhotos;
+                return this.beachImages;
             }
         }
 
