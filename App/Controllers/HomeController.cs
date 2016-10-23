@@ -31,18 +31,21 @@
 
             var waterBodies = await this.Data.WaterBodies.All().Where(wb => wb.Beaches.Count > 0 && wb.Name.StartsWith(prefix)).ToListAsync();
             var countries = await this.Data.Countries.All().Where(c => c.Beaches.Count > 0 && c.Name.StartsWith(prefix)).ToListAsync();
-            var locations = await this.Data.Locations.All().Where(l => l.Beaches.Count > 0 && l.Name.StartsWith(prefix)).ToListAsync();
+            var regions = await this.Data.Regions.All().Where(l => l.Beaches.Count > 0 && l.Name.StartsWith(prefix)).ToListAsync();
+            var areas = await this.Data.Areas.All().Where(a => a.Beaches.Count > 0 && a.Name.StartsWith(prefix)).ToListAsync();
             var beaches = await this.Data.Beaches.All().Where(b => b.Name.StartsWith(prefix)).ToListAsync();
             var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<AutocompleteBeachViewModel>>(beaches);
-            var locationsModel = Mapper.Map<IEnumerable<Location>, IEnumerable<AutocompleteLocationViewModel>>(locations);
+            var areasModel = Mapper.Map<IEnumerable<Area>, IEnumerable<AutocompleteAreaViewModel>>(areas);
+            var regionsModel = Mapper.Map<IEnumerable<Region>, IEnumerable<AutocompleteRegionViewModel>>(regions);
             var countriesModel = Mapper.Map<IEnumerable<Country>, IEnumerable<AutocompleteCountryViewModel>>(countries);
             var waterBodiesModel = Mapper.Map<IEnumerable<WaterBody>, IEnumerable<AutocompleteWaterBodyViewModel>>(waterBodies);
             var model = new AutocompleteMainViewModel()
             {
                 Beaches = beachesModel,
                 WaterBodies = waterBodiesModel,
-                Locations = locationsModel,
-                Countries = countriesModel
+                Regions = regionsModel,
+                Countries = countriesModel,
+                Areas = areasModel
             };
 
             return PartialView("_Autocomplete", model);

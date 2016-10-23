@@ -58,11 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ICountrySearchable.cs" />
+    <Compile Include="Interfaces\IAreaSearchable.cs" />
     <Compile Include="Interfaces\IWaterBodySearchable.cs" />
-    <Compile Include="Interfaces\ILocationSearchable.cs" />
+    <Compile Include="Interfaces\IRegionSearchable.cs" />
     <Compile Include="Country.cs" />
+    <Compile Include="Area.cs" />
     <Compile Include="WaterBody.cs" />
-    <Compile Include="Location.cs" />
+    <Compile Include="Region.cs" />
     <Compile Include="Beach.cs" />
     <Compile Include="Interfaces\IBeachSearchable.cs" />
     <Compile Include="Interfaces\ISearchable.cs" />

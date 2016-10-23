@@ -13,9 +13,11 @@
 
         public IDbSet<Country> Countries { get; set; }
 
-        public IDbSet<WaterBody> WaterBodies { get; set; }
+        public IDbSet<Region> Regions { get; set; }
 
-        public IDbSet<Location> Locations { get; set; }
+        public IDbSet<Area> Areas { get; set; }
+
+        public IDbSet<WaterBody> WaterBodies { get; set; }
 
         public IDbSet<Beach> Beaches { get; set; }
 
@@ -31,9 +33,21 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Country>()
-                .HasMany(c => c.Locations)
-                .WithOptional(l => l.Country)
+                .HasMany(c => c.Regions)
+                .WithRequired(r => r.Country)
                 .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Country>()
+               .HasMany(c => c.Beaches)
+               .WithRequired(b => b.Country)
+               .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Region>()
+               .HasMany(c => c.Beaches)
+               .WithRequired(b => b.Region)
+               .WillCascadeOnDelete(false);
+            modelBuilder.Entity<WaterBody>()
+               .HasMany(c => c.Beaches)
+               .WithRequired(b => b.WaterBody)
+               .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }

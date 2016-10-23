@@ -2,9 +2,10 @@
 {
     internal enum ModelType
     {
-        Beach,
+        Country,
+        Region,
+        Area,
         WaterBody,
-        Location,
-        Country
+        Beach
     }
 }

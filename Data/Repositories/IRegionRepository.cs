@@ -4,10 +4,10 @@
     using BeachRankings.Models.Interfaces;
     using System.Collections.Generic;
 
-    public interface IBeachRepository : IGenericRepository<Beach>
+    public interface IRegionRepository : IGenericRepository<Region>
     {
         IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix);
-
-        void AddBeachToIndex(Beach beach);
+       
+        void AddRegionToIndex(Region region);
     }
 }

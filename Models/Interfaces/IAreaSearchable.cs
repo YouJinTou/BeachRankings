@@ -1,6 +1,6 @@
 ﻿namespace BeachRankings.Models.Interfaces
 {
-    public interface ILocationSearchable : ISearchable
+    public interface IAreaSearchable : ISearchable
     {
     }
 }

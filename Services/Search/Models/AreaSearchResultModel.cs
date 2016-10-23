@@ -2,7 +2,7 @@
 {
     using BeachRankings.Models.Interfaces;
 
-    public class LocationSearchResultModel : ISearchable
+    public class AreaSearchResultModel : ISearchable
     {
         public int Id { get; set; }
 

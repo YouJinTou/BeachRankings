@@ -60,12 +60,14 @@
     <Compile Include="BeachRankingsDbContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IAreaRepository.cs" />
     <Compile Include="Repositories\IWaterBodyRepository.cs" />
+    <Compile Include="Repositories\AreaRepository.cs" />
     <Compile Include="Repositories\WaterBodyRepository.cs" />
-    <Compile Include="Repositories\LocationRepository.cs" />
+    <Compile Include="Repositories\RegionRepository.cs" />
     <Compile Include="Repositories\BeachRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
-    <Compile Include="Repositories\ILocationRepository.cs" />
+    <Compile Include="Repositories\IRegionRepository.cs" />
     <Compile Include="Repositories\IBeachRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
     <Compile Include="UnitOfWork\BeachRankingsData.cs" />

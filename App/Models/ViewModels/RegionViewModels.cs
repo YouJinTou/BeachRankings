@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class AutocompleteLocationViewModel
+    public class AutocompleteRegionViewModel
     {
         public int Id { get; set; }
 
@@ -11,7 +11,7 @@
         public int BeachCount { get; set; }
     }
 
-    public class LocationBeachesViewModel
+    public class RegionBeachesViewModel
     {
         public string Name { get; set; }
 

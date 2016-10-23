@@ -221,8 +221,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
+    <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\WaterBodiesController.cs" />
-    <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\RegionsController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -230,14 +231,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BindingModels\BeachBindingModels.cs" />
     <Compile Include="Models\BindingModels\ReviewBindingModels.cs" />
     <Compile Include="Models\CriteriaBaseModel.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\HomeViewModels.cs" />
     <Compile Include="Models\ViewModels\CountryViewModels.cs" />
+    <Compile Include="Models\ViewModels\AreaViewModels.cs" />
     <Compile Include="Models\ViewModels\WaterBodyViewModels.cs" />
-    <Compile Include="Models\ViewModels\LocationViewModels.cs" />
+    <Compile Include="Models\ViewModels\RegionViewModels.cs" />
     <Compile Include="Models\ViewModels\ReviewViewModels.cs" />
     <Compile Include="Models\ViewModels\BeachViewModels.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
@@ -351,15 +352,16 @@
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="Views\Home\_Autocomplete.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteBeachViewModel.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\AutocompleteLocationViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\AutocompleteRegionViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteWaterBodyViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteCountryViewModel.cshtml" />
     <Content Include="Views\Countries\Beaches.cshtml" />
-    <Content Include="Views\Locations\Beaches.cshtml" />
+    <Content Include="Views\Regions\Beaches.cshtml" />
     <Content Include="Views\WaterBodies\Beaches.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\AutocompleteAreaViewModel.cshtml" />
+    <Content Include="Views\Areas\Beaches.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\BeachIndex\" />
     <Folder Include="Uploads\Images\Beaches\" />
     <Folder Include="Uploads\Images\UserAvatars\" />
   </ItemGroup>

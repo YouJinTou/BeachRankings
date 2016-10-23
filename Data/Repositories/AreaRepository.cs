@@ -3,35 +3,35 @@
     using BeachRankings.Models;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
-    using BeachRankings.Models.Interfaces;
+    using Models.Interfaces;
     using System.Collections.Generic;
     using System.Data.Entity;
 
-    public class WaterBodyRepository : GenericRepository<WaterBody>, IWaterBodyRepository
+    public class AreaRepository : GenericRepository<Area>, IAreaRepository
     {
         private DbContext dbContext;
-        private IDbSet<WaterBody> entitySet;
+        private IDbSet<Area> entitySet;
 
-        public WaterBodyRepository(DbContext dbContext)
+        public AreaRepository(DbContext dbContext)
             : base(dbContext)
         {
             this.dbContext = dbContext;
-            this.entitySet = dbContext.Set<WaterBody>();
+            this.entitySet = dbContext.Set<Area>();
         }
 
         public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
-            LuceneSearch.Index = Index.WaterBodyIndex;
+            LuceneSearch.Index = Index.AreaIndex;
             var results = LuceneSearch.SearchByPrefix(prefix, 10);
 
             return results;
         }
 
-        public void AddWaterBodyToIndex(WaterBody waterBody)
+        public void AddAreaToIndex(Area area)
         {
-            LuceneSearch.Index = Index.WaterBodyIndex;
+            LuceneSearch.Index = Index.RegionIndex;
 
-            LuceneSearch.AddUpdateIndexEntry(waterBody);
+            LuceneSearch.AddUpdateIndexEntry(area);
         }
     }
 }

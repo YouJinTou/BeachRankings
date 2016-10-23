@@ -9,11 +9,13 @@
 
         IGenericRepository<Country> Countries { get; }
 
-        IWaterBodyRepository WaterBodies { get; }
+        IRegionRepository Regions { get; }
 
-        ILocationRepository Locations { get; }
+        IAreaRepository Areas { get; }
 
         IBeachRepository Beaches { get; }
+
+        IWaterBodyRepository WaterBodies { get; }
 
         IGenericRepository<BeachImage> BeachImages { get; }
 

@@ -12,8 +12,9 @@
 
         private IGenericRepository<User> users;
         private IGenericRepository<Country> countries;
+        private IRegionRepository regions;
+        private IAreaRepository areas;
         private IWaterBodyRepository waterBodies;
-        private ILocationRepository locations;
         private IBeachRepository beaches;
         private IGenericRepository<BeachImage> beachImages;
         private IGenericRepository<Review> reviews;
@@ -42,6 +43,19 @@
             }
         }
 
+        public IUserStore<User> UserStore
+        {
+            get
+            {
+                if (this.userStore == null)
+                {
+                    this.userStore = new UserStore<User>(this.dbContext);
+                }
+
+                return this.userStore;
+            }
+        }
+
         public IGenericRepository<Country> Countries
         {
             get
@@ -52,6 +66,32 @@
                 }
 
                 return this.countries;
+            }
+        }
+
+        public IRegionRepository Regions
+        {
+            get
+            {
+                if (this.regions == null)
+                {
+                    this.regions = new RegionRepository(this.dbContext);
+                }
+
+                return this.regions;
+            }
+        }
+
+        public IAreaRepository Areas
+        {
+            get
+            {
+                if (this.areas == null)
+                {
+                    this.areas = new AreaRepository(this.dbContext);
+                }
+
+                return this.areas;
             }
         }
 
@@ -66,20 +106,7 @@
 
                 return this.waterBodies;
             }
-        }
-
-        public ILocationRepository Locations
-        {
-            get
-            {
-                if (this.locations == null)
-                {
-                    this.locations = new LocationRepository(this.dbContext);
-                }
-
-                return this.locations;
-            }
-        }
+        }        
 
         public IBeachRepository Beaches
         {
@@ -119,19 +146,6 @@
                 return this.reviews;
             }
         }    
-
-        public IUserStore<User> UserStore
-        {
-            get
-            {
-                if (this.userStore == null)
-                {
-                    this.userStore = new UserStore<User>(this.dbContext);
-                }
-
-                return this.userStore;
-            }
-        }
 
         public void SaveChanges()
         {

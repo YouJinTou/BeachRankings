@@ -40,7 +40,11 @@
     {
         public string BeachName { get; set; }
 
-        public string BeachLocation { get; set; }
+        public string BeachCountry { get; set; }
+
+        public string BeachArea { get; set; }
+
+        public string BeachWaterBody { get; set; }
 
         public double? BeachTotalScore { get; set; }
 

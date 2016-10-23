@@ -7,27 +7,40 @@
 
     public class Country : ICountrySearchable
     {
-        private ICollection<Location> locations;
+        private ICollection<Region> regions;
+        private ICollection<Area> areas;
         private ICollection<Beach> beaches;
 
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [Index("IX_CountryName", IsUnique = true)]
+        [Index("IX_Country", IsUnique = true)]
         [MaxLength(100)]
         [Display(Name = "Country")]
         public string Name { get; set; }
 
-        public virtual ICollection<Location> Locations
+        public virtual ICollection<Region> Regions
         {
             get
             {
-                return this.locations ?? (this.locations = new HashSet<Location>());
+                return this.regions ?? (this.regions = new HashSet<Region>());
             }
             protected set
             {
-                this.locations = value;
+                this.regions = value;
+            }
+        }
+
+        public virtual ICollection<Area> Areas
+        {
+            get
+            {
+                return this.areas ?? (this.areas = new HashSet<Area>());
+            }
+            protected set
+            {
+                this.areas = value;
             }
         }
 

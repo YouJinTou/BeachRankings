@@ -38,12 +38,17 @@
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
                         ModelType = ModelType.Beach;
 
-                        break;                    
-                    case Index.LocationIndex:
-                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "LocationIndex");
-                        ModelType = ModelType.Location;
+                        break;
+                    case Index.AreaIndex:
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "AreaIndex");
+                        ModelType = ModelType.Area;
 
                         break;
+                    case Index.RegionIndex:
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "RegionIndex");
+                        ModelType = ModelType.Region;
+
+                        break;                    
                     case Index.WaterBodyIndex:
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodyIndex");
                         ModelType = ModelType.WaterBody;
@@ -55,9 +60,9 @@
 
                         break;
                     default:
-                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "LocationIndex");
-                        index = Index.LocationIndex;
-                        ModelType = ModelType.Location;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "RegionIndex");
+                        index = Index.RegionIndex;
+                        ModelType = ModelType.Region;
 
                         break;
                 }
@@ -109,14 +114,16 @@
             {
                 switch (Index)
                 {
-                    case Index.LocationIndex:
+                    case Index.BeachIndex:
+                        return new string[] { "Name", "WaterBodyName", "Description", "ApproximateAddress" };
+                    case Index.RegionIndex:
+                        return new string[] { "Name" };
+                    case Index.AreaIndex:
                         return new string[] { "Name" };
                     case Index.WaterBodyIndex:
                         return new string[] { "Name" };
                     case Index.CountryIndex:
-                        return new string[] { "Name" };
-                    case Index.BeachIndex:
-                        return new string[] { "Name", "WaterBodyName", "Description", "ApproximateAddress" };
+                        return new string[] { "Name" };                    
                     default:
                         return new string[] { "Name" };
                 }                

@@ -36,52 +36,55 @@
         [HttpGet]
         public ActionResult Add()
         {
-            var countries = this.Data.Countries.All().Select(c => c.Name).ToList();
+            var countries = this.Data.Countries.All().Select(c => new SelectListItem()
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            });
+            var model = new AddBeachViewModel()
+            {
+                Countries = countries
+            };
 
-            this.ViewData["ddlCountries"] = countries;
-
-            return this.View();
+            return this.View(model);
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(AddBeachBindingModel bindingModel)
+        public ActionResult Add(AddBeachViewModel bindingModel)
         {
-            bool beachNameUnique = !this.Data.Beaches.All().Any(b => b.Name.ToLower() == bindingModel.Name.ToLower());
+            bool beachNameUnique = !this.Data.Beaches.All()
+                .Any(
+                    b => b.Region.Id == bindingModel.RegionId && 
+                    b.Area.Id == bindingModel.AreaId && 
+                    b.Name.ToLower() == bindingModel.Name.ToLower());
 
             if (!beachNameUnique)
             {
-                return new HttpStatusCodeResult(412, "A beach with this name already exists.");
+                this.ModelState.AddModelError(string.Empty, string.Empty);
+                this.ViewData["Duplicate Beaches"] = "A beach with this name already exists.";
+                bindingModel.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                });
             }
 
             if (!this.ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(412, "Invalid data. Please review your input and try again.");
+                return this.View(bindingModel);
             }
 
-            var location = this.Data.Locations.All().FirstOrDefault(l => l.Name.ToLower() == bindingModel.LocationName.ToLower());
-            var country = this.Data.Countries.All().FirstOrDefault(c => c.Name.ToLower().Contains(bindingModel.CountryName));
-
-            if (location == null) // The location the user has typed in doesn't exist in the database. Store it.
-            {
-                location = new Location()
-                {
-                    Name = bindingModel.LocationName,
-                    CountryId = (country == null) ? (int?)null : country.Id
-                };
-
-                this.Data.Locations.Add(location);
-                this.Data.Locations.SaveChanges();
-                this.Data.Locations.AddLocationToIndex(location);
-            }
-
-            var beach = Mapper.Map<AddBeachBindingModel, Beach>(bindingModel);
-            beach.LocationId = location.Id;
-            beach.CountryId = (country == null) ? (int?)null : country.Id;
-
+            this.Data.Countries.All().Include(c => c.Regions).Include(c => c.Areas).FirstOrDefault(c => c.Id == bindingModel.CountryId);
+            var region = this.Data.Regions.All().Include(r => r.WaterBody).FirstOrDefault(r => r.Id == bindingModel.RegionId);
+            var beach = Mapper.Map<AddBeachViewModel, Beach>(bindingModel);
+            beach.WaterBodyId = region.WaterBodyId;
+            
             this.Data.Beaches.Add(beach);
+            beach.SetBeachData();
             this.Data.Beaches.SaveChanges();
+
             this.Data.Beaches.AddBeachToIndex(beach);
 
             if (!string.IsNullOrEmpty(bindingModel.Image))
@@ -110,35 +113,7 @@
                 this.Data.BeachImages.SaveChanges();
             }
 
-            return this.Json(new { redirectUrl = Url.Action("Post", "Reviews", new { id = beach.Id }) });
-        }
-
-        public async Task<JsonResult> Names(string term)
-        {
-            var beachNames = await this.Data.Beaches.All()
-                .Where(l => l.Name.StartsWith(term))
-                .Select(l => l.Name)
-                .ToListAsync();
-
-            return this.Json(beachNames, JsonRequestBehavior.AllowGet);
-        }
-
-        public async Task<JsonResult> Locations(string term)
-        {
-            var locations = await this.Data.Locations.All()
-                .Where(l => l.Name.StartsWith(term))
-                .Select(l => l.Name)
-                .ToListAsync();
-
-            return this.Json(locations, JsonRequestBehavior.AllowGet);
-        }
-
-        public async Task<JsonResult> WaterBodies(string term)
-        {
-            var waterBodies = await this.Data.WaterBodies.All().Where(wb => wb.Name.StartsWith(term)).ToListAsync();
-            var model = Mapper.Map<IEnumerable<WaterBody>, IEnumerable<AddBeachWaterBodyViewModel>>(waterBodies);
-
-            return this.Json(model, JsonRequestBehavior.AllowGet);
+            return this.RedirectToAction("Post", "Reviews", new { id = beach.Id });
         }
     }
 }

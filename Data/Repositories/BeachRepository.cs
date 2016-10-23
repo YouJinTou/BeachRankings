@@ -6,7 +6,6 @@
     using BeachRankings.Services.Search.Enums;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System.Linq;
 
     public class BeachRepository : GenericRepository<Beach>, IBeachRepository
     {
@@ -18,21 +17,6 @@
         {
             this.dbContext = dbContext;
             this.entitySet = dbContext.Set<Beach>();
-        }
-
-        public IEnumerable<ISearchable> GetSearchResults(string query, string fieldName = null)
-        {
-            if (string.IsNullOrEmpty(query))
-            {
-                return null;
-            }
-
-            var terms = query.Trim().Replace("-", " ").Split(' ')
-                .Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim() + "*");
-            query = string.Join(" ", terms);
-            LuceneSearch.Index = Index.BeachIndex;
-
-            return LuceneSearch.Search(query, fieldName);
         }
 
         public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)

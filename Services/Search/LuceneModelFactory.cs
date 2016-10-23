@@ -13,10 +13,12 @@
             {
                 case ModelType.Beach:
                     return MapDocToBeachModel(doc);
+                case ModelType.Region:
+                    return MapDocToRegionModel(doc);
+                case ModelType.Area:
+                    return MapDocToAreaModel(doc);
                 case ModelType.WaterBody:
-                    return MapDocToWaterBodyModel(doc);
-                case ModelType.Location:
-                    return MapDocToLocationModel(doc);
+                    return MapDocToWaterBodyModel(doc);                
                 case ModelType.Country:
                     return MapDocToCountryModel(doc);          
                 default:
@@ -30,12 +32,30 @@
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name"),
-                LocationName = doc.Get("LocationName"),
-                WaterBody = doc.Get("WaterBody"),
-                ApproximateAddress = doc.Get("ApproximateAddress"),
+                Description = doc.Get("Description"),
+                Address = doc.Get("Address"),
                 Coordinates = doc.Get("Coordinates")
             };
         }
+
+        private static ISearchable MapDocToRegionModel(Document doc)
+        {
+            return new RegionSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name")
+            };
+        }
+
+        private static ISearchable MapDocToAreaModel(Document doc)
+        {
+            return new AreaSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name")
+            };
+        }
+
         private static ISearchable MapDocToWaterBodyModel(Document doc)
         {
             return new WaterBodySearchResultModel()
@@ -45,18 +65,9 @@
             };
         }
 
-        private static ISearchable MapDocToLocationModel(Document doc)
-        {
-            return new LocationSearchResultModel()
-            {
-                Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name")
-            };
-        }
-
         private static ISearchable MapDocToCountryModel(Document doc)
         {
-            return new LocationSearchResultModel()
+            return new RegionSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name")

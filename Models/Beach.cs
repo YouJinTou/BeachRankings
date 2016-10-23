@@ -19,32 +19,37 @@
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The name field is required.")]
-        [Index("IX_BeachName", IsUnique = true)]
+        [Index("IX_RegionAreaBeach", IsUnique = true, Order = 1)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         public string Name { get; set; }
 
-        public int? CountryId { get; set; }
+        [Required]
+        public int CountryId { get; set; }
 
         public virtual Country Country { get; set; }
 
         [Required]
-        public int LocationId { get; set; }
+        [Index("IX_RegionAreaBeach", IsUnique = true, Order = 3)]
+        public int RegionId { get; set; }
 
-        public virtual Location Location { get; protected set; }
+        public virtual Region Region { get; protected set; }
+
+        [Required]
+        [Index("IX_RegionAreaBeach", IsUnique = true, Order = 2)]
+        public int AreaId { get; set; }
+
+        public virtual Area Area { get; protected set; }
 
         [Required]
         public int WaterBodyId { get; set; }
-
-        [Required(ErrorMessage = "The body of water's name is required.")]
-        public string WaterBodyName { get; set; }
 
         public virtual WaterBody WaterBody { get; protected set; }
 
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
 
-        public string ApproximateAddress { get; set; }
+        public string Address { get; set; }
 
         public string Coordinates { get; set; }
 
@@ -135,6 +140,11 @@
         public double? LongTermStay { get; private set; }
 
         #endregion
+
+        public void SetBeachData()
+        {
+            this.Address = this.Country.Name + " " + this.Region.Name + " " + this.Area.Name + " " + this.WaterBody.Name;
+        }
 
         public void UpdateScores()
         {
