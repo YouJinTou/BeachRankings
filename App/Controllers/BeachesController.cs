@@ -3,16 +3,13 @@
     using AutoMapper;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
-    using BeachRankings.App.Models.BindingModels;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using System;
-    using System.Collections.Generic;
     using System.Data.Entity;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
     using System.Web.Mvc;
 
     public class BeachesController : BaseController
@@ -63,16 +60,18 @@
             if (!beachNameUnique)
             {
                 this.ModelState.AddModelError(string.Empty, string.Empty);
-                this.ViewData["Duplicate Beaches"] = "A beach with this name already exists.";
+
+                this.ViewData["Duplicate Beaches"] = "A beach with this name already exists.";                
+            }
+
+            if (!this.ModelState.IsValid)
+            {
                 bindingModel.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
                 {
                     Text = c.Name,
                     Value = c.Id.ToString()
                 });
-            }
 
-            if (!this.ModelState.IsValid)
-            {
                 return this.View(bindingModel);
             }
 
@@ -99,7 +98,7 @@
 
                 Directory.CreateDirectory(beachDir);
 
-                image.Save(imagePath + ".jpeg");
+                image.Save(imagePath + ".jpg");
 
                 var beachPhoto = new BeachImage()
                 {
