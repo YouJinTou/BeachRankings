@@ -297,10 +297,10 @@ namespace BeachRankings.Data.Migrations
                 Path = "/Content/Images/kamchia_river.jpg",
                 Name = "kamchia_river.jpg"
             });
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Images.Add(new BeachImage()
+            this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata Beach").Images.Add(new BeachImage()
             {
                 AuthorId = adminId,
-                BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Id,
+                BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata Beach").Id,
                 Path = "/Content/Images/bolata.jpg",
                 Name = "bolata.jpg"
             });

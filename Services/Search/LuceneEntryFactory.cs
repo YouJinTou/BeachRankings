@@ -15,6 +15,12 @@
 
                 AddUpdateBeachDoc(beachSearchable, writer);
             }
+            else if (searchable is ICountrySearchable)
+            {
+                var countrySearchable = (ICountrySearchable)searchable;
+
+                AddUpdateCountryDoc(countrySearchable, writer);
+            }
             else if (searchable is IRegionSearchable)
             {
                 var regionSearchable = (IRegionSearchable)searchable;
@@ -32,12 +38,7 @@
                 var waterBodySearchable = (IWaterBodySearchable)searchable;
 
                 AddUpdateWaterBodyDoc(waterBodySearchable, writer);
-            } else if (searchable is ICountrySearchable)
-            {
-                var countrySearchable = (ICountrySearchable)searchable;
-
-                AddUpdateCountryDoc(countrySearchable, writer);
-            }
+            }            
         }
 
         private static void AddUpdateBeachDoc(IBeachSearchable searchable, IndexWriter writer)

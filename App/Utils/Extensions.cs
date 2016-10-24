@@ -3,7 +3,7 @@
     using System.Web;
     using System.Web.Mvc;
 
-    public static class CustomHelpers
+    public static class Extensions
     {
         public static IHtmlString ParseNullableValue(this HtmlHelper helper, double? value, string message)
         {

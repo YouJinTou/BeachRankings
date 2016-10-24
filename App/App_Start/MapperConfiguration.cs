@@ -41,7 +41,7 @@
                     .ForMember(vm => vm.Region, model => model.MapFrom(m => m.Region.Name))
                     .ForMember(vm => vm.Area, model => model.MapFrom(m => m.Area.Name))
                     .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name));
-                cfg.CreateMap<AddBeachViewModel, Beach>();
+                cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
                 cfg.CreateMap<Beach, AutocompleteMainViewModel>();
                 cfg.CreateMap<Beach, PostReviewViewModel>()
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))

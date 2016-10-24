@@ -8,87 +8,84 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-horizontal">
-            <h4>Beach</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-horizontal">
+                <h4>Beach</h4>
 
-            <hr />
+                <hr />
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.DropDownListFor(model => model.CountryId, Model.Countries, "-- Choose a country --", 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(model => model.CountryId, Model.Countries, "-- Choose a country --",
                     new { @class = "form-control", data_ddl_country_name = "" })
-                    @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div data-regions="" class="form-group" style="display: none;">
-                @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.DropDownListFor(model => model.RegionId, Enumerable.Empty<SelectListItem>(), 
+                <div data-regions="" class="form-group" style="display: none;">
+                    @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(model => model.RegionId, Enumerable.Empty<SelectListItem>(),
                     new { @class = "form-control", data_ddl_region_name = "" })
-                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div data-areas="" class="form-group" style="display: none;">
-                @Html.LabelFor(model => model.AreaId, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.DropDownListFor(model => model.AreaId, Enumerable.Empty<SelectListItem>(), 
+                <div data-areas="" class="form-group" style="display: none;">
+                    @Html.LabelFor(model => model.AreaId, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(model => model.AreaId, Enumerable.Empty<SelectListItem>(),
                     new { @class = "form-control", data_ddl_area_name = "" })
-                    @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div data-beach-name="" class="form-group" style="display: none;">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", data_textbox_name = "" })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                <div data-beach-name="" class="form-group" hidden="hidden">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", data_textbox_name = "" })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control", data_textbox_description = "" })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Description, new { @class = "form-control", data_textbox_description = "" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Coordinates, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.Coordinates, new { @class = "form-control", data_textbox_coordinates = "" })
-                    @Html.ValidationMessageFor(model => model.Coordinates, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Coordinates, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Coordinates, new { @class = "form-control", data_textbox_coordinates = "" })
+                        @Html.ValidationMessageFor(model => model.Coordinates, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-3">Beach photos</label>
-                <div id="uploader-box" class="col-md-5">
-                    <input id="uploader" type="file" class="upload" />
+                <div class="form-group">
+                    <label for="uploader" class="control-label col-md-3">Beach photos</label>
+                    <div class="col-md-5">
+                        <input id="uploader" type="file" name="images" class="upload" multiple />
+                    </div>
                 </div>
-                <div id="file-reader-not-supported-box" class="col-md-5">
-                    Your browser does not support the FileReader API, so we can't process your images. Consider updating.
-                </div>
-            </div>
 
-            <span class="text-danger">@ViewData["Duplicate Beaches"]</span>
+                @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="col-md-6 google-map" id="map"></div>
-</div>
+        <div class="col-md-6 google-map" id="map"></div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Add beach" class="btn btn-default" />
         </div>
     </div>
-                        }
+}
 
 <div>
     @Html.ActionLink("Back to List", "Top", "Beaches")
@@ -98,9 +95,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("/Scripts/jquery-ui.js")
     @Scripts.Render("~/Scripts/Internal/beaches.js")
-    <script type="text/javascript">
-        jQuery.validator.setDefaults({ ignore: null });
-    </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?language=en&libraries=places&key=AIzaSyC8j9vpJT7miOsV0jLllMmqZdXpSnCzs9c&callback=gMapManager.initMap">
     </script>

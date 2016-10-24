@@ -101,12 +101,11 @@ var gMapManager = new GoogleMapManager();
     var $beachNameContainer = $('[data-beach-name]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
     var $validationSpan = $('[data-generic-validation-alert]');
-
+    
     resetCountriesDropdown();
     setBindings();
     setAutocomplete();
     setEvents();
-    setFileUpload();
 
     function resetCountriesDropdown() {
         if ($ddlCountries.val()) {
@@ -207,18 +206,9 @@ var gMapManager = new GoogleMapManager();
 
         function createInitialOption(jQueryAppendee, text) {
             $(document.createElement('option'))
-                        .attr('value', -1)
+                        .attr('value', "")
                         .text(text)
                         .appendTo(jQueryAppendee);
-        }
-    }
-
-    function setFileUpload() {
-        if (window.FileReader != null) {
-            $('#file-reader-not-supported-box').hide();
-        } else {
-            $('#uploader-box').hide();
-            $('.upload').prop('disabled', true);
         }
     }
 })(jQuery);

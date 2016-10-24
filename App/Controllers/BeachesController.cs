@@ -4,7 +4,6 @@
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using BeachRankings.App.Models.ViewModels;
-    using BeachRankings.App.Utils;
     using System;
     using System.Data.Entity;
     using System.IO;
@@ -59,9 +58,7 @@
 
             if (!beachNameUnique)
             {
-                this.ModelState.AddModelError(string.Empty, string.Empty);
-
-                this.ViewData["Duplicate Beaches"] = "A beach with this name already exists.";                
+                this.ModelState.AddModelError(string.Empty, "A beach with this name already exists.");
             }
 
             if (!this.ModelState.IsValid)
@@ -86,29 +83,29 @@
 
             this.Data.Beaches.AddBeachToIndex(beach);
 
-            if (!string.IsNullOrEmpty(bindingModel.Image))
+            if (bindingModel.Images != null)
             {
-                // TO-DO: Perform checks
-
                 var formattedBeachName = Regex.Replace(beach.Name, @"[^A-Za-z]", string.Empty);
                 var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads", "Images", "Beaches", formattedBeachName);
-                var uniqueName = Guid.NewGuid().ToString();
-                var imagePath = Path.Combine(beachDir, uniqueName);
-                var image = Helpers.ConvertBase64StringToImage(bindingModel.Image);
 
                 Directory.CreateDirectory(beachDir);
 
-                image.Save(imagePath + ".jpg");
-
-                var beachPhoto = new BeachImage()
+                foreach (var image in bindingModel.Images)
                 {
-                    AuthorId = this.UserProfile.Id,
-                    BeachId = beach.Id,
-                    Name = uniqueName,
-                    Path = imagePath
-                };
+                    var uniqueName = Guid.NewGuid().ToString() + Path.GetFileName(image.FileName);
+                    var imagePath = Path.Combine(beachDir, uniqueName);
+                    var beachPhoto = new BeachImage()
+                    {
+                        AuthorId = this.UserProfile.Id,
+                        BeachId = beach.Id,
+                        Name = uniqueName,
+                        Path = imagePath
+                    };
 
-                this.Data.BeachImages.Add(beachPhoto);
+                    image.SaveAs(imagePath);
+                    this.Data.BeachImages.Add(beachPhoto);
+                }                
+                
                 this.Data.BeachImages.SaveChanges();
             }
 
