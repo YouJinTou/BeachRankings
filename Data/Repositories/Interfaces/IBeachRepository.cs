@@ -1,4 +1,4 @@
-﻿namespace BeachRankings.Data.Repositories
+﻿namespace BeachRankings.Data.Repositories.Interfaces
 {
     using BeachRankings.Models;
     using BeachRankings.Models.Interfaces;

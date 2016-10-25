@@ -95,9 +95,9 @@ var gMapManager = new GoogleMapManager();
     var $addBeachForm = $('#addBeachForm');
     var $textBoxName = $('[data-textbox-name]');
     var $ddlCountries = $('[data-ddl-country-name]');
-    var $ddlRegions = $('[data-ddl-region-name]');
-    var $ddlAreas = $('[data-ddl-area-name]');
-    var $areasContainer = $('[data-areas]');
+    var $ddlPrimaryDivisions = $('[data-ddl-primary-division-name]');
+    var $ddlSecondaryDivisions = $('[data-ddl-secondary-division-name]');
+    var $secondaryDivisionsContainer = $('[data-secondary-divisions]');
     var $beachNameContainer = $('[data-beach-name]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
     var $validationSpan = $('[data-generic-validation-alert]');
@@ -122,8 +122,8 @@ var gMapManager = new GoogleMapManager();
     function setAutocomplete() {
         $textBoxName.autocomplete({
             source: function (request, response) {
-                $.get('/Areas/BeachNames/', {
-                    id: $ddlAreas.val(),
+                $.get('/SecondaryDivisions/BeachNames/', {
+                    id: $ddlSecondaryDivisions.val(),
                     term: request.term
                 }, function (data) {
                     response(data);
@@ -136,53 +136,53 @@ var gMapManager = new GoogleMapManager();
 
     function setEvents() {
         $ddlCountries.on('change', function () {
-            var url = '/Countries/Regions/' + $ddlCountries.val();
+            var url = '/Countries/PrimaryDivisions/' + $ddlCountries.val();
 
-            $ddlRegions.empty();
-            $ddlAreas.empty();
+            $ddlPrimaryDivisions.empty();
+            $ddlSecondaryDivisions.empty();
 
-            createInitialOption($ddlRegions, '-- Choose a region/state --');
+            createInitialOption($ddlPrimaryDivisions, '-- Choose a region/state --');
 
             $.getJSON(url, function (result) {
                 $(result).each(function () {
                     $(document.createElement('option'))
                         .attr('value', this.Value)
                         .text(this.Text)
-                        .appendTo($ddlRegions);
+                        .appendTo($ddlPrimaryDivisions);
                 });
             });
 
-            $('[data-regions]').show();
-            $areasContainer.hide();
+            $('[data-primary-divisions]').show();
+            $secondaryDivisionsContainer.hide();
         });
 
-        $ddlRegions.on('change', function () {
-            var regionId = $ddlRegions.val();
-            var areasUrl = '/Regions/Areas/' + regionId;
-            var waterBodyUrl = '/Regions/WaterBody/' + regionId;
+        $ddlPrimaryDivisions.on('change', function () {
+            var primaryDivisionId = $ddlPrimaryDivisions.val();
+            var areasUrl = '/PrimaryDivisions/SecondaryDivisions/' + primaryDivisionId;
+            var waterBodyUrl = '/PrimaryDivisions/WaterBody/' + primaryDivisionId;
 
             $.getJSON(waterBodyUrl, function (result) {
                 $('[data-hdn-water-body-id]').val(result);
             });
 
             $.getJSON(areasUrl, function (result) {
-                $ddlAreas.empty();
+                $ddlSecondaryDivisions.empty();
 
-                createInitialOption($ddlAreas, '-- Choose an area --');
+                createInitialOption($ddlSecondaryDivisions, '-- Choose an option --');
 
                 $(result).each(function () {
                     $(document.createElement('option'))
                         .attr('value', this.Value)
                         .text(this.Text)
-                        .appendTo($ddlAreas);
+                        .appendTo($ddlSecondaryDivisions);
                 });
             });
 
-            $areasContainer.show();
+            $secondaryDivisionsContainer.show();
             $beachNameContainer.hide();
         });
 
-        $ddlAreas.on('change', function () {
+        $ddlSecondaryDivisions.on('change', function () {
             $textBoxName.val('');
             $beachNameContainer.show();
         });

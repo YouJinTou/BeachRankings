@@ -9,17 +9,17 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    public class AreasController : BaseController
+    public class SecondaryDivisionsController : BaseController
     {
-        public AreasController(IBeachRankingsData data)
+        public SecondaryDivisionsController(IBeachRankingsData data)
             : base(data)
         {
         }
 
         public ActionResult Beaches(int id)
         {
-            var area = this.Data.Areas.Find(id);
-            var model = Mapper.Map<Area, AreaBeachesViewModel>(area);
+            var secondaryDivision = this.Data.SecondaryDivisions.Find(id);
+            var model = Mapper.Map<SecondaryDivision, LocationBeachesViewModel>(secondaryDivision);
 
             return View(model);
         }
@@ -27,7 +27,7 @@
         public async Task<JsonResult> BeachNames(int id, string term)
         {
             var beachNames = await this.Data.Beaches.All()
-                .Where(a => a.AreaId == id && a.Name.StartsWith(term))
+                .Where(a => a.SecondaryDivisionId == id && a.Name.StartsWith(term))
                 .Select(a => a.Name)
                 .ToListAsync();
 

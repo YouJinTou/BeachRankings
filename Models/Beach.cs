@@ -19,7 +19,7 @@
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The name field is required.")]
-        [Index("IX_RegionAreaBeach", IsUnique = true, Order = 1)]
+        [Index("IX_SecondaryBeach", IsUnique = true, Order = 1)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         public string Name { get; set; }
@@ -30,16 +30,24 @@
         public virtual Country Country { get; set; }
 
         [Required]
-        [Index("IX_RegionAreaBeach", IsUnique = true, Order = 3)]
-        public int RegionId { get; set; }
+        [Index("IX_SecondaryBeach", IsUnique = true, Order = 3)]
+        public int PrimaryDivisionId { get; set; }
 
-        public virtual Region Region { get; protected set; }
+        public virtual PrimaryDivision PrimaryDivision { get; protected set; }
 
         [Required]
-        [Index("IX_RegionAreaBeach", IsUnique = true, Order = 2)]
-        public int AreaId { get; set; }
+        [Index("IX_SecondaryBeach", IsUnique = true, Order = 2)]
+        public int SecondaryDivisionId { get; set; }
 
-        public virtual Area Area { get; protected set; }
+        public virtual SecondaryDivision SecondaryDivision { get; protected set; }
+
+        public int? TertiaryDivisionId { get; set; }
+
+        public virtual TertiaryDivision TertiaryDivision { get; protected set; }
+        
+        public int? QuaternaryDivisionId { get; set; }
+
+        public virtual QuaternaryDivision QuaternaryDivision { get; protected set; }
 
         [Required]
         public int WaterBodyId { get; set; }
@@ -143,7 +151,16 @@
 
         public void SetBeachData()
         {
-            this.Address = this.Country.Name + " " + this.Region.Name + " " + this.Area.Name + " " + this.WaterBody.Name;
+            var tertiaryDivisionName = (this.TertiaryDivision == null) ? null : this.TertiaryDivision.Name;
+            var quaternaryDivisinoName = (this.QuaternaryDivision == null) ? null : this.QuaternaryDivision.Name;
+            this.Address = (
+                this.Country.Name + " " + 
+                this.PrimaryDivision.Name + " " + 
+                this.SecondaryDivision.Name + " " +
+                tertiaryDivisionName + " " +
+                quaternaryDivisinoName + " " +
+                this.WaterBody.Name)
+                .Trim();
         }
 
         public void UpdateScores()

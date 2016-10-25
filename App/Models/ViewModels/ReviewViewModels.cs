@@ -42,7 +42,7 @@
 
         public string BeachCountry { get; set; }
 
-        public string BeachArea { get; set; }
+        public string BeachSecondaryDivision { get; set; }
 
         public string BeachWaterBody { get; set; }
 

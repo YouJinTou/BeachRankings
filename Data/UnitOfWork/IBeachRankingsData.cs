@@ -1,6 +1,6 @@
 ﻿namespace BeachRankings.Data.UnitOfWork
 {
-    using BeachRankings.Data.Repositories;
+    using BeachRankings.Data.Repositories.Interfaces;
     using BeachRankings.Models;
 
     public interface IBeachRankingsData
@@ -9,11 +9,13 @@
 
         IGenericRepository<Country> Countries { get; }
 
-        IDivisionRepository Divisions { get; }
+        IPrimaryDivisionRepository PrimaryDivisions { get; }
 
-        IRegionRepository Regions { get; }
+        ISecondaryDivisionRepository SecondaryDivisions { get; }
 
-        IAreaRepository Areas { get; }
+        ITertiaryDivisionRepository TertiaryDivisions { get; }
+
+        IQuaternaryDivisionRepository QuaternaryDivisions { get; }
 
         IBeachRepository Beaches { get; }
 

@@ -21,18 +21,18 @@
 
                 AddUpdateCountryDoc(countrySearchable, writer);
             }
-            else if (searchable is IRegionSearchable)
-            {
-                var regionSearchable = (IRegionSearchable)searchable;
+            //else if (searchable is IRegionSearchable)
+            //{
+            //    var regionSearchable = (IRegionSearchable)searchable;
 
-                AddUpdateRegionDoc(regionSearchable, writer);
-            }
-            else if (searchable is IAreaSearchable)
-            {
-                var areaSearchable = (IAreaSearchable)searchable;
+            //    AddUpdateRegionDoc(regionSearchable, writer);
+            //}
+            //else if (searchable is IAreaSearchable)
+            //{
+            //    var areaSearchable = (IAreaSearchable)searchable;
 
-                AddUpdateAreaDoc(areaSearchable, writer);
-            }
+            //    AddUpdateAreaDoc(areaSearchable, writer);
+            //}
             else if (searchable is IWaterBodySearchable)
             {
                 var waterBodySearchable = (IWaterBodySearchable)searchable;
@@ -85,41 +85,41 @@
             writer.AddDocument(newDoc);
         }
 
-        private static void AddUpdateRegionDoc(IRegionSearchable searchable, IndexWriter writer)
-        {
-            var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
+        //private static void AddUpdateRegionDoc(IRegionSearchable searchable, IndexWriter writer)
+        //{
+        //    var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
 
-            writer.DeleteDocuments(oldDoc);
+        //    writer.DeleteDocuments(oldDoc);
 
-            var newDoc = new Document();
-            var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
-            var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
+        //    var newDoc = new Document();
+        //    var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
+        //    var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
 
-            nameField.Boost = 3.0f;
+        //    nameField.Boost = 3.0f;
 
-            newDoc.Add(idField);
-            newDoc.Add(nameField);
+        //    newDoc.Add(idField);
+        //    newDoc.Add(nameField);
 
-            writer.AddDocument(newDoc);
-        }
+        //    writer.AddDocument(newDoc);
+        //}
 
-        private static void AddUpdateAreaDoc(IAreaSearchable searchable, IndexWriter writer)
-        {
-            var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
+        //private static void AddUpdateAreaDoc(IAreaSearchable searchable, IndexWriter writer)
+        //{
+        //    var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
 
-            writer.DeleteDocuments(oldDoc);
+        //    writer.DeleteDocuments(oldDoc);
 
-            var newDoc = new Document();
-            var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
-            var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
+        //    var newDoc = new Document();
+        //    var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
+        //    var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
 
-            nameField.Boost = 3.0f;
+        //    nameField.Boost = 3.0f;
 
-            newDoc.Add(idField);
-            newDoc.Add(nameField);
+        //    newDoc.Add(idField);
+        //    newDoc.Add(nameField);
 
-            writer.AddDocument(newDoc);
-        }
+        //    writer.AddDocument(newDoc);
+        //}
 
         private static void AddUpdateWaterBodyDoc(IWaterBodySearchable searchable, IndexWriter writer)
         {

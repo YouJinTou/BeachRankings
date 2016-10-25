@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public interface IDivision : ISearchable
+    public interface IDivisionSearchable : ISearchable
     {
         ICollection<Beach> Beaches { get; set; }   
     }

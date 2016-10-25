@@ -2,16 +2,20 @@
 {
     using System.Collections.Generic;
 
-    public class AutocompleteMainViewModel
+    public class SearchViewModel
     {
         public IEnumerable<AutocompleteBeachViewModel> Beaches { get; set; }
 
-        public IEnumerable<AutocompleteWaterBodyViewModel> WaterBodies { get; set; }
+        public IEnumerable<AutocompleteViewModel> WaterBodies { get; set; }
 
-        public IEnumerable<AutocompleteRegionViewModel> Regions { get; set; }
+        public IEnumerable<AutocompleteViewModel> PrimaryDivisions { get; set; }
 
-        public IEnumerable<AutocompleteAreaViewModel> Areas { get; set; }
+        public IEnumerable<AutocompleteViewModel> SecondaryDivisions { get; set; }
 
-        public IEnumerable<AutocompleteCountryViewModel> Countries { get; set; }
+        public IEnumerable<AutocompleteViewModel> TertiaryDivisions { get; set; }
+
+        public IEnumerable<AutocompleteViewModel> QuaternaryDivisions { get; set; }
+
+        public IEnumerable<AutocompleteViewModel> Countries { get; set; }
     }
 }

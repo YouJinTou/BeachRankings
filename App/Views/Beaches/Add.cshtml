@@ -24,23 +24,41 @@
                     </div>
                 </div>
 
-                <div data-regions="" class="form-group" style="display: none;">
-                    @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div data-primary-divisions="" class="form-group" style="display: none;">
+                    @Html.LabelFor(model => model.PrimaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.DropDownListFor(model => model.RegionId, Enumerable.Empty<SelectListItem>(),
-                    new { @class = "form-control", data_ddl_region_name = "" })
-                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.PrimaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                    new { @class = "form-control", data_ddl_primary_division_name = "" })
+                        @Html.ValidationMessageFor(model => model.PrimaryDivisionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div data-secondary-divisions="" class="form-group" style="display: none;">
+                    @Html.LabelFor(model => model.SecondaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(model => model.SecondaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                    new { @class = "form-control", data_ddl_secondary_division_name = "" })
+                        @Html.ValidationMessageFor(model => model.SecondaryDivisionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div data-areas="" class="form-group" style="display: none;">
+                    @Html.LabelFor(model => model.TertiaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(model => model.TertiaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                    new { @class = "form-control", data_ddl_area_name = "" })
+                        @Html.ValidationMessageFor(model => model.TertiaryDivisionId, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div data-areas="" class="form-group" style="display: none;">
-                    @Html.LabelFor(model => model.AreaId, htmlAttributes: new { @class = "control-label col-md-3" })
+                    @Html.LabelFor(model => model.QuaternaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.DropDownListFor(model => model.AreaId, Enumerable.Empty<SelectListItem>(),
+                        @Html.DropDownListFor(model => model.QuaternaryDivisionId, Enumerable.Empty<SelectListItem>(),
                     new { @class = "form-control", data_ddl_area_name = "" })
-                        @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.QuaternaryDivisionId, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 <div data-beach-name="" class="form-group" hidden="hidden">
                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })

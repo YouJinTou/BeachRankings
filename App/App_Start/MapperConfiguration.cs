@@ -13,40 +13,44 @@
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<WaterBody, AddBeachWaterBodyViewModel>();
-                cfg.CreateMap<WaterBody, AutocompleteWaterBodyViewModel>()
+                cfg.CreateMap<WaterBody, AutocompleteViewModel>()
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
-                cfg.CreateMap<WaterBody, WaterBodyBeachesViewModel>();
+                cfg.CreateMap<WaterBody, LocationBeachesViewModel>();
 
-                cfg.CreateMap<Country, AutocompleteCountryViewModel>()
+                cfg.CreateMap<Country, AutocompleteViewModel>()
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
-                cfg.CreateMap<Country, CountryBeachesViewModel>();                
-
-                cfg.CreateMap<Region, AutocompleteRegionViewModel>()
+                cfg.CreateMap<Country, LocationBeachesViewModel>();
+                cfg.CreateMap<PrimaryDivision, AutocompleteViewModel>()
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
-                cfg.CreateMap<Region, RegionBeachesViewModel>();
-
-                cfg.CreateMap<Area, AutocompleteAreaViewModel>()
+                cfg.CreateMap<PrimaryDivision, LocationBeachesViewModel>();
+                cfg.CreateMap<SecondaryDivision, AutocompleteViewModel>()
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
-                cfg.CreateMap<Area, AreaBeachesViewModel>();
+                cfg.CreateMap<SecondaryDivision, LocationBeachesViewModel>();
+                cfg.CreateMap<TertiaryDivision, AutocompleteViewModel>()
+                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
+                cfg.CreateMap<TertiaryDivision, LocationBeachesViewModel>();
+                cfg.CreateMap<QuaternaryDivision, AutocompleteViewModel>()
+                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
+                cfg.CreateMap<QuaternaryDivision, LocationBeachesViewModel>();
 
                 cfg.CreateMap<Beach, AutocompleteBeachViewModel>()
                     .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
-                    .ForMember(vm => vm.Area, model => model.MapFrom(m => m.Area.Name));
+                    .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name));
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Images.FirstOrDefault().Path))
                     .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
-                    .ForMember(vm => vm.Area, model => model.MapFrom(m => m.Area.Name));
+                    .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name));
                 cfg.CreateMap<Beach, DetailedBeachViewModel>()
                     .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
-                    .ForMember(vm => vm.Region, model => model.MapFrom(m => m.Region.Name))
-                    .ForMember(vm => vm.Area, model => model.MapFrom(m => m.Area.Name))
+                    .ForMember(vm => vm.PrimaryDivision, model => model.MapFrom(m => m.PrimaryDivision.Name))
+                    .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name))
                     .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name));
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
-                cfg.CreateMap<Beach, AutocompleteMainViewModel>();
+                cfg.CreateMap<Beach, SearchViewModel>();
                 cfg.CreateMap<Beach, PostReviewViewModel>()
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
                     .ForMember(vm => vm.BeachCountry, model => model.MapFrom(m => m.Country.Name))
-                    .ForMember(vm => vm.BeachArea, model => model.MapFrom(m => m.Area.Name))
+                    .ForMember(vm => vm.BeachSecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name))
                     .ForMember(vm => vm.BeachWaterBody, model => model.MapFrom(m => m.WaterBody.Name))
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))

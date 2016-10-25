@@ -4,6 +4,7 @@
     using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
+    using BeachRankings.Data.Repositories.Interfaces;
     using System.Collections.Generic;
     using System.Data.Entity;
 

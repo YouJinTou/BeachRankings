@@ -221,9 +221,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
-    <Compile Include="Controllers\AreasController.cs" />
+    <Compile Include="Controllers\SecondaryDivisionsController.cs" />
     <Compile Include="Controllers\WaterBodiesController.cs" />
-    <Compile Include="Controllers\RegionsController.cs" />
+    <Compile Include="Controllers\PrimaryDivisionsController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -233,13 +233,11 @@
     </Compile>
     <Compile Include="Models\BindingModels\ReviewBindingModels.cs" />
     <Compile Include="Models\CriteriaBaseModel.cs" />
+    <Compile Include="Models\ViewModels\GenericViewModels.cs" />
     <Compile Include="ValidationAttributes\ImagesValidAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\HomeViewModels.cs" />
-    <Compile Include="Models\ViewModels\CountryViewModels.cs" />
-    <Compile Include="Models\ViewModels\AreaViewModels.cs" />
     <Compile Include="Models\ViewModels\WaterBodyViewModels.cs" />
-    <Compile Include="Models\ViewModels\RegionViewModels.cs" />
     <Compile Include="Models\ViewModels\ReviewViewModels.cs" />
     <Compile Include="Models\ViewModels\BeachViewModels.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />

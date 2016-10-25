@@ -1,5 +1,6 @@
 ﻿namespace BeachRankings.Data.Repositories
 {
+    using BeachRankings.Data.Repositories.Interfaces;
     using System.Data.Entity;
     using System.Linq;
 

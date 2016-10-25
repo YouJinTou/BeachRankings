@@ -18,13 +18,19 @@
         [Display(Name = "Country")]
         public int CountryId { get; set; }
 
-        [Required(ErrorMessage = "The region field is required.")]
-        [Display(Name = "Region")]
-        public int RegionId { get; set; }       
+        [Required(ErrorMessage = "The first-level field is required.")]
+        [Display(Name = "First-level division")]
+        public int PrimaryDivisionId { get; set; }       
 
-        [Required(ErrorMessage = "The area field is required.")]
-        [Display(Name = "Area")]
-        public int AreaId { get; set; }
+        [Required(ErrorMessage = "The second-level field is required.")]
+        [Display(Name = "Second-level division")]
+        public int SecondaryDivisionId { get; set; }
+
+        [Display(Name = "Third-level division")]
+        public int? TertiaryDivisionId { get; set; }
+
+        [Display(Name = "Fourth-level division")]
+        public int? QuaternaryDivisionId { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 
@@ -48,7 +54,7 @@
 
         public string Country { get; set; }
 
-        public string Area { get; set; }
+        public string SecondaryDivision { get; set; }
 
         public double? TotalScore { get; set; }
 
@@ -59,7 +65,7 @@
 
     public class DetailedBeachViewModel : ConciseBeachViewModel
     {
-        public string Region { get; set; }
+        public string PrimaryDivision { get; set; }
 
         public string WaterBody { get; set; }
 
@@ -79,6 +85,6 @@
 
         public string Country { get; set; }
 
-        public string Area { get; set; }
+        public string SecondaryDivision { get; set; }
     }    
 }

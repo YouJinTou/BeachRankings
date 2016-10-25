@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class PrimaryDivision : IDivision
+    public class PrimaryDivision : IDivisionSearchable
     {
         private ICollection<SecondaryDivision> secondaryDivisions;
         private ICollection<TertiaryDivision> tertiaryDivisions;
@@ -27,11 +27,16 @@
         public string Name { get; set; }
 
         [Required]
-        [Index("IX_CountryFirst", IsUnique = true, Order = 2)]
+        [Index("IX_CountryPrimary", IsUnique = true, Order = 2)]
         public int CountryId { get; set; }
 
         public virtual Country Country { get; protected set; }
-        
+
+        [Required]
+        public int WaterBodyId { get; set; }
+
+        public virtual WaterBody WaterBody { get; protected set; }
+
         public virtual ICollection<SecondaryDivision> SecondaryDivisions
         {
             get

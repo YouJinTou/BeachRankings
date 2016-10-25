@@ -29,8 +29,8 @@ namespace BeachRankings.Data.Migrations
             this.SeedUsers();
             this.SeedWaterBodies();
             this.SeedCountries();
-            this.SeedRegions();
-            this.SeedAreas();
+            this.SeedPrimaryDivisions();
+            this.SeedSecondaryDivisions();
             this.SeedBeaches();
             this.SeedBeachImages();
             //this.SeedReviews();
@@ -140,9 +140,9 @@ namespace BeachRankings.Data.Migrations
             LuceneSearch.AddUpdateIndexEntries(countries);
         }
 
-        private void SeedRegions()
+        private void SeedPrimaryDivisions()
         {
-            if (this.data.Regions.Any())
+            if (this.data.PrimaryDivisions.Any())
             {
                 return;
             }
@@ -150,68 +150,68 @@ namespace BeachRankings.Data.Migrations
             var bulgariaId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
             var romaniaId = this.data.Countries.FirstOrDefault(c => c.Name == "Romania").Id;
             var blackSeaWaterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
-            var regions = new List<Region>()
+            var primaryDivisions = new List<PrimaryDivision>()
             {
-                new Region() { Name = "Dobrich", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
-                new Region() { Name= "Varna", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
-                new Region() { Name= "Bourgas", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
-                new Region() { Name = "Dobrogea", CountryId = romaniaId, WaterBodyId = blackSeaWaterBodyId }
+                new PrimaryDivision() { Name = "Dobrich", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
+                new PrimaryDivision() { Name= "Varna", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
+                new PrimaryDivision() { Name= "Bourgas", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
+                new PrimaryDivision() { Name = "Dobrogea", CountryId = romaniaId, WaterBodyId = blackSeaWaterBodyId }
             };
 
-            foreach (var region in regions)
+            foreach (var primaryDivision in primaryDivisions)
             {
-                this.data.Regions.Add(region);
+                this.data.PrimaryDivisions.Add(primaryDivision);
             }
 
             this.data.SaveChanges();
 
-            LuceneSearch.Index = Index.RegionIndex;
+            //LuceneSearch.Index = Index.RegionIndex;
 
-            LuceneSearch.AddUpdateIndexEntries(regions);
+            //LuceneSearch.AddUpdateIndexEntries(regions);
         }
 
-        private void SeedAreas()
+        private void SeedSecondaryDivisions()
         {
-            if (this.data.Areas.Any())
+            if (this.data.SecondaryDivisions.Any())
             {
                 return;
             }
 
             var bulgariaCountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
             var romaniaCountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Romania").Id;
-            var dobrichRegionId = this.data.Regions.FirstOrDefault(c => c.Name == "Dobrich").Id;
-            var varnaRegionId = this.data.Regions.FirstOrDefault(c => c.Name == "Varna").Id;
-            var bourgasRegionId = this.data.Regions.FirstOrDefault(c => c.Name == "Bourgas").Id;
-            var dobrogeaRegionId = this.data.Regions.FirstOrDefault(c => c.Name == "Dobrogea").Id;
-            var areas = new List<Area>()
+            var dobrichRegionId = this.data.PrimaryDivisions.FirstOrDefault(c => c.Name == "Dobrich").Id;
+            var varnaRegionId = this.data.PrimaryDivisions.FirstOrDefault(c => c.Name == "Varna").Id;
+            var bourgasRegionId = this.data.PrimaryDivisions.FirstOrDefault(c => c.Name == "Bourgas").Id;
+            var dobrogeaRegionId = this.data.PrimaryDivisions.FirstOrDefault(c => c.Name == "Dobrogea").Id;
+            var secondaryDivisions = new List<SecondaryDivision>()
             {
-                new Area() { Name = "Shabla", CountryId = bulgariaCountryId, RegionId = dobrichRegionId },
-                new Area() { Name = "Kavarna", CountryId = bulgariaCountryId, RegionId = dobrichRegionId },
-                new Area() { Name = "Balchik", CountryId = bulgariaCountryId, RegionId = dobrichRegionId },
-                new Area() { Name = "Aksakovo", CountryId = bulgariaCountryId, RegionId = varnaRegionId },
-                new Area() { Name = "Varna", CountryId = bulgariaCountryId, RegionId = varnaRegionId },
-                new Area() { Name = "Avren", CountryId = bulgariaCountryId, RegionId = varnaRegionId },
-                new Area() { Name= "Dolni Chiflik", CountryId = bulgariaCountryId, RegionId = varnaRegionId },
-                new Area() { Name = "Nesebar", CountryId = bulgariaCountryId, RegionId = bourgasRegionId },
-                new Area() { Name = "Pomorie", CountryId = bulgariaCountryId, RegionId = bourgasRegionId },
-                new Area() { Name = "Bourgas", CountryId = bulgariaCountryId, RegionId = bourgasRegionId },
-                new Area() { Name = "Sozopol", CountryId = bulgariaCountryId, RegionId = bourgasRegionId },
-                new Area() { Name = "Primorsko", CountryId = bulgariaCountryId, RegionId = bourgasRegionId },
-                new Area() { Name = "Tsarevo", CountryId = bulgariaCountryId, RegionId = bourgasRegionId },
-                new Area() { Name = "Tulcea", CountryId = romaniaCountryId, RegionId = dobrogeaRegionId },
-                new Area() { Name = "Constanta", CountryId = romaniaCountryId, RegionId = dobrogeaRegionId }
+                new SecondaryDivision() { Name = "Shabla", CountryId = bulgariaCountryId, PrimaryDivisionId = dobrichRegionId },
+                new SecondaryDivision() { Name = "Kavarna", CountryId = bulgariaCountryId, PrimaryDivisionId = dobrichRegionId },
+                new SecondaryDivision() { Name = "Balchik", CountryId = bulgariaCountryId, PrimaryDivisionId = dobrichRegionId },
+                new SecondaryDivision() { Name = "Aksakovo", CountryId = bulgariaCountryId, PrimaryDivisionId = varnaRegionId },
+                new SecondaryDivision() { Name = "Varna", CountryId = bulgariaCountryId, PrimaryDivisionId = varnaRegionId },
+                new SecondaryDivision() { Name = "Avren", CountryId = bulgariaCountryId, PrimaryDivisionId = varnaRegionId },
+                new SecondaryDivision() { Name= "Dolni Chiflik", CountryId = bulgariaCountryId, PrimaryDivisionId = varnaRegionId },
+                new SecondaryDivision() { Name = "Nesebar", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
+                new SecondaryDivision() { Name = "Pomorie", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
+                new SecondaryDivision() { Name = "Bourgas", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
+                new SecondaryDivision() { Name = "Sozopol", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
+                new SecondaryDivision() { Name = "Primorsko", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
+                new SecondaryDivision() { Name = "Tsarevo", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
+                new SecondaryDivision() { Name = "Tulcea", CountryId = romaniaCountryId, PrimaryDivisionId = dobrogeaRegionId },
+                new SecondaryDivision() { Name = "Constanta", CountryId = romaniaCountryId, PrimaryDivisionId = dobrogeaRegionId }
             };
 
-            foreach (var area in areas)
+            foreach (var secondaryDivision in secondaryDivisions)
             {
-                this.data.Areas.Add(area);
+                this.data.SecondaryDivisions.Add(secondaryDivision);
             }
 
             this.data.SaveChanges();
 
-            LuceneSearch.Index = Index.AreaIndex;
+            //LuceneSearch.Index = Index.AreaIndex;
 
-            LuceneSearch.AddUpdateIndexEntries(areas);
+            //LuceneSearch.AddUpdateIndexEntries(areas);
         }
 
         private void SeedBeaches()
@@ -229,8 +229,8 @@ namespace BeachRankings.Data.Migrations
                 {
                     Name = "Kamchia Beach",
                     CountryId = bulgariaCountryId,
-                    RegionId = this.data.Regions.FirstOrDefault(r => r.Name == "Varna").Id,
-                    AreaId = this.data.Areas.FirstOrDefault(r => r.Name == "Varna").Id,
+                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
+                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
                     WaterBodyId = blackSeaWaterBodyId,
                     Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
                     Coordinates = "43.204666,27.910543"
@@ -239,8 +239,8 @@ namespace BeachRankings.Data.Migrations
                 {
                     Name = "Bolata Beach",
                     CountryId = bulgariaCountryId,
-                    RegionId = this.data.Regions.FirstOrDefault(r => r.Name == "Dobrich").Id,
-                    AreaId = this.data.Areas.FirstOrDefault(r => r.Name == "Kavarna").Id,
+                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Dobrich").Id,
+                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Kavarna").Id,
                     WaterBodyId = blackSeaWaterBodyId,
                     Description = "Situated north of Albena, Bolata is an ungainly sight.",
                     Coordinates = "43.204666,27.910543"
@@ -249,8 +249,8 @@ namespace BeachRankings.Data.Migrations
                 {
                     Name = "Sunny Day Beach",
                     CountryId = bulgariaCountryId,
-                    RegionId = this.data.Regions.FirstOrDefault(r => r.Name == "Varna").Id,
-                    AreaId = this.data.Areas.FirstOrDefault(r => r.Name == "Varna").Id,
+                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
+                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
                     WaterBodyId = blackSeaWaterBodyId,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Coordinates = "43.204666,27.910543",
@@ -259,8 +259,8 @@ namespace BeachRankings.Data.Migrations
                 {
                     Name = "Mamaia Beach",
                     CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Romania").Id,
-                    RegionId = this.data.Regions.FirstOrDefault(r => r.Name == "Dobrogea").Id,
-                    AreaId = this.data.Areas.FirstOrDefault(r => r.Name == "Constanta").Id,
+                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Dobrogea").Id,
+                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Constanta").Id,
                     WaterBodyId = blackSeaWaterBodyId,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Coordinates = "43.204666,27.910543",

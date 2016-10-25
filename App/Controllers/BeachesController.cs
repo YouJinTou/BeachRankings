@@ -51,8 +51,8 @@
         public ActionResult Add(AddBeachViewModel bindingModel)
         {
             var beachNameUnique = !this.Data.Beaches.All().Any(
-                    b => b.Region.Id == bindingModel.RegionId && 
-                    b.Area.Id == bindingModel.AreaId && 
+                    b => b.PrimaryDivisionId == bindingModel.PrimaryDivisionId && 
+                    b.SecondaryDivisionId == bindingModel.SecondaryDivisionId && 
                     b.Name.ToLower() == bindingModel.Name.ToLower());
 
             if (!beachNameUnique)
@@ -71,8 +71,8 @@
                 return this.View(bindingModel);
             }
 
-            this.Data.Countries.All().Include(c => c.Regions).Include(c => c.Areas).FirstOrDefault(c => c.Id == bindingModel.CountryId);
-            var region = this.Data.Regions.All().Include(r => r.WaterBody).FirstOrDefault(r => r.Id == bindingModel.RegionId);
+            this.Data.Countries.All().Include(c => c.PrimaryDivisions).Include(c => c.SecondaryDivisions).FirstOrDefault(c => c.Id == bindingModel.CountryId);
+            var region = this.Data.PrimaryDivisions.All().Include(r => r.WaterBody).FirstOrDefault(r => r.Id == bindingModel.PrimaryDivisionId);
             var beach = Mapper.Map<AddBeachViewModel, Beach>(bindingModel);
             beach.WaterBodyId = region.WaterBodyId;
             

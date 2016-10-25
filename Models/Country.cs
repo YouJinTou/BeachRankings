@@ -11,8 +11,6 @@
         private ICollection<SecondaryDivision> secondaryDivisions;
         private ICollection<TertiaryDivision> tertiaryDivisions;
         private ICollection<QuaternaryDivision> quaternaryDivisons;
-        private ICollection<Region> regions;
-        private ICollection<Area> areas;
         private ICollection<Beach> beaches;
 
         [Key]
@@ -70,31 +68,7 @@
             {
                 this.quaternaryDivisons = value;
             }
-        }
-
-        public virtual ICollection<Region> Regions
-        {
-            get
-            {
-                return this.regions ?? (this.regions = new HashSet<Region>());
-            }
-            protected set
-            {
-                this.regions = value;
-            }
-        }
-
-        public virtual ICollection<Area> Areas
-        {
-            get
-            {
-                return this.areas ?? (this.areas = new HashSet<Area>());
-            }
-            protected set
-            {
-                this.areas = value;
-            }
-        }
+        }        
 
         public virtual ICollection<Beach> Beaches
         {

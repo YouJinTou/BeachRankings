@@ -17,20 +17,20 @@
         public ActionResult Beaches(int id)
         {
             var country = this.Data.Countries.Find(id);
-            var model = Mapper.Map<Country, CountryBeachesViewModel>(country);
+            var model = Mapper.Map<Country, LocationBeachesViewModel>(country);
 
             return View(model);
         }
 
-        public JsonResult Regions(int id)
+        public JsonResult PrimaryDivisions(int id)
         {
-            var regions = this.Data.Regions.All().Where(r => r.CountryId == id).Select(r => new SelectListItem()
+            var primaryDivisions = this.Data.PrimaryDivisions.All().Where(r => r.CountryId == id).Select(r => new SelectListItem()
             {
                 Text = r.Name,
                 Value = r.Id.ToString()
             });
 
-            return this.Json(regions, JsonRequestBehavior.AllowGet);
+            return this.Json(primaryDivisions, JsonRequestBehavior.AllowGet);
         }
     }
 }

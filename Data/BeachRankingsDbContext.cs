@@ -21,10 +21,6 @@
 
         public IDbSet<QuaternaryDivision> QuaternaryDivisions { get; set; }
 
-        public IDbSet<Region> Regions { get; set; }
-
-        public IDbSet<Area> Areas { get; set; }
-
         public IDbSet<WaterBody> WaterBodies { get; set; }
 
         public IDbSet<Beach> Beaches { get; set; }
@@ -41,20 +37,48 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Country>()
-                .HasMany(c => c.Regions)
-                .WithRequired(r => r.Country)
+                .HasMany(c => c.PrimaryDivisions)
+                .WithRequired(pd => pd.Country)
                 .WillCascadeOnDelete(false);
             modelBuilder.Entity<Country>()
-               .HasMany(c => c.Beaches)
-               .WithRequired(b => b.Country)
+                .HasMany(c => c.SecondaryDivisions)
+                .WithRequired(pd => pd.Country)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Country>()
+                .HasMany(c => c.TertiaryDivisions)
+                .WithRequired(pd => pd.Country)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Country>()
+                .HasMany(c => c.QuaternaryDivisions)
+                .WithRequired(pd => pd.Country)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<PrimaryDivision>()
+                .HasMany(pd => pd.Beaches)
+                .WithRequired(b => b.PrimaryDivision)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<PrimaryDivision>()
+                .HasMany(pd => pd.SecondaryDivisions)
+                .WithRequired(b => b.PrimaryDivision)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<PrimaryDivision>()
+                .HasMany(pd => pd.TertiaryDivisions)
+                .WithRequired(b => b.PrimaryDivision)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<PrimaryDivision>()
+                .HasMany(pd => pd.QuaternaryDivisions)
+                .WithRequired(b => b.PrimaryDivision)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<SecondaryDivision>()
+               .HasMany(pd => pd.TertiaryDivisions)
+               .WithRequired(b => b.SecondaryDivision)
                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<Region>()
-               .HasMany(c => c.Beaches)
-               .WithRequired(b => b.Region)
+            modelBuilder.Entity<SecondaryDivision>()
+               .HasMany(pd => pd.QuaternaryDivisions)
+               .WithRequired(b => b.SecondaryDivision)
                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<WaterBody>()
-               .HasMany(c => c.Beaches)
-               .WithRequired(b => b.WaterBody)
+            modelBuilder.Entity<TertiaryDivision>()
+               .HasMany(pd => pd.QuaternaryDivisions)
+               .WithRequired(b => b.TertiaryDivision)
                .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

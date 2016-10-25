@@ -16,7 +16,7 @@
         public ActionResult Beaches(int id)
         {
             var waterBody = this.Data.WaterBodies.Find(id);
-            var model = Mapper.Map<WaterBody, WaterBodyBeachesViewModel>(waterBody);
+            var model = Mapper.Map<WaterBody, LocationBeachesViewModel>(waterBody);
 
             return View(model);
         }

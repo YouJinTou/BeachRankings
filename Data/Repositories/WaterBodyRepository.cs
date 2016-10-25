@@ -1,5 +1,6 @@
 ﻿namespace BeachRankings.Data.Repositories
 {
+    using BeachRankings.Data.Repositories.Interfaces;
     using BeachRankings.Models;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;

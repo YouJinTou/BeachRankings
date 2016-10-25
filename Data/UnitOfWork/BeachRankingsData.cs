@@ -1,9 +1,10 @@
 ﻿namespace BeachRankings.Data.UnitOfWork
 {
+    using BeachRankings.Data.Repositories.Interfaces;
     using BeachRankings.Models;
     using BeachRankings.Data.Repositories;
     using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;    
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Data.Entity;
 
     public class BeachRankingsData : IBeachRankingsData
@@ -12,9 +13,10 @@
 
         private IGenericRepository<User> users;
         private IGenericRepository<Country> countries;
-        private IDivisionRepository divisions;
-        private IRegionRepository regions;
-        private IAreaRepository areas;
+        private IPrimaryDivisionRepository primaryDivisions;
+        private ISecondaryDivisionRepository secondaryDivisions;
+        private ITertiaryDivisionRepository tertiaryDivisions;
+        private IQuaternaryDivisionRepository quaternaryDivisions;
         private IWaterBodyRepository waterBodies;
         private IBeachRepository beaches;
         private IGenericRepository<BeachImage> beachImages;
@@ -70,42 +72,55 @@
             }
         }
 
-        public IDivisionRepository Divisions
+        public IPrimaryDivisionRepository PrimaryDivisions
         {
             get
             {
-                if (this.divisions == null)
+                if (this.primaryDivisions == null)
                 {
-                    this.divisions = new DivisionRepository(this.dbContext);
+                    this.primaryDivisions = new PrimaryDivisionRepository(this.dbContext);
                 }
 
-                return this.divisions;
+                return this.primaryDivisions;
             }
         }
 
-        public IRegionRepository Regions
+        public ISecondaryDivisionRepository SecondaryDivisions
         {
             get
             {
-                if (this.regions == null)
+                if (this.secondaryDivisions == null)
                 {
-                    this.regions = new RegionRepository(this.dbContext);
+                    this.secondaryDivisions = new SecondaryDivisionRepository(this.dbContext);
                 }
 
-                return this.regions;
+                return this.secondaryDivisions;
             }
         }
 
-        public IAreaRepository Areas
+        public ITertiaryDivisionRepository TertiaryDivisions
         {
             get
             {
-                if (this.areas == null)
+                if (this.tertiaryDivisions == null)
                 {
-                    this.areas = new AreaRepository(this.dbContext);
+                    this.tertiaryDivisions = new TertiaryDivisionRepository(this.dbContext);
                 }
 
-                return this.areas;
+                return this.tertiaryDivisions;
+            }
+        }
+
+        public IQuaternaryDivisionRepository QuaternaryDivisions
+        {
+            get
+            {
+                if (this.quaternaryDivisions == null)
+                {
+                    this.quaternaryDivisions = new QuaternaryDivisionRepository(this.dbContext);
+                }
+
+                return this.quaternaryDivisions;
             }
         }
 
