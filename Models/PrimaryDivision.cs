@@ -5,37 +5,33 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Country : ICountrySearchable
+    public class PrimaryDivision : IDivision
     {
-        private ICollection<PrimaryDivision> primaryDivisions;
         private ICollection<SecondaryDivision> secondaryDivisions;
         private ICollection<TertiaryDivision> tertiaryDivisions;
         private ICollection<QuaternaryDivision> quaternaryDivisons;
-        private ICollection<Region> regions;
-        private ICollection<Area> areas;
         private ICollection<Beach> beaches;
+
+        public PrimaryDivision()
+        {
+        }
 
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [Index("IX_Country", IsUnique = true)]
-        [MaxLength(100)]
-        [Display(Name = "Country")]
+        [Required(ErrorMessage = "The first-level division field is required.")]
+        [Index("IX_CountryPrimary", IsUnique = true, Order = 1)]
+        [MinLength(2, ErrorMessage = "The first-level division should be at least 2 characters long.")]
+        [MaxLength(100, ErrorMessage = "The first-level division cannot be longer than 100 characters.")]
+        [Display(Name = "First-level division")]
         public string Name { get; set; }
 
-        public virtual ICollection<PrimaryDivision> PrimaryDivisions
-        {
-            get
-            {
-                return this.primaryDivisions ?? (this.primaryDivisions = new HashSet<PrimaryDivision>());
-            }
-            set
-            {
-                this.primaryDivisions = value;
-            }
-        }
+        [Required]
+        [Index("IX_CountryFirst", IsUnique = true, Order = 2)]
+        public int CountryId { get; set; }
 
+        public virtual Country Country { get; protected set; }
+        
         public virtual ICollection<SecondaryDivision> SecondaryDivisions
         {
             get
@@ -72,37 +68,13 @@
             }
         }
 
-        public virtual ICollection<Region> Regions
-        {
-            get
-            {
-                return this.regions ?? (this.regions = new HashSet<Region>());
-            }
-            protected set
-            {
-                this.regions = value;
-            }
-        }
-
-        public virtual ICollection<Area> Areas
-        {
-            get
-            {
-                return this.areas ?? (this.areas = new HashSet<Area>());
-            }
-            protected set
-            {
-                this.areas = value;
-            }
-        }
-
         public virtual ICollection<Beach> Beaches
         {
             get
             {
                 return this.beaches ?? (this.beaches = new HashSet<Beach>());
             }
-            protected set
+            set
             {
                 this.beaches = value;
             }

@@ -47,7 +47,9 @@
         public TEntity Remove(object id)
         {
             var entity = this.Find(id);
+
             this.Remove(entity);
+
             return entity;
         }
 

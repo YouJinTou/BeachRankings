@@ -50,8 +50,7 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachViewModel bindingModel)
         {
-            bool beachNameUnique = !this.Data.Beaches.All()
-                .Any(
+            var beachNameUnique = !this.Data.Beaches.All().Any(
                     b => b.Region.Id == bindingModel.RegionId && 
                     b.Area.Id == bindingModel.AreaId && 
                     b.Name.ToLower() == bindingModel.Name.ToLower());

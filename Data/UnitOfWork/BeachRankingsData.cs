@@ -12,6 +12,7 @@
 
         private IGenericRepository<User> users;
         private IGenericRepository<Country> countries;
+        private IDivisionRepository divisions;
         private IRegionRepository regions;
         private IAreaRepository areas;
         private IWaterBodyRepository waterBodies;
@@ -66,6 +67,19 @@
                 }
 
                 return this.countries;
+            }
+        }
+
+        public IDivisionRepository Divisions
+        {
+            get
+            {
+                if (this.divisions == null)
+                {
+                    this.divisions = new DivisionRepository(this.dbContext);
+                }
+
+                return this.divisions;
             }
         }
 

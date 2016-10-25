@@ -9,6 +9,8 @@
 
         IGenericRepository<Country> Countries { get; }
 
+        IDivisionRepository Divisions { get; }
+
         IRegionRepository Regions { get; }
 
         IAreaRepository Areas { get; }

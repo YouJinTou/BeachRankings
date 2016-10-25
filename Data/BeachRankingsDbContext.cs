@@ -13,6 +13,14 @@
 
         public IDbSet<Country> Countries { get; set; }
 
+        public IDbSet<PrimaryDivision> PrimaryDivisions { get; set; }
+
+        public IDbSet<SecondaryDivision> SecondaryDivisions { get; set; }
+
+        public IDbSet<TertiaryDivision> TertiaryDivisions { get; set; }
+
+        public IDbSet<QuaternaryDivision> QuaternaryDivisions { get; set; }
+
         public IDbSet<Region> Regions { get; set; }
 
         public IDbSet<Area> Areas { get; set; }
