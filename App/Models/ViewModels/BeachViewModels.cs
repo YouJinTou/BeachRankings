@@ -36,7 +36,7 @@
             ErrorMessage = "Invalid coordinates.")]
         public string Coordinates { get; set; }
 
-        [ImagesValid]
+        [ImagesValid(ErrorMessage = "Failed to upload images. Verify their count, size, and format.")]
         public IEnumerable<HttpPostedFileBase> Images { get; set; }
     }
 
