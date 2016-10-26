@@ -247,6 +247,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Countries.txt" />
+    <Content Include="App_Data\Seed.txt" />
     <Content Include="App_Data\WaterBodies.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

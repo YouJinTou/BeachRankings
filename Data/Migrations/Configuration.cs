@@ -5,6 +5,7 @@ namespace BeachRankings.Data.Migrations
     using BeachRankings.Services.Search.Enums;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
@@ -25,16 +26,104 @@ namespace BeachRankings.Data.Migrations
         {
             this.data = data;
 
-            this.SeedRoles();
-            this.SeedUsers();
-            this.SeedWaterBodies();
-            this.SeedCountries();
-            this.SeedPrimaryDivisions();
-            this.SeedSecondaryDivisions();
-            this.SeedBeaches();
-            this.SeedBeachImages();
+            //this.SeedRoles();
+            //this.SeedUsers();
+            this.SeedAll();
+            //this.SeedWaterBodies();
+            //this.SeedCountries();
+            //this.SeedPrimaryDivisions();
+            //this.SeedSecondaryDivisions();
+            //this.SeedBeaches();
+            //this.SeedBeachImages();
             //this.SeedReviews();
         }
+
+        private void SeedAll()
+        {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Seed.txt");
+            var json = File.ReadAllText(path);
+            var countries = JsonHelper.Deserialize(json);
+
+            foreach (var country in (Dictionary<string, object>)countries)
+            {
+                this.TraverseDivisions(country, 1);
+            }
+        }
+
+        private void TraverseDivisions(object parent, int level)
+        {
+            if (parent is string)
+            {
+                return;
+            }
+
+            if (parent is Dictionary<string, object>)
+            {
+                var dictParent = (Dictionary<string, object>)parent;
+
+                foreach (var child in dictParent)
+                {
+                    this.TraverseDivisions(child, level + 1);
+                }
+            }
+            else if (parent is List<object>)
+            {
+                var listParent = (List<object>)parent;
+
+                foreach (var child in listParent)
+                {
+                    this.TraverseDivisions(child, level + 1);
+                }
+            }
+            else
+            {
+                var kvpParent = (KeyValuePair<string, object>)parent;
+
+                if (kvpParent.Value is Dictionary<string, object>)
+                {
+                    foreach (var child in (Dictionary<string, object>)kvpParent.Value)
+                    {
+                        this.TraverseDivisions(child, level + 1);
+                    }
+                }
+                else
+                {
+                    foreach (var child in (List<object>)kvpParent.Value)
+                    {
+                        this.TraverseDivisions(child, level + 1);
+                    }
+                }
+                
+            }
+        }
+
+        public static class JsonHelper
+        {
+            public static object Deserialize(string json)
+            {
+                return ToObject(JToken.Parse(json));
+            }
+
+            private static object ToObject(JToken token)
+            {
+                switch (token.Type)
+                {
+                    case JTokenType.Object:
+                        return token.Children<JProperty>()
+                                    .ToDictionary(prop => prop.Name,
+                                                  prop => ToObject(prop.Value));
+
+                    case JTokenType.Array:
+                        return token.Select(ToObject).ToList();
+
+                    default:
+                        return ((JValue)token).Value;
+                }
+            }
+        }
+
+
+        private void GetJTokenName(JToken token) { }
 
         private void SeedRoles()
         {
