@@ -95,9 +95,12 @@ var gMapManager = new GoogleMapManager();
     var $addBeachForm = $('#addBeachForm');
     var $textBoxName = $('[data-textbox-name]');
     var $ddlCountries = $('[data-ddl-country-name]');
-    var $ddlPrimaryDivisions = $('[data-ddl-primary-division-name]');
-    var $ddlSecondaryDivisions = $('[data-ddl-secondary-division-name]');
+    var $ddlPrimaryDivision = $('[data-ddl-primary-division-name]');
+    var $ddlSecondaryDivision = $('[data-ddl-secondary-division-name]');
+    var $ddlTertiaryDivision = $('[data-ddl-tertiary-division-name]');
+    var $ddlQuaternaryDivision = $('[data-ddl-quaternary-division-name]');
     var $secondaryDivisionsContainer = $('[data-secondary-divisions]');
+    var $tertiaryDivisionsContainer = $('[data-tertiary-divisions]');
     var $beachNameContainer = $('[data-beach-name]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
     var $validationSpan = $('[data-generic-validation-alert]');
@@ -123,7 +126,7 @@ var gMapManager = new GoogleMapManager();
         $textBoxName.autocomplete({
             source: function (request, response) {
                 $.get('/SecondaryDivisions/BeachNames/', {
-                    id: $ddlSecondaryDivisions.val(),
+                    id: $ddlSecondaryDivision.val(),
                     term: request.term
                 }, function (data) {
                     response(data);
@@ -138,17 +141,17 @@ var gMapManager = new GoogleMapManager();
         $ddlCountries.on('change', function () {
             var url = '/Countries/PrimaryDivisions/' + $ddlCountries.val();
 
-            $ddlPrimaryDivisions.empty();
-            $ddlSecondaryDivisions.empty();
+            $ddlPrimaryDivision.empty();
+            $ddlSecondaryDivision.empty();
 
-            createInitialOption($ddlPrimaryDivisions, '-- Choose a region/state --');
+            createInitialOption($ddlPrimaryDivision, '-- Choose a region/state --');
 
             $.getJSON(url, function (result) {
                 $(result).each(function () {
                     $(document.createElement('option'))
                         .attr('value', this.Value)
                         .text(this.Text)
-                        .appendTo($ddlPrimaryDivisions);
+                        .appendTo($ddlPrimaryDivision);
                 });
             });
 
@@ -156,25 +159,25 @@ var gMapManager = new GoogleMapManager();
             $secondaryDivisionsContainer.hide();
         });
 
-        $ddlPrimaryDivisions.on('change', function () {
-            var primaryDivisionId = $ddlPrimaryDivisions.val();
-            var areasUrl = '/PrimaryDivisions/SecondaryDivisions/' + primaryDivisionId;
+        $ddlPrimaryDivision.on('change', function () {
+            var primaryDivisionId = $ddlPrimaryDivision.val();
+            var secondaryDivisionsUrl = '/PrimaryDivisions/SecondaryDivisions/' + primaryDivisionId;
             var waterBodyUrl = '/PrimaryDivisions/WaterBody/' + primaryDivisionId;
 
             $.getJSON(waterBodyUrl, function (result) {
                 $('[data-hdn-water-body-id]').val(result);
             });
 
-            $.getJSON(areasUrl, function (result) {
-                $ddlSecondaryDivisions.empty();
+            $.getJSON(secondaryDivisionsUrl, function (result) {
+                $ddlSecondaryDivision.empty();
 
-                createInitialOption($ddlSecondaryDivisions, '-- Choose an option --');
+                createInitialOption($ddlSecondaryDivision, '-- Choose an option --');
 
                 $(result).each(function () {
                     $(document.createElement('option'))
                         .attr('value', this.Value)
                         .text(this.Text)
-                        .appendTo($ddlSecondaryDivisions);
+                        .appendTo($ddlSecondaryDivision);
                 });
             });
 
@@ -182,9 +185,28 @@ var gMapManager = new GoogleMapManager();
             $beachNameContainer.hide();
         });
 
-        $ddlSecondaryDivisions.on('change', function () {
-            $textBoxName.val('');
-            $beachNameContainer.show();
+        $ddlSecondaryDivision.on('change', function () {
+            var secondaryDivisionId = $ddlSecondaryDivision.val();
+            var secondaryDivisionsUrl = '/SecondaryDivision/TertiaryDivisions/' + secondaryDivisionId;
+            
+            $.getJSON(secondaryDivisionsUrl, function (result) {
+                $ddlTertiaryDivision.empty();
+
+                createInitialOption($ddlTertiaryDivision, '-- Choose an option --');
+
+                $(result).each(function () {
+                    $(document.createElement('option'))
+                        .attr('value', this.Value)
+                        .text(this.Text)
+                        .appendTo($ddlTertiaryDivision);
+                });
+            });
+
+            $tertiaryDivisionsContainer.show();
+            $beachNameContainer.hide();
+
+            //$textBoxName.val('');
+            //$beachNameContainer.show();
         });
 
         $('#map').on('click', function () {

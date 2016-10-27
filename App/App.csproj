@@ -355,10 +355,10 @@
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteWaterBodyViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteCountryViewModel.cshtml" />
     <Content Include="Views\Countries\Beaches.cshtml" />
-    <Content Include="Views\Regions\Beaches.cshtml" />
+    <Content Include="Views\PrimaryDivisions\Beaches.cshtml" />
     <Content Include="Views\WaterBodies\Beaches.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteAreaViewModel.cshtml" />
-    <Content Include="Views\Areas\Beaches.cshtml" />
+    <Content Include="Views\SecondaryDivisions\Beaches.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

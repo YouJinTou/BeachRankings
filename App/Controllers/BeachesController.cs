@@ -72,9 +72,9 @@
             }
 
             this.Data.Countries.All().Include(c => c.PrimaryDivisions).Include(c => c.SecondaryDivisions).FirstOrDefault(c => c.Id == bindingModel.CountryId);
-            var region = this.Data.PrimaryDivisions.All().Include(r => r.WaterBody).FirstOrDefault(r => r.Id == bindingModel.PrimaryDivisionId);
+            var primaryDivision = this.Data.PrimaryDivisions.All().Include(r => r.WaterBody).FirstOrDefault(r => r.Id == bindingModel.PrimaryDivisionId);
             var beach = Mapper.Map<AddBeachViewModel, Beach>(bindingModel);
-            beach.WaterBodyId = region.WaterBodyId;
+            beach.WaterBodyId = primaryDivision.WaterBodyId;
             
             this.Data.Beaches.Add(beach);
             beach.SetBeachData();

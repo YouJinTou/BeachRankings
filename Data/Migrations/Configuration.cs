@@ -1,6 +1,7 @@
 namespace BeachRankings.Data.Migrations
 {
     using BeachRankings.Models;
+    using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
     using Microsoft.AspNet.Identity;
@@ -12,9 +13,39 @@ namespace BeachRankings.Data.Migrations
     using System.IO;
     using System.Linq;
 
+    public static class DivisionCollectionFactory
+    {
+        public static dynamic Collection(object division)
+        {
+            if (division is Dictionary<string, object>)
+            {
+                return (Dictionary<string, object>)division;
+            }
+            else if (division is KeyValuePair<string, object>)
+            {
+                var dictDivision = (KeyValuePair<string, object>)division;
+
+                return dictDivision.Value;
+            }
+            else if (division is List<object>)
+            {
+                return (List<object>)division;
+            }
+
+            return division.ToString();
+        }
+    }
+
     public sealed class Configuration : DbMigrationsConfiguration<BeachRankingsDbContext>
     {
         private BeachRankingsDbContext data;
+        private int waterBodyId = 31;
+        private static int currentCountryId;
+        private static int currentPrimaryDivisionId;
+        private static int currentSecondaryDivisionId;
+        private static int currentTertiaryDivisionId;
+        private static int currentQuaternaryDivisionId;
+        private static int nextLevel;
 
         public Configuration()
         {
@@ -28,8 +59,8 @@ namespace BeachRankings.Data.Migrations
 
             //this.SeedRoles();
             //this.SeedUsers();
+            this.SeedWaterBodies();
             this.SeedAll();
-            //this.SeedWaterBodies();
             //this.SeedCountries();
             //this.SeedPrimaryDivisions();
             //this.SeedSecondaryDivisions();
@@ -46,56 +77,256 @@ namespace BeachRankings.Data.Migrations
 
             foreach (var country in (Dictionary<string, object>)countries)
             {
-                this.TraverseDivisions(country, 1);
+                var countryEntity = new Country() { Name = country.Key };
+
+                this.data.Countries.Add(countryEntity);
+                this.data.SaveChanges();
+
+                currentCountryId = countryEntity.Id;
+                nextLevel = 1;
+
+                this.TraverseDivisions(country);
             }
         }
 
-        private void TraverseDivisions(object parent, int level)
+
+        private void TraverseDivisions(object parent)
         {
             if (parent is string)
+            {
+                nextLevel--;
+
+                return;
+            }
+
+            foreach (var child in DivisionCollectionFactory.Collection(parent))
+            {
+                this.SaveDivision(child);
+
+                this.TraverseDivisions(child);
+            }
+
+            nextLevel = 1;
+        }
+
+        private void SaveDivision(object division)
+        {
+            if (!(division is KeyValuePair<string, object> || division is string))
             {
                 return;
             }
 
-            if (parent is Dictionary<string, object>)
-            {
-                var dictParent = (Dictionary<string, object>)parent;
+            var value = string.Empty;
 
-                foreach (var child in dictParent)
-                {
-                    this.TraverseDivisions(child, level + 1);
-                }
-            }
-            else if (parent is List<object>)
+            if (division is KeyValuePair<string, object>)
             {
-                var listParent = (List<object>)parent;
-
-                foreach (var child in listParent)
-                {
-                    this.TraverseDivisions(child, level + 1);
-                }
+                var kvpDivision = (KeyValuePair<string, object>)division;
+                value = kvpDivision.Key;
             }
             else
             {
-                var kvpParent = (KeyValuePair<string, object>)parent;
-
-                if (kvpParent.Value is Dictionary<string, object>)
-                {
-                    foreach (var child in (Dictionary<string, object>)kvpParent.Value)
-                    {
-                        this.TraverseDivisions(child, level + 1);
-                    }
-                }
-                else
-                {
-                    foreach (var child in (List<object>)kvpParent.Value)
-                    {
-                        this.TraverseDivisions(child, level + 1);
-                    }
-                }
-                
+                value = division.ToString();
             }
+
+            switch (nextLevel)
+            {
+                case 1:
+                    var primaryDivision = new PrimaryDivision()
+                    {
+                        Name = value,
+                        CountryId = currentCountryId,
+                        WaterBodyId = waterBodyId
+                    };
+
+                    this.data.PrimaryDivisions.Add(primaryDivision);
+                    this.data.SaveChanges();
+
+                    currentPrimaryDivisionId = primaryDivision.Id;
+
+                    break;
+                case 2:
+                    var secondaryDivision = new SecondaryDivision()
+                    {
+                        Name = value,
+                        CountryId = currentCountryId,
+                        PrimaryDivisionId = currentPrimaryDivisionId
+                    };
+
+                    this.data.SecondaryDivisions.Add(secondaryDivision);
+                    this.data.SaveChanges();
+
+                    currentSecondaryDivisionId = secondaryDivision.Id;
+
+                    break;
+                case 3:
+                    var tertiaryDivision = new TertiaryDivision()
+                    {
+                        Name = value,
+                        CountryId = currentCountryId,
+                        PrimaryDivisionId = currentPrimaryDivisionId,
+                        SecondaryDivisionId = currentSecondaryDivisionId
+                    };
+
+                    this.data.TertiaryDivisions.Add(tertiaryDivision);
+                    this.data.SaveChanges();
+
+                    currentTertiaryDivisionId = tertiaryDivision.Id;
+
+                    break;
+                case 4:
+                    var quaternaryDivision = new QuaternaryDivision()
+                    {
+                        Name = value,
+                        CountryId = currentCountryId,
+                        PrimaryDivisionId = currentPrimaryDivisionId,
+                        SecondaryDivisionId = currentSecondaryDivisionId,
+                        TertiaryDivisionId = currentTertiaryDivisionId
+                    };
+
+                    this.data.QuaternaryDivisions.Add(quaternaryDivision);
+                    this.data.SaveChanges();
+
+                    currentQuaternaryDivisionId = quaternaryDivision.Id;
+
+                    break;
+                default:
+                    throw new ArgumentException("Invalid division.");
+            }
+
+            nextLevel += 1;
         }
+
+        //private void TraverseDivisions(object parent)
+        //{
+        //    if (parent is string)
+        //    {
+        //        nextLevel--;
+
+        //        return;
+        //    }
+
+        //    if (parent is Dictionary<string, object>)
+        //    {
+        //        var dictParent = (Dictionary<string, object>)parent;
+
+        //        foreach (var child in dictParent)
+        //        {
+        //            this.SaveDivision(child);
+
+        //            this.TraverseDivisions(child);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var kvpParent = (KeyValuePair<string, object>)parent;
+
+        //        if (kvpParent.Value is Dictionary<string, object>)
+        //        {
+        //            foreach (var child in (Dictionary<string, object>)kvpParent.Value)
+        //            {
+        //                this.SaveDivision(child);
+
+        //                this.TraverseDivisions(child);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            foreach (var child in (List<object>)kvpParent.Value)
+        //            {
+        //                this.SaveDivision(child);
+
+        //                this.TraverseDivisions(child);
+        //            }
+        //        }
+        //    }
+
+        //    nextLevel = 1;
+        //}
+
+        //private void SaveDivision(object division)
+        //{
+        //    if (!(division is KeyValuePair<string, object> || division is string))
+        //    {
+        //        return;
+        //    }
+
+        //    var value = string.Empty;
+
+        //    if (division is KeyValuePair<string, object>)
+        //    {
+        //        var kvpDivision = (KeyValuePair<string, object>)division;
+        //        value = kvpDivision.Key;
+        //    }
+        //    else
+        //    {
+        //        value = division.ToString();
+        //    }
+
+        //    switch (nextLevel)
+        //    {
+        //        case 1:
+        //            var primaryDivision = new PrimaryDivision()
+        //            {
+        //                Name = value,
+        //                CountryId = currentCountryId,
+        //                WaterBodyId = waterBodyId
+        //            };
+
+        //            this.data.PrimaryDivisions.Add(primaryDivision);
+
+        //            currentPrimaryDivisionId = primaryDivision.Id;
+
+        //            break;
+        //        case 2:
+        //            var secondaryDivision = new SecondaryDivision()
+        //            {
+        //                Name = value,
+        //                CountryId = currentCountryId,
+        //                PrimaryDivisionId = currentPrimaryDivisionId
+        //            };
+
+        //            this.data.SecondaryDivisions.Add(secondaryDivision);
+
+        //            currentSecondaryDivisionId = secondaryDivision.Id;
+
+        //            break;
+        //        case 3:
+        //            var tertiaryDivision = new TertiaryDivision()
+        //            {
+        //                Name = value,
+        //                CountryId = currentCountryId,
+        //                PrimaryDivisionId = currentPrimaryDivisionId,
+        //                SecondaryDivisionId = currentSecondaryDivisionId
+        //            };
+
+        //            this.data.TertiaryDivisions.Add(tertiaryDivision);
+
+        //            currentTertiaryDivisionId = tertiaryDivision.Id;
+
+        //            break;
+        //        case 4:
+        //            var quaternaryDivision = new QuaternaryDivision()
+        //            {
+        //                Name = value,
+        //                CountryId = currentCountryId,
+        //                PrimaryDivisionId = currentPrimaryDivisionId,
+        //                SecondaryDivisionId = currentSecondaryDivisionId,
+        //                TertiaryDivisionId = currentTertiaryDivisionId
+        //            };
+
+        //            this.data.QuaternaryDivisions.Add(quaternaryDivision);
+
+        //            currentQuaternaryDivisionId = quaternaryDivision.Id;
+
+        //            break;
+        //        default:
+        //            throw new ArgumentException("Invalid division.");
+        //    }
+
+        //    this.data.SaveChanges();
+
+        //    nextLevel += 1;
+        //}
 
         public static class JsonHelper
         {
