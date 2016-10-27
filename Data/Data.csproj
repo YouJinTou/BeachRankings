@@ -81,6 +81,7 @@
     <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
     <Compile Include="UnitOfWork\BeachRankingsData.cs" />
     <Compile Include="UnitOfWork\IBeachRankingsData.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj">
