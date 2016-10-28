@@ -151,14 +151,14 @@
 
         public void SetBeachData()
         {
-            var tertiaryDivisionName = (this.TertiaryDivision == null) ? null : this.TertiaryDivision.Name;
-            var quaternaryDivisinoName = (this.QuaternaryDivision == null) ? null : this.QuaternaryDivision.Name;
+            var tertiaryDivisionName = (this.TertiaryDivision == null) ? null : this.TertiaryDivision.Name + " ";
+            var quaternaryDivisinoName = (this.QuaternaryDivision == null) ? null : this.QuaternaryDivision.Name + " ";
             this.Address = (
                 this.Country.Name + " " + 
                 this.PrimaryDivision.Name + " " + 
                 this.SecondaryDivision.Name + " " +
-                tertiaryDivisionName + " " +
-                quaternaryDivisinoName + " " +
+                tertiaryDivisionName +
+                quaternaryDivisinoName +
                 this.WaterBody.Name)
                 .Trim();
         }

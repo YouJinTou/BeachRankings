@@ -9,7 +9,7 @@
     using System.Collections.Generic;
     using System;
 
-    public class QuaternaryDivisionRepository : GenericRepository<PrimaryDivision>, IQuaternaryDivisionRepository
+    public class QuaternaryDivisionRepository : GenericRepository<QuaternaryDivision>, IQuaternaryDivisionRepository
     {
         private DbContext dbContext;
         private IDbSet<QuaternaryDivision> entitySet;

@@ -24,10 +24,10 @@
 
         public JsonResult PrimaryDivisions(int id)
         {
-            var primaryDivisions = this.Data.PrimaryDivisions.All().Where(r => r.CountryId == id).Select(r => new SelectListItem()
+            var primaryDivisions = this.Data.PrimaryDivisions.All().Where(pd => pd.CountryId == id).Select(pd => new SelectListItem()
             {
-                Text = r.Name,
-                Value = r.Id.ToString()
+                Text = pd.Name,
+                Value = pd.Id.ToString()
             });
 
             return this.Json(primaryDivisions, JsonRequestBehavior.AllowGet);

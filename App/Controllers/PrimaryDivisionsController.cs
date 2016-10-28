@@ -24,10 +24,10 @@
 
         public JsonResult SecondaryDivisions(int id)
         {
-            var secondaryDivisions = this.Data.SecondaryDivisions.All().Where(a => a.PrimaryDivisionId == id).Select(r => new SelectListItem()
+            var secondaryDivisions = this.Data.SecondaryDivisions.All().Where(sd => sd.PrimaryDivisionId == id).Select(sd => new SelectListItem()
             {
-                Text = r.Name,
-                Value = r.Id.ToString()
+                Text = sd.Name,
+                Value = sd.Id.ToString()
             });
 
             return this.Json(secondaryDivisions, JsonRequestBehavior.AllowGet);

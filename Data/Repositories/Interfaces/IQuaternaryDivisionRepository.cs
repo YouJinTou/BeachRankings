@@ -2,7 +2,7 @@
 {
     using BeachRankings.Models;
 
-    public interface IQuaternaryDivisionRepository : IGenericRepository<PrimaryDivision>, IDivisionRepository
+    public interface IQuaternaryDivisionRepository : IGenericRepository<QuaternaryDivision>, IDivisionRepository
     {
     }
 }

@@ -221,6 +221,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
+    <Compile Include="Controllers\QuaternaryDivisionsController.cs" />
+    <Compile Include="Controllers\TertiaryDivisionsController.cs" />
     <Compile Include="Controllers\SecondaryDivisionsController.cs" />
     <Compile Include="Controllers\WaterBodiesController.cs" />
     <Compile Include="Controllers\PrimaryDivisionsController.cs" />

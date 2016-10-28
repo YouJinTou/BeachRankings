@@ -115,6 +115,11 @@ namespace BeachRankings.Data.Migrations
 
         private void SeedAdministrativeUnits()
         {
+            if (this.data.Countries.Any())
+            {
+                return;
+            }
+
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Seed.txt");
             var json = File.ReadAllText(path);
             var countries = JsonHelper.Deserialize(json);
@@ -176,10 +181,21 @@ namespace BeachRankings.Data.Migrations
                 new Beach()
                 {
                     Name = "Mamaia Beach",
-                    CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Romania").Id,
-                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Dobrogea").Id,
-                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Constanta").Id,
-                    WaterBodyId = blackSeaWaterBodyId,
+                    CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Albania").Id,
+                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Azores Islands").Id,
+                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "São Miguel").Id,
+                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Ionian Sea").Id,
+                    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
+                    Coordinates = "43.204666,27.910543",
+                },
+                new Beach()
+                {
+                    Name = "Skiathos First Beach",
+                    CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Greece").Id,
+                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Thessaly").Id,
+                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Sporades").Id,
+                    TertiaryDivisionId = this.data.TertiaryDivisions.FirstOrDefault(r => r.Name == "Skiathos").Id,
+                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Mediterranean Sea").Id,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Coordinates = "43.204666,27.910543",
                 }

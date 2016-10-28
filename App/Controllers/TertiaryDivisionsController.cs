@@ -9,36 +9,36 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    public class SecondaryDivisionsController : BaseController
+    public class TertiaryDivisionsController : BaseController
     {
-        public SecondaryDivisionsController(IBeachRankingsData data)
+        public TertiaryDivisionsController(IBeachRankingsData data)
             : base(data)
         {
         }
 
         public ActionResult Beaches(int id)
         {
-            var secondaryDivision = this.Data.SecondaryDivisions.Find(id);
-            var model = Mapper.Map<SecondaryDivision, LocationBeachesViewModel>(secondaryDivision);
+            var tertiaryDivision = this.Data.TertiaryDivisions.Find(id);
+            var model = Mapper.Map<TertiaryDivision, LocationBeachesViewModel>(tertiaryDivision);
 
             return View(model);
         }
 
-        public JsonResult TertiaryDivisions(int id)
+        public JsonResult QuaternaryDivisions(int id)
         {
-            var tertiaryDivisions = this.Data.TertiaryDivisions.All().Where(td => td.SecondaryDivisionId == id).Select(td => new SelectListItem()
+            var quaternaryDivisions = this.Data.QuaternaryDivisions.All().Where(qd => qd.TertiaryDivisionId == id).Select(r => new SelectListItem()
             {
-                Text = td.Name,
-                Value = td.Id.ToString()
+                Text = r.Name,
+                Value = r.Id.ToString()
             });
 
-            return this.Json(tertiaryDivisions, JsonRequestBehavior.AllowGet);
+            return this.Json(quaternaryDivisions, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<JsonResult> BeachNames(int id, string term)
         {
             var beachNames = await this.Data.Beaches.All()
-                .Where(b => b.SecondaryDivisionId == id && b.Name.StartsWith(term))
+                .Where(b => b.TertiaryDivisionId == id && b.Name.StartsWith(term))
                 .Select(b => b.Name)
                 .ToListAsync();
 

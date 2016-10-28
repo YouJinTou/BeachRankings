@@ -92,27 +92,19 @@
 var gMapManager = new GoogleMapManager();
 
 (function ($) {
-    var $addBeachForm = $('#addBeachForm');
+    var $ddlDivisions = $('[data-ddl-division]');
     var $textBoxName = $('[data-textbox-name]');
-    var $ddlCountries = $('[data-ddl-country-name]');
-    var $ddlPrimaryDivision = $('[data-ddl-primary-division-name]');
-    var $ddlSecondaryDivision = $('[data-ddl-secondary-division-name]');
-    var $ddlTertiaryDivision = $('[data-ddl-tertiary-division-name]');
-    var $ddlQuaternaryDivision = $('[data-ddl-quaternary-division-name]');
-    var $secondaryDivisionsContainer = $('[data-secondary-divisions]');
-    var $tertiaryDivisionsContainer = $('[data-tertiary-divisions]');
     var $beachNameContainer = $('[data-beach-name]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
     var $validationSpan = $('[data-generic-validation-alert]');
     
     resetCountriesDropdown();
     setBindings();
-    setAutocomplete();
     setEvents();
 
     function resetCountriesDropdown() {
-        if ($ddlCountries.val()) {
-            $ddlCountries.val('');
+        if ($($ddlDivisions[0]).val()) {
+            $($ddlDivisions[0]).val('');
         }
     }
 
@@ -120,93 +112,87 @@ var gMapManager = new GoogleMapManager();
         $textBoxName.bind('paste', function (event) {
             event.preventDefault();
         });
-    }
-
-    function setAutocomplete() {
-        $textBoxName.autocomplete({
-            source: function (request, response) {
-                $.get('/SecondaryDivisions/BeachNames/', {
-                    id: $ddlSecondaryDivision.val(),
-                    term: request.term
-                }, function (data) {
-                    response(data);
-                });
-            }
-        }).data("ui-autocomplete")._renderItem = function (ul, item) {
-            return $('<li class="ui-state-disabled">' + item.label + '</li>').appendTo(ul);
-        }
-    }
+    }    
 
     function setEvents() {
-        $ddlCountries.on('change', function () {
-            var url = '/Countries/PrimaryDivisions/' + $ddlCountries.val();
+        $ddlDivisions.on('change', function () {
+            var $this = $(this);
+            var divisionHolder = '[data-division-holder]';
+            var nextDivision = $this.data('next-division');
+            var url = $this.data('ddl-division') + $this.val();
 
-            $ddlPrimaryDivision.empty();
-            $ddlSecondaryDivision.empty();
+            $beachNameContainer.hide();
 
-            createInitialOption($ddlPrimaryDivision, '-- Choose a region/state --');
+            if (!nextDivision) {
+                setAutocomplete();
+
+                $beachNameContainer.show();
+
+                return;
+            }
+
+            var $nextDivision = $($ddlDivisions[nextDivision]);
 
             $.getJSON(url, function (result) {
-                $(result).each(function () {
-                    $(document.createElement('option'))
-                        .attr('value', this.Value)
-                        .text(this.Text)
-                        .appendTo($ddlPrimaryDivision);
-                });
-            });
+                if (result.length) {
+                    updateDivisionDropdowns(true);
+                } else {
+                    updateDivisionDropdowns(false);
 
-            $('[data-primary-divisions]').show();
-            $secondaryDivisionsContainer.hide();
-        });
+                    setAutocomplete();
 
-        $ddlPrimaryDivision.on('change', function () {
-            var primaryDivisionId = $ddlPrimaryDivision.val();
-            var secondaryDivisionsUrl = '/PrimaryDivisions/SecondaryDivisions/' + primaryDivisionId;
-            var waterBodyUrl = '/PrimaryDivisions/WaterBody/' + primaryDivisionId;
-
-            $.getJSON(waterBodyUrl, function (result) {
-                $('[data-hdn-water-body-id]').val(result);
-            });
-
-            $.getJSON(secondaryDivisionsUrl, function (result) {
-                $ddlSecondaryDivision.empty();
-
-                createInitialOption($ddlSecondaryDivision, '-- Choose an option --');
+                    $beachNameContainer.show();
+                }
 
                 $(result).each(function () {
                     $(document.createElement('option'))
                         .attr('value', this.Value)
                         .text(this.Text)
-                        .appendTo($ddlSecondaryDivision);
+                        .appendTo($nextDivision);
                 });
             });
 
-            $secondaryDivisionsContainer.show();
-            $beachNameContainer.hide();
-        });
+            function updateDivisionDropdowns(showing) {
+                $nextDivision.closest(divisionHolder).show();
 
-        $ddlSecondaryDivision.on('change', function () {
-            var secondaryDivisionId = $ddlSecondaryDivision.val();
-            var secondaryDivisionsUrl = '/SecondaryDivision/TertiaryDivisions/' + secondaryDivisionId;
-            
-            $.getJSON(secondaryDivisionsUrl, function (result) {
-                $ddlTertiaryDivision.empty();
+                for (var i = nextDivision; i < $ddlDivisions.length; i++) {
+                    $($ddlDivisions[i]).empty();
+                    createInitialOption($($ddlDivisions[i]), '-- Choose an area --');
 
-                createInitialOption($ddlTertiaryDivision, '-- Choose an option --');
+                    if (!showing) {
+                        $($ddlDivisions[i]).closest(divisionHolder).hide();
+                    }
+                }
 
-                $(result).each(function () {
-                    $(document.createElement('option'))
-                        .attr('value', this.Value)
-                        .text(this.Text)
-                        .appendTo($ddlTertiaryDivision);
-                });
-            });
+                for (var i = nextDivision + 1; i < $ddlDivisions.length; i++) {
+                    $($ddlDivisions[i]).closest(divisionHolder).hide();
+                }
+            }
 
-            $tertiaryDivisionsContainer.show();
-            $beachNameContainer.hide();
+            function setAutocomplete() {
+                var secondSlashIndex = url.indexOf('/', 1);
+                var controller = url.substr(0, secondSlashIndex);
 
-            //$textBoxName.val('');
-            //$beachNameContainer.show();
+                $textBoxName.autocomplete({
+                    source: function (request, response) {
+                        $.get(controller + '/BeachNames/', {
+                            id: $this.val(),
+                            term: request.term
+                        }, function (data) {
+                            response(data);
+                        });
+                    }
+                }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                    return $('<li class="ui-state-disabled">' + item.label + '</li>').appendTo(ul);
+                }
+            }
+
+            function createInitialOption(jQueryAppendee, text) {
+                $(document.createElement('option'))
+                            .attr('value', "")
+                            .text(text)
+                            .appendTo(jQueryAppendee);
+            }
         });
 
         $('#map').on('click', function () {
@@ -224,13 +210,6 @@ var gMapManager = new GoogleMapManager();
             var coordinates = $(this).val();
 
             gMapManager.setMap(coordinates);
-        });
-
-        function createInitialOption(jQueryAppendee, text) {
-            $(document.createElement('option'))
-                        .attr('value', "")
-                        .text(text)
-                        .appendTo(jQueryAppendee);
-        }
+        });        
     }
 })(jQuery);

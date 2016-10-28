@@ -50,15 +50,7 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachViewModel bindingModel)
         {
-            var beachNameUnique = !this.Data.Beaches.All().Any(
-                    b => b.PrimaryDivisionId == bindingModel.PrimaryDivisionId && 
-                    b.SecondaryDivisionId == bindingModel.SecondaryDivisionId && 
-                    b.Name.ToLower() == bindingModel.Name.ToLower());
-
-            if (!beachNameUnique)
-            {
-                this.ModelState.AddModelError(string.Empty, "A beach with this name already exists.");
-            }
+            this.ValidateBindingModel(bindingModel);
 
             if (!this.ModelState.IsValid)
             {
@@ -71,44 +63,80 @@
                 return this.View(bindingModel);
             }
 
+            var beach = this.SaveBeach(bindingModel);
+
+            this.SaveBeachImages(beach, bindingModel);            
+
+            return this.RedirectToAction("Post", "Reviews", new { id = beach.Id });
+        }
+
+        private void ValidateBindingModel(AddBeachViewModel model)
+        {
+            var beachNameUnique = !this.Data.Beaches.All().Any(
+                b => b.PrimaryDivisionId == model.PrimaryDivisionId &&
+                b.SecondaryDivisionId == model.SecondaryDivisionId &&
+                b.Name.ToLower() == model.Name.ToLower());
+            var tertiaryDivisionsExist = (this.Data.SecondaryDivisions.Find(model.SecondaryDivisionId).TertiaryDivisions.Count > 0);
+            var tertiaryIdMissing = (tertiaryDivisionsExist && model.TertiaryDivisionId == null);
+            var quaternaryIdMissing = tertiaryIdMissing ? false : 
+                ((this.Data.TertiaryDivisions.Find(model.TertiaryDivisionId)).QuaternaryDivisions.Count > 0) && 
+                (model.QuaternaryDivisionId == null);
+
+            if (tertiaryIdMissing || quaternaryIdMissing)
+            {
+                this.ModelState.AddModelError(string.Empty, "All location fields are required.");
+            }
+
+            if (!beachNameUnique)
+            {
+                this.ModelState.AddModelError(string.Empty, "A beach with this name already exists.");
+            }
+        }
+
+        private Beach SaveBeach(AddBeachViewModel bindingModel)
+        {
             this.Data.Countries.All().Include(c => c.PrimaryDivisions).Include(c => c.SecondaryDivisions).FirstOrDefault(c => c.Id == bindingModel.CountryId);
             var primaryDivision = this.Data.PrimaryDivisions.All().Include(r => r.WaterBody).FirstOrDefault(r => r.Id == bindingModel.PrimaryDivisionId);
             var beach = Mapper.Map<AddBeachViewModel, Beach>(bindingModel);
             beach.WaterBodyId = primaryDivision.WaterBodyId;
-            
+
             this.Data.Beaches.Add(beach);
             beach.SetBeachData();
             this.Data.Beaches.SaveChanges();
-
             this.Data.Beaches.AddBeachToIndex(beach);
 
-            if (bindingModel.Images != null)
+            return beach;
+        }
+
+        private void SaveBeachImages(Beach beach, AddBeachViewModel bindingModel)
+        {
+            if (bindingModel.Images == null || bindingModel.Images.ElementAt(0) == null)
             {
-                var formattedBeachName = Regex.Replace(beach.Name, @"[^A-Za-z]", string.Empty);
-                var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads", "Images", "Beaches", formattedBeachName);
-
-                Directory.CreateDirectory(beachDir);
-
-                foreach (var image in bindingModel.Images)
-                {
-                    var uniqueName = Guid.NewGuid().ToString() + Path.GetFileName(image.FileName);
-                    var imagePath = Path.Combine(beachDir, uniqueName);
-                    var beachPhoto = new BeachImage()
-                    {
-                        AuthorId = this.UserProfile.Id,
-                        BeachId = beach.Id,
-                        Name = uniqueName,
-                        Path = imagePath
-                    };
-
-                    image.SaveAs(imagePath);
-                    this.Data.BeachImages.Add(beachPhoto);
-                }                
-                
-                this.Data.BeachImages.SaveChanges();
+                return;
             }
 
-            return this.RedirectToAction("Post", "Reviews", new { id = beach.Id });
-        }
+            var formattedBeachName = Regex.Replace(beach.Name, @"[^A-Za-z]", string.Empty);
+            var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads", "Images", "Beaches", formattedBeachName);
+
+            Directory.CreateDirectory(beachDir);
+
+            foreach (var image in bindingModel.Images)
+            {
+                var uniqueName = Guid.NewGuid().ToString() + Path.GetFileName(image.FileName);
+                var imagePath = Path.Combine(beachDir, uniqueName);
+                var beachPhoto = new BeachImage()
+                {
+                    AuthorId = this.UserProfile.Id,
+                    BeachId = beach.Id,
+                    Name = uniqueName,
+                    Path = imagePath
+                };
+
+                image.SaveAs(imagePath);
+                this.Data.BeachImages.Add(beachPhoto);
+            }
+
+            this.Data.BeachImages.SaveChanges();
+        }       
     }
 }

@@ -19,43 +19,43 @@
                     @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         @Html.DropDownListFor(model => model.CountryId, Model.Countries, "-- Choose a country --",
-                    new { @class = "form-control", data_ddl_country_name = "" })
+                    new { @class = "form-control", data_ddl_country_name = "", data_ddl_division = "/Countries/PrimaryDivisions/", data_next_division = "1" })
                         @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div data-primary-divisions="" class="form-group" style="display: none;">
+                <div data-division-holder="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.PrimaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         @Html.DropDownListFor(model => model.PrimaryDivisionId, Enumerable.Empty<SelectListItem>(),
-                    new { @class = "form-control", data_ddl_primary_division_name = "" })
+                    new { @class = "form-control", data_ddl_primary_division_name = "", data_ddl_division = "/PrimaryDivisions/SecondaryDivisions/", data_next_division = "2" })
                         @Html.ValidationMessageFor(model => model.PrimaryDivisionId, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div data-secondary-divisions="" class="form-group" style="display: none;">
+                <div data-division-holder="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.SecondaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         @Html.DropDownListFor(model => model.SecondaryDivisionId, Enumerable.Empty<SelectListItem>(),
-                    new { @class = "form-control", data_ddl_secondary_division_name = "" })
+                    new { @class = "form-control", data_ddl_secondary_division_name = "", data_ddl_division = "/SecondaryDivisions/TertiaryDivisions/", data_next_division = "3" })
                         @Html.ValidationMessageFor(model => model.SecondaryDivisionId, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div data-areas="" class="form-group" style="display: none;">
+                <div data-division-holder="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.TertiaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         @Html.DropDownListFor(model => model.TertiaryDivisionId, Enumerable.Empty<SelectListItem>(),
-                    new { @class = "form-control", data_ddl_tertiary_division_name = "" })
+                    new { @class = "form-control", data_ddl_tertiary_division_name = "", data_ddl_division = "/TertiaryDivisions/QuaternaryDivisions/", data_next_division = "4" })
                         @Html.ValidationMessageFor(model => model.TertiaryDivisionId, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div data-areas="" class="form-group" style="display: none;">
+                <div data-division-holder="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.QuaternaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         @Html.DropDownListFor(model => model.QuaternaryDivisionId, Enumerable.Empty<SelectListItem>(),
-                    new { @class = "form-control", data_ddl_quaternary_division_name = "" })
+                    new { @class = "form-control", data_ddl_quaternary_division_name = "", data_ddl_division = "/QuaternaryDivisions/", data_next_division = "" })
                         @Html.ValidationMessageFor(model => model.QuaternaryDivisionId, "", new { @class = "text-danger" })
                     </div>
                 </div>
