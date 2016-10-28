@@ -1,9 +1,44 @@
 ﻿{
+  "Albania":{
+     "Durrës":  ["Durrës","Krujë","Shijak"],
+     "Fier":    ["Divjakë","Fier","Lushnjë","Mallakastër","Patos","Roskovec"],
+     "Lezhë":   ["Kurbin","Lezhë","Mirditë"],
+     "Shkodër": ["Fushë-Arrëz","Malësi e Madhe","Pukë","Shkodër","Vau i Dejës"],
+     "Tiranë":  ["Kamëz","Kavajë","Rrogozhinë","Tiranë","Vorë"],
+     "Vlorë":   ["Delvinë","Finiq","Himarë","Konispol","Sarandë","Selenicë","Vlorë"]
+                    },
   "Bulgaria":{
      "Dobrich":["Shabla","Kavarna","Balchik"],
      "Varna":["Varna","Golden Sands","St. Konstantin and Helena","Avren","Dolni Chiflik","Byala"],
      "Bourgas":["Nesebar","Pomorie","Bourgas","Sozopol","Primorsko","Tsarevo"]
                 },      
+  "Cyprus":["Famagusta",
+     "Kyrenia",
+     "Larnaca",
+     "Limassol", 
+     "Nicosia",
+     "Paphos"
+      ],    
+  "Egypt":{
+     "Sinai Peninsula":  ["Taba","Nuweiba","Dahab","Sharm-El-Sheikh","Ras Sidr","Ras Muhammad National Park","Straits of Tiran"],
+    "Sinai's nearby islands":  ["Tiran Island","Sanafir Island","Pharaoh's Island"], 
+    "Western Red Sea shore":  ["Ain Sukhna","Gamsha Bay","El Gouna","Ras Gharib","Hurghada","Sahl Hasheesh Bay","Serrenia","Makadi Bay","Soma Bay","Shoni Bay","Safaga","Quseir","Port Ghalib","Marsa Alam","Hamata","Berenice Troglodytica","Hala'ib","Alshalateen","Ras Banas","Foul Bay","Abu Shar","Abu Tig, El Gouna","Gebel Elba","Wadi Gimal","Gubal Strait","Tarabin town"],
+     "Red Sea islands":  ["Shadwan","St. John's Island","Mukawwa Island","Rocky Island","Green Island","Abu Minqar Island"],
+     "Mediterranean Coast of Egypt ":  ["Western North Coast","Central North Coast","Delta's North Coast","Eastern North Coast"]
+                },  
+  "France":{
+     "Hauts-de-France":  ["Nord","Pas-de-Calais","Somme"],
+     "Normandy":  ["Calvados","Manche","Seine-Maritime"],
+     "Brittany":  ["Côtes-d'Armor","Finistère","Morbihan","Ille-et-Vilaine"],
+     "Pays de la Loire":  ["Loire-Atlantique","Vendée"],
+     "Nouvelle-Aquitaine":  ["Charente-Maritime","Gironde","Landes","Pyrénées-Atlantiques"],
+     "Occitanie":  ["Aude","Gard","Hérault","Pyrénées-Orientales"],
+     "Alpes-Côte d'Azur":  ["Alpes-Maritimes","Bouches-du-Rhône","Var"],
+     "Corsica":  ["Haute-Corse","Corse-du-Sud"]
+                  },
+  "French Guiana":{
+     "Cayenne":  ["Iracoubo","Sinnamary","Kourou","Macouria","Cayenne","Remire-Montjoly","Régina","Ouanary","Saint-Georges"]
+                  },
   "Greece":{
       "Attica":["Athens"," East Attica","Piraeus","West Attica"],
       "Central Greece":["Boeotia","Euboea","Evrytania","Phocis","Phthiotis"],
@@ -21,10 +56,25 @@
         "Magnesia",
         "Trikala",
         {
-        "Sporades":["Skopelos", "Alonnisos", "Skiathos",{"Kyra Panagia":["QUATERNARY TRICK"]},"Peristera","Gioura","Skantzoura","Piperi","Tsougria"]
+        "Sporades":["Skopelos", "Alonnisos", "Skiathos","Kyra Panagia","Peristera","Gioura","Skantzoura","Piperi","Tsougria"]
         }
       ],
       "Western Greece":["Achaea","Aetolia-Acarnania","Elis"]
+                },
+  "India":{
+     "Andhra Pradesh":  ["East Godavari","Guntur","Krishna","Nellore","Prakasam","Srikakulam","Visakhapatnam","Vizianagaram","West Godavari"],
+     "Goa":  ["Pernem","Bardez","Tiswadi","Mormugao","Salcette","Quepem","Canacona"],
+     "Gujarat":  ["Amreli","Ahmedabad","Anand","Bharuch","Bhavnagar","Devbhoomi Dwarka","Gir Somnath","Jamnagar","Junagadh","Kutch","Morbi","Navsari","Surat","Valsad"],
+     "Karnataka":  ["Dakshina Kannada","Udupi","Uttara Kannada"],
+     "Kerala":  ["Alappuzha","Ernakulam","Kannur","Kasaragod","Kollam","Kozhikode","Malappuram","Thiruvananthapuram","Thrissur"],
+     "Maharashtra":  ["Mumbai","Mumbai Suburban District","Thane","Palghar","Raigad","Ratnagiri","Sindhudurg"],
+     "Odisha":  ["Balasore","Bhadrak","Jagatsinghpur","Ganjam","Kendrapada","Khordha"],
+     "Tamil Nadu":  ["Chennai","Cuddalore","Kanchipuram","Kanniyakumari","Nagapattinam","Pudukkottai","Ramanathapuram","Thanjavur","Thoothukudi","Tirunelveli","Tiruvallur","Tiruvarur"],
+     "West Bengal":  ["Bankura","Cooch Behar","Darjeeling"],
+     "Andaman and Nicobar Islands":  null,
+     "Aminidivi Islands": ["Cora Divh","Sesostris Bank","Bassas de Pedro","Cherbaniani Reef","Byramgore Reef","Chetlat Island","Bitrā Island","Kiltān Island","Kadmat Island","Elikalpeni Bank","Perumal Par","Amini Island"],
+     "Laccadive Islands": ["Agatti Island","Bangaram Island","Pitti Island","Androth Island ","Kavaratti Island","Kalpeni Island","Suheli Par","Minicoy Island"],
+     "Puducherry":  null
                 },
   "Italy":{
      "Abruzzo":     ["Chieti","Pescara"],
@@ -37,12 +87,12 @@
      "Apulia":      ["Bari","Brindisi","Foggia","Lecce","Taranto","Barletta-Andria-Trani"],
      "Molise":      ["Campobasso","Isernia"],
      "Marche":      ["Ancona","Ascoli Piceno","Fermo","Macerata","Pesaro and Urbino"],
-     "Emilia-Romagna is": ["Ferrara","Ravenna","Forlì-Cesena","Rimini"],
+     "Emilia-Romagna": ["Ferrara","Ravenna","Forlì-Cesena","Rimini"],
      "Veneto":      ["Vicenza","Rovigo","Padova"],
      "Friuli–Venezia Giulia":  ["Pordenone","Udine","Gorizia","Trieste"],
      "Sardinia":    ["Cagliari","Nuoro","Oristano","Sassari","South Sardinia"],
      "Sicily":      ["Agrigento","Caltanissetta","Catania","Enna","Messina","Palermo","Ragusa","Siracusa","Trapani"]
-                },
+                },  
   "Portugal":{
      "Algarve":       ["Albufeira","Aljezur","Castro Marim","Faro","Lagoa","Lagos","Loulé","Olhão","Portimão","Silves","Tavira","Vila do Bispo","Vila Real de Santo António"],
      "Alentejo Litoral":      ["Beja District","Setúbal District"],
@@ -53,12 +103,33 @@
      "Madeira Islands": ["Madeira","Porto Santo","Desertas","Selvagens"],
      "Madeira-Savage Islands":  ["Selvagem Grande","Selvagem Pequena","Palheiro da Terra Islet","Palheiro do Mar Islet","Fora Islet","Alto Islet","Comprido Islet","Redondo Islet","Norte Islets"]
                 },
-  "Albania":{
-     "Durrës":  ["Durrës","Krujë","Shijak"],
-     "Fier":    ["Divjakë","Fier","Lushnjë","Mallakastër","Patos","Roskovec"],
-     "Lezhë":   ["Kurbin","Lezhë","Mirditë"],
-     "Shkodër": ["Fushë-Arrëz","Malësi e Madhe","Pukë","Shkodër","Vau i Dejës"],
-     "Tiranë":  ["Kamëz","Kavajë","Rrogozhinë","Tiranë","Vorë"],
-     "Vlorë":   ["Delvinë","Finiq","Himarë","Konispol","Sarandë","Selenicë","Vlorë"]
-                    }
+  "Turkey":{
+     "Adana":  ["Karataş","Yumurtalik"],
+     "Artvin":  ["Arhavi","Hopa"], 
+     "Antalya":  ["Alanya","Antalya","Finike","Gazipaşa","Kale","Kaş","Kemer","Kumluca","Manavgat","Serik"],
+     "Aydın":  ["Didim","Kuşadası"],
+     "Balıkesir":  ["Ayvalık","Bandırma","Burhaniye","Edremit","Erdek","Gömeç","Gönen","Marmara"],
+     "Bartın":  ["Amasra","Bartın","Kurucaşile"],
+     "Bursa":  ["Gemlik","Karacabey","Mudanya","Nilüfer"],
+     "Çanakkale":  ["Ayvacık","Biga","Bozcaada","Çanakkale","Eceabat","Ezine","Gelibolu","Gökçeada","Lapseki"],
+     "Düzce":  ["Akçakoca"],
+     "Edirne":  ["Enez","Keşan"], 
+     "Giresun":  ["Bulancak","Espiye","Eynesil","Giresun","Görele","Keşap","Piraziz","Tirebolu"], 
+     "Hatay":  [" Dörtyol","Erzin","İskenderun","Samandağ","Yayladağı"],
+     "Istanbul":  ["Adalar","Arnavutköy","Avcılar","Beykoz","Beylikdüzü","Büyükçekmece","Eyüp","Kartal","Küçükçekmece","Maltepe","Pendik","Şile","Sarıyer","Silivri","Tuzla"],  
+     "Izmir":  ["Aliağa","Balçova","Bayraklı","Çeşme","Çiğli","Foça","Güzelbahçe","Karaburun","Konak","Menderes","Menemen","Narlıdere","Seferihisar","Selçuk","Urla","Dikili"],
+     "Kastamonu":  ["Abana","Bozkurt","Çatalzeytin","Cide","Doğanyurt","İnebolu"],
+     "Kırklareli":  ["Demirköy","Vize"],
+     "Kocaeli":  ["Darıca","Derince","Dilovası","Gebze","Gölcük","İzmit","Kandıra","Karamürsel","Körfez"],
+     "Muğla":  ["Bodrum","Dalaman","Datça","Fethiye","Köyceğiz","Marmaris","Milas","Ortaca"],
+     "Mersin":  ["Aydıncık","Akdeniz","Anamur","Bozyazı","Erdemli","Gülnar","Mezitli","Silifke","Tarsus","Yenişehir"],
+     "Ordu":  ["Altınordu","Fatsa","Gülyalı","Perşembe","Ünye"],
+     "Rize":  ["Ardeşen","Fındıklı","Çayeli","Derepazarı","İyidere","Pazar","Rize"],
+     "Sakarya":  ["Kaynarca","Kocaali","Karasu"],
+     "Samsun":  ["Alaçam","Bafra","Çarşamba","Ondokuzmayıs","Samsun","Tekkeköy","Terme","Yakakent"],
+     "Sinop":  ["Ayancık","Dikmen","Erfelek","Gerze","Sinop","Türkeli"], 
+     "Tekirdağ":  ["Çorlu","Marmaraereğlisi","Saray","Şarköy","Tekirdağ"],
+     "Trabzon":  ["Akçaabat","Arsin","Beşikdüzü","Çarşıbaşı","Of","Sürmene","Trabzon","Vakfıkebir","Yomra"],
+     "Zonguldak":  ["Alaplı","Çaycuma","Ereğli (Heraclea Pontica)","Zonguldak"]
+            }
 }

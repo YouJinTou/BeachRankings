@@ -78,9 +78,10 @@
                 b.Name.ToLower() == model.Name.ToLower());
             var tertiaryDivisionsExist = (this.Data.SecondaryDivisions.Find(model.SecondaryDivisionId).TertiaryDivisions.Count > 0);
             var tertiaryIdMissing = (tertiaryDivisionsExist && model.TertiaryDivisionId == null);
-            var quaternaryIdMissing = tertiaryIdMissing ? false : 
-                ((this.Data.TertiaryDivisions.Find(model.TertiaryDivisionId)).QuaternaryDivisions.Count > 0) && 
-                (model.QuaternaryDivisionId == null);
+            var quaternaryIdMissing = !tertiaryIdMissing ? 
+                ((this.Data.TertiaryDivisions.Find(model.TertiaryDivisionId)).QuaternaryDivisions.Count > 0) &&
+                (model.QuaternaryDivisionId == null) : 
+                true;      
 
             if (tertiaryIdMissing || quaternaryIdMissing)
             {

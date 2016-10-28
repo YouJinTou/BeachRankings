@@ -116,7 +116,7 @@ var gMapManager = new GoogleMapManager();
 
     function setEvents() {
         $ddlDivisions.on('change', function () {
-            var $this = $(this);
+            var $this = $(this);            
             var divisionHolder = '[data-division-holder]';
             var nextDivision = $this.data('next-division');
             var url = $this.data('ddl-division') + $this.val();
@@ -132,6 +132,12 @@ var gMapManager = new GoogleMapManager();
             }
 
             var $nextDivision = $($ddlDivisions[nextDivision]);
+
+            if (!$this.val()) {
+                updateDivisionDropdowns(false);
+
+                return;
+            }
 
             $.getJSON(url, function (result) {
                 if (result.length) {

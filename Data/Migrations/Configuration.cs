@@ -31,12 +31,12 @@ namespace BeachRankings.Data.Migrations
         {
             this.data = data;
 
-            this.SeedRoles();
-            this.SeedUsers();
+            //this.SeedRoles();
+            //this.SeedUsers();
             this.SeedWaterBodies();
             this.SeedAdministrativeUnits();
-            this.SeedBeaches();
-            this.SeedBeachImages();
+            //this.SeedBeaches();
+            //this.SeedBeachImages();
         }
 
         private void SeedRoles()
@@ -369,9 +369,9 @@ namespace BeachRankings.Data.Migrations
             }
             else if (division is KeyValuePair<string, object>)
             {
-                var dictDivision = (KeyValuePair<string, object>)division;
+                var kvpDivision = (KeyValuePair<string, object>)division;
 
-                return dictDivision.Value;
+                return kvpDivision.Value ?? new List<object>();
             }
             else if (division is List<object>)
             {
