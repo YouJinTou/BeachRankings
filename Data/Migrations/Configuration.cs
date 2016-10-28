@@ -1,12 +1,10 @@
 namespace BeachRankings.Data.Migrations
 {
     using BeachRankings.Models;
-    using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
@@ -22,8 +20,6 @@ namespace BeachRankings.Data.Migrations
         private static int currentSecondaryDivisionId;
         private static int currentTertiaryDivisionId;
         private static int currentQuaternaryDivisionId;
-        private static int nextLevel;
-        private static int lastSavedLevel;
 
         public Configuration()
         {
@@ -35,169 +31,12 @@ namespace BeachRankings.Data.Migrations
         {
             this.data = data;
 
-            //this.SeedRoles();
-            //this.SeedUsers();
+            this.SeedRoles();
+            this.SeedUsers();
             this.SeedWaterBodies();
-            this.SeedAll();
-            //this.SeedCountries();
-            //this.SeedPrimaryDivisions();
-            //this.SeedSecondaryDivisions();
-            //this.SeedBeaches();
-            //this.SeedBeachImages();
-            //this.SeedReviews();
-        }
-
-        private void SeedAll()
-        {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Seed.txt");
-            var json = File.ReadAllText(path);
-            var countries = JsonHelper.Deserialize(json);
-
-            foreach (var country in (Dictionary<string, object>)countries)
-            {
-                var countryEntity = new Country() { Name = country.Key };
-
-                this.data.Countries.Add(countryEntity);
-                this.data.SaveChanges();
-
-                currentCountryId = countryEntity.Id;
-                nextLevel = 1;
-
-                this.TraverseDivisions(country);
-            }
-        }
-
-        private void TraverseDivisions(object parent)
-        {
-            if (parent is string)
-            {
-                return;
-            }
-
-            foreach (var child in GetObjectCollection(parent))
-            {
-                this.SaveDivision(child);
-
-                this.TraverseDivisions(child);
-
-                nextLevel--;
-            }
-        }
-
-        private void SaveDivision(object division)
-        {
-            if (!(division is KeyValuePair<string, object> || division is string))
-            {
-                return;
-            }
-
-            var value = string.Empty;
-
-            if (division is KeyValuePair<string, object>)
-            {
-                var kvpDivision = (KeyValuePair<string, object>)division;
-                value = kvpDivision.Key;
-            }
-            else
-            {
-                value = division.ToString();
-            }
-
-            if (Math.Abs(lastSavedLevel - nextLevel) > 1)
-            {
-                nextLevel++;
-            }
-
-            switch (nextLevel)
-            {
-                case 1:
-                    var primaryDivision = new PrimaryDivision()
-                    {
-                        Name = value,
-                        CountryId = currentCountryId,
-                        WaterBodyId = waterBodyId
-                    };
-
-                    this.data.PrimaryDivisions.Add(primaryDivision);
-                    this.data.SaveChanges();
-
-                    currentPrimaryDivisionId = primaryDivision.Id;
-                    lastSavedLevel = 1;
-
-                    break;
-                case 2:
-                    var secondaryDivision = new SecondaryDivision()
-                    {
-                        Name = value,
-                        CountryId = currentCountryId,
-                        PrimaryDivisionId = currentPrimaryDivisionId
-                    };
-
-                    this.data.SecondaryDivisions.Add(secondaryDivision);
-                    this.data.SaveChanges();
-
-                    currentSecondaryDivisionId = secondaryDivision.Id;
-                    lastSavedLevel = 2;
-
-                    break;
-                case 3:
-                    var tertiaryDivision = new TertiaryDivision()
-                    {
-                        Name = value,
-                        CountryId = currentCountryId,
-                        PrimaryDivisionId = currentPrimaryDivisionId,
-                        SecondaryDivisionId = currentSecondaryDivisionId
-                    };
-
-                    this.data.TertiaryDivisions.Add(tertiaryDivision);
-                    this.data.SaveChanges();
-
-                    currentTertiaryDivisionId = tertiaryDivision.Id;
-                    lastSavedLevel = 3;
-
-                    break;
-                case 4:
-                    var quaternaryDivision = new QuaternaryDivision()
-                    {
-                        Name = value,
-                        CountryId = currentCountryId,
-                        PrimaryDivisionId = currentPrimaryDivisionId,
-                        SecondaryDivisionId = currentSecondaryDivisionId,
-                        TertiaryDivisionId = currentTertiaryDivisionId
-                    };
-
-                    this.data.QuaternaryDivisions.Add(quaternaryDivision);
-                    this.data.SaveChanges();
-
-                    currentQuaternaryDivisionId = quaternaryDivision.Id;
-                    lastSavedLevel = 4;
-
-                    break;
-                default:
-                    throw new ArgumentException("Invalid division.");
-            }
-
-            nextLevel += 1;
-        }
-
-        private static dynamic GetObjectCollection(object division)
-        {
-            if (division is Dictionary<string, object>)
-            {
-                return (Dictionary<string, object>)division;
-            }
-            else if (division is KeyValuePair<string, object>)
-            {
-                var dictDivision = (KeyValuePair<string, object>)division;
-
-                return dictDivision.Value;
-            }
-            else if (division is List<object>)
-            {
-                return (List<object>)division;
-            }
-
-            throw new ArgumentException("Received an unexpected type.");
+            this.SeedAdministrativeUnits();
+            this.SeedBeaches();
+            this.SeedBeachImages();
         }
 
         private void SeedRoles()
@@ -274,108 +113,23 @@ namespace BeachRankings.Data.Migrations
             LuceneSearch.AddUpdateIndexEntries(waterBodies);
         }
 
-        private void SeedCountries()
+        private void SeedAdministrativeUnits()
         {
-            if (this.data.Countries.Any())
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Seed.txt");
+            var json = File.ReadAllText(path);
+            var countries = JsonHelper.Deserialize(json);
+
+            foreach (var country in (Dictionary<string, object>)countries)
             {
-                return;
+                var countryEntity = new Country() { Name = country.Key };
+
+                this.data.Countries.Add(countryEntity);
+                this.data.SaveChanges();
+
+                currentCountryId = countryEntity.Id;
+
+                this.TraverseDivisions(country, 1);
             }
-
-            var countriesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Countries.txt");
-            var countries = new List<Country>();
-
-            using (var sr = new StreamReader(countriesPath))
-            {
-                string countryName;
-
-                while ((countryName = sr.ReadLine()) != null)
-                {
-                    var country = new Country() { Name = countryName };
-
-                    countries.Add(country);
-                    this.data.Countries.Add(country);
-                }
-            }
-
-            this.data.SaveChanges();
-
-            LuceneSearch.Index = Index.CountryIndex;
-
-            LuceneSearch.AddUpdateIndexEntries(countries);
-        }
-
-        private void SeedPrimaryDivisions()
-        {
-            if (this.data.PrimaryDivisions.Any())
-            {
-                return;
-            }
-
-            var bulgariaId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
-            var romaniaId = this.data.Countries.FirstOrDefault(c => c.Name == "Romania").Id;
-            var blackSeaWaterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
-            var primaryDivisions = new List<PrimaryDivision>()
-            {
-                new PrimaryDivision() { Name = "Dobrich", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
-                new PrimaryDivision() { Name= "Varna", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
-                new PrimaryDivision() { Name= "Bourgas", CountryId = bulgariaId, WaterBodyId = blackSeaWaterBodyId },
-                new PrimaryDivision() { Name = "Dobrogea", CountryId = romaniaId, WaterBodyId = blackSeaWaterBodyId }
-            };
-
-            foreach (var primaryDivision in primaryDivisions)
-            {
-                this.data.PrimaryDivisions.Add(primaryDivision);
-            }
-
-            this.data.SaveChanges();
-
-            //LuceneSearch.Index = Index.RegionIndex;
-
-            //LuceneSearch.AddUpdateIndexEntries(regions);
-        }
-
-        private void SeedSecondaryDivisions()
-        {
-            if (this.data.SecondaryDivisions.Any())
-            {
-                return;
-            }
-
-            var bulgariaCountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
-            var romaniaCountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Romania").Id;
-            var dobrichRegionId = this.data.PrimaryDivisions.FirstOrDefault(c => c.Name == "Dobrich").Id;
-            var varnaRegionId = this.data.PrimaryDivisions.FirstOrDefault(c => c.Name == "Varna").Id;
-            var bourgasRegionId = this.data.PrimaryDivisions.FirstOrDefault(c => c.Name == "Bourgas").Id;
-            var dobrogeaRegionId = this.data.PrimaryDivisions.FirstOrDefault(c => c.Name == "Dobrogea").Id;
-            var secondaryDivisions = new List<SecondaryDivision>()
-            {
-                new SecondaryDivision() { Name = "Shabla", CountryId = bulgariaCountryId, PrimaryDivisionId = dobrichRegionId },
-                new SecondaryDivision() { Name = "Kavarna", CountryId = bulgariaCountryId, PrimaryDivisionId = dobrichRegionId },
-                new SecondaryDivision() { Name = "Balchik", CountryId = bulgariaCountryId, PrimaryDivisionId = dobrichRegionId },
-                new SecondaryDivision() { Name = "Aksakovo", CountryId = bulgariaCountryId, PrimaryDivisionId = varnaRegionId },
-                new SecondaryDivision() { Name = "Varna", CountryId = bulgariaCountryId, PrimaryDivisionId = varnaRegionId },
-                new SecondaryDivision() { Name = "Avren", CountryId = bulgariaCountryId, PrimaryDivisionId = varnaRegionId },
-                new SecondaryDivision() { Name= "Dolni Chiflik", CountryId = bulgariaCountryId, PrimaryDivisionId = varnaRegionId },
-                new SecondaryDivision() { Name = "Nesebar", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
-                new SecondaryDivision() { Name = "Pomorie", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
-                new SecondaryDivision() { Name = "Bourgas", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
-                new SecondaryDivision() { Name = "Sozopol", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
-                new SecondaryDivision() { Name = "Primorsko", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
-                new SecondaryDivision() { Name = "Tsarevo", CountryId = bulgariaCountryId, PrimaryDivisionId = bourgasRegionId },
-                new SecondaryDivision() { Name = "Tulcea", CountryId = romaniaCountryId, PrimaryDivisionId = dobrogeaRegionId },
-                new SecondaryDivision() { Name = "Constanta", CountryId = romaniaCountryId, PrimaryDivisionId = dobrogeaRegionId }
-            };
-
-            foreach (var secondaryDivision in secondaryDivisions)
-            {
-                this.data.SecondaryDivisions.Add(secondaryDivision);
-            }
-
-            this.data.SaveChanges();
-
-            //LuceneSearch.Index = Index.AreaIndex;
-
-            //LuceneSearch.AddUpdateIndexEntries(areas);
         }
 
         private void SeedBeaches()
@@ -486,61 +240,129 @@ namespace BeachRankings.Data.Migrations
             this.data.SaveChanges();
         }
 
-        //private void SeedReviews()
-        //{
-        //    if (this.data.Reviews.Any())
-        //    {
-        //        return;
-        //    }
+        private void TraverseDivisions(object parent, int depth)
+        {
+            if (parent is string)
+            {
+                return;
+            }
 
-        //    Random rand = new Random();
-        //    var adminId = this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id;
-        //    var userId = this.data.Users.FirstOrDefault(u => u.UserName == "user").Id;
-        //    var beachIds = new List<int>()
-        //    {
-        //        this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Id,
-        //        this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata").Id,
-        //        this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Id,
+            foreach (var child in GetObjectCollection(parent))
+            {
+                var savedSuccessfully = this.SaveDivision(child, depth);
+                depth = savedSuccessfully ? depth : depth - 1;
 
-        //    };
+                this.TraverseDivisions(child, depth + 1);
 
-        //    for (int i = 0; i < 20; i++)
-        //    {
-        //        bool even = ((i % 2) == 0);
+                depth = savedSuccessfully ? depth : depth + 1;
+            }
+        }
 
-        //        this.data.Reviews.Add(new Review()
-        //        {
-        //            AuthorId = (even ? adminId : userId),
-        //            BeachId = rand.Next(1, beachIds.Count + 1),
-        //            PostedOn = DateTime.Now.AddDays(-i),
-        //            TotalScore = Math.Round(rand.NextDouble() * 10, 1),
-        //            Content = "This is the content for the " + i + ". review, whether you like it or not." +
-        //                    "There's more to come as well, so you'd better watch out. We have pancakes, too, so shut it.",
-        //            WaterQuality = Math.Round((rand.NextDouble() * 10), 1),
-        //            SeafloorCleanliness = Math.Round((rand.NextDouble() * 10), 1),
-        //            CoralReefFactor = Math.Round((rand.NextDouble() * 10), 1),
-        //            SeaLifeDiversity = Math.Round((rand.NextDouble() * 10), 1),
-        //            SnorkelingSuitability = Math.Round((rand.NextDouble() * 10), 1),
-        //            BeachCleanliness = Math.Round((rand.NextDouble() * 10), 1),
-        //            CrowdFreeFactor = Math.Round((rand.NextDouble() * 10), 1),
-        //            SandQuality = Math.Round((rand.NextDouble() * 10), 1),
-        //            BreathtakingEnvironment = Math.Round((rand.NextDouble() * 10), 1),
-        //            TentSuitability = Math.Round((rand.NextDouble() * 10), 1),
-        //            KayakSuitability = Math.Round((rand.NextDouble() * 10), 1),
-        //            LongStaySuitability = Math.Round((rand.NextDouble() * 10), 1)
-        //        });
-        //    }
+        private bool SaveDivision(object division, int depth)
+        {
+            if (!(division is KeyValuePair<string, object> || division is string))
+            {
+                return false;
+            }
 
-        //    this.data.Reviews.Add(new Review()
-        //    {
-        //        AuthorId = adminId,
-        //        BeachId = rand.Next(1, beachIds.Count + 1),
-        //        PostedOn = DateTime.Now.AddDays(-3),
-        //        Content = "This is a review without any scores. This is a review without any scores. " +
-        //                "This is a review without any scores. This is a review without any scores. This is a review without any scores. "
-        //    });
+            var value = string.Empty;
 
-        //    this.data.SaveChanges();
-        //}
+            if (division is KeyValuePair<string, object>)
+            {
+                var kvpDivision = (KeyValuePair<string, object>)division;
+                value = kvpDivision.Key;
+            }
+            else
+            {
+                value = division.ToString();
+            }
+
+            switch (depth)
+            {
+                case 1:
+                    var primaryDivision = new PrimaryDivision()
+                    {
+                        Name = value,
+                        CountryId = currentCountryId,
+                        WaterBodyId = waterBodyId
+                    };
+
+                    this.data.PrimaryDivisions.Add(primaryDivision);
+                    this.data.SaveChanges();
+
+                    currentPrimaryDivisionId = primaryDivision.Id;
+
+                    break;
+                case 2:
+                    var secondaryDivision = new SecondaryDivision()
+                    {
+                        Name = value,
+                        CountryId = currentCountryId,
+                        PrimaryDivisionId = currentPrimaryDivisionId
+                    };
+
+                    this.data.SecondaryDivisions.Add(secondaryDivision);
+                    this.data.SaveChanges();
+
+                    currentSecondaryDivisionId = secondaryDivision.Id;
+
+                    break;
+                case 3:
+                    var tertiaryDivision = new TertiaryDivision()
+                    {
+                        Name = value,
+                        CountryId = currentCountryId,
+                        PrimaryDivisionId = currentPrimaryDivisionId,
+                        SecondaryDivisionId = currentSecondaryDivisionId
+                    };
+
+                    this.data.TertiaryDivisions.Add(tertiaryDivision);
+                    this.data.SaveChanges();
+
+                    currentTertiaryDivisionId = tertiaryDivision.Id;
+
+                    break;
+                case 4:
+                    var quaternaryDivision = new QuaternaryDivision()
+                    {
+                        Name = value,
+                        CountryId = currentCountryId,
+                        PrimaryDivisionId = currentPrimaryDivisionId,
+                        SecondaryDivisionId = currentSecondaryDivisionId,
+                        TertiaryDivisionId = currentTertiaryDivisionId
+                    };
+
+                    this.data.QuaternaryDivisions.Add(quaternaryDivision);
+                    this.data.SaveChanges();
+
+                    currentQuaternaryDivisionId = quaternaryDivision.Id;
+
+                    break;
+                default:
+                    throw new ArgumentException("Invalid division.");
+            }
+
+            return true;
+        }
+
+        private static dynamic GetObjectCollection(object division)
+        {
+            if (division is Dictionary<string, object>)
+            {
+                return (Dictionary<string, object>)division;
+            }
+            else if (division is KeyValuePair<string, object>)
+            {
+                var dictDivision = (KeyValuePair<string, object>)division;
+
+                return dictDivision.Value;
+            }
+            else if (division is List<object>)
+            {
+                return (List<object>)division;
+            }
+
+            throw new ArgumentException("Received an unexpected type.");
+        }
     }
 }
