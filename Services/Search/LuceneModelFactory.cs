@@ -13,14 +13,18 @@
             {
                 case ModelType.Beach:
                     return MapDocToBeachModel(doc);
-                case ModelType.Region:
-                    return MapDocToRegionModel(doc);
-                case ModelType.Area:
-                    return MapDocToAreaModel(doc);
-                case ModelType.WaterBody:
-                    return MapDocToWaterBodyModel(doc);                
+                case ModelType.PrimaryDivision:
+                    return MapDocToPrimaryDivisionModel(doc);
+                case ModelType.SecondaryDivision:
+                    return MapDocToSecondaryDivisionModel(doc);
+                case ModelType.TertiaryDivision:
+                    return MapDocToTertiaryDivisionModel(doc);
+                case ModelType.QuaternaryDivision:
+                    return MapDocToQuaternaryDivisionModel(doc);
                 case ModelType.Country:
-                    return MapDocToCountryModel(doc);          
+                    return MapDocToCountryModel(doc);
+                case ModelType.WaterBody:
+                    return MapDocToWaterBodyModel(doc);                         
                 default:
                     return null;
             }
@@ -38,39 +42,63 @@
             };
         }
 
-        private static ISearchable MapDocToRegionModel(Document doc)
+        private static ISearchable MapDocToPrimaryDivisionModel(Document doc)
         {
-            return new RegionSearchResultModel()
+            return new PlaceSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name")
+                Name = doc.Get("Name"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
 
-        private static ISearchable MapDocToAreaModel(Document doc)
+        private static ISearchable MapDocToSecondaryDivisionModel(Document doc)
         {
-            return new AreaSearchResultModel()
+            return new PlaceSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name")
+                Name = doc.Get("Name"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
+            };
+        }
+
+        private static ISearchable MapDocToTertiaryDivisionModel(Document doc)
+        {
+            return new PlaceSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
+            };
+        }
+
+        private static ISearchable MapDocToQuaternaryDivisionModel(Document doc)
+        {
+            return new PlaceSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
 
         private static ISearchable MapDocToWaterBodyModel(Document doc)
         {
-            return new WaterBodySearchResultModel()
+            return new PlaceSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name")
+                Name = doc.Get("Name"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
 
         private static ISearchable MapDocToCountryModel(Document doc)
         {
-            return new RegionSearchResultModel()
+            return new PlaceSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name")
+                Name = doc.Get("Name"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
     }

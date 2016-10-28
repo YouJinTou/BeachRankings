@@ -3,8 +3,10 @@
     public enum Index
     {
         CountryIndex,
-        RegionIndex,
-        AreaIndex,
+        PrimaryDivisionIndex,
+        SecondaryDivisionIndex,
+        TertiaryDivisionIndex,
+        QuaternaryDivisionIndex,
         WaterBodyIndex,
         BeachIndex
     }

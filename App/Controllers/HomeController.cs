@@ -4,6 +4,8 @@
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.Services.Search;
+    using BeachRankings.Services.Search.Models;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -29,26 +31,39 @@
                 return null;
             }
 
-            var waterBodies = await this.Data.WaterBodies.All().Where(wb => wb.Beaches.Count > 0 && wb.Name.StartsWith(prefix)).ToListAsync();
-            var countries = await this.Data.Countries.All().Where(c => c.Beaches.Count > 0 && c.Name.StartsWith(prefix)).ToListAsync();
-            var primaryDivisions = await this.Data.PrimaryDivisions.All().Where(l => l.Beaches.Count > 0 && l.Name.StartsWith(prefix)).ToListAsync();
-            var secondaryDivisions = await this.Data.SecondaryDivisions.All().Where(a => a.Beaches.Count > 0 && a.Name.StartsWith(prefix)).ToListAsync();
-            var beaches = await this.Data.Beaches.All().Where(b => b.Name.StartsWith(prefix)).ToListAsync();
-            var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<AutocompleteBeachViewModel>>(beaches);
-            var secondaryDivisionsModel = Mapper.Map<IEnumerable<SecondaryDivision>, IEnumerable<AutocompleteViewModel>>(secondaryDivisions);
-            var primaryDivisionsModel = Mapper.Map<IEnumerable<PrimaryDivision>, IEnumerable<AutocompleteViewModel>>(primaryDivisions);
-            var countriesModel = Mapper.Map<IEnumerable<Country>, IEnumerable<AutocompleteViewModel>>(countries);
-            var waterBodiesModel = Mapper.Map<IEnumerable<WaterBody>, IEnumerable<AutocompleteViewModel>>(waterBodies);
-            var model = new SearchViewModel()
+            try
             {
-                Beaches = beachesModel,
-                WaterBodies = waterBodiesModel,
-                PrimaryDivisions = primaryDivisionsModel,
-                Countries = countriesModel,
-                SecondaryDivisions = secondaryDivisionsModel
-            };
+                var primaryDivisions = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
+                    (this.Data.PrimaryDivisions.GetSearchResultsByKeyStroke(prefix));
+                var secondaryDivisions = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
+                    (this.Data.SecondaryDivisions.GetSearchResultsByKeyStroke(prefix));
+                var tertiaryDivisions = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
+                    (this.Data.TertiaryDivisions.GetSearchResultsByKeyStroke(prefix));
+                var quaternaryDivisions = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
+                    (this.Data.QuaternaryDivisions.GetSearchResultsByKeyStroke(prefix));
+                var countries = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
+                    (this.Data.WaterBodies.GetSearchResultsByKeyStroke(prefix));
+                var waterBodies = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
+                    (this.Data.WaterBodies.GetSearchResultsByKeyStroke(prefix));
+                var beaches = Mapper.Map<IEnumerable<BeachSearchResultModel>, IEnumerable<AutocompleteBeachViewModel>>
+                    (this.Data.Beaches.GetSearchResultsByKeyStroke(prefix));
+                var model = new SearchViewModel()
+                {
+                    Beaches = beaches,
+                    PrimaryDivisions = primaryDivisions,
+                    SecondaryDivisions = secondaryDivisions,
+                    TertiaryDivisions = tertiaryDivisions,
+                    QuaternaryDivisions = quaternaryDivisions,
+                    Countries = countries,
+                    WaterBodies = waterBodies
+                };
+            }
+            catch (System.Exception e)
+            {
+            }
 
-            return PartialView("_Autocomplete", model);
+
+            return PartialView("_Autocomplete");
         }
 
         //public ActionResult Top(FormCollection form)

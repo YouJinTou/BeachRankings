@@ -19,8 +19,43 @@
     {
         private static string indexDirPath;
         private static FSDirectory indexDir;
+        private static FSDirectory beachIndex;
+        private static FSDirectory countryIndex;
+        private static FSDirectory primaryDivisionIndex;
+        private static FSDirectory secondaryDivisionIndex;
+        private static FSDirectory tertiaryDivisionIndex;
+        private static FSDirectory quaternaryDivisionIndex;
+        private static FSDirectory waterBodyIndex;
+        
         private static Index index;
         private static ModelType modelType;
+
+        static LuceneSearch()
+        {
+            var beachIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
+            var countryIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "CountryIndex");
+            var primaryDivisionIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "PrimaryDivisionIndex");
+            var secondaryDivisionIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "SecondaryDivisionIndex");
+            var tertiaryDivisionIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "TertiaryDivisionIndex");
+            var quaternaryDivisionIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "QuaternaryDivisionIndex");
+            var waterBodyIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodyIndex");
+
+            System.IO.Directory.CreateDirectory(beachIndexPath);
+            System.IO.Directory.CreateDirectory(countryIndexPath);
+            System.IO.Directory.CreateDirectory(primaryDivisionIndexPath);
+            System.IO.Directory.CreateDirectory(secondaryDivisionIndexPath);
+            System.IO.Directory.CreateDirectory(tertiaryDivisionIndexPath);
+            System.IO.Directory.CreateDirectory(quaternaryDivisionIndexPath);
+            System.IO.Directory.CreateDirectory(waterBodyIndexPath);
+
+            beachIndex = FSDirectory.Open(new DirectoryInfo(beachIndexPath));
+            countryIndex = FSDirectory.Open(new DirectoryInfo(countryIndexPath));
+            primaryDivisionIndex = FSDirectory.Open(new DirectoryInfo(primaryDivisionIndexPath));
+            secondaryDivisionIndex = FSDirectory.Open(new DirectoryInfo(secondaryDivisionIndexPath));
+            tertiaryDivisionIndex = FSDirectory.Open(new DirectoryInfo(tertiaryDivisionIndexPath));
+            quaternaryDivisionIndex = FSDirectory.Open(new DirectoryInfo(quaternaryDivisionIndexPath));
+            waterBodyIndex = FSDirectory.Open(new DirectoryInfo(waterBodyIndexPath));
+        }
 
         public static Index Index
         {
@@ -35,39 +70,55 @@
                 switch (index)
                 {
                     case Index.BeachIndex:
-                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
                         ModelType = ModelType.Beach;
-
-                        break;
-                    case Index.AreaIndex:
-                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "AreaIndex");
-                        ModelType = ModelType.Area;
-
-                        break;
-                    case Index.RegionIndex:
-                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "RegionIndex");
-                        ModelType = ModelType.Region;
-
-                        break;                    
-                    case Index.WaterBodyIndex:
-                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodyIndex");
-                        ModelType = ModelType.WaterBody;
+                        IndexDir = beachIndex;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
 
                         break;
                     case Index.CountryIndex:
-                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "CountryIndex");
                         ModelType = ModelType.Country;
+                        IndexDir = countryIndex;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "CountryIndex");
 
                         break;
+                    case Index.PrimaryDivisionIndex:
+                        ModelType = ModelType.PrimaryDivision;
+                        IndexDir = primaryDivisionIndex;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "PrimaryDivisionIndex");
+
+                        break;
+                    case Index.SecondaryDivisionIndex:
+                        ModelType = ModelType.SecondaryDivision;
+                        IndexDir = secondaryDivisionIndex;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "SecondaryDivisionIndex");
+
+                        break;
+                    case Index.TertiaryDivisionIndex:
+                        ModelType = ModelType.TertiaryDivision;
+                        IndexDir = tertiaryDivisionIndex;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "TertiaryDivisionIndex");
+
+                        break;
+                    case Index.QuaternaryDivisionIndex:
+                        ModelType = ModelType.QuaternaryDivision;
+                        IndexDir = quaternaryDivisionIndex;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "QuaternaryDivisionIndex");
+
+                        break;
+                    case Index.WaterBodyIndex:
+                        ModelType = ModelType.WaterBody;
+                        IndexDir = waterBodyIndex;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodyIndex");
+
+                        break;                    
                     default:
-                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "RegionIndex");
-                        index = Index.RegionIndex;
-                        ModelType = ModelType.Region;
+                        index = Index.PrimaryDivisionIndex;
+                        ModelType = ModelType.PrimaryDivision;
+                        IndexDir = primaryDivisionIndex;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "PrimaryDivisionIndex");
 
                         break;
                 }
-
-                System.IO.Directory.CreateDirectory(indexDirPath);
             }
         }
 
@@ -106,8 +157,12 @@
 
                 return indexDir;
             }
+            set
+            {
+                indexDir = value;
+            }
         }
-
+        
         private static IEnumerable<string> SearchFields
         {
             get
@@ -116,12 +171,11 @@
                 {
                     case Index.BeachIndex:
                         return new string[] { "Name", "WaterBodyName", "Description", "ApproximateAddress" };
-                    case Index.RegionIndex:
-                        return new string[] { "Name" };
-                    case Index.AreaIndex:
-                        return new string[] { "Name" };
+                    case Index.PrimaryDivisionIndex:
+                    case Index.SecondaryDivisionIndex:
+                    case Index.TertiaryDivisionIndex:
+                    case Index.QuaternaryDivisionIndex:
                     case Index.WaterBodyIndex:
-                        return new string[] { "Name" };
                     case Index.CountryIndex:
                         return new string[] { "Name" };                    
                     default:
@@ -317,6 +371,14 @@
         private static IEnumerable<ISearchable> MapDocsToModels(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
         {
             return hits.Select(hit => MapDocToModel(searcher.Doc(hit.Doc))).Distinct().ToList();
-        }        
+        }
+
+        private static void TryCreateIndex(FSDirectory index, string path)
+        {
+            if (index == null)
+            {
+                index = FSDirectory.Open(path);
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class SecondaryDivision : IDivisionSearchable
+    public class SecondaryDivision : IPlaceSearchable
     {
         private ICollection<TertiaryDivision> tertiaryDivisions;
         private ICollection<QuaternaryDivision> quaternaryDivisons;

@@ -1,11 +1,12 @@
 ﻿namespace BeachRankings.Data.Repositories.Interfaces
 {
     using BeachRankings.Models.Interfaces;
+    using BeachRankings.Services.Search.Models;
     using System.Collections.Generic;
 
     public interface IDivisionRepository
     {
-        IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix);
+        IEnumerable<PlaceSearchResultModel> GetSearchResultsByKeyStroke(string prefix);
 
         void AddDivisionToIndex(ISearchable searchable);
     }

@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class WaterBody : IWaterBodySearchable
+    public class WaterBody : IPlaceSearchable
     {
         private ICollection<Beach> beaches;
         

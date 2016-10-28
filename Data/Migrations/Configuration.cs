@@ -1,6 +1,7 @@
 namespace BeachRankings.Data.Migrations
 {
     using BeachRankings.Models;
+    using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
     using Microsoft.AspNet.Identity;
@@ -31,12 +32,12 @@ namespace BeachRankings.Data.Migrations
         {
             this.data = data;
 
-            //this.SeedRoles();
-            //this.SeedUsers();
+            this.SeedRoles();
+            this.SeedUsers();
             this.SeedWaterBodies();
             this.SeedAdministrativeUnits();
-            //this.SeedBeaches();
-            //this.SeedBeachImages();
+            this.SeedBeaches();
+            this.SeedBeachImages();
         }
 
         private void SeedRoles()
@@ -123,6 +124,7 @@ namespace BeachRankings.Data.Migrations
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Seed.txt");
             var json = File.ReadAllText(path);
             var countries = JsonHelper.Deserialize(json);
+            var countriesIndexList = new List<Country>();
 
             foreach (var country in (Dictionary<string, object>)countries)
             {
@@ -131,10 +133,16 @@ namespace BeachRankings.Data.Migrations
                 this.data.Countries.Add(countryEntity);
                 this.data.SaveChanges();
 
+                countriesIndexList.Add(countryEntity);
+
                 currentCountryId = countryEntity.Id;
 
                 this.TraverseDivisions(country, 1);
             }
+
+            LuceneSearch.Index = Index.CountryIndex;
+
+            LuceneSearch.AddUpdateIndexEntries(countriesIndexList);
         }
 
         private void SeedBeaches()
@@ -282,7 +290,8 @@ namespace BeachRankings.Data.Migrations
             }
 
             var value = string.Empty;
-
+            ISearchable searchableDivision = null;
+                 
             if (division is KeyValuePair<string, object>)
             {
                 var kvpDivision = (KeyValuePair<string, object>)division;
@@ -307,6 +316,8 @@ namespace BeachRankings.Data.Migrations
                     this.data.SaveChanges();
 
                     currentPrimaryDivisionId = primaryDivision.Id;
+                    searchableDivision = primaryDivision;
+                    LuceneSearch.Index = Index.PrimaryDivisionIndex;
 
                     break;
                 case 2:
@@ -321,6 +332,8 @@ namespace BeachRankings.Data.Migrations
                     this.data.SaveChanges();
 
                     currentSecondaryDivisionId = secondaryDivision.Id;
+                    searchableDivision = secondaryDivision;
+                    LuceneSearch.Index = Index.SecondaryDivisionIndex;
 
                     break;
                 case 3:
@@ -336,6 +349,8 @@ namespace BeachRankings.Data.Migrations
                     this.data.SaveChanges();
 
                     currentTertiaryDivisionId = tertiaryDivision.Id;
+                    searchableDivision = tertiaryDivision;
+                    LuceneSearch.Index = Index.TertiaryDivisionIndex;
 
                     break;
                 case 4:
@@ -352,11 +367,15 @@ namespace BeachRankings.Data.Migrations
                     this.data.SaveChanges();
 
                     currentQuaternaryDivisionId = quaternaryDivision.Id;
+                    searchableDivision = quaternaryDivision;
+                    LuceneSearch.Index = Index.QuaternaryDivisionIndex;
 
                     break;
                 default:
                     throw new ArgumentException("Invalid division.");
             }
+
+            LuceneSearch.AddUpdateIndexEntry(searchableDivision);
 
             return true;
         }

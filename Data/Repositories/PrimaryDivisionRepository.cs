@@ -4,10 +4,11 @@
     using BeachRankings.Models;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
+    using BeachRankings.Services.Search.Models;
     using BeachRankings.Models.Interfaces;
     using System.Data.Entity;
     using System.Collections.Generic;
-    using System;
+    using System.Linq;
 
     public class PrimaryDivisionRepository : GenericRepository<PrimaryDivision>, IPrimaryDivisionRepository
     {
@@ -21,14 +22,25 @@
             this.entitySet = dbContext.Set<PrimaryDivision>();
         }
         
-        public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
+        public IEnumerable<PlaceSearchResultModel> GetSearchResultsByKeyStroke(string prefix)
         {
-            throw new NotImplementedException();
+            LuceneSearch.Index = Index.PrimaryDivisionIndex;
+            var searchables = LuceneSearch.SearchByPrefix(prefix, 10);
+            var results = new List<PlaceSearchResultModel>();
+
+            foreach (var searchble in searchables)
+            {
+                results.Add((PlaceSearchResultModel)searchble);
+            }
+
+            return results.Where(r => r.BeachCount > 0).OrderByDescending(r => r.BeachCount);
         }
 
-        public void AddDivisionToIndex(ISearchable searchable)
+        public void AddDivisionToIndex(ISearchable primaryDivision)
         {
-            throw new NotImplementedException();
+            LuceneSearch.Index = Index.PrimaryDivisionIndex;
+
+            LuceneSearch.AddUpdateIndexEntry(primaryDivision);
         }
     }
 }

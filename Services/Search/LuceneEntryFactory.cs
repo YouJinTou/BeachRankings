@@ -15,30 +15,12 @@
 
                 AddUpdateBeachDoc(beachSearchable, writer);
             }
-            else if (searchable is ICountrySearchable)
+            else if (searchable is IPlaceSearchable)
             {
-                var countrySearchable = (ICountrySearchable)searchable;
+                var placeSearchable = (IPlaceSearchable)searchable;
 
-                AddUpdateCountryDoc(countrySearchable, writer);
-            }
-            //else if (searchable is IRegionSearchable)
-            //{
-            //    var regionSearchable = (IRegionSearchable)searchable;
-
-            //    AddUpdateRegionDoc(regionSearchable, writer);
-            //}
-            //else if (searchable is IAreaSearchable)
-            //{
-            //    var areaSearchable = (IAreaSearchable)searchable;
-
-            //    AddUpdateAreaDoc(areaSearchable, writer);
-            //}
-            else if (searchable is IWaterBodySearchable)
-            {
-                var waterBodySearchable = (IWaterBodySearchable)searchable;
-
-                AddUpdateWaterBodyDoc(waterBodySearchable, writer);
-            }            
+                AddUpdatePlaceDoc(placeSearchable, writer);
+            }         
         }
 
         private static void AddUpdateBeachDoc(IBeachSearchable searchable, IndexWriter writer)
@@ -66,8 +48,8 @@
 
             writer.AddDocument(newDoc);
         }
-
-        private static void AddUpdateCountryDoc(ICountrySearchable searchable, IndexWriter writer)
+        
+        private static void AddUpdatePlaceDoc(IPlaceSearchable searchable, IndexWriter writer)
         {
             var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
 
@@ -76,65 +58,13 @@
             var newDoc = new Document();
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
             var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
+            var beachCountField = new Field("BeachCount", searchable.Beaches.Count.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
 
             nameField.Boost = 3.0f;
 
             newDoc.Add(idField);
             newDoc.Add(nameField);
-
-            writer.AddDocument(newDoc);
-        }
-
-        //private static void AddUpdateRegionDoc(IRegionSearchable searchable, IndexWriter writer)
-        //{
-        //    var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
-
-        //    writer.DeleteDocuments(oldDoc);
-
-        //    var newDoc = new Document();
-        //    var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
-        //    var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
-
-        //    nameField.Boost = 3.0f;
-
-        //    newDoc.Add(idField);
-        //    newDoc.Add(nameField);
-
-        //    writer.AddDocument(newDoc);
-        //}
-
-        //private static void AddUpdateAreaDoc(IAreaSearchable searchable, IndexWriter writer)
-        //{
-        //    var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
-
-        //    writer.DeleteDocuments(oldDoc);
-
-        //    var newDoc = new Document();
-        //    var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
-        //    var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
-
-        //    nameField.Boost = 3.0f;
-
-        //    newDoc.Add(idField);
-        //    newDoc.Add(nameField);
-
-        //    writer.AddDocument(newDoc);
-        //}
-
-        private static void AddUpdateWaterBodyDoc(IWaterBodySearchable searchable, IndexWriter writer)
-        {
-            var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
-
-            writer.DeleteDocuments(oldDoc);
-
-            var newDoc = new Document();
-            var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
-            var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
-
-            nameField.Boost = 3.0f;
-
-            newDoc.Add(idField);
-            newDoc.Add(nameField);
+            newDoc.Add(beachCountField);
 
             writer.AddDocument(newDoc);
         }

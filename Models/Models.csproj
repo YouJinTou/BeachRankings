@@ -57,9 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ICountrySearchable.cs" />
-    <Compile Include="Interfaces\IDivisionSearchable.cs" />
-    <Compile Include="Interfaces\IWaterBodySearchable.cs" />
+    <Compile Include="Interfaces\IPlaceSearchable.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="PrimaryDivision.cs" />
     <Compile Include="QuaternaryDivision.cs" />

@@ -1,9 +1,11 @@
-﻿@model BeachRankings.App.Models.ViewModels.AutocompleteMainViewModel
+﻿@model BeachRankings.App.Models.ViewModels.SearchViewModel
 
 <ul>
     @Html.DisplayFor(m => m.Beaches)
-    @Html.DisplayFor(m => m.Areas)
-    @Html.DisplayFor(m => m.Regions)
-    @Html.DisplayFor(m => m.WaterBodies)
-    @Html.DisplayFor(m => m.Countries)
+    @Html.DisplayFor(m => m.SecondaryDivisions, "AutoSecondaryViewModel")
+    @Html.DisplayFor(m => m.PrimaryDivisions, "AutoPrimaryViewModel")
+    @Html.DisplayFor(m => m.TertiaryDivisions, "AutoTertiaryViewModel")
+    @Html.DisplayFor(m => m.QuaternaryDivisions, "AutoQuaternaryViewModel")
+    @Html.DisplayFor(m => m.Countries, "AutocompleteCountryViewModel")
+    @Html.DisplayFor(m => m.WaterBodies, "AutocompleteWaterBodyViewModel")
 </ul>

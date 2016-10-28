@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Country : ICountrySearchable
+    public class Country : IPlaceSearchable
     {
         private ICollection<PrimaryDivision> primaryDivisions;
         private ICollection<SecondaryDivision> secondaryDivisions;

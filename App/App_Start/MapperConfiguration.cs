@@ -4,6 +4,7 @@
     using BeachRankings.Models;
     using BeachRankings.App.Models.BindingModels;
     using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.Services.Search.Models;
     using System.Linq;
 
     public static class MapperConfig
@@ -17,25 +18,16 @@
                     .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
                 cfg.CreateMap<WaterBody, LocationBeachesViewModel>();
 
-                cfg.CreateMap<Country, AutocompleteViewModel>()
-                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
-                cfg.CreateMap<Country, LocationBeachesViewModel>();
-                cfg.CreateMap<PrimaryDivision, AutocompleteViewModel>()
-                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
+                cfg.CreateMap<PlaceSearchResultModel, AutocompleteViewModel>();
+                cfg.CreateMap<Country, LocationBeachesViewModel>();                
                 cfg.CreateMap<PrimaryDivision, LocationBeachesViewModel>();
-                cfg.CreateMap<SecondaryDivision, AutocompleteViewModel>()
-                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
                 cfg.CreateMap<SecondaryDivision, LocationBeachesViewModel>();
-                cfg.CreateMap<TertiaryDivision, AutocompleteViewModel>()
-                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
                 cfg.CreateMap<TertiaryDivision, LocationBeachesViewModel>();
-                cfg.CreateMap<QuaternaryDivision, AutocompleteViewModel>()
-                    .ForMember(vm => vm.BeachCount, model => model.MapFrom(m => m.Beaches.Count));
                 cfg.CreateMap<QuaternaryDivision, LocationBeachesViewModel>();
 
-                cfg.CreateMap<Beach, AutocompleteBeachViewModel>()
-                    .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
-                    .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name));
+                cfg.CreateMap<BeachSearchResultModel, AutocompleteBeachViewModel>()
+                    .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Address.Split('-')[0].Trim()));
+                    .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.Address.Split('-')[2].Trim()));
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Images.FirstOrDefault().Path))
                     .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))

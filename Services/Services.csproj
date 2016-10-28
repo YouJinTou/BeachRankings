@@ -49,15 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Search\Enums\Indices.cs" />
+    <Compile Include="Search\Enums\Index.cs" />
     <Compile Include="Search\LuceneEntryFactory.cs" />
     <Compile Include="Search\LuceneModelFactory.cs" />
     <Compile Include="Search\LuceneSearch.cs" />
-    <Compile Include="Search\Enums\ModelTypes.cs" />
-    <Compile Include="Search\Models\CountrySearchResultModel.cs" />
-    <Compile Include="Search\Models\AreaSearchResultModel.cs" />
-    <Compile Include="Search\Models\WaterBodySearchResultModel.cs" />
-    <Compile Include="Search\Models\RegionSearchResultModel.cs" />
+    <Compile Include="Search\Enums\ModelType.cs" />
+    <Compile Include="Search\Models\PlaceSearchResultModel.cs" />
     <Compile Include="Search\Models\BeachSearchResultModel.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class QuaternaryDivision : IDivisionSearchable
+    public class QuaternaryDivision : IPlaceSearchable
     {
         private ICollection<Beach> beaches;
 
