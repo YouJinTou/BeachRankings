@@ -78,10 +78,10 @@
                 b.Name.ToLower() == model.Name.ToLower());
             var tertiaryDivisionsExist = (this.Data.SecondaryDivisions.Find(model.SecondaryDivisionId).TertiaryDivisions.Count > 0);
             var tertiaryIdMissing = (tertiaryDivisionsExist && model.TertiaryDivisionId == null);
-            var quaternaryIdMissing = !tertiaryIdMissing ? 
+            var quaternaryIdMissing = (tertiaryDivisionsExist && !tertiaryIdMissing) ? 
                 ((this.Data.TertiaryDivisions.Find(model.TertiaryDivisionId)).QuaternaryDivisions.Count > 0) &&
                 (model.QuaternaryDivisionId == null) : 
-                true;      
+                tertiaryDivisionsExist ? true : false;      
 
             if (tertiaryIdMissing || quaternaryIdMissing)
             {
@@ -94,17 +94,30 @@
             }
         }
 
-        private Beach SaveBeach(AddBeachViewModel bindingModel)
+        private Beach SaveBeach(AddBeachViewModel model)
         {
-            this.Data.Countries.All().Include(c => c.PrimaryDivisions).Include(c => c.SecondaryDivisions).FirstOrDefault(c => c.Id == bindingModel.CountryId);
-            var primaryDivision = this.Data.PrimaryDivisions.All().Include(r => r.WaterBody).FirstOrDefault(r => r.Id == bindingModel.PrimaryDivisionId);
-            var beach = Mapper.Map<AddBeachViewModel, Beach>(bindingModel);
-            beach.WaterBodyId = primaryDivision.WaterBodyId;
+            // OPT?
+            this.Data.Countries.All().Include(c => c.PrimaryDivisions).Include(c => c.SecondaryDivisions).FirstOrDefault(c => c.Id == model.CountryId);
+            var country = this.Data.Countries.Find(model.CountryId);
+            var primary = this.Data.PrimaryDivisions.All().Include(p => p.WaterBody).FirstOrDefault(p => p.Id == model.PrimaryDivisionId);
+            var secondary = this.Data.SecondaryDivisions.Find(model.SecondaryDivisionId);
+            var tertiary = (model.TertiaryDivisionId == null) ? null : this.Data.TertiaryDivisions.Find(model.TertiaryDivisionId);
+            var quaternary = (model.QuaternaryDivisionId == null) ? null : this.Data.QuaternaryDivisions.Find(model.QuaternaryDivisionId);
+            var waterBody = this.Data.WaterBodies.Find(primary.WaterBodyId);
+            var beach = Mapper.Map<AddBeachViewModel, Beach>(model);
+            beach.WaterBodyId = primary.WaterBodyId;
 
             this.Data.Beaches.Add(beach);
             beach.SetBeachData();
             this.Data.Beaches.SaveChanges();
-            this.Data.Beaches.AddBeachToIndex(beach);
+
+            this.Data.Beaches.AddUpdateIndexEntry(beach);
+            this.Data.Countries.AddUpdateIndexEntry(country);
+            this.Data.PrimaryDivisions.AddUpdateIndexEntry(primary);
+            this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondary);
+            this.Data.TertiaryDivisions.AddUpdateIndexEntry(tertiary);
+            this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternary);
+            this.Data.WaterBodies.AddUpdateIndexEntry(waterBody);
 
             return beach;
         }

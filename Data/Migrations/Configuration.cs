@@ -116,11 +116,6 @@ namespace BeachRankings.Data.Migrations
 
         private void SeedAdministrativeUnits()
         {
-            if (this.data.Countries.Any())
-            {
-                return;
-            }
-
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Seed.txt");
             var json = File.ReadAllText(path);
             var countries = JsonHelper.Deserialize(json);
@@ -128,12 +123,16 @@ namespace BeachRankings.Data.Migrations
 
             foreach (var country in (Dictionary<string, object>)countries)
             {
+                if (this.data.Countries.Any(c => c.Name == country.Key))
+                {
+                    continue;
+                }
+
                 var countryEntity = new Country() { Name = country.Key };
 
+                countriesIndexList.Add(countryEntity);
                 this.data.Countries.Add(countryEntity);
                 this.data.SaveChanges();
-
-                countriesIndexList.Add(countryEntity);
 
                 currentCountryId = countryEntity.Id;
 
@@ -188,7 +187,7 @@ namespace BeachRankings.Data.Migrations
                 },
                 new Beach()
                 {
-                    Name = "Mamaia Beach",
+                    Name = "Albanian Beach",
                     CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Albania").Id,
                     PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Azores Islands").Id,
                     SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "São Miguel").Id,
@@ -213,13 +212,32 @@ namespace BeachRankings.Data.Migrations
             {
                 this.data.Beaches.Add(beach);
                 beach.SetBeachData();
+
+                this.data.SaveChanges();
+
+                LuceneSearch.Index = Index.BeachIndex;
+                LuceneSearch.AddUpdateIndexEntry(beach);
+
+                var country = this.data.Countries.Find(beach.CountryId);
+                var primaryDivision = this.data.PrimaryDivisions.Find(beach.PrimaryDivisionId);
+                var secondaryDivision = this.data.SecondaryDivisions.Find(beach.SecondaryDivisionId);
+                var tertiaryDivision = this.data.TertiaryDivisions.Find(beach.TertiaryDivisionId);
+                var quaternaryDivision = this.data.QuaternaryDivisions.Find(beach.QuaternaryDivisionId);
+                var waterBody = this.data.WaterBodies.Find(beach.WaterBodyId);
+
+                LuceneSearch.Index = Index.CountryIndex;
+                LuceneSearch.AddUpdateIndexEntry(country);
+                LuceneSearch.Index = Index.PrimaryDivisionIndex;
+                LuceneSearch.AddUpdateIndexEntry(primaryDivision);
+                LuceneSearch.Index = Index.SecondaryDivisionIndex;
+                LuceneSearch.AddUpdateIndexEntry(secondaryDivision);
+                LuceneSearch.Index = Index.TertiaryDivisionIndex;
+                LuceneSearch.AddUpdateIndexEntry(tertiaryDivision);
+                LuceneSearch.Index = Index.QuaternaryDivisionIndex;
+                LuceneSearch.AddUpdateIndexEntry(quaternaryDivision);
+                LuceneSearch.Index = Index.WaterBodyIndex;
+                LuceneSearch.AddUpdateIndexEntry(waterBody);
             }
-
-            this.data.SaveChanges();
-
-            LuceneSearch.Index = Index.BeachIndex;
-
-            LuceneSearch.AddUpdateIndexEntries(beaches);
         }
 
         private void SeedBeachImages()
@@ -253,10 +271,10 @@ namespace BeachRankings.Data.Migrations
                 Path = "/Content/Images/sunny_day.jpg",
                 Name = "sunny_day.jpg"
             });
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Mamaia Beach").Images.Add(new BeachImage()
+            this.data.Beaches.FirstOrDefault(b => b.Name == "Albanian Beach").Images.Add(new BeachImage()
             {
                 AuthorId = adminId,
-                BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Mamaia Beach").Id,
+                BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Albanian Beach").Id,
                 Path = "/Content/Images/mamaia_beach.jpg",
                 Name = "mamaia_beach.jpg"
             });

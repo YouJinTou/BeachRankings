@@ -28,6 +28,6 @@
             htmlString = "(" + htmlString + ")";
 
             return new HtmlString(htmlString);
-        }
+        }        
     }
 }

@@ -19,19 +19,24 @@
     {
         private static string indexDirPath;
         private static FSDirectory indexDir;
-        private static FSDirectory beachIndex;
-        private static FSDirectory countryIndex;
-        private static FSDirectory primaryDivisionIndex;
-        private static FSDirectory secondaryDivisionIndex;
-        private static FSDirectory tertiaryDivisionIndex;
-        private static FSDirectory quaternaryDivisionIndex;
-        private static FSDirectory waterBodyIndex;
+        private static FSDirectory beachIndexDir;
+        private static FSDirectory countryIndexDir;
+        private static FSDirectory primaryDivisionIndexDir;
+        private static FSDirectory secondaryDivisionIndexDir;
+        private static FSDirectory tertiaryDivisionIndexDir;
+        private static FSDirectory quaternaryDivisionIndexDir;
+        private static FSDirectory waterBodyIndexDir;
         
         private static Index index;
         private static ModelType modelType;
 
         static LuceneSearch()
         {
+            if (indexDir != null)
+            {
+                return;
+            }
+
             var beachIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
             var countryIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "CountryIndex");
             var primaryDivisionIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "PrimaryDivisionIndex");
@@ -48,13 +53,13 @@
             System.IO.Directory.CreateDirectory(quaternaryDivisionIndexPath);
             System.IO.Directory.CreateDirectory(waterBodyIndexPath);
 
-            beachIndex = FSDirectory.Open(new DirectoryInfo(beachIndexPath));
-            countryIndex = FSDirectory.Open(new DirectoryInfo(countryIndexPath));
-            primaryDivisionIndex = FSDirectory.Open(new DirectoryInfo(primaryDivisionIndexPath));
-            secondaryDivisionIndex = FSDirectory.Open(new DirectoryInfo(secondaryDivisionIndexPath));
-            tertiaryDivisionIndex = FSDirectory.Open(new DirectoryInfo(tertiaryDivisionIndexPath));
-            quaternaryDivisionIndex = FSDirectory.Open(new DirectoryInfo(quaternaryDivisionIndexPath));
-            waterBodyIndex = FSDirectory.Open(new DirectoryInfo(waterBodyIndexPath));
+            beachIndexDir = FSDirectory.Open(new DirectoryInfo(beachIndexPath));
+            countryIndexDir = FSDirectory.Open(new DirectoryInfo(countryIndexPath));
+            primaryDivisionIndexDir = FSDirectory.Open(new DirectoryInfo(primaryDivisionIndexPath));
+            secondaryDivisionIndexDir = FSDirectory.Open(new DirectoryInfo(secondaryDivisionIndexPath));
+            tertiaryDivisionIndexDir = FSDirectory.Open(new DirectoryInfo(tertiaryDivisionIndexPath));
+            quaternaryDivisionIndexDir = FSDirectory.Open(new DirectoryInfo(quaternaryDivisionIndexPath));
+            waterBodyIndexDir = FSDirectory.Open(new DirectoryInfo(waterBodyIndexPath));
         }
 
         public static Index Index
@@ -71,50 +76,50 @@
                 {
                     case Index.BeachIndex:
                         ModelType = ModelType.Beach;
-                        IndexDir = beachIndex;
+                        IndexDir = beachIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
 
                         break;
                     case Index.CountryIndex:
-                        ModelType = ModelType.Country;
-                        IndexDir = countryIndex;
+                        ModelType = ModelType.Place;
+                        IndexDir = countryIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "CountryIndex");
 
                         break;
                     case Index.PrimaryDivisionIndex:
-                        ModelType = ModelType.PrimaryDivision;
-                        IndexDir = primaryDivisionIndex;
+                        ModelType = ModelType.Place;
+                        IndexDir = primaryDivisionIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "PrimaryDivisionIndex");
 
                         break;
                     case Index.SecondaryDivisionIndex:
-                        ModelType = ModelType.SecondaryDivision;
-                        IndexDir = secondaryDivisionIndex;
+                        ModelType = ModelType.Place;
+                        IndexDir = secondaryDivisionIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "SecondaryDivisionIndex");
 
                         break;
                     case Index.TertiaryDivisionIndex:
-                        ModelType = ModelType.TertiaryDivision;
-                        IndexDir = tertiaryDivisionIndex;
+                        ModelType = ModelType.Place;
+                        IndexDir = tertiaryDivisionIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "TertiaryDivisionIndex");
 
                         break;
                     case Index.QuaternaryDivisionIndex:
-                        ModelType = ModelType.QuaternaryDivision;
-                        IndexDir = quaternaryDivisionIndex;
+                        ModelType = ModelType.Place;
+                        IndexDir = quaternaryDivisionIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "QuaternaryDivisionIndex");
 
                         break;
                     case Index.WaterBodyIndex:
-                        ModelType = ModelType.WaterBody;
-                        IndexDir = waterBodyIndex;
+                        ModelType = ModelType.Place;
+                        IndexDir = waterBodyIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodyIndex");
 
                         break;                    
                     default:
                         index = Index.PrimaryDivisionIndex;
-                        ModelType = ModelType.PrimaryDivision;
-                        IndexDir = primaryDivisionIndex;
+                        ModelType = ModelType.Place;
+                        IndexDir = primaryDivisionIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "PrimaryDivisionIndex");
 
                         break;
@@ -162,7 +167,7 @@
                 indexDir = value;
             }
         }
-        
+
         private static IEnumerable<string> SearchFields
         {
             get
@@ -220,9 +225,11 @@
 
         public static IEnumerable<ISearchable> SearchByPrefix(string prefix, int maxItems)
         {
-            if (string.IsNullOrEmpty(prefix))
+            var dirEmpty = !System.IO.Directory.EnumerateFileSystemEntries(indexDirPath).Any();
+
+            if (dirEmpty)
             {
-                return null;
+                return new List<ISearchable>();
             }
 
             var parser = new MultiFieldQueryParser(Version.LUCENE_30, (string[])SearchFields, new KeywordAnalyzer())
@@ -230,14 +237,16 @@
                 DefaultOperator = QueryParser.Operator.OR
             };
             var query = ParseQuery(prefix + "*", parser);
+            var filter = new QueryWrapperFilter(query);
+            var sort = new Sort(new SortField("BeachCount", SortField.INT, true));
 
             using (var searcher = new IndexSearcher(IndexDir, true))
             {
-                var hits = searcher.Search(query, maxItems).ScoreDocs;
+                var hits = searcher.Search(query, filter, maxItems, sort).ScoreDocs;
                 var results = MapDocsToModels(hits, searcher);
 
                 return results;
-            }
+            }            
         }
 
         public static void AddUpdateIndexEntry(ISearchable searchable)
@@ -270,6 +279,8 @@
                 var oldDoc = new TermQuery(new Term("Id", id.ToString()));
 
                 writer.DeleteDocuments(oldDoc);
+
+                // TO-DO UPDATE REFERENCES
 
                 analyzer.Close();
                 writer.Dispose();

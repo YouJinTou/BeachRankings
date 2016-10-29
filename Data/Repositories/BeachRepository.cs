@@ -1,6 +1,7 @@
 ﻿namespace BeachRankings.Data.Repositories
 {
     using BeachRankings.Models;
+    using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
     using BeachRankings.Services.Search.Models;
@@ -20,21 +21,21 @@
             this.entitySet = dbContext.Set<Beach>();
         }
 
-        public IEnumerable<BeachSearchResultModel> GetSearchResultsByKeyStroke(string prefix)
+        public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
             LuceneSearch.Index = Index.BeachIndex;
             var searchables = LuceneSearch.SearchByPrefix(prefix, 10);
             var results = new List<BeachSearchResultModel>();
 
-            foreach (var searchble in searchables)
+            foreach (var searchable in searchables)
             {
-                results.Add((BeachSearchResultModel)searchble);
+                results.Add((BeachSearchResultModel)searchable);
             }
 
             return results;
         }
 
-        public void AddBeachToIndex(Beach beach)
+        public void AddUpdateIndexEntry(ISearchable beach)
         {
             LuceneSearch.Index = Index.BeachIndex;
 

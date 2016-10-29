@@ -10,21 +10,21 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class TertiaryDivisionRepository : GenericRepository<TertiaryDivision>, ITertiaryDivisionRepository
+    public class CountryRepository : GenericRepository<Country>, ICountryRepository
     {
         private DbContext dbContext;
-        private IDbSet<TertiaryDivision> entitySet;
+        private IDbSet<Country> entitySet;
 
-        public TertiaryDivisionRepository(DbContext dbContext)
+        public CountryRepository(DbContext dbContext)
             : base(dbContext)
         {
             this.dbContext = dbContext;
-            this.entitySet = dbContext.Set<TertiaryDivision>();
+            this.entitySet = dbContext.Set<Country>();
         }
         
         public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
-            LuceneSearch.Index = Index.TertiaryDivisionIndex;
+            LuceneSearch.Index = Index.CountryIndex;
             var searchables = LuceneSearch.SearchByPrefix(prefix, 10);
             var results = new List<PlaceSearchResultModel>();
 
@@ -36,11 +36,11 @@
             return results.Where(r => r.BeachCount > 0).OrderByDescending(r => r.BeachCount);
         }
 
-        public void AddUpdateIndexEntry(ISearchable tertiaryDivision)
+        public void AddUpdateIndexEntry(ISearchable country)
         {
-            LuceneSearch.Index = Index.TertiaryDivisionIndex;
+            LuceneSearch.Index = Index.CountryIndex;
 
-            LuceneSearch.AddUpdateIndexEntry(tertiaryDivision);
+            LuceneSearch.AddUpdateIndexEntry(country);
         }
     }
 }

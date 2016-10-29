@@ -4,6 +4,7 @@
     using BeachRankings.Services.Search.Enums;
     using BeachRankings.Services.Search.Models;
     using Lucene.Net.Documents;
+    using System;
 
     internal static class LuceneModelFactory
     {
@@ -13,18 +14,8 @@
             {
                 case ModelType.Beach:
                     return MapDocToBeachModel(doc);
-                case ModelType.PrimaryDivision:
-                    return MapDocToPrimaryDivisionModel(doc);
-                case ModelType.SecondaryDivision:
-                    return MapDocToSecondaryDivisionModel(doc);
-                case ModelType.TertiaryDivision:
-                    return MapDocToTertiaryDivisionModel(doc);
-                case ModelType.QuaternaryDivision:
-                    return MapDocToQuaternaryDivisionModel(doc);
-                case ModelType.Country:
-                    return MapDocToCountryModel(doc);
-                case ModelType.WaterBody:
-                    return MapDocToWaterBodyModel(doc);                         
+                case ModelType.Place:
+                    return MapDocToPlace(doc);                       
                 default:
                     return null;
             }
@@ -32,17 +23,31 @@
 
         private static ISearchable MapDocToBeachModel(Document doc)
         {
+            var addressTokens = doc.Get("Address").Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+            var tokensCount = addressTokens.Length;
+            var country = addressTokens[0];
+            var primaryDivision = addressTokens[1];
+            var secondaryDivision = addressTokens[2];
+            var tertiaryDivision = (tokensCount > 4) ? addressTokens[3] : null;
+            var quaternaryDivision = (tokensCount > 5) ? addressTokens[4] : null;
+            var waterBody = addressTokens[tokensCount - 1];
+
             return new BeachSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name"),
                 Description = doc.Get("Description"),
-                Address = doc.Get("Address"),
+                Country = country,
+                PrimaryDivision = primaryDivision,
+                SecondaryDivision = secondaryDivision,
+                TertiaryDivision = tertiaryDivision,
+                QuaternaryDivision = quaternaryDivision,
+                WaterBody = waterBody,
                 Coordinates = doc.Get("Coordinates")
             };
         }
 
-        private static ISearchable MapDocToPrimaryDivisionModel(Document doc)
+        private static ISearchable MapDocToPlace(Document doc)
         {
             return new PlaceSearchResultModel()
             {
@@ -50,56 +55,6 @@
                 Name = doc.Get("Name"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
-        }
-
-        private static ISearchable MapDocToSecondaryDivisionModel(Document doc)
-        {
-            return new PlaceSearchResultModel()
-            {
-                Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
-                BeachCount = int.Parse(doc.Get("BeachCount"))
-            };
-        }
-
-        private static ISearchable MapDocToTertiaryDivisionModel(Document doc)
-        {
-            return new PlaceSearchResultModel()
-            {
-                Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
-                BeachCount = int.Parse(doc.Get("BeachCount"))
-            };
-        }
-
-        private static ISearchable MapDocToQuaternaryDivisionModel(Document doc)
-        {
-            return new PlaceSearchResultModel()
-            {
-                Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
-                BeachCount = int.Parse(doc.Get("BeachCount"))
-            };
-        }
-
-        private static ISearchable MapDocToWaterBodyModel(Document doc)
-        {
-            return new PlaceSearchResultModel()
-            {
-                Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
-                BeachCount = int.Parse(doc.Get("BeachCount"))
-            };
-        }
-
-        private static ISearchable MapDocToCountryModel(Document doc)
-        {
-            return new PlaceSearchResultModel()
-            {
-                Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
-                BeachCount = int.Parse(doc.Get("BeachCount"))
-            };
-        }
+        }        
     }
 }

@@ -2,7 +2,7 @@
 {
     using BeachRankings.Models;
 
-    public interface ITertiaryDivisionRepository : IGenericRepository<TertiaryDivision>, IPlaceRepository
+    public interface ICountryRepository : IGenericRepository<Country>, IPlaceRepository
     {
     }
 }

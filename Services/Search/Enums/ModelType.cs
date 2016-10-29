@@ -2,12 +2,7 @@
 {
     internal enum ModelType
     {
-        Country,
-        PrimaryDivision,
-        SecondaryDivision,
-        TertiaryDivision,
-        QuaternaryDivision,
-        WaterBody,
+        Place,
         Beach
     }
 }

@@ -22,21 +22,21 @@
             this.entitySet = dbContext.Set<PrimaryDivision>();
         }
         
-        public IEnumerable<PlaceSearchResultModel> GetSearchResultsByKeyStroke(string prefix)
+        public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
             LuceneSearch.Index = Index.PrimaryDivisionIndex;
             var searchables = LuceneSearch.SearchByPrefix(prefix, 10);
             var results = new List<PlaceSearchResultModel>();
 
-            foreach (var searchble in searchables)
+            foreach (var searchable in searchables)
             {
-                results.Add((PlaceSearchResultModel)searchble);
+                results.Add((PlaceSearchResultModel)searchable);
             }
 
             return results.Where(r => r.BeachCount > 0).OrderByDescending(r => r.BeachCount);
         }
 
-        public void AddDivisionToIndex(ISearchable primaryDivision)
+        public void AddUpdateIndexEntry(ISearchable primaryDivision)
         {
             LuceneSearch.Index = Index.PrimaryDivisionIndex;
 

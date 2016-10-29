@@ -64,12 +64,14 @@
     <Compile Include="BeachRankingsDbContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Interfaces\IDivisionRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPlaceRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ICountryRepository.cs" />
     <Compile Include="Repositories\Interfaces\IQuaternaryDivisionRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITertiaryDivisionRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISecondaryDivisionRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPrimaryDivisionRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWaterBodyRepository.cs" />
+    <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\QuaternaryDivisionRepository.cs" />
     <Compile Include="Repositories\TertiaryDivisionRepository.cs" />
     <Compile Include="Repositories\SecondaryDivisionRepository.cs" />

@@ -56,7 +56,7 @@
         "Magnesia",
         "Trikala",
         {
-        "Sporades":["Skopelos", "Alonnisos", "Skiathos","Kyra Panagia","Peristera","Gioura","Skantzoura","Piperi","Tsougria"]
+        "Sporades":["Skopelos", "Alonnisos", "Skiathos",{"Kyra Panagia":["QUATERNARY LEVEL"]},"Peristera","Gioura","Skantzoura","Piperi","Tsougria"]
         }
       ],
       "Western Greece":["Achaea","Aetolia-Acarnania","Elis"]
@@ -131,5 +131,16 @@
      "Tekirdağ":  ["Çorlu","Marmaraereğlisi","Saray","Şarköy","Tekirdağ"],
      "Trabzon":  ["Akçaabat","Arsin","Beşikdüzü","Çarşıbaşı","Of","Sürmene","Trabzon","Vakfıkebir","Yomra"],
      "Zonguldak":  ["Alaplı","Çaycuma","Ereğli (Heraclea Pontica)","Zonguldak"]
-            }
+            },
+			"Philippines":{ 
+    "Luson":{
+        "Babuyan Group of Islands":
+       ["Babuyan Island","Balintang Island","Barit Island","Calayan Island","Camiguin Island","Dalupiri Island","Didicas Island","Fuga Island","Irao Island","Mabag Island","Pamoctan Island","Pan de Azucar Island","Panuitan Island","Pinon Island"],
+  
+        "Bacuit Group of Islands":
+        ["Bury Island","Cadlao Island","Calitang Island","Camago Island","Cavayan Island","Caverna Island","Commando Island","Depeldet Island","Diapila Island","Dibuluan Island","Dilumacad Island","Dolarog Island","Emmit Island","Entalula Island","Guintungauan Island","Inambuyod Island","Lagen Island","Lalutaya Island","Malapacao Island","Matinloc Island","Miniloc Island","Mitre Island","Nacpan Island","North Guntao Island","Paglugaban Island","Pangalusian Island","Peaked Island","Pinagbuyatan Island","Pinasil Island","Saddle Island","Shimizu Island","South Guntao Island","Tapiutan Island","Tent Islands","Vigan Island"],
+       "Balabac Islands (32 islands)":
+       ["Balabac Island","Bugsuk Island","Bancalan Island ","Mantangule Island","Pandanan Island","Ramos Island"]
+     }
+     },
 }

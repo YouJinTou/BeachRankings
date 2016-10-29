@@ -7,7 +7,7 @@
     {
         IGenericRepository<User> Users { get; }
 
-        IGenericRepository<Country> Countries { get; }
+        ICountryRepository Countries { get; }
 
         IPrimaryDivisionRepository PrimaryDivisions { get; }
 

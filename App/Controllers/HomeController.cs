@@ -3,6 +3,7 @@
     using AutoMapper;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.Models.Interfaces;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Models;
@@ -24,46 +25,40 @@
             return this.View();
         }
 
-        public async Task<PartialViewResult> Autocomplete(string prefix)
+        public PartialViewResult Autocomplete(string prefix)
         {
             if (prefix.Length <= 1)
             {
                 return null;
             }
 
-            try
-            {
-                var primaryDivisions = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
-                    (this.Data.PrimaryDivisions.GetSearchResultsByKeyStroke(prefix));
-                var secondaryDivisions = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
-                    (this.Data.SecondaryDivisions.GetSearchResultsByKeyStroke(prefix));
-                var tertiaryDivisions = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
-                    (this.Data.TertiaryDivisions.GetSearchResultsByKeyStroke(prefix));
-                var quaternaryDivisions = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
-                    (this.Data.QuaternaryDivisions.GetSearchResultsByKeyStroke(prefix));
-                var countries = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
-                    (this.Data.WaterBodies.GetSearchResultsByKeyStroke(prefix));
-                var waterBodies = Mapper.Map<IEnumerable<PlaceSearchResultModel>, IEnumerable<AutocompleteViewModel>>
-                    (this.Data.WaterBodies.GetSearchResultsByKeyStroke(prefix));
-                var beaches = Mapper.Map<IEnumerable<BeachSearchResultModel>, IEnumerable<AutocompleteBeachViewModel>>
-                    (this.Data.Beaches.GetSearchResultsByKeyStroke(prefix));
-                var model = new SearchViewModel()
-                {
-                    Beaches = beaches,
-                    PrimaryDivisions = primaryDivisions,
-                    SecondaryDivisions = secondaryDivisions,
-                    TertiaryDivisions = tertiaryDivisions,
-                    QuaternaryDivisions = quaternaryDivisions,
-                    Countries = countries,
-                    WaterBodies = waterBodies
-                };
-            }
-            catch (System.Exception e)
-            {
-            }
+            var beaches = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteBeachViewModel>>
+               (this.Data.Beaches.GetSearchResultsByKeyStroke(prefix));
+            var primaryDivisions = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompletePrimaryViewModel>>
+                (this.Data.PrimaryDivisions.GetSearchResultsByKeyStroke(prefix));
+            var secondaryDivisions = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteSecondaryViewModel>>
+                (this.Data.SecondaryDivisions.GetSearchResultsByKeyStroke(prefix));
+            var tertiaryDivisions = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteTertiaryViewModel>>
+                (this.Data.TertiaryDivisions.GetSearchResultsByKeyStroke(prefix));
+            var quaternaryDivisions = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteQuaternaryViewModel>>
+                (this.Data.QuaternaryDivisions.GetSearchResultsByKeyStroke(prefix));
+            var countries = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteCountryViewModel>>
+                (this.Data.Countries.GetSearchResultsByKeyStroke(prefix));
+            var waterBodies = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteWaterBodyViewModel>>
+                (this.Data.WaterBodies.GetSearchResultsByKeyStroke(prefix));
 
+            var model = new SearchViewModel()
+            {
+                Beaches = beaches,
+                PrimaryDivisions = primaryDivisions,
+                SecondaryDivisions = secondaryDivisions,
+                TertiaryDivisions = tertiaryDivisions,
+                QuaternaryDivisions = quaternaryDivisions,
+                Countries = countries,
+                WaterBodies = waterBodies
+            };
 
-            return PartialView("_Autocomplete");
+            return PartialView("_Autocomplete", model);
         }
 
         //public ActionResult Top(FormCollection form)

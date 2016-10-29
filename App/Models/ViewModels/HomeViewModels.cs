@@ -6,16 +6,16 @@
     {
         public IEnumerable<AutocompleteBeachViewModel> Beaches { get; set; }
 
-        public IEnumerable<AutocompleteViewModel> WaterBodies { get; set; }
+        public IEnumerable<AutocompleteWaterBodyViewModel> WaterBodies { get; set; }
 
-        public IEnumerable<AutocompleteViewModel> PrimaryDivisions { get; set; }
+        public IEnumerable<AutocompletePrimaryViewModel> PrimaryDivisions { get; set; }
 
-        public IEnumerable<AutocompleteViewModel> SecondaryDivisions { get; set; }
+        public IEnumerable<AutocompleteSecondaryViewModel> SecondaryDivisions { get; set; }
 
-        public IEnumerable<AutocompleteViewModel> TertiaryDivisions { get; set; }
+        public IEnumerable<AutocompleteTertiaryViewModel> TertiaryDivisions { get; set; }
 
-        public IEnumerable<AutocompleteViewModel> QuaternaryDivisions { get; set; }
+        public IEnumerable<AutocompleteQuaternaryViewModel> QuaternaryDivisions { get; set; }
 
-        public IEnumerable<AutocompleteViewModel> Countries { get; set; }
+        public IEnumerable<AutocompleteCountryViewModel> Countries { get; set; }
     }
 }

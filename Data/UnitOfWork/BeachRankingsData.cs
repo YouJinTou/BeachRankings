@@ -12,7 +12,8 @@
         private readonly DbContext dbContext;
 
         private IGenericRepository<User> users;
-        private IGenericRepository<Country> countries;
+        private IUserStore<User> userStore;
+        private ICountryRepository countries;
         private IPrimaryDivisionRepository primaryDivisions;
         private ISecondaryDivisionRepository secondaryDivisions;
         private ITertiaryDivisionRepository tertiaryDivisions;
@@ -21,7 +22,6 @@
         private IBeachRepository beaches;
         private IGenericRepository<BeachImage> beachImages;
         private IGenericRepository<Review> reviews;
-        private IUserStore<User> userStore;
 
         public BeachRankingsData()
             : this(new BeachRankingsDbContext())
@@ -59,13 +59,13 @@
             }
         }
 
-        public IGenericRepository<Country> Countries
+        public ICountryRepository Countries
         {
             get
             {
                 if (this.countries == null)
                 {
-                    this.countries = new GenericRepository<Country>(this.dbContext);
+                    this.countries = new CountryRepository(this.dbContext);
                 }
 
                 return this.countries;

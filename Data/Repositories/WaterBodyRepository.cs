@@ -2,6 +2,7 @@
 {
     using BeachRankings.Data.Repositories.Interfaces;
     using BeachRankings.Models;
+    using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
     using BeachRankings.Services.Search.Models;
@@ -21,21 +22,21 @@
             this.entitySet = dbContext.Set<WaterBody>();
         }
 
-        public IEnumerable<PlaceSearchResultModel> GetSearchResultsByKeyStroke(string prefix)
+        public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
             LuceneSearch.Index = Index.WaterBodyIndex;
             var searchables = LuceneSearch.SearchByPrefix(prefix, 10);
             var results = new List<PlaceSearchResultModel>();
 
-            foreach (var searchble in searchables)
+            foreach (var searchable in searchables)
             {
-                results.Add((PlaceSearchResultModel)searchble);
+                results.Add((PlaceSearchResultModel)searchable);
             }
 
             return results.Where(r => r.BeachCount > 0).OrderByDescending(r => r.BeachCount);
         }
 
-        public void AddWaterBodyToIndex(WaterBody waterBody)
+        public void AddUpdateIndexEntry(ISearchable waterBody)
         {
             LuceneSearch.Index = Index.WaterBodyIndex;
 

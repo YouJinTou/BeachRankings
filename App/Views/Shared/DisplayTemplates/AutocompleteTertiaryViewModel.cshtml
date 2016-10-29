@@ -1,8 +1,8 @@
 ﻿@using BeachRankings.App.Utils
-@model BeachRankings.App.Models.ViewModels.AutocompleteViewModel
+@model BeachRankings.App.Models.ViewModels.AutocompleteTertiaryViewModel
 
 <li>
-    <a href="/PrimaryDivisions/Beaches/@Model.Id">
+    <a href="/TertiaryDivisions/Beaches/@Model.Id">
         <h4 class="disable-block"><strong>@Model.Name</strong></h4>
         <h5 class="disable-block"><i>@Html.PluralizeValue(Model.BeachCount, "beach")</i></h5>
     </a>    

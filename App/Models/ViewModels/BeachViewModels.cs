@@ -77,12 +77,8 @@
         public IEnumerable<BeachImage> Images { get; set; }
     }
 
-    public class AutocompleteBeachViewModel
+    public class AutocompleteBeachViewModel : AutocompleteBaseViewModel
     {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
         public string Country { get; set; }
 
         public string SecondaryDivision { get; set; }

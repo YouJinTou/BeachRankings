@@ -151,7 +151,7 @@
 
         public void SetBeachData()
         {
-            var interval = " - ";
+            var interval = "-";
             var tertiaryDivisionName = (this.TertiaryDivision == null) ? null : this.TertiaryDivision.Name + interval;
             var quaternaryDivisinoName = (this.QuaternaryDivision == null) ? null : this.QuaternaryDivision.Name + interval;
             this.Address = (
