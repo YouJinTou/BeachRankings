@@ -22,7 +22,11 @@
 
     public class DetailedReviewViewModel : CriteriaBaseModel
     {
+        public int Id { get; set; }
+
         public int BeachId { get; set; }
+
+        public string AuthorId { get; set; }
 
         public string UserName { get; set; }
 

@@ -4,7 +4,9 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System.Data.Entity;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Mvc;
 
     public class PrimaryDivisionsController : BaseController
@@ -33,11 +35,14 @@
             return this.Json(secondaryDivisions, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult WaterBody(int id)
+        public async Task<JsonResult> BeachNames(int id, string term)
         {
-            var waterBodyId = this.Data.PrimaryDivisions.Find(id).WaterBodyId;
+            var beachNames = await this.Data.Beaches.All()
+                .Where(pd => pd.PrimaryDivisionId == id && pd.Name.StartsWith(term))
+                .Select(pd => pd.Name)
+                .ToListAsync();
 
-            return this.Json(waterBodyId, JsonRequestBehavior.AllowGet);
+            return this.Json(beachNames, JsonRequestBehavior.AllowGet);
         }
     }
 }

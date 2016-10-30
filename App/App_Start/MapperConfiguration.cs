@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using BeachRankings.Models;
-    using BeachRankings.Models.Interfaces;
     using BeachRankings.App.Models.BindingModels;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Services.Search.Models;
@@ -29,6 +28,7 @@
                 cfg.CreateMap<TertiaryDivision, LocationBeachesViewModel>();
                 cfg.CreateMap<QuaternaryDivision, LocationBeachesViewModel>();
 
+                cfg.CreateMap<Beach, Beach>();
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Images.FirstOrDefault().Path))
                     .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
@@ -47,6 +47,8 @@
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Images));
+                cfg.CreateMap<Beach, EditBeachPristineViewModel>();
+                cfg.CreateMap<EditBeachPristineViewModel, Beach>();
 
                 cfg.CreateMap<BeachImage, string>().ConvertUsing(bp => bp.Path);
 

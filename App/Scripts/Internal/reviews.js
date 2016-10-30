@@ -1,6 +1,5 @@
-﻿
-(function ($) {
-    var postIndex = window.location.href.indexOf('Rate/');
+﻿(function ($) {
+    var postIndex = window.location.href.indexOf('Post/');
     var readIndex = window.location.href.indexOf('Details/');
     var mode = ((postIndex > -1) ? 'post' : ((readIndex > -1) ? "read" : 'edit'));
     var posting = (mode === "post");
@@ -64,7 +63,7 @@
         $('[data-btn-submit-review]').on('click', function (event) {
             event.preventDefault();
 
-            var actionUrl = posting ? '/Reviews/Rate/' : '/Reviews/Edit/';
+            var actionUrl = posting ? '/Reviews/Post/' : '/Reviews/Edit/';
             var reviewJsonData = {
                 content: $('[data-review-content]').val(),
                 sandQuality: $('[data-sand-quality-handle]').text(),

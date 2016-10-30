@@ -1,6 +1,7 @@
 ﻿namespace BeachRankings.Models
 {
     using BeachRankings.Models.Interfaces;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -13,16 +14,23 @@
 
         public Beach()
         {
+            this.AddedOn = DateTime.Now;
         }
 
         [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The name field is required.")]
-        [Index("IX_SecondaryBeach", IsUnique = true, Order = 1)]
+        [Index("IX_PrimaryBeach", IsUnique = true, Order = 1)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         public string Name { get; set; }
+
+        [Required]
+        public string CreatorId { get; set; }
+
+        [Required]
+        public DateTime AddedOn { get; private set; }
 
         [Required]
         public int CountryId { get; set; }
@@ -30,14 +38,12 @@
         public virtual Country Country { get; set; }
 
         [Required]
-        [Index("IX_SecondaryBeach", IsUnique = true, Order = 3)]
+        [Index("IX_PrimaryBeach", IsUnique = true, Order = 2)]
         public int PrimaryDivisionId { get; set; }
 
         public virtual PrimaryDivision PrimaryDivision { get; protected set; }
 
-        [Required]
-        [Index("IX_SecondaryBeach", IsUnique = true, Order = 2)]
-        public int SecondaryDivisionId { get; set; }
+        public int? SecondaryDivisionId { get; set; }
 
         public virtual SecondaryDivision SecondaryDivision { get; protected set; }
 
@@ -152,12 +158,13 @@
         public void SetBeachData()
         {
             var interval = "-";
+            var secondaryDivisionName = (this.SecondaryDivision == null) ? null : this.SecondaryDivision.Name + interval;
             var tertiaryDivisionName = (this.TertiaryDivision == null) ? null : this.TertiaryDivision.Name + interval;
             var quaternaryDivisinoName = (this.QuaternaryDivision == null) ? null : this.QuaternaryDivision.Name + interval;
             this.Address = (
                 this.Country.Name + interval + 
-                this.PrimaryDivision.Name + interval + 
-                this.SecondaryDivision.Name + interval +
+                this.PrimaryDivision.Name + interval +
+                secondaryDivisionName +
                 tertiaryDivisionName +
                 quaternaryDivisinoName +
                 this.WaterBody.Name)

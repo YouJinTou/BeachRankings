@@ -237,6 +237,7 @@
     <Compile Include="Models\CriteriaBaseModel.cs" />
     <Compile Include="Models\ViewModels\PlaceViewModels.cs" />
     <Compile Include="Models\ViewModels\GenericViewModels.cs" />
+    <Compile Include="Utils\Extensions\IdentityExtensions.cs" />
     <Compile Include="ValidationAttributes\ImagesValidAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\HomeViewModels.cs" />
@@ -245,7 +246,7 @@
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\Extensions\HtmlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Countries.txt" />
@@ -256,6 +257,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\External\dragdealer.css" />
+    <Content Include="Content\External\lightbox.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Images\bolata.jpg" />
     <Content Include="Content\Images\kamchia_river.jpg" />
@@ -285,7 +287,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
+    <Content Include="Scripts\External\lightbox.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
+    <Content Include="Scripts\Internal\google-map-manager.js" />
     <Content Include="Scripts\Internal\beaches.js" />
     <Content Include="Scripts\Internal\index.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -365,6 +369,7 @@
     <Content Include="Views\SecondaryDivisions\Beaches.cshtml" />
     <Content Include="Views\TertiaryDivisions\Beaches.cshtml" />
     <Content Include="Views\QuaternaryDivisions\Beaches.cshtml" />
+    <Content Include="Views\Beaches\EditPristine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

@@ -1,9 +1,9 @@
-﻿namespace BeachRankings.App.Utils
+﻿namespace BeachRankings.App.Utils.Extensions
 {
     using System.Web;
     using System.Web.Mvc;
 
-    public static class Extensions
+    public static class HtmlExtensions
     {
         public static IHtmlString ParseNullableValue(this HtmlHelper helper, double? value, string message)
         {
@@ -13,21 +13,21 @@
         }
 
         public static IHtmlString PluralizeValue(this HtmlHelper helper, int value, string singularObject)
-        {   
+        {
             if (value == 0)
             {
                 return new HtmlString(string.Empty);
-            }         
+            }
 
             string pluralForm = singularObject.EndsWith("s") ? (singularObject + "es") :
                 singularObject.EndsWith("f") ? (singularObject.TrimEnd('f') + "ves") :
                 singularObject.EndsWith("h") ? (singularObject + "es") :
-                singularObject.EndsWith("y") ? (singularObject.TrimEnd('y') + "ies") : 
-                (singularObject + "s");  
+                singularObject.EndsWith("y") ? (singularObject.TrimEnd('y') + "ies") :
+                (singularObject + "s");
             string htmlString = (value == 1) ? ("1 " + singularObject) : (value.ToString() + " " + pluralForm);
             htmlString = "(" + htmlString + ")";
 
             return new HtmlString(htmlString);
-        }        
+        }
     }
 }

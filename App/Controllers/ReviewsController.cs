@@ -1,11 +1,12 @@
 ﻿namespace App.Controllers
 {
     using AutoMapper;
+    using BeachRankings.App.Models.BindingModels;
+    using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.App.Utils.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using Microsoft.AspNet.Identity;
-    using BeachRankings.App.Models.BindingModels;
-    using BeachRankings.App.Models.ViewModels;
     using System.Web.Mvc;
 
     public class ReviewsController : BaseController
@@ -64,22 +65,16 @@
         public ActionResult Edit(int id)
         {
             var review = this.Data.Reviews.Find(id);
-
-            if (review == null)
-            {
-                return this.View(); // Error
-            }
-
             var currentUserId = this.UserProfile.Id;
 
-            if (review.AuthorId == currentUserId)
+            if (this.User.Identity.CanEditReview(review.AuthorId))
             {
                 var model = Mapper.Map<Review, EditReviewViewModel>(review);
 
                 return this.View(model);
             }
 
-            return this.View(); // Unauthorized
+            return this.RedirectToAction("Details", new { id = id }); // Unauthorized
         }
 
         [Authorize]
@@ -115,7 +110,7 @@
             this.Data.Reviews.Remove(review);
             this.Data.Reviews.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

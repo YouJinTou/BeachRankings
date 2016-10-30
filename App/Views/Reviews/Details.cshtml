@@ -1,4 +1,5 @@
-﻿@model BeachRankings.App.Models.ViewModels.DetailedReviewViewModel
+﻿@using BeachRankings.App.Utils.Extensions
+@model BeachRankings.App.Models.ViewModels.DetailedReviewViewModel
 
 @{
     ViewBag.Title = "Review";
@@ -6,6 +7,12 @@
 
 <div class="panel panel-default">
     <div class="row">
+        @{if (User.Identity.CanEditReview(Model.AuthorId))
+            {
+                <a class="btn btn-info pull-right" href="/Reviews/Edit/@Model.Id">Edit</a>
+            }
+        }
+
         <div class="col-md-2">
             <div class="img-container">
                 <img src="@Model.AvatarPath" alt="No profile photo" />

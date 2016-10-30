@@ -1,111 +1,40 @@
-﻿var GoogleMapManager = function () {
-    var map,
-        geocoderFilteredResults;
-    var markers = [];
-
-    function initMap() {
-        var initialPosition = new google.maps.LatLng(-34.397, 150.644);
-        var mapOptions = {
-            zoom: 8,
-            center: initialPosition,
-            mapTypeId: 'satellite'
-        };
-        map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-        attachEventListeners();
-    }
-
-    function getGeocoderData() {
-        var geocoder = new google.maps.Geocoder();
-        var position = getMarkerCoordinates();
-
-        if (!position) {
-            return false;
-        }
-
-        var latLngObj = { lat: parseFloat(position.lat()), lng: parseFloat(position.lng()) };
-
-        geocoder.geocode({ 'location': latLngObj }, function (results, status) {
-            switch (status) {
-                case 'OK':
-                    geocoderFilteredResults = {
-                        approximateAddress: results[0].formatted_address,
-                        coordinates: (position.lat() + ',' + position.lng())
-                    };
-                default:
-                    return false;
-            }
-        });
-
-        return geocoderFilteredResults;
-    }
-
-    function shiftMap(coordinates) {
-        var latLng = coordinates.split(',', 2);
-
-        removeMarkers();
-
-        map.setCenter({ lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) });
-    }
-
-    function getMarkerCoordinates() {
-        if (!markers.length) {
-            return false;
-        }
-
-        return markers[0].position;
-    }
-
-    function attachEventListeners() {
-        google.maps.event.addListener(map, "click", function (event) {
-            removeMarkers();
-
-            addMarker(map, event.latLng);
-        });
-    }
-
-    function addMarker(map, position) {
-        var marker = new google.maps.Marker({
-            position: position,
-            map: map
-        });
-
-        markers.push(marker);
-    }
-
-    function removeMarkers() {
-        markers.forEach(function (marker) {
-            marker.setMap(null);
-        });
-
-        markers = [];
-    }
-
-    return {
-        initMap: initMap,
-        getLocationData: getGeocoderData,
-        getCoordinates: getMarkerCoordinates,
-        setMap: shiftMap
-    }
-};
-
-var gMapManager = new GoogleMapManager();
-
-(function ($) {
+﻿(function ($) {
+    var addIndex = window.location.href.indexOf('Add/');
+    var mode = (addIndex > -1) ? 'add' : 'edit';
+    var adding = (mode === 'add');
     var $ddlDivisions = $('[data-ddl-division]');
+    var divisionHolder = '[data-division-holder]';
     var $textBoxName = $('[data-textbox-name]');
     var $beachNameContainer = $('[data-beach-name]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
     var $validationSpan = $('[data-generic-validation-alert]');
     
-    resetCountriesDropdown();
+    if (adding) {
+        resetCountriesDropdown();
+    } else {
+        showFieldsInEditMode();
+    }
+
     setBindings();
-    setEvents();
+    setGeneralEvents();
+    setEditEvents();
 
     function resetCountriesDropdown() {
         if ($($ddlDivisions[0]).val()) {
             $($ddlDivisions[0]).val('');
         }
+    }
+
+    function showFieldsInEditMode() {
+        for (var i = 0; i < $ddlDivisions.length; i++) {
+            var $ddl = $($ddlDivisions[i]);
+
+            if ($ddl[0].length > 0) {
+                $ddl.closest(divisionHolder).show();
+            }
+        }
+
+        $beachNameContainer.show();
     }
 
     function setBindings() {
@@ -114,10 +43,9 @@ var gMapManager = new GoogleMapManager();
         });
     }    
 
-    function setEvents() {
+    function setGeneralEvents() {
         $ddlDivisions.on('change', function () {
             var $this = $(this);            
-            var divisionHolder = '[data-division-holder]';
             var nextDivision = $this.data('next-division');
             var url = $this.data('ddl-division') + $this.val();
 
@@ -217,5 +145,53 @@ var gMapManager = new GoogleMapManager();
 
             gMapManager.setMap(coordinates);
         });        
+    }
+
+    function setEditEvents() {
+        if (adding) {
+            return;
+        }
+
+        //setImages();
+
+        function setImages() {
+            var $hdnImagePaths = $('[data-hdn-image-paths]');
+            var imagePaths = $hdnImagePaths.data('hdn-image-paths').split(',');
+
+            $hdnImagePaths.val('');
+
+            for (var i = 0; i < imagePaths.length; i++) {
+                var div = $('<div class="img-container">');
+                var checkBox = $('<input />', { type: 'checkbox', value: imagePaths[i].substr(imagePaths[i].length - 25) });
+                var a = $('<a>');
+                var img = $('<img>');
+
+                a.attr('href', imagePaths[i]);
+                a.attr('data-lightbox', 'uploaded-images');
+                img.attr('src', imagePaths[i]);
+
+                checkBox.appendTo(div);
+                img.appendTo(a);
+                a.appendTo(div);
+                div.appendTo('.uploaded-images-container');
+
+                attachClickEventToCheckBox(checkBox);
+            }
+
+            function attachClickEventToCheckBox(checkBox) {
+                checkBox.on('click', function () {
+                    var $this = $(this);
+                    var currentVal = $hdnImagePaths.val();
+
+                    if ($this.is(':checked')) {
+                        $hdnImagePaths.val(currentVal + ',' + $(this).val());
+
+                        return;
+                    }
+
+                    $hdnImagePaths.val(currentVal.replace($this.val(), ''));
+                })
+            }
+        }        
     }
 })(jQuery);

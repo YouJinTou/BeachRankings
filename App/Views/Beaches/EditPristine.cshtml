@@ -1,12 +1,13 @@
-﻿@model BeachRankings.App.Models.ViewModels.AddBeachViewModel
+﻿@model BeachRankings.App.Models.ViewModels.EditBeachPristineViewModel
 
 @{
-    ViewBag.Title = "Add Beach";
+    ViewBag.Title = "Edit " + Model.Name + " Beach";
 }
 
-@using (Html.BeginForm("Add", "Beaches", FormMethod.Post, new { id = "addBeachForm", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditPristine", "Beaches", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
 
     <div class="row">
         <div class="col-md-6">
@@ -18,7 +19,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.DropDownListFor(model => model.CountryId, Model.Countries, "-- Choose a country --",
+                        @Html.DropDownListFor(model => model.CountryId, Model.Countries,
                     new { @class = "form-control", data_ddl_country_name = "", data_ddl_division = "/Countries/PrimaryDivisions/", data_next_division = "1" })
                         @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                     </div>
@@ -27,7 +28,7 @@
                 <div data-division-holder="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.PrimaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.DropDownListFor(model => model.PrimaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                        @Html.DropDownListFor(model => model.PrimaryDivisionId, Model.PrimaryDivisions,
                     new { @class = "form-control", data_ddl_primary_division_name = "", data_ddl_division = "/PrimaryDivisions/SecondaryDivisions/", data_next_division = "2" })
                         @Html.ValidationMessageFor(model => model.PrimaryDivisionId, "", new { @class = "text-danger" })
                     </div>
@@ -36,7 +37,7 @@
                 <div data-division-holder="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.SecondaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.DropDownListFor(model => model.SecondaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                        @Html.DropDownListFor(model => model.SecondaryDivisionId, Model.SecondaryDivisions,
                     new { @class = "form-control", data_ddl_secondary_division_name = "", data_ddl_division = "/SecondaryDivisions/TertiaryDivisions/", data_next_division = "3" })
                         @Html.ValidationMessageFor(model => model.SecondaryDivisionId, "", new { @class = "text-danger" })
                     </div>
@@ -45,7 +46,7 @@
                 <div data-division-holder="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.TertiaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.DropDownListFor(model => model.TertiaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                        @Html.DropDownListFor(model => model.TertiaryDivisionId, Model.TertiaryDivisions,
                     new { @class = "form-control", data_ddl_tertiary_division_name = "", data_ddl_division = "/TertiaryDivisions/QuaternaryDivisions/", data_next_division = "4" })
                         @Html.ValidationMessageFor(model => model.TertiaryDivisionId, "", new { @class = "text-danger" })
                     </div>
@@ -54,7 +55,7 @@
                 <div data-division-holder="" class="form-group" style="display: none;">
                     @Html.LabelFor(model => model.QuaternaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
-                        @Html.DropDownListFor(model => model.QuaternaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                        @Html.DropDownListFor(model => model.QuaternaryDivisionId, Model.QuaternaryDivisions,
                     new { @class = "form-control", data_ddl_quaternary_division_name = "", data_ddl_division = "/QuaternaryDivisions/", data_next_division = "" })
                         @Html.ValidationMessageFor(model => model.QuaternaryDivisionId, "", new { @class = "text-danger" })
                     </div>
@@ -84,13 +85,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="uploader" class="control-label col-md-3">Beach photos</label>
-                    <div class="col-md-5">
-                        <input id="uploader" type="file" name="images" class="upload" multiple />
-                    </div>
-                </div>
-
                 @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })
             </div>
         </div>
@@ -100,7 +94,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Add beach" class="btn btn-default" />
+            <input type="submit" value="Save changes" class="btn btn-default" />
         </div>
     </div>
 }

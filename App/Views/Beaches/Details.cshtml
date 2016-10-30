@@ -1,19 +1,46 @@
-﻿@using BeachRankings.App.Utils
+﻿@using BeachRankings.App.Utils.Extensions
 @model BeachRankings.App.Models.ViewModels.DetailedBeachViewModel
 
 @{
     ViewBag.Title = Model.Name;
 }
 
-<h3>@Model.Name - @Model.SecondaryDivision, @Model.Country</h3>
-<h4>Region: @Model.PrimaryDivision</h4>
-<h4>Body of water: @Model.WaterBody</h4>
-<h5><sub>@Model.Coordinates</sub></h5>
-<h4>Score: @Html.ParseNullableValue(Model.TotalScore, "This beach has no score yet. Be the first to rate it.")</h4>
-<p>@Model.Description</p>
-
 <div class="row">
-    @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-default" })
+    <div class="col-xs-10">
+        <h3>@Model.Name - @Model.SecondaryDivision, @Model.Country</h3>
+        <h4>Region: @Model.PrimaryDivision</h4>
+        <h4>Body of water: @Model.WaterBody</h4>
+        <h5><sub>@Model.Coordinates</sub></h5>
+        <h4>Score: @Html.ParseNullableValue(Model.TotalScore, "This beach has no score yet. Be the first to rate it.")</h4>
+        <p>@Model.Description</p>
+
+        @{
+            if (!Model.UserHasRated)
+            {
+                <div class="row">
+                    @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-default" })
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <span class="success">Already Rated</span>
+                </div>
+            }
+        }        
+    </div>
+
+    @{
+        if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
+        {
+            <div class="col-xs-2">
+                <a class="btn btn-info" href="/Beaches/Edit/@Model.Id">Edit</a>
+                <a class="btn btn-info" href="/Beaches/Delete/@Model.Id">Delete</a>
+            </div>
+        }
+    }
 </div>
+
+<hr />
 
 @Html.DisplayFor(m => m.Reviews)
