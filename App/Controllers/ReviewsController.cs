@@ -6,7 +6,7 @@
     using BeachRankings.App.Utils.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
-    using Microsoft.AspNet.Identity;
+    using System.Linq;
     using System.Web.Mvc;
 
     public class ReviewsController : BaseController
@@ -29,6 +29,13 @@
         [HttpGet]
         public ActionResult Post(int id)
         {
+            var alreadyRated = this.UserProfile.Reviews.Any(r => r.BeachId == id);
+
+            if (alreadyRated)
+            {
+                return this.RedirectToAction("Details", "Beaches", new { id = id });
+            }
+
             var beach = this.Data.Beaches.Find(id);
             var model = Mapper.Map<Beach, PostReviewViewModel>(beach);
 
@@ -45,8 +52,15 @@
                 return this.View();
             }
 
+            var alreadyRated = this.UserProfile.Reviews.Any(r => r.BeachId == bindingModel.BeachId);
+
+            if (alreadyRated)
+            {
+                return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachId });
+            }
+
             var review = Mapper.Map<PostReviewBindingModel, Review>(bindingModel);
-            review.AuthorId = this.User.Identity.GetUserId();
+            review.AuthorId = this.UserProfile.Id;
 
             this.Data.Reviews.Add(review);
             this.Data.Reviews.SaveChanges();

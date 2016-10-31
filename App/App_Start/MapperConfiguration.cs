@@ -47,8 +47,8 @@
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Images));
-                cfg.CreateMap<Beach, EditBeachPristineViewModel>();
-                cfg.CreateMap<EditBeachPristineViewModel, Beach>();
+                cfg.CreateMap<Beach, EditBeachViewModel>();
+                cfg.CreateMap<EditBeachViewModel, Beach>();
 
                 cfg.CreateMap<BeachImage, string>().ConvertUsing(bp => bp.Path);
 

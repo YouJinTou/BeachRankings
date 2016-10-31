@@ -1,10 +1,10 @@
-﻿@model BeachRankings.App.Models.ViewModels.EditBeachPristineViewModel
+﻿@model BeachRankings.App.Models.ViewModels.EditBeachViewModel
 
 @{
     ViewBag.Title = "Edit " + Model.Name + " Beach";
 }
 
-@using (Html.BeginForm("EditPristine", "Beaches", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Beaches", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)

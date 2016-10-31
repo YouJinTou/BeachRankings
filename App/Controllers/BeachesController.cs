@@ -4,12 +4,12 @@
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.App.Utils;
     using BeachRankings.App.Utils.Extensions;
     using System;
     using System.Data.Entity;
     using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Web.Mvc;
 
     public class BeachesController : BaseController
@@ -23,7 +23,7 @@
         {
             var beach = this.Data.Beaches.All().FirstOrDefault(b => b.Id == id);
             var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);
-            model.UserHasRated = this.UserProfile.Reviews.Any(r => r.BeachId == id);
+            model.UserHasRated = this.User.Identity.IsAuthenticated ? this.UserProfile.Reviews.Any(r => r.BeachId == id) : false;
 
             model.Reviews.OrderByDescending(r => r.PostedOn);
 
@@ -84,7 +84,7 @@
                 return this.RedirectToAction("Details", new { id = id });
             }
 
-            var model = Mapper.Map<Beach, EditBeachPristineViewModel>(beach);
+            var model = Mapper.Map<Beach, EditBeachViewModel>(beach);
             model.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
             {
                 Text = c.Name,
@@ -124,20 +124,20 @@
                     Selected = (c.Id == model.QuaternaryDivisionId)
                 });
 
-            return this.View("EditPristine", model);
+            return this.View("Edit", model);
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPristine(EditBeachPristineViewModel model)
+        public ActionResult Edit(EditBeachViewModel model)
         {
             var beach = this.Data.Beaches.Find(model.Id);
             var currentUserId = this.UserProfile.Id;
 
             if (this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
             {
-                this.UpdateBeach(model);
+                this.UpdateBeach(beach, model);
             }
 
             return this.RedirectToAction("Details", new { id = beach.Id });
@@ -155,10 +155,15 @@
                 return this.RedirectToAction("Details", new { id = id });
             }
 
+            var beachCopy = new Beach();
+
+            Mapper.Map(beach, beachCopy);
+
+            this.RemoveChildReferences(beach);
             this.Data.Beaches.Remove(beach);
             this.Data.Beaches.SaveChanges();
-            this.UpdateIndexEntries(beach);
-            this.Data.Beaches.DeleteIndexEntry(beach);
+            this.UpdateIndexEntries(beachCopy);
+            this.Data.Beaches.DeleteIndexEntry(beachCopy);
 
             return this.RedirectToAction("Index", "Home");
         }
@@ -226,8 +231,7 @@
                 return;
             }
 
-            var formattedBeachName = Regex.Replace(beach.Name, @"[^A-Za-z]", string.Empty);
-            var relativeBeachDir = Path.Combine("Uploads", "Images", "Beaches", formattedBeachName);
+            var relativeBeachDir = Helper.GetBeachImagesRelativeDir(beach.Name);
             var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachDir);
 
             Directory.CreateDirectory(beachDir);
@@ -256,9 +260,8 @@
 
         #region Update
 
-        private void UpdateBeach(EditBeachPristineViewModel model)
+        private void UpdateBeach(Beach beach, EditBeachViewModel model)
         {
-            var beach = this.Data.Beaches.Find(model.Id);
             var oldBeach = new Beach();
 
             Mapper.Map(beach, oldBeach);
@@ -266,6 +269,8 @@
 
             var primaryDivision = this.Data.PrimaryDivisions.All().Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == model.PrimaryDivisionId);
             beach.WaterBodyId = primaryDivision.WaterBodyId;
+
+            this.Data.Beaches.SaveChanges();
 
             beach.SetBeachData();
 
@@ -308,6 +313,44 @@
             this.Data.TertiaryDivisions.AddUpdateIndexEntry(tertiary);
             this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternary);
             this.Data.WaterBodies.AddUpdateIndexEntry(waterBody);
+        }
+
+        #endregion
+
+        #region Delete
+
+        private void RemoveChildReferences(Beach beach)
+        {
+            var reviews = beach.Reviews.ToList();
+            var images = beach.Images.ToList();
+
+            for (int i = 0; i < reviews.Count; i++)
+            {
+                this.Data.Reviews.Remove(reviews[i]);
+            }
+
+            this.EraseImagesLocally(beach.Name);
+
+            for (int i = 0; i < images.Count; i++)
+            {
+                this.Data.BeachImages.Remove(images[i]);
+            }
+
+            this.Data.Reviews.SaveChanges();
+            this.Data.BeachImages.SaveChanges();
+        }
+
+        private void EraseImagesLocally(string beachName)
+        {
+            var relativeBeachImagesDir = Helper.GetBeachImagesRelativeDir(beachName);
+            var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachImagesDir);
+
+            if (Directory.Exists(beachDir))
+            {
+                var imagesDir = new DirectoryInfo(beachDir);
+
+                imagesDir.Delete(true);
+            }
         }
 
         #endregion

@@ -45,7 +45,7 @@
         public IEnumerable<HttpPostedFileBase> Images { get; set; }
     }
 
-    public class EditBeachPristineViewModel
+    public class EditBeachViewModel
     {
         [Required]
         public int Id { get; set; }

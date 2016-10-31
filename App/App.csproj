@@ -238,6 +238,7 @@
     <Compile Include="Models\ViewModels\PlaceViewModels.cs" />
     <Compile Include="Models\ViewModels\GenericViewModels.cs" />
     <Compile Include="Utils\Extensions\IdentityExtensions.cs" />
+    <Compile Include="Utils\Helper.cs" />
     <Compile Include="ValidationAttributes\ImagesValidAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\HomeViewModels.cs" />
@@ -369,7 +370,7 @@
     <Content Include="Views\SecondaryDivisions\Beaches.cshtml" />
     <Content Include="Views\TertiaryDivisions\Beaches.cshtml" />
     <Content Include="Views\QuaternaryDivisions\Beaches.cshtml" />
-    <Content Include="Views\Beaches\EditPristine.cshtml" />
+    <Content Include="Views\Beaches\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

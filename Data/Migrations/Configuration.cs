@@ -219,7 +219,7 @@ namespace BeachRankings.Data.Migrations
                     PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Thessaly").Id,
                     SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Sporades").Id,
                     TertiaryDivisionId = this.data.TertiaryDivisions.FirstOrDefault(r => r.Name == "Skiathos").Id,
-                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Mediterranean Sea").Id,
+                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Black Sea").Id,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Coordinates = "43.204666,27.910543",
                 }
