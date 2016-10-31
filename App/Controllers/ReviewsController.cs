@@ -119,6 +119,11 @@
         [Authorize]
         public ActionResult Delete(int id)
         {
+            if (!this.User.Identity.CanEditReview(this.UserProfile.Id))
+            {
+                return this.RedirectToAction("Details", new { id = id });
+            }
+
             var review = this.Data.Reviews.Find(id);
 
             this.Data.Reviews.Remove(review);
