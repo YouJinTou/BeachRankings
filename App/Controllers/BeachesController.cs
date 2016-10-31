@@ -258,19 +258,13 @@
 
         private void UpdateBeach(EditBeachPristineViewModel model)
         {
-            this.Data.Countries.All()
-                .Include(c => c.PrimaryDivisions)
-                .Include(c => c.SecondaryDivisions)
-                .FirstOrDefault(c => c.Id == model.CountryId);
-
             var beach = this.Data.Beaches.Find(model.Id);
             var oldBeach = new Beach();
 
             Mapper.Map(beach, oldBeach);
             Mapper.Map(model, beach);
 
-            var primaryDivision = this.Data.PrimaryDivisions.Find(model.PrimaryDivisionId);
-            var waterBody = this.Data.WaterBodies.Find(primaryDivision.WaterBodyId);
+            var primaryDivision = this.Data.PrimaryDivisions.All().Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == model.PrimaryDivisionId);
             beach.WaterBodyId = primaryDivision.WaterBodyId;
 
             beach.SetBeachData();
