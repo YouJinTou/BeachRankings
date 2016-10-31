@@ -270,17 +270,15 @@
             }
         }
 
-        public static void DeleteIndexEntry(int id)
+        public static void DeleteIndexEntry(ISearchable searchable)
         {
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
             using (var writer = new IndexWriter(IndexDir, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
-                var oldDoc = new TermQuery(new Term("Id", id.ToString()));
+                var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
 
                 writer.DeleteDocuments(oldDoc);
-
-                // TO-DO UPDATE REFERENCES
 
                 analyzer.Close();
                 writer.Dispose();

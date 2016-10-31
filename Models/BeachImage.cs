@@ -21,6 +21,8 @@
         [Required]
         public int BeachId { get; set; }
 
+        public virtual Beach Beach { get; protected set; }
+
         [Required]
         public DateTime UploadedOn { get; private set; }
 

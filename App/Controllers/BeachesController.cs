@@ -150,15 +150,17 @@
             var beach = this.Data.Beaches.Find(id);
             var currentUserId = this.UserProfile.Id;
 
-            if (this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
+            if (!this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
             {
-                this.Data.Beaches.Remove(beach);
-                this.Data.Beaches.SaveChanges();
-
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction("Details", new { id = id });
             }
 
-            return this.RedirectToAction("Details", new { id = id }); // Unauthorized
+            this.Data.Beaches.Remove(beach);
+            this.Data.Beaches.SaveChanges();
+            this.UpdateIndexEntries(beach);
+            this.Data.Beaches.DeleteIndexEntry(beach);
+
+            return this.RedirectToAction("Index", "Home");
         }
 
         #region Action Helpers

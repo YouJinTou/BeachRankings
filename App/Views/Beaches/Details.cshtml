@@ -35,7 +35,11 @@
         {
             <div class="col-xs-2">
                 <a class="btn btn-info" href="/Beaches/Edit/@Model.Id">Edit</a>
-                <a class="btn btn-info" href="/Beaches/Delete/@Model.Id">Delete</a>
+
+                @using (Html.BeginForm("Delete", "Beaches", new { id = Model.Id }))
+                {
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                }
             </div>
         }
     }

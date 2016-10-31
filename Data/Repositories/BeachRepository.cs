@@ -41,5 +41,12 @@
 
             LuceneSearch.AddUpdateIndexEntry(beach);
         }
+
+        public void DeleteIndexEntry(ISearchable beach)
+        {
+            LuceneSearch.Index = Index.BeachIndex;
+
+            LuceneSearch.DeleteIndexEntry(beach);
+        }
     }
 }

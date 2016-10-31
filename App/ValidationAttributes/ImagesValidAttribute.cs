@@ -11,7 +11,6 @@
         public override bool IsValid(object value)
         {
             var files = value as HttpPostedFileBase[];
-
             var nothingUploaded = (files.Length == 1 && files[0] == null);
 
             if (nothingUploaded)
