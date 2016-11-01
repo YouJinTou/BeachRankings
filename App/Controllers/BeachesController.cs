@@ -77,8 +77,7 @@
         public ActionResult Edit(int id)
         {
             var beach = this.Data.Beaches.Find(id);
-            var currentUserId = this.UserProfile.Id;
-
+            
             if (!this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
             {
                 return this.RedirectToAction("Details", new { id = id });
@@ -133,7 +132,6 @@
         public ActionResult Edit(EditBeachViewModel model)
         {
             var beach = this.Data.Beaches.Find(model.Id);
-            var currentUserId = this.UserProfile.Id;
 
             if (this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
             {
@@ -148,7 +146,6 @@
         public ActionResult Delete(int id)
         {
             var beach = this.Data.Beaches.Find(id);
-            var currentUserId = this.UserProfile.Id;
 
             if (!this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
             {

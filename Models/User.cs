@@ -3,6 +3,7 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@
     {
         private ICollection<Review> reviews;
         private ICollection<BeachImage> images;
+        private ClaimsIdentity identity;
 
         public User()
         {
@@ -38,7 +40,15 @@
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
+
+            this.identity = userIdentity;
+
             return userIdentity;
+        }
+
+        public bool CanRateBeach(int id)
+        {
+            return !this.Reviews.Any(r => r.BeachId == id);
         }
     }
 }

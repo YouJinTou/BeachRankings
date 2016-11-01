@@ -16,6 +16,9 @@
     public class EditReviewBindingModel : CriteriaBaseModel
     {
         [Required]
+        public string AuthorId { get; set; }
+
+        [Required]
         public int ReviewId { get; set; }
 
         [Required(ErrorMessage = "The review field is required.")]

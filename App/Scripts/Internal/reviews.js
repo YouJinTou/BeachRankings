@@ -65,6 +65,7 @@
 
             var actionUrl = posting ? '/Reviews/Post/' : '/Reviews/Edit/';
             var reviewJsonData = {
+                authorId: $('[data-hdn-author-id]').val(),
                 content: $('[data-review-content]').val(),
                 sandQuality: $('[data-sand-quality-handle]').text(),
                 beachCleanliness: $('[data-beach-cleanliness-handle]').text(),

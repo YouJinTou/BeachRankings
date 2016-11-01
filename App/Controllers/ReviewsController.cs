@@ -6,7 +6,6 @@
     using BeachRankings.App.Utils.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
-    using System.Linq;
     using System.Web.Mvc;
 
     public class ReviewsController : BaseController
@@ -29,9 +28,7 @@
         [HttpGet]
         public ActionResult Post(int id)
         {
-            var alreadyRated = this.UserProfile.Reviews.Any(r => r.BeachId == id);
-
-            if (alreadyRated)
+            if (!this.UserProfile.CanRateBeach(id))
             {
                 return this.RedirectToAction("Details", "Beaches", new { id = id });
             }
@@ -52,9 +49,7 @@
                 return this.View();
             }
 
-            var alreadyRated = this.UserProfile.Reviews.Any(r => r.BeachId == bindingModel.BeachId);
-
-            if (alreadyRated)
+            if (!this.UserProfile.CanRateBeach(bindingModel.BeachId))
             {
                 return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachId });
             }
@@ -79,7 +74,6 @@
         public ActionResult Edit(int id)
         {
             var review = this.Data.Reviews.Find(id);
-            var currentUserId = this.UserProfile.Id;
 
             if (this.User.Identity.CanEditReview(review.AuthorId))
             {
@@ -99,6 +93,11 @@
             if (!this.ModelState.IsValid)
             {
                 return this.View();
+            }
+
+            if (!this.User.Identity.CanEditReview(bindingModel.AuthorId))
+            {
+                return this.RedirectToAction("Details", new { id = bindingModel.ReviewId });
             }
 
             var review = this.Data.Reviews.Find(bindingModel.ReviewId);
