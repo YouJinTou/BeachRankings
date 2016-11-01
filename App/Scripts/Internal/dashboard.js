@@ -1,5 +1,5 @@
 ﻿(function ($) {
     $(document).ready(function () {
-        $('#table_id').DataTable();
+        $('#user-reviews-grid').DataTable();
     });
 })(jQuery);

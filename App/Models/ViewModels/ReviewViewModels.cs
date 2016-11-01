@@ -54,7 +54,7 @@
 
         public int BeachReviewsCount { get; set; }
 
-        public IEnumerable<string> BeachImagePaths { get; set; }
+        public IEnumerable<BeachImageThumbnailViewModel> BeachImagePaths { get; set; }
 
         [Required(ErrorMessage = "The review field is required.")]
         [MinLength(100, ErrorMessage = "100 characters should be doable.")]

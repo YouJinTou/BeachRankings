@@ -221,10 +221,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\QuaternaryDivisionsController.cs" />
     <Compile Include="Controllers\TertiaryDivisionsController.cs" />
     <Compile Include="Controllers\SecondaryDivisionsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WaterBodiesController.cs" />
     <Compile Include="Controllers\PrimaryDivisionsController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
@@ -238,6 +238,8 @@
     <Compile Include="Models\CriteriaBaseModel.cs" />
     <Compile Include="Models\ViewModels\PlaceViewModels.cs" />
     <Compile Include="Models\ViewModels\GenericViewModels.cs" />
+    <Compile Include="Models\ViewModels\ImageViewModels.cs" />
+    <Compile Include="Models\ViewModels\UserViewModels.cs" />
     <Compile Include="Utils\Extensions\IdentityExtensions.cs" />
     <Compile Include="Utils\Helper.cs" />
     <Compile Include="ValidationAttributes\ImagesValidAttribute.cs" />
@@ -377,7 +379,11 @@
     <Content Include="Views\TertiaryDivisions\Beaches.cshtml" />
     <Content Include="Views\QuaternaryDivisions\Beaches.cshtml" />
     <Content Include="Views\Beaches\Edit.cshtml" />
-    <Content Include="Views\Users\Dashboard.cshtml" />
+    <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\User\Images.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DashboardReviewViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DashboardImageViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BeachImageThumbnailViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\External\DataTables\DataTables-1.10.12\css\" />

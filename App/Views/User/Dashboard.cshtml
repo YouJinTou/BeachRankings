@@ -1,0 +1,41 @@
+﻿@model IEnumerable<BeachRankings.App.Models.ViewModels.DashboardReviewViewModel>
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<table id="user-reviews-grid" class="display">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Beach</th>
+            <th>Score</th>
+            <th>Sand Quality</th>
+            <th>Beach Cleanliness</th>
+            <th>Beautiful Scenery</th>
+            <th>Crowd-free</th>
+            <th>Water Purity</th>
+            <th>Waste-free Seabed</th>
+            <th>Feet-friendly Bottom</th>
+            <th>Sea Life Diversity</th>
+            <th>Coral Reef</th>
+            <th>Taking a Walk</th>
+            <th>Snorkeling</th>
+            <th>Kayaking</th>
+            <th>Camping</th>
+            <th>Infrastructure</th>
+            <th>Long-term Stay</th>
+        </tr>
+    </thead>
+    <tbody>
+        @Html.DisplayForModel()      
+    </tbody>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/External/DataTables/datatables.min.js")
+    @Scripts.Render("~/Scripts/Internal/dashboard.js")
+}
+@section UserStyles {
+    @Styles.Render("~/Content/External/datatables.min.css")
+}

@@ -50,7 +50,7 @@
                 cfg.CreateMap<Beach, EditBeachViewModel>();
                 cfg.CreateMap<EditBeachViewModel, Beach>();
 
-                cfg.CreateMap<BeachImage, string>().ConvertUsing(bp => bp.Path);
+                cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
 
                 cfg.CreateMap<Review, ConciseReviewViewModel>()
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))
@@ -61,6 +61,8 @@
                 cfg.CreateMap<Review, DetailedReviewViewModel>()
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))
                     .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath));
+                cfg.CreateMap<Review, DashboardReviewViewModel>()
+                    .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name));
             });
         }
     }
