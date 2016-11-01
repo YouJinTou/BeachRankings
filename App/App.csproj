@@ -221,6 +221,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\QuaternaryDivisionsController.cs" />
     <Compile Include="Controllers\TertiaryDivisionsController.cs" />
     <Compile Include="Controllers\SecondaryDivisionsController.cs" />
@@ -287,11 +288,16 @@
     <Content Include="Scripts\ai.1.0.3-build05630.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\External\DataTables\datatables.css" />
+    <Content Include="Scripts\External\DataTables\datatables.js" />
+    <Content Include="Scripts\External\DataTables\datatables.min.css" />
+    <Content Include="Scripts\External\DataTables\datatables.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\lightbox.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
     <Content Include="Scripts\Internal\google-map-manager.js" />
     <Content Include="Scripts\Internal\beaches.js" />
+    <Content Include="Scripts\Internal\dashboard.js" />
     <Content Include="Scripts\Internal\index.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -371,8 +377,12 @@
     <Content Include="Views\TertiaryDivisions\Beaches.cshtml" />
     <Content Include="Views\QuaternaryDivisions\Beaches.cshtml" />
     <Content Include="Views\Beaches\Edit.cshtml" />
+    <Content Include="Views\Users\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Scripts\External\DataTables\DataTables-1.10.12\css\" />
+    <Folder Include="Scripts\External\DataTables\DataTables-1.10.12\images\" />
+    <Folder Include="Scripts\External\DataTables\DataTables-1.10.12\js\" />
     <Folder Include="Uploads\Images\Beaches\" />
     <Folder Include="Uploads\Images\UserAvatars\" />
   </ItemGroup>
