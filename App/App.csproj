@@ -262,6 +262,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\External\dragdealer.css" />
     <Content Include="Content\External\lightbox.css" />
+    <Content Include="Content\Internal\main-layout.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Images\bolata.jpg" />
     <Content Include="Content\Images\kamchia_river.jpg" />

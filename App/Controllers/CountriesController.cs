@@ -14,12 +14,12 @@
         {
         }
         
-        public ActionResult Beaches(int id)
+        public PartialViewResult Beaches(int id)
         {
             var country = this.Data.Countries.Find(id);
             var model = Mapper.Map<Country, LocationBeachesViewModel>(country);
 
-            return View(model);
+            return PartialView(model);
         }
 
         public JsonResult PrimaryDivisions(int id)

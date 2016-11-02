@@ -1,8 +1,18 @@
 ﻿.home-search-header {
-    background-color: #EAB126;
-    height: 150px;
+    text-align: center;
+    height: 35px;
 }
 
-.disable-block {
-    display: inline;
+#main-search-field {
+    width: 50%;
+    height: 100%;
+    border: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 1px;
+}
+
+.home-autocomplete-box {
+    width: 50%;
+    display: inline-block;
 }

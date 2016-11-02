@@ -1,7 +1,7 @@
 ﻿@using BeachRankings.App.Utils.Extensions
 @model BeachRankings.App.Models.ViewModels.AutocompleteWaterBodyViewModel
 
-<li>
+<li class="autocomplete-item water-body-li">
     <a href="/WaterBodies/Beaches/@Model.Id">
         <h4 class="disable-block"><strong>@Model.Name</strong></h4>
         <h5 class="disable-block"><i>@Html.PluralizeValue(Model.BeachCount, "beach")</i></h5>

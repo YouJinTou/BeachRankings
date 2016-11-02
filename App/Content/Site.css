@@ -3,7 +3,6 @@
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -16,10 +15,9 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
 input,
 select {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
 
 .img-container {
@@ -34,4 +32,36 @@ img {
 
 .col-no-padding {
     padding: 0;
+}
+
+.disable-block {
+    display: inline;
+}
+
+.autocomplete-box {
+    border-radius: 0 0 2px 2px;
+    background-color: white;
+    text-align: left;
+}
+
+.autocomplete-box ul {
+    list-style-type: none;
+    padding: 5px;
+}
+
+.autocomplete-box ul:first-child {
+    border-top: 1px solid black;
+}
+
+.autocomplete-item a {
+    display: block;
+    text-decoration: none;
+}
+
+.autocomplete-item:hover {
+    background-color: lightgray;
+}
+
+.custom-focus:focus {
+    box-shadow: 0 0 10px black;
 }

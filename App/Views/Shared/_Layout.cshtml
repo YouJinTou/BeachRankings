@@ -6,37 +6,56 @@
 
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Internal/main-layout.css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("HomeStyles", required: false)
     @RenderSection("ReviewsStyles", required: false)
     @RenderSection("BeachStyles", required: false)
-    @RenderSection("UserStyles", required: false)        
+    @RenderSection("UserStyles", required: false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Add Beach", "Add", "Beaches")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+    <div class="main-layout-container">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Add Beach", "Add", "Beaches")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+
+                @using (@Ajax.BeginForm("Top", "Home", new AjaxOptions
+                {
+                    HttpMethod = "Get",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "beaches-search-result"
+                }))
+                {
+                    <div class="home-search-header">
+                        <input id="main-search-field" class="custom-focus" name="main-search-field" type="text" autocomplete="off" placeholder="By land or sea" />
+                        @*<input type="submit" value="Go" />*@
+                        <div class="autocomplete-box home-autocomplete-box"></div>
+                    </div>
+                }                
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - BeachRankings.com</p>
-        </footer>
+        <div class="container body-content">
+            <div id="beaches-search-result"></div>
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - BeachRankings.com</p>
+            </footer>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
