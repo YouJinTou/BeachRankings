@@ -1,31 +1,32 @@
 ﻿html {
+    margin: 0px;
     height: 100%;
 }
 
-body {
-    height: 100%;
-    margin: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+body {    
+    height: 100%; 
+    background-repeat: initial;
+    background-attachment: scroll;
     background: #efd9c1; /* Old browsers */
     background: -moz-linear-gradient(top, #efd9c1 0%, #f5f7f9 100%, #b6a19e 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #efd9c1 0%,#f5f7f9 100%,#b6a19e 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, #efd9c1 0%,#f5f7f9 100%,#b6a19e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efd9c1', endColorstr='#b6a19e',GradientType=0 ); /* IE6-9 */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efd9c1', endColorstr='#b6a19e',GradientType=0 ); /* IE6-9 */   
 }
 
-.main-layout-container {
-    width: 100%;    
+.container {
+    width: 50%;
+    text-align: center;
 }
 
 .navbar {
     width: 50%;
     margin: 0 auto;
-    margin-top: 20px;
     height: 150px;
     background-color: #FBA100;
     padding: 10px;
     border: 0px;
+    display: block;
 }
 
 .navbar .container {

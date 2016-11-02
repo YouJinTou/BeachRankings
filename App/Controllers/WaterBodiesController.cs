@@ -13,12 +13,12 @@
         {
         }
 
-        public ActionResult Beaches(int id)
+        public PartialViewResult Beaches(int id)
         {
             var waterBody = this.Data.WaterBodies.Find(id);
             var model = Mapper.Map<WaterBody, LocationBeachesViewModel>(waterBody);
 
-            return View(model);
+            return this.PartialView(model);
         }
     }
 }

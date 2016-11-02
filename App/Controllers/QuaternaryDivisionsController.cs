@@ -16,12 +16,12 @@
         {
         }
 
-        public ActionResult Beaches(int id)
+        public PartialViewResult Beaches(int id)
         {
             var quaternaryDivision = this.Data.QuaternaryDivisions.Find(id);
             var model = Mapper.Map<QuaternaryDivision, LocationBeachesViewModel>(quaternaryDivision);
 
-            return View(model);
+            return this.PartialView(model);
         }
 
         public async Task<JsonResult> BeachNames(int id, string term)

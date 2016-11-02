@@ -16,12 +16,12 @@
         {
         }
 
-        public ActionResult Beaches(int id)
+        public PartialViewResult Beaches(int id)
         {
             var tertiaryDivision = this.Data.TertiaryDivisions.Find(id);
             var model = Mapper.Map<TertiaryDivision, LocationBeachesViewModel>(tertiaryDivision);
 
-            return View(model);
+            return this.PartialView(model);
         }
 
         public JsonResult QuaternaryDivisions(int id)
