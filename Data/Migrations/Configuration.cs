@@ -21,6 +21,9 @@ namespace BeachRankings.Data.Migrations
         private static int currentSecondaryDivisionId;
         private static int currentTertiaryDivisionId;
         private static int currentQuaternaryDivisionId;
+        private static int beachesCount;
+        private static Random randomBeach;
+        private static Random randomScore;
 
         public Configuration()
         {
@@ -38,6 +41,7 @@ namespace BeachRankings.Data.Migrations
             this.SeedAdministrativeUnits();
             this.SeedBeaches();
             this.SeedBeachImages();
+            this.SeedReviews();
         }
 
         private void SeedRoles()
@@ -299,6 +303,43 @@ namespace BeachRankings.Data.Migrations
             this.data.SaveChanges();
         }
 
+        private void SeedReviews()
+        {
+            if (this.data.Reviews.Any())
+            {
+                return;
+            }
+
+            var c = "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii";
+            var reviews = new List<Review>();
+            var authors = new string[]
+            {
+                this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id,
+                this.data.Users.FirstOrDefault(u => u.UserName == "user").Id,
+                this.data.Users.FirstOrDefault(u => u.UserName == "user2").Id
+            };
+            var randomAuthorId = new Random();
+            randomBeach = new Random();
+            randomScore = new Random();
+            beachesCount = this.data.Beaches.Count();
+
+            for (int i = 0; i < 50; i++)
+            {
+                reviews.Add(new Review(b(), c, s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s()));
+            }
+
+            for (int i = 0; i < reviews.Count; i++)
+            {
+                reviews[i].AuthorId = authors[randomAuthorId.Next(0, 3)];
+
+                reviews[i].UpdateTotalScore();
+
+                this.data.Reviews.Add(reviews[i]);
+            }
+
+            this.data.SaveChanges();
+        }
+
         private void TraverseDivisions(object parent, int depth)
         {
             if (parent is string)
@@ -326,7 +367,7 @@ namespace BeachRankings.Data.Migrations
 
             var value = string.Empty;
             ISearchable searchableDivision = null;
-                 
+
             if (division is KeyValuePair<string, object>)
             {
                 var kvpDivision = (KeyValuePair<string, object>)division;
@@ -433,6 +474,23 @@ namespace BeachRankings.Data.Migrations
             }
 
             throw new ArgumentException("Received an unexpected type.");
+        }
+
+        private int b()
+        {
+            return randomBeach.Next(1, beachesCount + 1);
+        }
+
+        private double? s()
+        {
+            var isNull = (randomScore.Next(1, 11) > 9) ? true : false;
+
+            if (isNull)
+            {
+                return null;
+            }
+
+            return Math.Round((randomScore.NextDouble() * 10), 1);
         }
     }
 }
