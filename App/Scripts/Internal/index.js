@@ -7,12 +7,7 @@
         var autocompleteSelected = 0;
 
         $mainSearchField.on('keyup', function (event) {
-            var isKeyUp = (event.keyCode === 38);
-            var isKeyDown = (event.keyCode === 40);
-
-            if (isKeyUp || isKeyDown) {
-                traverseResults(isKeyUp);
-
+            if (isValidKeyAction(event)) {
                 return;
             }
 
@@ -50,25 +45,12 @@
 
         $('body').on('click', '.autocomplete-item a', function (event) {
             event.preventDefault();
+
             $autocompleteBox.hide();
 
             var url = $(this).attr('href');
-            var idIndex = url.lastIndexOf('/') + 1;
-            var id = url.substr(idIndex);
 
-            $.ajax({
-                url: url,
-                type: 'GET',
-                data: {
-                    id: id
-                },
-                success: function (result) {
-                    $('#beaches-search-result').html(result);
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            })
+            getAutocompleteResults(url);
         });
 
         $('.home-search-header').on('hover', function () {
@@ -80,6 +62,30 @@
                 $autocompleteBox.hide();
             }
         });
+
+        function isValidKeyAction(event) {
+            var isKeyUp = (event.keyCode === 38);
+            var isKeyDown = (event.keyCode === 40);
+            var isEnter = (event.keyCode === 13);
+
+            if (isKeyUp || isKeyDown) {
+                traverseResults(isKeyUp);
+
+                return true;
+            }
+
+            if (isEnter) {
+                $autocompleteBox.hide();
+
+                var url = $autocompleteBox.find('.selected-item a').first().attr('href');
+
+                getAutocompleteResults(url);
+
+                return true;
+            }
+
+            return false;
+        }
 
         function traverseResults(isKeyUp) {
             var selectedClass = 'selected-item';
@@ -119,5 +125,18 @@
 
             selected.next('li').addClass(selectedClass);
         }
+
+        function getAutocompleteResults(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (result) {
+                    $('#beaches-search-result').html(result);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }       
     }    
 })(jQuery);

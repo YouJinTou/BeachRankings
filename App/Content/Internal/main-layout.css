@@ -14,27 +14,24 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efd9c1', endColorstr='#b6a19e',GradientType=0 ); /* IE6-9 */   
 }
 
+.header-wrapper {
+    width: 60%;
+    margin: 0 auto;
+}
+
 .container {
     width: 50%;
     text-align: center;
 }
 
 .navbar {
-    width: 50%;
-    margin: 0 auto;
-    height: 150px;
-    background-color: #FBA100;
-    padding: 10px;
+    border-radius: 0;
+    margin-bottom: 0;
+    background-color: #77D9FF;
     border: 0px;
     display: block;
 }
 
 .navbar .container {
     width: 100%;
-}
-
-@media (min-width: 1200px) {
-    .navbar {
-        max-width: 970px;
-    }
 }

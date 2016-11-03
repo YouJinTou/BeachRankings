@@ -1,11 +1,16 @@
 ﻿.home-search-header {
+    width: 100%;
     text-align: center;
-    height: 35px;
+    height: 75px;
+    background-color: #46D1FF;
 }
 
 #main-search-field {
-    width: 60%;
-    height: 100%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50%;
+    height: 50%;
     border: 0px;
     padding-left: 5px;
     padding-right: 5px;
@@ -13,7 +18,9 @@
 }
 
 .home-autocomplete-box {
-    width: 60%;
+    position: relative;
+    top: 25%;
+    width: 50%;
     display: inline-block;
 }
 
