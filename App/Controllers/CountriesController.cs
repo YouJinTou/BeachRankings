@@ -5,6 +5,7 @@
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -17,7 +18,14 @@
         
         public PartialViewResult Beaches(int id)
         {
-            var beaches = this.Data.Countries.Find(id).Beaches;
+            var beaches = this.Data.Countries.All()
+                .Include(c => c.PrimaryDivisions.Select(pd => pd.WaterBody))
+                .Include(c => c.SecondaryDivisions)
+                .Include(c => c.TertiaryDivisions)
+                .Include(c => c.QuaternaryDivisions)
+                .FirstOrDefault(c => c.Id == id)
+                .Beaches
+                .Where(b => b.Reviews.Count > 0);
             var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachTableRowViewModel>>(beaches);
 
             return this.PartialView(model);

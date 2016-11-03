@@ -142,8 +142,7 @@
                 url: url,
                 type: 'GET',
                 success: function (result) {
-                    $('#beaches-search-result').html(result);
-                    $('#table-result').DataTable();
+                    $('#table-result').html(result).DataTable();
                 },
                 error: function (data) {
                     console.log(data);

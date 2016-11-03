@@ -28,8 +28,12 @@
     background-color: lightgray;
 }
 
-#beaches-search-result{
+.table.dataTable {
+    border-top: none;
+}
+#table-result {
     margin-top: 20px;
+    border-top: none !important;
 }
 
 .concise-beach {

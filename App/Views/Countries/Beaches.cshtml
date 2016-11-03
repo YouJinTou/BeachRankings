@@ -1,40 +1,32 @@
 ﻿@model IEnumerable<BeachRankings.App.Models.ViewModels.BeachTableRowViewModel>
 
-@*<h2 class="text-left">@Model.Name</h2>
-
-<hr />
-
-@Html.DisplayFor(model => model.Beaches)*@
-
-<table id="table-result" class="display">
-    <thead>
-        <tr>
-            <th>Beach</th>
-            <th>Country</th>
-            <th>Region</th>
-            <th>District</th>
-            <th>Area</th>
-            <th>Locality</th>
-            <th>Waterbody</th>
-            <th>Total Score</th>
-            <th class="invert-title">Sand Quality</th>
-            <th class="invert-title">Beach Cleanliness</th>
-            <th class="invert-title">Beautiful Scenery</th>
-            <th class="invert-title">Crowd-free</th>
-            <th class="invert-title">Water Purity</th>
-            <th class="invert-title">Waste-free Seabed</th>
-            <th class="invert-title">Feet-friendly Bottom</th>
-            <th class="invert-title">Sea Life Diversity</th>
-            <th class="invert-title">Coral Reef</th>
-            <th class="invert-title">Taking a Walk</th>
-            <th class="invert-title">Snorkeling</th>
-            <th class="invert-title">Kayaking</th>
-            <th class="invert-title">Camping</th>
-            <th class="invert-title">Infrastructure</th>
-            <th class="invert-title">Long-term Stay</th>
-        </tr>
-    </thead>
-    <tbody>
-        @Html.DisplayForModel()
-    </tbody>
-</table>
+<thead>
+    <tr>
+        <th>Beach</th>
+        <th>Country</th>
+        <th>Region</th>
+        <th>District</th>
+        <th>Area</th>
+        <th>Locality</th>
+        <th>Waterbody</th>
+        <th>Total Score</th>
+        <th class="invert-title shrink-title">Sand Quality</th>
+        <th class="invert-title shrink-title">Beach Cleanliness</th>
+        <th class="invert-title shrink-title">Beautiful Scenery</th>
+        <th class="invert-title shrink-title">Crowd-free</th>
+        <th class="invert-title shrink-title">Water Purity</th>
+        <th class="invert-title shrink-title">Waste-free Seabed</th>
+        <th class="invert-title shrink-title">Feet-friendly Bottom</th>
+        <th class="invert-title shrink-title">Sea Life Diversity</th>
+        <th class="invert-title shrink-title">Coral Reef</th>
+        <th class="invert-title shrink-title">Taking a Walk</th>
+        <th class="invert-title shrink-title">Snorkeling</th>
+        <th class="invert-title shrink-title">Kayaking</th>
+        <th class="invert-title shrink-title">Camping</th>
+        <th class="invert-title shrink-title">Infrastructure</th>
+        <th class="invert-title shrink-title">Long-term Stay</th>
+    </tr>
+</thead>
+<tbody>
+    @Html.DisplayForModel()
+</tbody>
