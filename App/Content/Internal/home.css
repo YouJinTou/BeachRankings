@@ -2,7 +2,7 @@
     width: 100%;
     text-align: center;
     height: 75px;
-    background-color: #46D1FF;
+    background-color: #6ED2FF;
 }
 
 #main-search-field {
@@ -24,10 +24,22 @@
     display: inline-block;
 }
 
-#beaches-search-result .row {
-    margin-bottom: 0px;
-}
-
 .selected-item {
     background-color: lightgray;
+}
+
+.concise-beach {
+    padding: 5px;
+    height: 150px;
+    width: 70%;
+    background: rgba(161, 247, 255, 0.25); 
+}
+
+.concise-beach-desc {
+    text-align: left !important;
+}
+
+.beach-thumbnail {
+    width: 100%;
+    height: 100%;
 }

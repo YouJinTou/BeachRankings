@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
 
+    [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
     public class HomeController : BaseController
     {
         public HomeController(IBeachRankingsData data)

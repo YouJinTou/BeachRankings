@@ -1,5 +1,16 @@
 ﻿(function ($) {
+    initializeSearch();
     setAutocompleteEvents();
+
+    function initializeSearch() {
+        $.ajax({
+            url: '/Home/Autocomplete/',
+            type: 'GET',
+            data: {
+                prefix: 'bu'
+            }
+        });
+    }
 
     function setAutocompleteEvents() {
         var $mainSearchField = $('#main-search-field');
@@ -132,6 +143,7 @@
                 type: 'GET',
                 success: function (result) {
                     $('#beaches-search-result').html(result);
+                    $('body').height('#beaches-search-result');
                 },
                 error: function (data) {
                     console.log(data);

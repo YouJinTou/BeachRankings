@@ -1,5 +1,5 @@
 /*!
- * Lightbox v2.8.2
+ * Lightbox v2.9.0
  * by Lokesh Dhakar
  *
  * More info:
@@ -41,8 +41,9 @@
   Lightbox.defaults = {
     albumLabel: 'Image %1 of %2',
     alwaysShowNavOnTouchDevices: false,
-    fadeDuration: 500,
+    fadeDuration: 600,
     fitImagesInViewport: true,
+    imageFadeDuration: 600,
     // maxWidth: 800,
     // maxHeight: 600,
     positionFromTop: 50,
@@ -71,10 +72,10 @@
 
   Lightbox.prototype.init = function() {
     var self = this;
-  	// Both enable and build methods require the body tag to be in the DOM.
+    // Both enable and build methods require the body tag to be in the DOM.
     $(document).ready(function() {
-		  self.enable();
-		  self.build();
+      self.enable();
+      self.build();
     });
   };
 
@@ -100,7 +101,7 @@
     this.$outerContainer = this.$lightbox.find('.lb-outerContainer');
     this.$container      = this.$lightbox.find('.lb-container');
     this.$image          = this.$lightbox.find('.lb-image');
-    this.$nav            = this.$lightbox.find('.lb-nav')
+    this.$nav            = this.$lightbox.find('.lb-nav');
 
     // Store css values for future lookup
     this.containerPadding = {
@@ -172,13 +173,13 @@
       if (event.which === 3) {
         self.$nav.css('pointer-events', 'none');
 
-        self.$lightbox.on('contextmenu', function() {
+        self.$lightbox.one('contextmenu', function() {
           setTimeout(function() {
               this.$nav.css('pointer-events', 'auto');
-          }.bind(self), 0)
+          }.bind(self), 0);
         });
       }
-    })
+    });
 
 
     this.$lightbox.find('.lb-loader, .lb-close').on('click', function() {
@@ -303,7 +304,8 @@
           maxImageHeight = self.options.maxHeight;
         }
 
-        // Is there a fitting issue?
+        // Is the current image's width or height is greater than the maxImageWidth or maxImageHeight
+        // option than we need to size down while maintaining the aspect ratio.
         if ((preloader.width > maxImageWidth) || (preloader.height > maxImageHeight)) {
           if ((preloader.width / maxImageWidth) > (preloader.height / maxImageHeight)) {
             imageWidth  = maxImageWidth;
@@ -363,7 +365,7 @@
   // Display the image and its details and begin preload neighboring images.
   Lightbox.prototype.showImage = function() {
     this.$lightbox.find('.lb-loader').stop(true).hide();
-    this.$lightbox.find('.lb-image').fadeIn('slow');
+    this.$lightbox.find('.lb-image').fadeIn(this.options.imageFadeDuration);
 
     this.updateNav();
     this.updateDetails();

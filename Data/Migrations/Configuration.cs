@@ -334,6 +334,10 @@ namespace BeachRankings.Data.Migrations
 
                 reviews[i].UpdateTotalScore();
 
+                var reviewedBeach = this.data.Beaches.Find(reviews[i].BeachId);
+
+                reviewedBeach.UpdateScores();
+
                 this.data.Reviews.Add(reviews[i]);
             }
 

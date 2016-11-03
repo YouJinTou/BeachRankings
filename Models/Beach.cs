@@ -173,26 +173,36 @@
 
         public void UpdateScores()
         {
-            this.SandQuality = this.Reviews.Average(r => r.SandQuality);
-            this.BeachCleanliness = this.Reviews.Average(r => r.BeachCleanliness);
-            this.BeautifulScenery = this.Reviews.Average(r => r.BeautifulScenery);
-            this.CrowdFree = this.Reviews.Average(r => r.CrowdFree);
+            this.SandQuality = this.RoundScore(this.Reviews.Average(r => r.SandQuality));
+            this.BeachCleanliness = this.RoundScore(this.Reviews.Average(r => r.BeachCleanliness));
+            this.BeautifulScenery = this.RoundScore(this.Reviews.Average(r => r.BeautifulScenery));
+            this.CrowdFree = this.RoundScore(this.Reviews.Average(r => r.CrowdFree));
 
-            this.WaterPurity = this.Reviews.Average(r => r.WaterPurity);
-            this.WasteFreeSeabed = this.Reviews.Average(r => r.WasteFreeSeabed);
-            this.FeetFriendlyBottom = this.Reviews.Average(r => r.FeetFriendlyBottom);
-            this.SeaLifeDiversity = this.Reviews.Average(r => r.SeaLifeDiversity);
-            this.CoralReef = this.Reviews.Average(r => r.CoralReef);
+            this.WaterPurity = this.RoundScore(this.Reviews.Average(r => r.WaterPurity));
+            this.WasteFreeSeabed = this.RoundScore(this.Reviews.Average(r => r.WasteFreeSeabed));
+            this.FeetFriendlyBottom = this.RoundScore(this.Reviews.Average(r => r.FeetFriendlyBottom));
+            this.SeaLifeDiversity = this.RoundScore(this.Reviews.Average(r => r.SeaLifeDiversity));
+            this.CoralReef = this.RoundScore(this.Reviews.Average(r => r.CoralReef));
 
-            this.Walking = this.Reviews.Average(r => r.Walking);
-            this.Snorkeling = this.Reviews.Average(r => r.Snorkeling);
-            this.Kayaking = this.Reviews.Average(r => r.Kayaking);
-            this.Camping = this.Reviews.Average(r => r.Camping);
+            this.Walking = this.RoundScore(this.Reviews.Average(r => r.Walking));
+            this.Snorkeling = this.RoundScore(this.Reviews.Average(r => r.Snorkeling));
+            this.Kayaking = this.RoundScore(this.Reviews.Average(r => r.Kayaking));
+            this.Camping = this.RoundScore(this.Reviews.Average(r => r.Camping));
 
-            this.Infrastructure = this.Reviews.Average(r => r.Infrastructure);
-            this.LongTermStay = this.Reviews.Average(r => r.LongTermStay);
+            this.Infrastructure = this.RoundScore(this.Reviews.Average(r => r.Infrastructure));
+            this.LongTermStay = this.RoundScore(this.Reviews.Average(r => r.LongTermStay));
 
-            this.TotalScore = this.Reviews.Average(r => r.TotalScore);
+            this.TotalScore = this.RoundScore(this.Reviews.Average(r => r.TotalScore));
+        }
+
+        private double? RoundScore(double? score)
+        {
+            if (!score.HasValue)
+            {
+                return null;
+            }
+
+            return Math.Round(score.Value, 1);
         }
     }
 }

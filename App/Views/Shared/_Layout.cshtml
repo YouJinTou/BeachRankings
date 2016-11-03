@@ -8,6 +8,8 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Internal/main-layout.css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/Internal/home.css")
+    @Styles.Render("~/Content/External/lightbox/css/lightbox.css")
     @RenderSection("HomeStyles", required: false)
     @RenderSection("ReviewsStyles", required: false)
     @RenderSection("BeachStyles", required: false)
@@ -53,6 +55,8 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/Internal/index.js")
+    @Scripts.Render("~/Content/External/lightbox/js/lightbox.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>
