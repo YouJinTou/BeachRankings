@@ -140,6 +140,27 @@
         public IEnumerable<BeachImage> Images { get; set; }
     }
 
+    public class BeachTableRowViewModel : CriteriaBaseModel
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Country { get; set; }
+
+        public string PrimaryDivision { get; set; }
+
+        public string SecondaryDivision { get; set; }
+
+        public string TertiaryDivision { get; set; }
+
+        public string QuaternaryDivision { get; set; }
+
+        public string WaterBody { get; set; }
+
+        public double? TotalScore { get; set; }
+    }
+
     public class AutocompleteBeachViewModel : AutocompleteBaseViewModel
     {
         public string Country { get; set; }

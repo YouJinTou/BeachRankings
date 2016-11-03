@@ -143,7 +143,7 @@
                 type: 'GET',
                 success: function (result) {
                     $('#beaches-search-result').html(result);
-                    $('body').height('#beaches-search-result');
+                    $('#table-result').DataTable();
                 },
                 error: function (data) {
                     console.log(data);

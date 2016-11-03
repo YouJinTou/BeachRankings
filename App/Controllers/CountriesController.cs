@@ -4,6 +4,7 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -16,10 +17,10 @@
         
         public PartialViewResult Beaches(int id)
         {
-            var country = this.Data.Countries.Find(id);
-            var model = Mapper.Map<Country, LocationBeachesViewModel>(country);
+            var beaches = this.Data.Countries.Find(id).Beaches;
+            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachTableRowViewModel>>(beaches);
 
-            return PartialView(model);
+            return this.PartialView(model);
         }
 
         public JsonResult PrimaryDivisions(int id)

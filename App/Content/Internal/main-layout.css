@@ -7,12 +7,10 @@ body {
 }
 
 .header-wrapper {
-    width: 60%;
     margin: 0 auto;
 }
 
 .container {
-    width: 50%;
     text-align: center;
 }
 

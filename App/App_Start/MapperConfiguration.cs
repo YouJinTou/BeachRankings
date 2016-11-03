@@ -49,6 +49,14 @@
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Images));
                 cfg.CreateMap<Beach, EditBeachViewModel>();
                 cfg.CreateMap<EditBeachViewModel, Beach>();
+                cfg.CreateMap<Beach, BeachTableRowViewModel>()
+                    .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
+                    .ForMember(vm => vm.PrimaryDivision, model => model.MapFrom(m => m.PrimaryDivision.Name))
+                    .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name))
+                    .ForMember(vm => vm.TertiaryDivision, model => model.MapFrom(m => m.TertiaryDivision.Name))
+                    .ForMember(vm => vm.QuaternaryDivision, model => model.MapFrom(m => m.QuaternaryDivision.Name))
+                    .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name));
+
 
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
 

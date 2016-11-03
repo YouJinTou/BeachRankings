@@ -28,6 +28,10 @@
     background-color: lightgray;
 }
 
+#beaches-search-result{
+    margin-top: 20px;
+}
+
 .concise-beach {
     padding: 5px;
     height: 150px;

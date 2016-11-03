@@ -260,8 +260,26 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\css\dataTables.bootstrap.css" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\css\jquery.dataTables.css" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\css\jquery.dataTables.min.css" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\images\sort_asc.png" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\images\sort_asc_disabled.png" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\images\sort_both.png" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\images\sort_desc.png" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\images\sort_desc_disabled.png" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\js\dataTables.bootstrap.js" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\js\dataTables.bootstrap.min.js" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\js\jquery.dataTables.js" />
+    <Content Include="Content\External\DataTables\DataTables-1.10.12\js\jquery.dataTables.min.js" />
     <Content Include="Content\External\dragdealer.css" />
-    <Content Include="Content\External\lightbox.css" />
+    <Content Include="Content\External\lightbox\css\lightbox.css" />
+    <Content Include="Content\External\lightbox\images\close.png" />
+    <Content Include="Content\External\lightbox\images\loading.gif" />
+    <Content Include="Content\External\lightbox\images\next.png" />
+    <Content Include="Content\External\lightbox\images\prev.png" />
+    <Content Include="Content\External\lightbox\js\lightbox.js" />
     <Content Include="Content\Internal\main-layout.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Images\bolata.jpg" />
@@ -291,12 +309,11 @@
     <Content Include="Scripts\ai.1.0.3-build05630.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\External\DataTables\datatables.css" />
-    <Content Include="Scripts\External\DataTables\datatables.js" />
-    <Content Include="Scripts\External\DataTables\datatables.min.css" />
-    <Content Include="Scripts\External\DataTables\datatables.min.js" />
+    <Content Include="Content\External\DataTables\datatables.css" />
+    <Content Include="Content\External\DataTables\datatables.js" />
+    <Content Include="Content\External\DataTables\datatables.min.css" />
+    <Content Include="Content\External\DataTables\datatables.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
-    <Content Include="Scripts\External\lightbox.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
     <Content Include="Scripts\Internal\google-map-manager.js" />
     <Content Include="Scripts\Internal\beaches.js" />
@@ -385,11 +402,9 @@
     <Content Include="Views\Shared\DisplayTemplates\DashboardReviewViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DashboardImageViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BeachImageThumbnailViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BeachTableRowViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\External\DataTables\DataTables-1.10.12\css\" />
-    <Folder Include="Scripts\External\DataTables\DataTables-1.10.12\images\" />
-    <Folder Include="Scripts\External\DataTables\DataTables-1.10.12\js\" />
     <Folder Include="Uploads\Images\Beaches\" />
     <Folder Include="Uploads\Images\UserAvatars\" />
   </ItemGroup>
