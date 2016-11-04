@@ -28,12 +28,8 @@
     background-color: lightgray;
 }
 
-.table.dataTable {
-    border-top: none;
-}
-#table-result {
+#table-result_wrapper {
     margin-top: 20px;
-    border-top: none !important;
 }
 
 .concise-beach {

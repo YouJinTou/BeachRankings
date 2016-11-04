@@ -142,7 +142,14 @@
                 url: url,
                 type: 'GET',
                 success: function (result) {
-                    $('#table-result').html(result).DataTable();
+                    $('#table-result').html(result).DataTable({
+                        scrollX: 300,
+                        scrollY: 400,
+                        fixedColumns: {
+                            leftColumns: 3
+                        },
+                        fixedHeader: true
+                    });
                 },
                 error: function (data) {
                     console.log(data);

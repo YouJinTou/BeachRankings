@@ -11,6 +11,7 @@ body {
 }
 
 .container {
+    width: 80%;
     text-align: center;
 }
 

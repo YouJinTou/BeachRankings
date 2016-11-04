@@ -48,23 +48,6 @@ img {
     transform: translateY(-50%);
 }
 
-.invert-title {
-    /* Safari */
-    -webkit-transform: rotate(-90deg);
-    /* Firefox */
-    -moz-transform: rotate(-90deg);
-    /* IE */
-    -ms-transform: rotate(-90deg);
-    /* Opera */
-    -o-transform: rotate(-90deg);
-    /* Internet Explorer */
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-}
-
-.shrink-title {
-    font-size: 0.7em;
-}
-
 .autocomplete-box {
     border-radius: 0 0 2px 2px;
     background-color: white;

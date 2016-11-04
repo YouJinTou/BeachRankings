@@ -165,16 +165,43 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
-            var adminId = this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id;
-            var authorizedUserId = this.data.Users.FirstOrDefault(u => u.UserName == "user").Id;
+            var creatorIds = new string[]
+            {
+                this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id,
+                this.data.Users.FirstOrDefault(u => u.UserName == "user").Id,
+                this.data.Users.FirstOrDefault(u => u.UserName == "user2").Id
+            };
+            var randomCreatorId = new Random();
+            var randomPrimaryDivisionId = new Random();
+            var randomSecondaryDivisionId = new Random();
+            var description = "dddddddddddddddddddddddddddddddddddddddddddddd";
             var bulgariaCountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
             var blackSeaWaterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
-            var beaches = new List<Beach>()
+            var beaches = new List<Beach>();
+
+            for (int i = 0; i < 120; i++)
+            {
+                var randomPrimaryId = randomPrimaryDivisionId.Next(7, 10);
+                var randomSecondaryId = randomSecondaryDivisionId.Next(30, 45);
+
+                beaches.Add(new Beach()
+                {
+                    Name = "Beach " + i,
+                    CreatorId = creatorIds[randomCreatorId.Next(0, 3)],
+                    CountryId = bulgariaCountryId,
+                    PrimaryDivisionId = randomPrimaryId,
+                    SecondaryDivisionId = randomSecondaryId,
+                    WaterBodyId = blackSeaWaterBodyId,
+                    Description = description
+                });
+            }
+
+            beaches.AddRange(new List<Beach>()
             {
                 new Beach()
                 {
                     Name = "Kamchia Beach",
-                    CreatorId = adminId,
+                    CreatorId = creatorIds[0],
                     CountryId = bulgariaCountryId,
                     PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
                     SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
@@ -185,7 +212,7 @@ namespace BeachRankings.Data.Migrations
                 new Beach()
                 {
                     Name = "Bolata Beach",
-                    CreatorId = adminId,
+                    CreatorId = creatorIds[1],
                     CountryId = bulgariaCountryId,
                     PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Dobrich").Id,
                     SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Kavarna").Id,
@@ -196,7 +223,7 @@ namespace BeachRankings.Data.Migrations
                 new Beach()
                 {
                     Name = "Sunny Day Beach",
-                    CreatorId = authorizedUserId,
+                    CreatorId = creatorIds[1],
                     CountryId = bulgariaCountryId,
                     PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
                     SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
@@ -207,7 +234,7 @@ namespace BeachRankings.Data.Migrations
                 new Beach()
                 {
                     Name = "Albanian Beach",
-                    CreatorId = authorizedUserId,
+                    CreatorId = creatorIds[1],
                     CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Albania").Id,
                     PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Azores Islands").Id,
                     SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "São Miguel").Id,
@@ -218,7 +245,7 @@ namespace BeachRankings.Data.Migrations
                 new Beach()
                 {
                     Name = "Skiathos First Beach",
-                    CreatorId = adminId,
+                    CreatorId = creatorIds[2],
                     CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Greece").Id,
                     PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Thessaly").Id,
                     SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Sporades").Id,
@@ -227,7 +254,7 @@ namespace BeachRankings.Data.Migrations
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Coordinates = "43.204666,27.910543",
                 }
-            };
+            });
 
             foreach (var beach in beaches)
             {
@@ -323,7 +350,7 @@ namespace BeachRankings.Data.Migrations
             randomScore = new Random();
             beachesCount = this.data.Beaches.Count();
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 150; i++)
             {
                 reviews.Add(new Review(b(), c, s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s()));
             }
@@ -334,11 +361,12 @@ namespace BeachRankings.Data.Migrations
 
                 reviews[i].UpdateTotalScore();
 
+                this.data.Reviews.Add(reviews[i]);
+                this.data.SaveChanges();
+
                 var reviewedBeach = this.data.Beaches.Find(reviews[i].BeachId);
 
                 reviewedBeach.UpdateScores();
-
-                this.data.Reviews.Add(reviews[i]);
             }
 
             this.data.SaveChanges();
