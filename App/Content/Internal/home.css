@@ -32,6 +32,37 @@
     margin-top: 20px;
 }
 
+#table-result_wrapper th {
+    height: 100px;
+    vertical-align: bottom;
+	background-color: white;
+}
+
+.table-result-body {
+	font-size: 12px;
+}
+
+.place-head {
+	font-size: 13px;
+	text-align: left;
+}
+
+.column-filter {
+	padding: 0px 5px 0px 5px;
+	font-weight: normal;
+	/* max-width: 50%; */
+}
+
+.criterion-head {
+     -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    position: absolute;
+    font-weight: normal;
+    font-size: smaller;
+}
+
 .concise-beach {
     padding: 5px;
     height: 150px;

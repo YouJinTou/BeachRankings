@@ -138,21 +138,51 @@
         }
 
         function getAutocompleteResults(url) {
+            var $loadingImage = $('#loading-main-results-image');
+
+            $loadingImage.show();
+
             $.ajax({
                 url: url,
                 type: 'GET',
                 success: function (result) {
-                    $('#table-result').html(result).DataTable({
-                        scrollX: 300,
-                        scrollY: 400,
+                    var $resultsContainer = $('#search-results-container');
+                    var lastFixedColumn = 2;
+
+                    $resultsContainer.html(result);
+
+                    var table = $resultsContainer.find('#table-result').DataTable({
+                        scrollX: true,
+                        scrollY: 300,
+                        scrollCollapse: true,
                         fixedColumns: {
                             leftColumns: 3
                         },
-                        fixedHeader: true
+                        autoWidth: true
                     });
+                    
+                    table.columns().every(function (col) {
+                        if (col > lastFixedColumn) {
+                            return;
+                        }
+
+                        var column = this;
+                        var filter = $(column.header()).find('.column-filter').data('filter');
+
+                        $('.DTFC_LeftHeadWrapper [data-filter="' + filter + '"').on('keyup change', function () {
+                            column.search($(this).val()).draw();
+                        });
+
+                        $('.DTFC_LeftHeadWrapper [data-filter="' + filter + '"').on('click', function (event) {
+                            event.stopImmediatePropagation();
+                        });
+                    });                    
+                },
+                complete: function () {
+                    $loadingImage.hide();
                 },
                 error: function (data) {
-                    console.log(data);
+                    $loadingImage.hide();
                 }
             });
         }       

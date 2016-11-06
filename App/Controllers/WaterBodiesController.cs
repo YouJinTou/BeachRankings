@@ -4,6 +4,8 @@
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using BeachRankings.App.Models.ViewModels;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Mvc;
 
     public class WaterBodiesController : BaseController
@@ -15,8 +17,8 @@
 
         public PartialViewResult Beaches(int id)
         {
-            var waterBody = this.Data.WaterBodies.Find(id);
-            var model = Mapper.Map<WaterBody, LocationBeachesViewModel>(waterBody);
+            var beaches = this.Data.WaterBodies.Find(id).Beaches.Where(b => b.Reviews.Count > 0);
+            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachTableRowViewModel>>(beaches);
 
             return this.PartialView(model);
         }

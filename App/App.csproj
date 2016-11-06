@@ -274,6 +274,7 @@
     <Content Include="Content\External\lightbox\images\next.png" />
     <Content Include="Content\External\lightbox\images\prev.png" />
     <Content Include="Content\External\lightbox\js\lightbox.js" />
+    <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Internal\main-layout.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Images\bolata.jpg" />
@@ -377,15 +378,9 @@
     <Content Include="Views\Shared\DisplayTemplates\AutocompletePrimaryViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteWaterBodyViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteCountryViewModel.cshtml" />
-    <Content Include="Views\Countries\Beaches.cshtml" />
-    <Content Include="Views\WaterBodies\Beaches.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteSecondaryViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteTertiaryViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteQuaternaryViewModel.cshtml" />
-    <Content Include="Views\PrimaryDivisions\Beaches.cshtml" />
-    <Content Include="Views\SecondaryDivisions\Beaches.cshtml" />
-    <Content Include="Views\TertiaryDivisions\Beaches.cshtml" />
-    <Content Include="Views\QuaternaryDivisions\Beaches.cshtml" />
     <Content Include="Views\Beaches\Edit.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\User\Images.cshtml" />
@@ -393,6 +388,7 @@
     <Content Include="Views\Shared\DisplayTemplates\DashboardImageViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BeachImageThumbnailViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BeachTableRowViewModel.cshtml" />
+    <Content Include="Views\Shared\Beaches.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />
