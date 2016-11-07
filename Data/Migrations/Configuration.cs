@@ -14,6 +14,9 @@ namespace BeachRankings.Data.Migrations
 
     public sealed class Configuration : DbMigrationsConfiguration<BeachRankingsDbContext>
     {
+        private static readonly string dolorSitAmet = 
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus egestas ante a neque congue, " +
+            "id eleifend felis laoreet. Pellentesque eget dui id libero rhoncus vestibulum. Nam bibendum rutrum sem...";
         private BeachRankingsDbContext data;
         private int waterBodyId = 31;
         private static int currentCountryId;
@@ -174,7 +177,6 @@ namespace BeachRankings.Data.Migrations
             var randomCreatorId = new Random();
             var randomPrimaryDivisionId = new Random();
             var randomSecondaryDivisionId = new Random();
-            var description = "dddddddddddddddddddddddddddddddddddddddddddddd";
             var bulgariaCountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
             var blackSeaWaterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
             var beaches = new List<Beach>();
@@ -192,7 +194,7 @@ namespace BeachRankings.Data.Migrations
                     PrimaryDivisionId = randomPrimaryId,
                     SecondaryDivisionId = randomSecondaryId,
                     WaterBodyId = blackSeaWaterBodyId,
-                    Description = description
+                    Description = dolorSitAmet
                 });
             }
 
@@ -295,38 +297,37 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
-            var adminId = this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id;
-            var userId = this.data.Users.FirstOrDefault(u => u.UserName == "user").Id;
+            var creatorIds = new string[]
+            {
+                this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id,
+                this.data.Users.FirstOrDefault(u => u.UserName == "user").Id,
+                this.data.Users.FirstOrDefault(u => u.UserName == "user2").Id
+            };
+            var imagePaths = new string[]
+            {
+                "/Content/Images/kamchia_river.jpg",
+                "/Content/Images/bolata.jpg",
+                "/Content/Images/sunny_day.jpg",
+                "/Content/Images/mamaia_beach.jpg"
+            };
+            var randomCreatorId = new Random();
+            var randomImagePath = new Random();
+            var beaches = this.data.Beaches.ToList();
 
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Images.Add(new BeachImage()
+            for (int i = 0; i < beaches.Count; i++)
             {
-                AuthorId = userId,
-                BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Kamchia Beach").Id,
-                Path = "/Content/Images/kamchia_river.jpg",
-                Name = "kamchia_river.jpg"
-            });
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata Beach").Images.Add(new BeachImage()
-            {
-                AuthorId = adminId,
-                BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Bolata Beach").Id,
-                Path = "/Content/Images/bolata.jpg",
-                Name = "bolata.jpg"
-            });
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Images.Add(new BeachImage()
-            {
-                AuthorId = userId,
-                BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Sunny Day Beach").Id,
-                Path = "/Content/Images/sunny_day.jpg",
-                Name = "sunny_day.jpg"
-            });
-            this.data.Beaches.FirstOrDefault(b => b.Name == "Albanian Beach").Images.Add(new BeachImage()
-            {
-                AuthorId = adminId,
-                BeachId = this.data.Beaches.FirstOrDefault(b => b.Name == "Albanian Beach").Id,
-                Path = "/Content/Images/mamaia_beach.jpg",
-                Name = "mamaia_beach.jpg"
-            });
+                var imagePath = imagePaths[randomImagePath.Next(0, imagePaths.Length)];
+                var imageName = imagePath.Substring(imagePath.LastIndexOf('/') + 1);
 
+                beaches[i].Images.Add(new BeachImage()
+                {
+                    AuthorId = creatorIds[randomCreatorId.Next(0, creatorIds.Length)],
+                    BeachId = beaches[i].Id,
+                    Path = imagePath,
+                    Name = imageName
+                });
+            }
+            
             this.data.SaveChanges();
         }
 
@@ -337,12 +338,7 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
-            var c = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus egestas ante a neque congue, " + 
-                    "id eleifend felis laoreet. Pellentesque eget dui id libero rhoncus vestibulum. Nam bibendum rutrum sem, " + 
-                    "sed egestas turpis. Praesent bibendum, tellus sed varius tempus, velit ex pharetra odio, nec porta lacus enim " + 
-                    "vitae felis. Duis elementum nisl vel metus facilisis, id pellentesque odio tempor. Vestibulum a tellus tincidunt, " +
-                    "pretium leo eget, mollis tortor. Pellentesque nec bibendum ex. Mauris lobortis, ex ac tincidunt placerat, risus eros " + 
-                    "luctus purus, eget commodo erat augue ornare arcu. Ut aliquam purus et lacus vehicula auctor.";
+            var c = dolorSitAmet;
             var reviews = new List<Review>();
             var authors = new string[]
             {

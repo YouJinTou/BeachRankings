@@ -1,27 +1,58 @@
 ﻿(function ($) {
-    var page = 0;
+    var page = 1;
+    var resultsContainer = $('#beaches-result');
+    var footer = $('#main-footer');
+    var inProgress = false;
+    var allResultsShown = false;
 
     $(window).scroll(function () {
-        var viewportHeight = ($(document).height() - $(window).height());
+        var resultsEnd = (footer.offset().top);
+        var viewEnd = ($(window).height() + $(window).scrollTop());
+        var distanceToEnd = (resultsEnd - viewEnd);
+        var shouldLoad = (distanceToEnd < 200);
 
-        if ($(window).scrollTop() === viewportHeight) {
-            $.ajax({
-                url: '/Countries/Beaches/',
-                type: 'GET',
-                data: {
-                    id: 2,
-                    page: page,
-                    pageSize: 5
-                },
-                success: function (result) {
-                    $('#beaches-result').append(result);
-
-                    page++;
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
+        if (!shouldLoad || inProgress || allResultsShown) {
+            return;
         }
+
+        var captureGroups = /.+(\/Countries|\/\w+Divisions|\/WaterBodies)(.+\/)(\d+)/i.exec(window.location.href);
+        var url = (captureGroups[1] + captureGroups[2]);
+        var $loadingImage = $('#loading-main-results-image');
+
+        $loadingImage.show();
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: {
+                id: captureGroups[3],
+                page: page,
+                pageSize: 10
+            },
+            beforeSend: function(){
+                inProgress = true;
+            },
+            success: function (result) {
+                if (!result) {
+                    allResultsShown = true;
+
+                    $loadingImage.hide();
+
+                    return;
+                }
+
+                resultsContainer.append(result);
+
+                page++;
+            },
+            complete: function () {
+                inProgress = false;
+
+                $loadingImage.hide();
+            },
+            error: function (data) {
+                $loadingImage.hide();
+            }
+        });
     });
 })(jQuery);

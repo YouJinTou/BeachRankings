@@ -1,13 +1,32 @@
 ﻿@model BeachRankings.App.Models.ViewModels.LocationBeachesViewModel
 
-@Styles.Render("~/Content/Internal/location.css")
+@{
+    if (!this.Request.IsAjaxRequest())
+    {
+        @Styles.Render("~/Content/Internal/location.css")
 
-<h3>@Model.Name</h3>
+        this.Layout = "~/Views/Shared/_Layout.cshtml";
 
-<hr />
+        <h3>@Model.Name</h3>
 
-<div id="beaches-result">
-    @Html.DisplayFor(model => model.Beaches)
-</div>
+        <hr />
 
-@Scripts.Render("~/Scripts/Internal/location.js")
+        <div id="beaches-result">
+            @Html.DisplayFor(model => model.Beaches)
+
+            <div class="loading-image-container">
+                <img id="loading-main-results-image" src="~/Content/Images/ajax-loader.gif" alt="Loading" style="display: none;" />
+            </div>
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/Scripts/Internal/location.js")
+        }
+    }
+    else
+    {
+        this.Layout = null;
+
+        @Html.DisplayFor(model => model.Beaches)
+    }
+}

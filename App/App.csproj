@@ -293,7 +293,6 @@
     <Content Include="Content\Internal\beaches.css" />
     <Content Include="Content\Internal\reviews.css" />
     <Content Include="Content\Internal\home.css" />
-    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

@@ -17,10 +17,11 @@
         {
         }
 
-        public ActionResult Beaches(int id)
+        public ActionResult Beaches(int id, int page = 0, int pageSize = 10)
         {
             var tertiaryDivision = this.Data.TertiaryDivisions.Find(id);
             var model = Mapper.Map<TertiaryDivision, LocationBeachesViewModel>(tertiaryDivision);
+            model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
 
             return this.View("LocationBeaches", model);
         }

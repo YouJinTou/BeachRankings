@@ -4,7 +4,6 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
-    using BeachRankings.Models.Interfaces;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -17,10 +16,10 @@
         {
         }
 
-        public ActionResult Beaches(int id, int page = 0, int pageSize = 5)
+        public ActionResult Beaches(int id, int page = 0, int pageSize = 10)
         {
             var country = this.Data.Countries.Find(id);
-            var model = Mapper.Map<IPlaceSearchable, LocationBeachesViewModel>(country);
+            var model = Mapper.Map<Country, LocationBeachesViewModel>(country);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
 
             return this.View("LocationBeaches", model);
