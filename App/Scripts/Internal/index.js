@@ -158,7 +158,7 @@
                         fixedColumns: {
                             leftColumns: 3
                         },
-                        autoWidth: true
+                        autoWidth: false
                     });
                     
                     table.columns().every(function (col) {

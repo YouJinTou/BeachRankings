@@ -17,7 +17,15 @@
         {
         }
 
-        public PartialViewResult Beaches(int id)
+        public ActionResult Beaches(int id)
+        {
+            var secondaryDivision = this.Data.SecondaryDivisions.Find(id);
+            var model = Mapper.Map<SecondaryDivision, LocationBeachesViewModel>(secondaryDivision);
+
+            return this.View("LocationBeaches", model);
+        }
+
+        public PartialViewResult BeachesPartial(int id)
         {
             var beaches = this.Data.SecondaryDivisions.All()
                 .Include(sd => sd.PrimaryDivision.WaterBody)
@@ -25,7 +33,7 @@
                 .Include(sd => sd.QuaternaryDivisions)
                 .FirstOrDefault(sd => sd.Id == id)
                 .Beaches
-                .Where(b => b.Reviews.Count > 0);
+                .Where(b => b.TotalScore != null);
             var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachTableRowViewModel>>(beaches);
 
             return this.PartialView(model);

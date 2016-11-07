@@ -275,6 +275,7 @@
     <Content Include="Content\External\lightbox\images\prev.png" />
     <Content Include="Content\External\lightbox\js\lightbox.js" />
     <Content Include="Content\Images\ajax-loader.gif" />
+    <Content Include="Content\Internal\location.css" />
     <Content Include="Content\Internal\main-layout.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Images\bolata.jpg" />
@@ -388,7 +389,8 @@
     <Content Include="Views\Shared\DisplayTemplates\DashboardImageViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BeachImageThumbnailViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BeachTableRowViewModel.cshtml" />
-    <Content Include="Views\Shared\Beaches.cshtml" />
+    <Content Include="Views\Shared\BeachesPartial.cshtml" />
+    <Content Include="Views\Shared\LocationBeaches.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

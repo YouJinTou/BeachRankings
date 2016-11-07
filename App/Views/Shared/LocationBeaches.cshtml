@@ -1,0 +1,9 @@
+﻿@model BeachRankings.App.Models.ViewModels.LocationBeachesViewModel
+
+@Styles.Render("~/Content/Internal/location.css")
+
+<h3>@Model.Name</h3>
+
+<hr />
+
+@Html.DisplayFor(model => model.Beaches)

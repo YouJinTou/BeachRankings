@@ -50,6 +50,7 @@
 .column-filter {
 	padding: 0px 5px 0px 5px;
 	font-weight: normal;
+    display: block;
 	/* max-width: 50%; */
 }
 
@@ -61,20 +62,4 @@
     position: absolute;
     font-weight: normal;
     font-size: smaller;
-}
-
-.concise-beach {
-    padding: 5px;
-    height: 150px;
-    width: 70%;
-    background: rgba(161, 247, 255, 0.25); 
-}
-
-.concise-beach-desc {
-    text-align: left !important;
-}
-
-.beach-thumbnail {
-    width: 100%;
-    height: 100%;
 }

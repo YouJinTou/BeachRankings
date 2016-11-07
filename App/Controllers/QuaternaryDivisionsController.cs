@@ -17,13 +17,21 @@
         {
         }
 
-        public PartialViewResult Beaches(int id)
+        public ActionResult Beaches(int id)
+        {
+            var quaternaryDivision = this.Data.QuaternaryDivisions.Find(id);
+            var model = Mapper.Map<QuaternaryDivision, LocationBeachesViewModel>(quaternaryDivision);
+
+            return this.View("LocationBeaches", model);
+        }
+
+        public PartialViewResult BeachesPartial(int id)
         {
             var beaches = this.Data.QuaternaryDivisions.All()
                  .Include(qd => qd.PrimaryDivision.WaterBody)
                  .FirstOrDefault(td => td.Id == id)
                  .Beaches
-                 .Where(b => b.Reviews.Count > 0);
+                 .Where(b => b.TotalScore != null);
             var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachTableRowViewModel>>(beaches);
 
             return this.PartialView(model);

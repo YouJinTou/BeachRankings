@@ -2,7 +2,7 @@
 @model BeachRankings.App.Models.ViewModels.AutocompleteQuaternaryViewModel
 
 <li class="autocomplete-item quaternary-li">
-    <a href="/QuaternaryDivisions/Beaches/@Model.Id">
+    <a href="/QuaternaryDivisions/BeachesPartial/@Model.Id">
         <h4 class="disable-block"><strong>@Model.Name</strong></h4>
         <h5 class="disable-block"><i>@Html.PluralizeValue(Model.BeachCount, "beach")</i></h5>
     </a>    

@@ -337,7 +337,12 @@ namespace BeachRankings.Data.Migrations
                 return;
             }
 
-            var c = "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii";
+            var c = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus egestas ante a neque congue, " + 
+                    "id eleifend felis laoreet. Pellentesque eget dui id libero rhoncus vestibulum. Nam bibendum rutrum sem, " + 
+                    "sed egestas turpis. Praesent bibendum, tellus sed varius tempus, velit ex pharetra odio, nec porta lacus enim " + 
+                    "vitae felis. Duis elementum nisl vel metus facilisis, id pellentesque odio tempor. Vestibulum a tellus tincidunt, " +
+                    "pretium leo eget, mollis tortor. Pellentesque nec bibendum ex. Mauris lobortis, ex ac tincidunt placerat, risus eros " + 
+                    "luctus purus, eget commodo erat augue ornare arcu. Ut aliquam purus et lacus vehicula auctor.";
             var reviews = new List<Review>();
             var authors = new string[]
             {
