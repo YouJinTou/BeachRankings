@@ -11,6 +11,10 @@
     text-align: left !important;
 }
 
+.score-reviews-count {
+    display: block;
+}
+
 .beach-thumbnail {
     width: 100%;
     height: 100%;

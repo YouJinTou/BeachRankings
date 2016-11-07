@@ -31,6 +31,7 @@
         <div class="beach-score-box pull-right">
             <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
         </div>
+        <div class="score-reviews-count">by @Html.PluralizeValue(@Model.ReviewsCount, "user")</div>
     </div>
     <div class="row">
         <div class="col-xs-12 text-right">

@@ -103,6 +103,8 @@
 
         public double? TotalScore { get; set; }
 
+        public int ReviewsCount { get; set; }
+
         public string Description { get; set; }
 
         public string ImagePath { get; set; }

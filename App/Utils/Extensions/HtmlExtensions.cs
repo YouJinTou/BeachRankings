@@ -14,18 +14,13 @@
 
         public static IHtmlString PluralizeValue(this HtmlHelper helper, int value, string singularObject)
         {
-            if (value == 0)
-            {
-                return new HtmlString(string.Empty);
-            }
-
             string pluralForm = singularObject.EndsWith("s") ? (singularObject + "es") :
                 singularObject.EndsWith("f") ? (singularObject.TrimEnd('f') + "ves") :
                 singularObject.EndsWith("h") ? (singularObject + "es") :
                 singularObject.EndsWith("y") ? (singularObject.TrimEnd('y') + "ies") :
                 (singularObject + "s");
-            string htmlString = (value == 1) ? ("1 " + singularObject) : (value.ToString() + " " + pluralForm);
-            htmlString = "(" + htmlString + ")";
+            string htmlString = (value == 0) ? ("0 " + pluralForm) : 
+                (value == 1) ? ("1 " + singularObject) : (value.ToString() + " " + pluralForm);
 
             return new HtmlString(htmlString);
         }
