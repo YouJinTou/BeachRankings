@@ -19,23 +19,27 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="pull-left">
+        <div class="text-left">
             <h4 class="disable-block">
                 <a href="~/Beaches/Details?id=@Model.Id">@Model.Name</a>
             </h4>
             <h5 class="disable-block"><i>@Model.SecondaryDivision, @Model.Country</i></h5>
         </div>
-        <p class="concise-beach-desc pull-left">@Model.Description</p>
+        <p class="concise-beach-desc text-left">@Model.Description</p>
     </div>
-    <div class="col-md-3 text-right">
-        <div class="beach-score-box pull-right">
-            <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
+    <div class="col-md-3 text-right score-container">
+        <div class="row">
+            <div class="beach-score-box pull-right">
+                <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
+            </div>
         </div>
-        <div class="score-reviews-count">by @Html.PluralizeValue(@Model.ReviewsCount, "user")</div>
+        <div class="row">
+            <div class="score-reviews-count text-right">by @Html.PluralizeValue(@Model.ReviewsCount, "user")</div>
+        </div>        
     </div>
-    <div class="row">
-        <div class="col-xs-12 text-right">
+    <div class="col-xs-12">
+        <div class="text-right">
             @Html.ActionLink("Rate this beach", "Post", controllerName: "Reviews", routeValues: new { id = Model.Id }, htmlAttributes: null)
         </div>
-    </div>
+    </div>    
 </div>

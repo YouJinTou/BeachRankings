@@ -6,4 +6,8 @@
 
 <hr />
 
-@Html.DisplayFor(model => model.Beaches)
+<div id="beaches-result">
+    @Html.DisplayFor(model => model.Beaches)
+</div>
+
+@Scripts.Render("~/Scripts/Internal/location.js")

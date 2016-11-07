@@ -158,6 +158,9 @@
                         fixedColumns: {
                             leftColumns: 3
                         },
+                        columnDefs: [
+                            { 'width': '20px', 'targets': [0, 1, 2] }
+                        ],
                         autoWidth: false
                     });
                     

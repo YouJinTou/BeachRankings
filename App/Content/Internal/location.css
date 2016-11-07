@@ -3,7 +3,7 @@
     padding: 5px;
     height: 150px;
     width: 70%;
-    background: rgba(161, 247, 255, 0.25); 
+    background: rgba(161, 247, 255, 0.25);
 }
 
 .concise-beach-desc {
@@ -11,8 +11,11 @@
     text-align: left !important;
 }
 
+.score-container {
+    height: 50%;
+}
+
 .score-reviews-count {
-    display: block;
 }
 
 .beach-thumbnail {

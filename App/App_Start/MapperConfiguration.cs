@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using BeachRankings.Models;
+    using BeachRankings.Models.Interfaces;
     using BeachRankings.App.Models.BindingModels;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Services.Search.Models;
@@ -20,13 +21,8 @@
                 cfg.CreateMap<PlaceSearchResultModel, AutocompleteSecondaryViewModel>();
                 cfg.CreateMap<PlaceSearchResultModel, AutocompleteTertiaryViewModel>();
                 cfg.CreateMap<PlaceSearchResultModel, AutocompleteQuaternaryViewModel>();
-
-                cfg.CreateMap<WaterBody, LocationBeachesViewModel>();
-                cfg.CreateMap<Country, LocationBeachesViewModel>();                
-                cfg.CreateMap<PrimaryDivision, LocationBeachesViewModel>();
-                cfg.CreateMap<SecondaryDivision, LocationBeachesViewModel>();
-                cfg.CreateMap<TertiaryDivision, LocationBeachesViewModel>();
-                cfg.CreateMap<QuaternaryDivision, LocationBeachesViewModel>();
+                
+                cfg.CreateMap<IPlaceSearchable, LocationBeachesViewModel>();
 
                 cfg.CreateMap<Beach, Beach>();
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
