@@ -49,7 +49,7 @@
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Username/Email")]
+        [Display(Name = "Username or email")]
         public string UsernameEmail { get; set; }
 
         [Required]
@@ -57,14 +57,14 @@
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Remember me")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(20, ErrorMessage = "Your username must be between {1} and {2} characters long.", MinimumLength = 3)]
+        [StringLength(16, ErrorMessage = "Your username must be between {1} and {2} characters long.", MinimumLength = 3)]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
@@ -81,7 +81,7 @@
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "The password and confirmation passwords do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -100,7 +100,7 @@
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "The password and confirmation passwords do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

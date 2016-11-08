@@ -118,7 +118,23 @@
 
         public string Country { get; set; }
 
+        public int CountryId { get; set; }
+
+        public string PrimaryDivision { get; set; }
+
+        public int PrimaryDivisionId { get; set; }
+
         public string SecondaryDivision { get; set; }
+
+        public int SecondaryDivisionId { get; set; }
+
+        public string TertiaryDivision { get; set; }
+
+        public int TertiaryDivisionId { get; set; }
+
+        public string QuaternaryDivision { get; set; }
+
+        public int QuaternaryDivisionId { get; set; }
 
         public double? TotalScore { get; set; }
 
@@ -130,16 +146,14 @@
 
         public bool UserHasRated { get; set; }
 
-        public string PrimaryDivision { get; set; }
 
         public string WaterBody { get; set; }
 
         public string Coordinates { get; set; }
 
-        [UIHint("ConciseReviewViewModel.cshtml")]
         public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }
 
-        public IEnumerable<BeachImage> Images { get; set; }
+        public IEnumerable<BeachImageThumbnailViewModel> Images { get; set; }
     }
 
     public class BeachTableRowViewModel : CriteriaBaseModel

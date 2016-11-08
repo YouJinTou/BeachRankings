@@ -36,8 +36,6 @@
                 if (!result) {
                     allResultsShown = true;
 
-                    $loadingImage.hide();
-
                     return;
                 }
 

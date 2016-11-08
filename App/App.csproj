@@ -283,6 +283,9 @@
     <Content Include="Content\External\lightbox\images\prev.png" />
     <Content Include="Content\External\lightbox\js\lightbox.js" />
     <Content Include="Content\Images\ajax-loader.gif" />
+    <Content Include="Content\Internal\beach-details.css" />
+    <Content Include="Content\Internal\register.css" />
+    <Content Include="Content\Internal\login.css" />
     <Content Include="Content\Internal\location.css" />
     <Content Include="Content\Internal\main-layout.css" />
     <Content Include="Content\jquery-ui.css" />

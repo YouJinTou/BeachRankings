@@ -8,16 +8,8 @@
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
 .dl-horizontal dt {
     white-space: normal;
-}
-
-input,
-select {
-    /*max-width: 280px;*/
 }
 
 .img-container {
@@ -32,6 +24,10 @@ img {
 
 .col-no-padding {
     padding: 0;
+}
+
+.form-control-extended {
+    border-radius: 1px;
 }
 
 .disable-block {
@@ -78,7 +74,7 @@ img {
     background-color: lightgray;
 }
 
-.custom-focus:focus {
+.custom-focus-black:focus {
     box-shadow: 0 0 10px black;
 }
 
