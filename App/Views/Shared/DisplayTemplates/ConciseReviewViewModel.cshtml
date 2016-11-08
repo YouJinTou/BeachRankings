@@ -1,32 +1,32 @@
 ﻿@using BeachRankings.App.Utils.Extensions
 @model BeachRankings.App.Models.ViewModels.ConciseReviewViewModel
 
-<div class="row">
+<div class="concise-review row">
     <div class="col-md-2">
-        <img src="@Model.AvatarPath" alt="No profile photo" />
+        <img class="img-responsive img-circle" src="@Model.AvatarPath" alt="No profile photo" />
         <div class="row">
             <span>@Model.UserName</span>
         </div>
     </div>
     <div class="col-md-10">
         <div class="row">
-            <div class="col-md-8">
-                <div>
-                    Score: @Html.ParseNullableValue(Model.TotalScore, "This user hasn't rated the beach.") | @Model.PostedOn
+            <div class="col-xs-12">
+                <div class="pull-left">@Model.PostedOn.ToString("MMM d, yyyy")</div>
+                <div class="beach-score-box beach-score-box-extended pull-right col-xs-12">
+                    <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
                 </div>
-            </div>
-            <div class="col-md-4">
-            </div>            
+            </div>         
         </div>
         <div class="row">
-            <p>@Model.Content</p>
-        </div>
-        <div class="row">
-            <span>@Html.ActionLink("Read the entire review", "Details", 
-                 controllerName: "Reviews", 
-                 routeValues: new { id = Model.Id }, 
+            <p class="text-justify">@Model.Content</p>
+        </div>        
+    </div>
+    <div class="col-xs-12 text-right">
+        <span>
+            @Html.ActionLink("Read the entire review", "Details",
+                 controllerName: "Reviews",
+                 routeValues: new { id = Model.Id },
                  htmlAttributes: null)
-            </span>
-        </div>
+        </span>
     </div>
 </div>

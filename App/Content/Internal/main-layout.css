@@ -3,7 +3,7 @@
 }
 
 body {    
-    background-color: #efd9c1;   
+    background-color: rgb(233, 233, 233);   
 }
 
 .header-wrapper {
@@ -18,12 +18,21 @@ body {
 .navbar {
     border-radius: 0;
     margin-bottom: 0;
-    background-color: #77D9FF;
+    background-color: #1ACBFF;
     border: 0;
     display: block;
 }
 
 .navbar .container {
     width: 100%;
+}
+
+.navbar .navbar-nav > li > a {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+}
+
+.navbar .navbar-nav > li > a:hover {
     color: black;
 }

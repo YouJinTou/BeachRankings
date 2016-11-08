@@ -3,6 +3,8 @@
 
 @Styles.Render("~/Content/Internal/beach-details.css")
 @Styles.Render("~/Content/External/lightbox/css/lightbox.css")
+@Styles.Render("~/Content/External/slick/slick.css")
+@Styles.Render("~/Content/External/slick/slick-theme.css")
 
 @{
     ViewBag.Title = Model.Name;
@@ -17,44 +19,41 @@
             <div>Sub-area: <a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></div>
             <div>Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
             <div>Coordinates: @Model.Coordinates</div>
-            <hr />
-            <div>
-                @Html.DisplayFor(model => model.Images)
-            </div>
         </aside>
 
         <div class="beach-head col-xs-8">
             <div class="row">
-                <div class="text-left beach-name col-xs-2">
+                <div class="text-left beach-name col-xs-5">
                     <h2>@Model.Name</h2>
-                    <h4><sub><i>@Html.ParseNullString(Model.SecondaryDivision, Model.PrimaryDivision), @Model.Country</i></sub></h4>
-                </div> 
-                <div class="beach-score-box beach-score-box-extended col-xs-4"><div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div></div>
-            </div>   
-            <div class="row">   
-                <div class="col-xs-7">
-                    <img class="img-responsive" src="@Model.Images.FirstOrDefault().Path" alt="No image available" />
-                </div>             
-                <p class="text-left col-xs-4">@Model.Description</p>                
-            </div>               
+                    <div class="beach-score-box beach-score-box-extended col-xs-4">
+                        <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
+                    </div>
+                    <h4><i>@Html.ParseNullString(Model.SecondaryDivision, Model.PrimaryDivision), @Model.Country</i></h4>
+                </div>
+                <div class="text-right col-xs-6">
+                    @{
+                        if (!Model.UserHasRated)
+                        {
+                            @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-rate" })
+                        }
+                        else
+                        {
+                            <span class="already-rated">Already Rated</span>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="slick-carousel col-xs-7">
+                    @Html.DisplayFor(model => model.Images)                   
+                </div>
+                <p class="description text-justify col-xs-4">@Model.Description</p>
+            </div>
         </div>
 
         <div class="row">
             <div class="col-xs-10">
-                @{
-                    if (!Model.UserHasRated)
-                    {
-                        <div class="row">
-                            @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-default" })
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row">
-                            <span class="success">Already Rated</span>
-                        </div>
-                    }
-                }
+
             </div>
 
             @{
@@ -64,7 +63,7 @@
                         <a class="btn btn-info" href="/Beaches/Edit/@Model.Id">Edit</a>
 
                         @using (Html.BeginForm("Delete", "Beaches", new { id = Model.Id }))
-            {
+                        {
                             <button type="submit" class="btn btn-danger">Delete</button>
                         }
                     </div>
@@ -74,10 +73,14 @@
 
         <hr />
 
-        @Html.DisplayFor(m => m.Reviews)
+        <div id="beach-reviews-container" class="col-xs-offset-3 col-xs-8">
+            @Html.DisplayFor(m => m.Reviews)
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/Content/External/lightbox/js/lightbox.js")
+    @Scripts.Render("~/Content/External/slick/slick.min.js")
+    @Scripts.Render("~/Scripts/Internal/beach-details.js")
 }

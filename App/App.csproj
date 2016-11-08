@@ -282,6 +282,12 @@
     <Content Include="Content\External\lightbox\images\next.png" />
     <Content Include="Content\External\lightbox\images\prev.png" />
     <Content Include="Content\External\lightbox\js\lightbox.js" />
+    <Content Include="Content\External\slick\ajax-loader.gif" />
+    <Content Include="Content\External\slick\fonts\slick.svg" />
+    <Content Include="Content\External\slick\slick-theme.css" />
+    <Content Include="Content\External\slick\slick.css" />
+    <Content Include="Content\External\slick\slick.js" />
+    <Content Include="Content\External\slick\slick.min.js" />
     <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Internal\beach-details.css" />
     <Content Include="Content\Internal\register.css" />
@@ -311,6 +317,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\External\slick\config.rb" />
+    <Content Include="Content\External\slick\fonts\slick.eot" />
+    <Content Include="Content\External\slick\fonts\slick.ttf" />
+    <Content Include="Content\External\slick\fonts\slick.woff" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\ai.1.0.3-build05630.js" />
     <Content Include="Scripts\ai.1.0.3-build05630.min.js" />
@@ -318,6 +328,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
+    <Content Include="Scripts\Internal\beach-details.js" />
     <Content Include="Scripts\Internal\location.js" />
     <Content Include="Scripts\Internal\google-map-manager.js" />
     <Content Include="Scripts\Internal\beaches.js" />
