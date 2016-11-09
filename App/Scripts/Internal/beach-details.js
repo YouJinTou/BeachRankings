@@ -6,4 +6,8 @@
         arrows: false,
         mobileFirst: true
     });
+
+    $('#delete-beach-a').on('click', function () {
+        $('#delete-beach-form').submit();
+    });
 })(jQuery);

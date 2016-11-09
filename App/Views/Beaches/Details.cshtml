@@ -38,7 +38,7 @@
                         }
                         else
                         {
-                            <span class="already-rated">Already Rated</span>
+                            <span class="already-rated pull-right glyphicon glyphicon-ok-circle" title="Already rated"></span>
                         }
                     }
                 </div>
@@ -47,28 +47,25 @@
                 <div class="slick-carousel col-xs-7">
                     @Html.DisplayFor(model => model.Images)                   
                 </div>
-                <p class="description text-justify col-xs-4">@Model.Description</p>
-            </div>
-        </div>
+                <div class="col-xs-4">
+                    <p class="description text-justify">@Model.Description</p>
+                    <div class="row">
+                        @{
+                            if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
+                            {
+                                <hr />
 
-        <div class="row">
-            <div class="col-xs-10">
-
-            </div>
-
-            @{
-                if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
-                {
-                    <div class="col-xs-2">
-                        <a class="btn btn-info" href="/Beaches/Edit/@Model.Id">Edit</a>
-
-                        @using (Html.BeginForm("Delete", "Beaches", new { id = Model.Id }))
-                        {
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                                <div class="col-xs-12">
+                                    <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
+                                        <a class="control glyphicon glyphicon-edit" title="Edit" href="/Beaches/Edit/@Model.Id"></a>
+                                        <a id="delete-beach-a" href="#" title="Remove" class="control glyphicon glyphicon-remove"></a>
+                                    </form>                                   
+                                </div>
+                            }
                         }
                     </div>
-                }
-            }
+                </div>
+            </div>            
         </div>
 
         <hr />
