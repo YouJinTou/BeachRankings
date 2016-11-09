@@ -1,5 +1,4 @@
-﻿@using BeachRankings.App.Utils.Extensions
-@model BeachRankings.App.Models.ViewModels.ConciseBeachViewModel
+﻿@model ConciseBeachViewModel
 
 <div class="row concise-beach">
     <div class="col-md-3">
@@ -23,7 +22,7 @@
             <h4 class="disable-block">
                 <a href="~/Beaches/Details?id=@Model.Id">@Model.Name</a>
             </h4>
-            <h5 class="disable-block"><i>@Model.SecondaryDivision, @Model.Country</i></h5>
+            <h5 class="disable-block"><i>@Html.ParseNullString(Model.SecondaryDivision, Model.PrimaryDivision), @Model.Country</i></h5>
         </div>
         <p class="concise-beach-desc text-left">@Model.Description</p>
     </div>

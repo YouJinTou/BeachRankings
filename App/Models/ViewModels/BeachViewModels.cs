@@ -100,6 +100,8 @@
 
         public string Country { get; set; }
 
+        public string PrimaryDivision { get; set; }
+
         public string SecondaryDivision { get; set; }
 
         public double? TotalScore { get; set; }
@@ -192,7 +194,7 @@
 
     public class AutocompleteBeachViewModel : AutocompleteBaseViewModel
     {
-        public string Country { get; set; }
+        public string PrimaryDivision { get; set; }
 
         public string SecondaryDivision { get; set; }
     }    

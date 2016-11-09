@@ -390,7 +390,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Reviews\Post.cshtml" />
-    <Content Include="Views\Home\_Top.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ConciseBeachViewModel.cshtml" />
     <Content Include="Views\Beaches\Details.cshtml" />
     <Content Include="Views\Beaches\Add.cshtml" />

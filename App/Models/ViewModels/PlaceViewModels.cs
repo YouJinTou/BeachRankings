@@ -7,21 +7,29 @@
 
     public class AutocompletePrimaryViewModel : AutocompleteBaseViewModel
     {
+        public string Country { get; set; }
+
         public int BeachCount { get; set; }
     }
 
     public class AutocompleteSecondaryViewModel : AutocompleteBaseViewModel
     {
+        public string Country { get; set; }
+
         public int BeachCount { get; set; }
     }
 
     public class AutocompleteTertiaryViewModel : AutocompleteBaseViewModel
     {
+        public string Country { get; set; }
+
         public int BeachCount { get; set; }
     }
 
     public class AutocompleteQuaternaryViewModel : AutocompleteBaseViewModel
     {
+        public string Country { get; set; }
+
         public int BeachCount { get; set; }
     }
 

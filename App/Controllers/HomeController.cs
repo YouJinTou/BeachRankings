@@ -55,21 +55,5 @@
 
             return PartialView("_Autocomplete", model);
         }
-
-        //public ActionResult Top(FormCollection form)
-        //{
-        //    var query = form["main-search-field"];
-
-        //    if (string.IsNullOrEmpty(query))
-        //    {
-        //        return null;
-        //    }
-
-        //    var beachIds = this.Data.Beaches.GetBeachIdsByQuery(query);
-        //    var beaches = this.Data.Beaches.All().Where(b => beachIds.Contains(b.Id));
-        //    var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<ConciseBeachViewModel>>(beaches);
-
-        //    return PartialView("_Top", model);
-        //}
     }
 }
