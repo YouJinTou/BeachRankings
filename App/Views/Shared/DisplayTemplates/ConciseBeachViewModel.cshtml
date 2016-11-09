@@ -32,7 +32,11 @@
         </div>
         <div class="score-reviews-count text-right">by @Html.PluralizeValue(@Model.ReviewsCount, "user")</div>
         <div class="text-right">
-            @Html.ActionLink("Rate this beach", "Post", controllerName: "Reviews", routeValues: new { id = Model.Id }, htmlAttributes: null)
+            @Html.ActionLink("Rate this beach", 
+               "Post", 
+               controllerName: "Reviews", 
+               routeValues: new { id = Model.Id }, 
+               htmlAttributes: new { @class = "btn btn-cta" })
         </div>
     </div>
 </div>

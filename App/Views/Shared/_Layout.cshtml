@@ -10,6 +10,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/Internal/home.css")
     @Styles.Render("~/Content/External/DataTables/datatables.min.css")
+    @Styles.Render("~/Content/External/lightbox/css/lightbox.css")
     @RenderSection("ReviewsStyles", required: false)
     @RenderSection("BeachStyles", required: false)
     @RenderSection("UserStyles", required: false)
@@ -59,8 +60,10 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/Internal/main.js")
     @Scripts.Render("~/Scripts/Internal/index.js")
     @Scripts.Render("~/Content/External/DataTables/datatables.min.js")
+    @Scripts.Render("~/Content/External/lightbox/js/lightbox.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

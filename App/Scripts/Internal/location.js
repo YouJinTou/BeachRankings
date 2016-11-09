@@ -5,6 +5,8 @@
     var inProgress = false;
     var allResultsShown = false;
 
+    helper.setScoreBoxesBackgroundColor();
+
     $(window).scroll(function () {
         var resultsEnd = (footer.offset().top);
         var viewEnd = ($(window).height() + $(window).scrollTop());
@@ -38,12 +40,15 @@
 
                     return;
                 }
-
+                
                 resultsContainer.append(result);
+
+                helper.setScoreBoxesBackgroundColor(resultsContainer);
 
                 page++;
             },
             complete: function () {
+
                 inProgress = false;
 
                 $loadingImage.hide();

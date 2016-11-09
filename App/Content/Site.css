@@ -94,10 +94,10 @@ img {
 .beach-score-box {
     width: 35px;
     height: 35px;
-    background-color: darkorange;
     text-align: center;
     color: white;
-    font-weight: 300;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .btn-cta {

@@ -329,6 +329,7 @@
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
     <Content Include="Scripts\Internal\beach-details.js" />
+    <Content Include="Scripts\Internal\main.js" />
     <Content Include="Scripts\Internal\location.js" />
     <Content Include="Scripts\Internal\google-map-manager.js" />
     <Content Include="Scripts\Internal\beaches.js" />

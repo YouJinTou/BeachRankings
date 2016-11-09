@@ -39,7 +39,7 @@
             </div>
             <div class="row">
                 <div class="slick-carousel col-xs-7">
-                    @Html.DisplayFor(model => model.Images)                   
+                    @Html.DisplayFor(model => model.Images) 
                 </div>
                 <div class="col-xs-4">
                     <p class="beach-description-details text-justify">@Model.Description</p>
@@ -70,15 +70,28 @@
     </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/Content/External/lightbox/js/lightbox.js")
-    @Scripts.Render("~/Content/External/slick/slick.min.js")
-    @Scripts.Render("~/Scripts/Internal/beach-details.js")
-}
 
-@section BeachStyles{
-    @Styles.Render("~/Content/Internal/beach-details.css")
-    @Styles.Render("~/Content/External/lightbox/css/lightbox.css")
-    @Styles.Render("~/Content/External/slick/slick.css")
-    @Styles.Render("~/Content/External/slick/slick-theme.css")
+@{
+    if (!this.Request.IsAjaxRequest())
+    {
+        @section Scripts {
+            @Scripts.Render("~/Content/External/slick/slick.min.js")
+            @Scripts.Render("~/Scripts/Internal/beach-details.js")
+        }
+
+        @section BeachStyles{
+            @Styles.Render("~/Content/Internal/beach-details.css")
+            @Styles.Render("~/Content/External/slick/slick.css")
+            @Styles.Render("~/Content/External/slick/slick-theme.css")
+        }
+    }
+    else
+    {
+        @Styles.Render("~/Content/Internal/beach-details.css")
+        @Styles.Render("~/Content/External/slick/slick.css")
+        @Styles.Render("~/Content/External/slick/slick-theme.css")
+
+        @Scripts.Render("~/Content/External/slick/slick.min.js")
+        @Scripts.Render("~/Scripts/Internal/beach-details.js")
+    }
 }
