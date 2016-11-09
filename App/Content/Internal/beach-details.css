@@ -6,12 +6,10 @@
 .beach-aside {
     padding: 10px;
     border: 1px solid black;
-    background-color: white;
     border: none;
 }
 
 .beach-head {
-    background-color: white;
     padding: 15px;
     margin-left: 15px;
 }
@@ -37,21 +35,9 @@
     margin-right: 10px;
 }
 
-.description {
+.beach-description-details {
     padding-right: 0;
 }
-
-.btn-rate {
-    background-color: darkorange;
-    border: none;
-    border-radius: 1px;
-    color: white;
-    text-decoration: none;
-}
-
-    .btn-rate:hover {
-        background-color: #ffc928;
-    }
 
 #delete-beach-form {
     text-align: right;

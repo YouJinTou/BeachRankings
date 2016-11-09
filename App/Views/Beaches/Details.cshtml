@@ -1,18 +1,13 @@
 ﻿@using BeachRankings.App.Utils.Extensions
 @model BeachRankings.App.Models.ViewModels.DetailedBeachViewModel
 
-@Styles.Render("~/Content/Internal/beach-details.css")
-@Styles.Render("~/Content/External/lightbox/css/lightbox.css")
-@Styles.Render("~/Content/External/slick/slick.css")
-@Styles.Render("~/Content/External/slick/slick-theme.css")
-
 @{
     ViewBag.Title = Model.Name;
 }
 
 <div class="row">
     <div id="details-container" class="col-xs-12">
-        <aside class="beach-aside col-xs-offset-1 col-xs-2 text-left">
+        <aside class="beach-aside custom-canvas col-xs-offset-1 col-xs-2 text-left">
             <div>Country: <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></div>
             <div>Region: <a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></div>
             <div>Area: <a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></div>
@@ -21,7 +16,7 @@
             <div>Coordinates: @Model.Coordinates</div>
         </aside>
 
-        <div class="beach-head col-xs-8">
+        <div class="beach-head custom-canvas col-xs-8">
             <div class="row">
                 <div class="text-left beach-name col-xs-5">
                     <h2>@Model.Name</h2>
@@ -34,7 +29,7 @@
                     @{
                         if (!Model.UserHasRated)
                         {
-                            @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-rate" })
+                            @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-cta" })
                         }
                         else
                         {
@@ -48,7 +43,7 @@
                     @Html.DisplayFor(model => model.Images)                   
                 </div>
                 <div class="col-xs-4">
-                    <p class="description text-justify">@Model.Description</p>
+                    <p class="beach-description-details text-justify">@Model.Description</p>
                     <div class="row">
                         @{
                             if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
@@ -80,4 +75,11 @@
     @Scripts.Render("~/Content/External/lightbox/js/lightbox.js")
     @Scripts.Render("~/Content/External/slick/slick.min.js")
     @Scripts.Render("~/Scripts/Internal/beach-details.js")
+}
+
+@section BeachStyles{
+    @Styles.Render("~/Content/Internal/beach-details.css")
+    @Styles.Render("~/Content/External/lightbox/css/lightbox.css")
+    @Styles.Render("~/Content/External/slick/slick.css")
+    @Styles.Render("~/Content/External/slick/slick-theme.css")
 }

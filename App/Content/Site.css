@@ -8,6 +8,13 @@
     padding-right: 15px;
 }
 
+.custom-canvas {
+    background-color: white;
+    -webkit-box-shadow: -1px -1px 5px 0px rgba(148,148,148,1);
+    -moz-box-shadow: -1px -1px 5px 0px rgba(148,148,148,1);
+    box-shadow: -1px -1px 5px 0px rgba(148,148,148,1);
+}
+
 .dl-horizontal dt {
     white-space: normal;
 }
@@ -76,6 +83,8 @@ img {
 
 .custom-focus-black:focus {
     box-shadow: 0 0 10px black;
+    -webkit-box-shadow: 0 0 10px;
+    -moz-box-shadow: 0 0 10px;
 }
 
 .beach-score-box {
@@ -86,6 +95,18 @@ img {
     color: white;
     font-weight: 300;
 }
+
+.btn-cta {
+    background-color: darkorange;
+    border: none;
+    border-radius: 1px;
+    color: white;
+    text-decoration: none;
+}
+
+    .btn-cta:hover {
+        background-color: #ffc928;
+    }
 
 /* NORMALIZE */
 /*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */

@@ -1,5 +1,6 @@
 ﻿var GoogleMapManager = function () {
     var map,
+        geocoder,
         geocoderFilteredResults;
     var markers = [];
 
@@ -11,12 +12,12 @@
             mapTypeId: 'satellite'
         };
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        geocoder = new google.maps.Geocoder();
 
         attachEventListeners();
     }
 
     function getGeocoderData() {
-        var geocoder = new google.maps.Geocoder();
         var position = getMarkerCoordinates();
 
         if (!position) {
@@ -40,12 +41,20 @@
         return geocoderFilteredResults;
     }
 
-    function shiftMap(coordinates) {
+    function shiftMapByCoord(coordinates) {
         var latLng = coordinates.split(',', 2);
 
         removeMarkers();
 
         map.setCenter({ lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) });
+    }
+
+    function shiftMapByAddress(address) {
+        geocoder.geocode({ address: address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);//center the map over the result                
+            }
+        });
     }
 
     function getMarkerCoordinates() {
@@ -85,7 +94,8 @@
         initMap: initMap,
         getLocationData: getGeocoderData,
         getCoordinates: getMarkerCoordinates,
-        setMap: shiftMap
+        setMapByCoord: shiftMapByCoord,
+        setMapByAddress: shiftMapByAddress
     }
 };
 

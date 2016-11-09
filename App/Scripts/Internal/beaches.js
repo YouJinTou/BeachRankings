@@ -1,5 +1,5 @@
 ﻿(function ($) {
-    var addIndex = window.location.href.indexOf('Add/');
+    var addIndex = window.location.href.indexOf('/Add');
     var mode = (addIndex > -1) ? 'add' : 'edit';
     var adding = (mode === 'add');
     var $ddlDivisions = $('[data-ddl-division]');
@@ -48,6 +48,7 @@
             var $this = $(this);            
             var nextDivision = $this.data('next-division');
             var url = $this.data('ddl-division') + $this.val();
+            var currentAddress = getCurrentAddress();            
 
             $beachNameContainer.hide();
 
@@ -70,6 +71,7 @@
             $.getJSON(url, function (result) {
                 if (result.length) {
                     updateDivisionDropdowns(true);
+
                 } else {
                     updateDivisionDropdowns(false);
 
@@ -78,6 +80,8 @@
                     $beachNameContainer.show();
                 }
 
+                gMapManager.setMapByAddress(currentAddress);
+                
                 $(result).each(function () {
                     $(document.createElement('option'))
                         .attr('value', this.Value)
@@ -86,14 +90,14 @@
                 });
             });
 
-            function updateDivisionDropdowns(showing) {
+            function updateDivisionDropdowns(showingClosest) {
                 $nextDivision.closest(divisionHolder).show();
 
                 for (var i = nextDivision; i < $ddlDivisions.length; i++) {
                     $($ddlDivisions[i]).empty();
                     createInitialOption($($ddlDivisions[i]), '-- Choose an area --');
 
-                    if (!showing) {
+                    if (!showingClosest) {
                         $($ddlDivisions[i]).closest(divisionHolder).hide();
                     }
                 }
@@ -127,6 +131,23 @@
                             .text(text)
                             .appendTo(jQueryAppendee);
             }
+
+            function getCurrentAddress() {
+                var currentAddress = '';
+
+                for (var i = 0; i < $ddlDivisions.length; i++) {
+                    var $division = $($ddlDivisions[i])
+                    var selector = '#' + $($ddlDivisions[i]).attr('id') + ' option:selected';
+                    var text = $(selector).text();
+                    var validText = (text && text.length > 0 && text.indexOf('-- Choose') === -1 && text.indexOf('undefined') === -1);
+
+                    if (validText) {
+                        currentAddress += text + ' ';
+                    }
+                }
+
+                return currentAddress;
+            }
         });
 
         $('#map').on('click', function () {
@@ -143,7 +164,7 @@
 
             var coordinates = $(this).val();
 
-            gMapManager.setMap(coordinates);
+            gMapManager.setMapByCoord(coordinates);
         });        
     }
 

@@ -1,6 +1,5 @@
 ﻿namespace BeachRankings.App.Models.ViewModels
 {
-    using BeachRankings.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web;
@@ -18,21 +17,22 @@
         [Display(Name = "Country")]
         public int CountryId { get; set; }
 
-        [Required(ErrorMessage = "The first-level field is required.")]
-        [Display(Name = "First-level division")]
+        [Required(ErrorMessage = "The region field is required.")]
+        [Display(Name = "Region")]
         public int PrimaryDivisionId { get; set; }       
 
-        [Display(Name = "Second-level division")]
+        [Display(Name = "Area")]
         public int? SecondaryDivisionId { get; set; }
 
-        [Display(Name = "Third-level division")]
+        [Display(Name = "Sub-area")]
         public int? TertiaryDivisionId { get; set; }
 
-        [Display(Name = "Fourth-level division")]
+        [Display(Name = "Locality")]
         public int? QuaternaryDivisionId { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 
+        [DataType(DataType.MultilineText)]
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }        
 
@@ -59,17 +59,17 @@
         [Display(Name = "Country")]
         public int CountryId { get; set; }
 
-        [Required(ErrorMessage = "The first-level field is required.")]
-        [Display(Name = "First-level division")]
+        [Required(ErrorMessage = "The region field is required.")]
+        [Display(Name = "Region")]
         public int PrimaryDivisionId { get; set; }
 
-        [Display(Name = "Second-level division")]
+        [Display(Name = "Area")]
         public int? SecondaryDivisionId { get; set; }
 
-        [Display(Name = "Third-level division")]
+        [Display(Name = "Sub-area")]
         public int? TertiaryDivisionId { get; set; }
 
-        [Display(Name = "Fourth-level division")]
+        [Display(Name = "Locality")]
         public int? QuaternaryDivisionId { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }

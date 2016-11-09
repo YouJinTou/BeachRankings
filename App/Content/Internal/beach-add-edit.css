@@ -1,0 +1,19 @@
+﻿#beach-add-container {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.google-map {
+    height: 550px;
+}
+
+.beach-description-add textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.beach-description-add textarea:focus {
+    box-shadow: 0 0 10px black;
+    -webkit-box-shadow: 0 0 10px;
+    -moz-box-shadow: 0 0 10px;
+}
