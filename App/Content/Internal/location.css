@@ -1,5 +1,11 @@
-﻿.concise-beach {
+﻿#beaches-result {
+    padding: 10px;
+}
+
+.concise-beach {
+    overflow: hidden;
     margin: 0 auto;
+    margin-bottom: 5px;
     padding: 5px;
     height: 150px;
     width: 70%;
@@ -13,6 +19,7 @@
 
 .score-container {
     height: 50%;
+    text-align: right;
 }
 
 .score-reviews-count {

@@ -7,11 +7,11 @@
 
         this.Layout = "~/Views/Shared/_Layout.cshtml";
 
-        <h3>@Model.Name</h3>
+        <h2>@Model.Name</h2>
 
         <hr />
 
-        <div id="beaches-result">
+        <div id="beaches-result" class="custom-canvas col-xs-10 col-xs-offset-1">
             @Html.DisplayFor(model => model.Beaches)
 
             <div class="loading-image-container">
