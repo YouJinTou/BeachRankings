@@ -74,6 +74,7 @@
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 
+        [DataType(DataType.MultilineText)]
         [MaxLength(350, ErrorMessage = "The description cannot be longer than 350 characters.")]
         public string Description { get; set; }
 

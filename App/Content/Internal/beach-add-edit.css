@@ -7,12 +7,13 @@
     height: 550px;
 }
 
-.beach-description-add textarea {
+.beach-description-add-edit textarea {
     width: 100%;
     border: 1px solid #ccc;
+    padding: 5px;
 }
 
-.beach-description-add textarea:focus {
+.beach-description-add-edit textarea:focus {
     box-shadow: 0 0 10px black;
     -webkit-box-shadow: 0 0 10px;
     -moz-box-shadow: 0 0 10px;

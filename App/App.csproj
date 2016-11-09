@@ -289,7 +289,7 @@
     <Content Include="Content\External\slick\slick.js" />
     <Content Include="Content\External\slick\slick.min.js" />
     <Content Include="Content\Images\ajax-loader.gif" />
-    <Content Include="Content\Internal\beach-add.css" />
+    <Content Include="Content\Internal\beach-add-edit.css" />
     <Content Include="Content\Internal\beach-details.css" />
     <Content Include="Content\Internal\register.css" />
     <Content Include="Content\Internal\login.css" />
