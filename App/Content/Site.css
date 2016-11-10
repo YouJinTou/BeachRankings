@@ -86,6 +86,7 @@ img {
 }
 
 .custom-focus-black:focus {
+    border: none;
     box-shadow: 0 0 10px black;
     -webkit-box-shadow: 0 0 10px;
     -moz-box-shadow: 0 0 10px;

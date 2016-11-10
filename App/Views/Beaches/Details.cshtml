@@ -4,69 +4,67 @@
     ViewBag.Title = Model.Name;
 }
 
-<div class="row">
-    <div id="details-container" class="col-xs-12">
-        <aside class="beach-aside custom-canvas col-xs-offset-1 col-xs-2 text-left">
-            <div>Country: <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></div>
-            <div>Region: <a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></div>
-            <div>Area: <a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></div>
-            <div>Sub-area: <a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></div>
-            <div>Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
-            <div>Coordinates: @Model.Coordinates</div>
-        </aside>
+<div id="details-container" class="col-xs-12">
+    <aside class="beach-aside custom-canvas col-xs-offset-1 col-xs-2 text-left">
+        <div>Country: <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></div>
+        <div>Region: <a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></div>
+        <div>Area: <a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></div>
+        <div>Sub-area: <a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></div>
+        <div>Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
+        <div>Coordinates: @Model.Coordinates</div>
+    </aside>
 
-        <div class="beach-head custom-canvas col-xs-8">
-            <div class="row">
-                <div class="text-left beach-name col-xs-5">
-                    <h2>@Model.Name</h2>
-                    <div class="beach-score-box beach-score-box-extended col-xs-4">
-                        <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
-                    </div>
-                    <h4><i>@Html.ParseNullString(Model.SecondaryDivision, Model.PrimaryDivision), @Model.Country</i></h4>
+    <div class="beach-head custom-canvas col-xs-8">
+        <div class="row">
+            <div class="text-left beach-name col-xs-5">
+                <h2>@Model.Name</h2>
+                <div class="beach-score-box beach-score-box-extended col-xs-4">
+                    <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
                 </div>
-                <div class="text-right col-xs-6">
+                <h4><i>@Html.ParseNullString(Model.SecondaryDivision, Model.PrimaryDivision), @Model.Country</i></h4>
+            </div>
+            <div class="text-right col-xs-6">
+                @{
+                    if (!Model.UserHasRated)
+                    {
+                        @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-cta" })
+                    }
+                    else
+                    {
+                        <span class="already-rated pull-right glyphicon glyphicon-ok-circle" title="Already rated"></span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="slick-carousel col-xs-7">
+                @Html.DisplayFor(model => model.Images) 
+            </div>
+            <div class="col-xs-4">
+                <p class="beach-description-details text-justify">@Model.Description</p>
+                <div class="row">
                     @{
-                        if (!Model.UserHasRated)
+                        if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
                         {
-                            @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-cta" })
-                        }
-                        else
-                        {
-                            <span class="already-rated pull-right glyphicon glyphicon-ok-circle" title="Already rated"></span>
+                            <hr />
+
+                            <div class="col-xs-12">
+                                <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
+                                    <a class="control glyphicon glyphicon-edit" title="Edit" href="/Beaches/Edit/@Model.Id"></a>
+                                    <a id="delete-beach-a" href="#" title="Remove" class="control glyphicon glyphicon-remove"></a>
+                                </form>                                   
+                            </div>
                         }
                     }
                 </div>
             </div>
-            <div class="row">
-                <div class="slick-carousel col-xs-7">
-                    @Html.DisplayFor(model => model.Images) 
-                </div>
-                <div class="col-xs-4">
-                    <p class="beach-description-details text-justify">@Model.Description</p>
-                    <div class="row">
-                        @{
-                            if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
-                            {
-                                <hr />
+        </div>            
+    </div>
 
-                                <div class="col-xs-12">
-                                    <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
-                                        <a class="control glyphicon glyphicon-edit" title="Edit" href="/Beaches/Edit/@Model.Id"></a>
-                                        <a id="delete-beach-a" href="#" title="Remove" class="control glyphicon glyphicon-remove"></a>
-                                    </form>                                   
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>            
-        </div>
+    <hr />
 
-        <hr />
-
-        <div id="beach-reviews-container" class="col-xs-offset-3 col-xs-8">
-            @Html.DisplayFor(m => m.Reviews)
-        </div>
+    <div id="beach-reviews-container" class="col-xs-offset-3 col-xs-8">
+        @Html.DisplayFor(m => m.Reviews)
     </div>
 </div>
 

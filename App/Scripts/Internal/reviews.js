@@ -24,6 +24,8 @@
     ];
     var rainbow = getRainbowGradient();
 
+    helper.setScoreBoxesBackgroundColor();
+
     if (posting || editing) {
         var options = {
             disabled: 'true',
@@ -34,30 +36,16 @@
                     return;
                 }
 
-                var dragdealer = this;
-                var resetButton = $(dragdealer.wrapper).parent().nextUntil('reset-button');
-
-                if (!resetButton.is(':visible')) {
-                    resetButton.show();
-
-                    resetButton.on('click', function (event) {
-                        event.preventDefault();
-
-                        disableDragdealer(dragdealer);
-
-                        $(this).hide();
-                    });
-                }
-
                 var step = Math.floor(x * 100);
                 var wrapperColor = ('#' + rainbow.colourAt(step));
                 var score = (Math.round(step * 10) / 100);
-
-                $(dragdealer.wrapper).css('background-color', wrapperColor);
-                $(dragdealer.handle).text(score);
+                
+                $(this.wrapper).css('background-color', wrapperColor);
+                $(this.handle).text(score);
             }
         };
 
+        initializeCarousel();
         initializeDragdealers();
 
         $('[data-btn-submit-review]').on('click', function (event) {
@@ -106,6 +94,20 @@
             }
         });
 
+        function initializeCarousel() {
+            if (!posting) {
+                return;
+            }
+
+            $('.slick-carousel').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                arrows: false,
+                mobileFirst: true
+            });
+        }
+
         function initializeDragdealers() {
             for (var i = 0; i < criteriaNames.length; i++) {
                 var criterionId = (criteriaNames[i] + '-dragdealer');
@@ -134,6 +136,20 @@
             }
 
             $(handleDataAttribute).on('mousedown', function () {
+                var resetButton = $(dragdealer.wrapper).parent().nextUntil('reset-button');
+
+                if (!resetButton.is(':visible')) {
+                    resetButton.show();
+
+                    resetButton.on('click', function (event) {
+                        event.preventDefault();
+
+                        disableDragdealer(dragdealer);
+
+                        $(this).hide();
+                    });
+                }
+
                 dragdealer.enable();
 
                 $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(50)));

@@ -1,8 +1,24 @@
-﻿.create-review-textarea {
-    width: 100%;
+﻿#post-review-container {
+    margin-top: 20px;
+    padding: 15px;
 }
 
-.reset-button {
+.review-header-info h2 {
+    margin-top: 0;
+}
+
+.beach-review-scorebox {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+}
+
+.create-review-textarea {
+    width: 100%;
+    resize: none;
+}
+
+.btn-reset {
     box-shadow: 2px 2px 2px #888888;
 }
 
