@@ -159,12 +159,14 @@
         }
     }
 
-    function initializeMeters() {
+    function initializeMeters($container) {
         for (var i = 0; i < criteriaNames.length; i++) {
             var criterionId = ('#' + criteriaNames[i] + '-meter');
-            var $meter = $(criterionId);
-            var $scoreBox = $meter.parent().siblings('.criterion-score-box')
-            var score = $scoreBox.text();
+            var $meter = $container.find(criterionId);
+            var $scoreBox = $meter.parent().siblings('.criterion-score-box');
+            var $scoreContainer = $scoreBox.find('div');
+            var scoreOriginal = $scoreContainer.text();
+            var score = (scoreOriginal.length === 1) ? (scoreOriginal + '.0') : scoreOriginal;
             var step = Math.floor(score * 10);
             var color = ('#' + rainbow.colourAt(step));
 
@@ -174,6 +176,7 @@
                 continue;
             }
 
+            $scoreContainer.text(score);
             $scoreBox.css('background-color', color);
             $meter.css('background-color', color);
             $meter.width(step + '%');

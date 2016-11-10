@@ -1,6 +1,8 @@
 ﻿var dragdealersManager = new DragdealersManager();
 
 (function ($) {
+    var expansionInProgress = false;
+
     helper.setScoreBoxesBackgroundColor();
 
     $('.slick-carousel').slick({
@@ -12,26 +14,36 @@
     });
 
     $('#beach-details-container').on('click', '.review-expand', function () {
+        if (expansionInProgress) {
+            return;
+        }
+
         var $this = $(this);
         var $reviewContainer = $this.closest('.concise-review');
         var $detailsContainer = $reviewContainer.find('.review-details');
-        var alreadyLoaded = $reviewContainer.data('already-loaded');
-        var expanded = $reviewContainer.data('expanded');
+        var alreadyLoaded = ($reviewContainer.data('already-loaded') === 'true');
+        var expanded = ($reviewContainer.data('expanded') === 'true');
 
         if (expanded) {
-            $detailsContainer.hide();
+            $detailsContainer.hide(400);
 
             $reviewContainer.data('expanded', 'false');
 
             changeArrowDirection();
 
+            scrollScreen($this, true);
+
             return;
         }
 
         if (alreadyLoaded) {
-            $detailsContainer.show();
+            $detailsContainer.show(400);
+            
+            $reviewContainer.data('expanded', 'true');
 
             changeArrowDirection();
+
+            scrollScreen($this, false);
 
             return;
         }
@@ -42,16 +54,22 @@
             data: {
                 id: $this.data('review-id')
             },
+            beforeSend: function () {
+                expansionInProgress = true;
+            },
             success: function (result) {
                 $reviewContainer.data('already-loaded', 'true');
 
                 $detailsContainer.append(result);
+                dragdealersManager.initializeMeters($detailsContainer);
 
                 $reviewContainer.data('expanded', 'true');
 
                 changeArrowDirection();
 
-                dragdealersManager.initializeMeters();
+                scrollScreen($this, false);
+            },complete: function () {
+                expansionInProgress = false;
             }
         });
 
@@ -61,6 +79,14 @@
             } else {
                 $this.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             }
+        }
+
+        function scrollScreen($arrow, collapsing) {
+            var margin = collapsing ? -($(window).height() / 3) : 0;
+
+            $('html, body').animate({
+                scrollTop: $arrow.offset().top + margin
+            }, 500);
         }
     });
 
