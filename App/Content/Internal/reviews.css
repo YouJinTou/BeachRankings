@@ -1,4 +1,5 @@
-﻿#post-review-container {
+﻿/* COMMON */
+.review-container {
     margin-top: 20px;
     padding: 15px;
 }
@@ -7,12 +8,13 @@
     margin-top: 0;
 }
 
-.beach-review-scorebox {
+.beach-score-box-big {
     display: inline-block;
     width: 50px;
     height: 50px;
 }
 
+/* POST */
 .create-review-textarea {
     width: 100%;
     resize: none;
@@ -22,8 +24,7 @@
     box-shadow: 2px 2px 2px #888888;
 }
 
-/* VIEW */
-
+/* DETAILS */
 .criterion-score-box {
     height: 30px;
     width: 40px;
@@ -62,12 +63,11 @@
     }
 
 .review-content {
-    width: 75%;
     height: 150px;
-    margin-top: 20px;
-    padding: 7px 5px 10px 10px;
+    padding: 10px;
     word-wrap: break-word;
-    -webkit-box-shadow: inset 3px -3px 9px 3px rgba(41,41,41,0.56);
-    -moz-box-shadow: inset 3px -3px 9px 3px rgba(41,41,41,0.56);
-    box-shadow: inset 3px -3px 9px 3px rgba(41,41,41,0.56);
+    text-align: justify;
+    background-color: #eeeeee;
 }
+
+/* EDIT */

@@ -335,6 +335,7 @@
     <Content Include="Scripts\Internal\beaches.js" />
     <Content Include="Scripts\Internal\dashboard.js" />
     <Content Include="Scripts\Internal\index.js" />
+    <Content Include="Scripts\Internal\dragdealers-manager.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />

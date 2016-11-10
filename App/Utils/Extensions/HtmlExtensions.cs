@@ -31,5 +31,14 @@
 
             return new HtmlString(htmlString);
         }
+
+        public static IHtmlString GetBeachAnchorTagDivisionAddress(this HtmlHelper helper, string primaryDivision, string secondaryDivision, int primaryDivisionId, int? secondaryDivisionId)
+        {
+            var divisions = string.IsNullOrEmpty(secondaryDivision) ? "PrimaryDivisions" : "SecondaryDivisions";
+            var divisionId = (divisions == "PrimaryDivisions") ? primaryDivisionId : secondaryDivisionId;
+            var htmlString = "<a href=\"/" + divisions + "/Beaches/" + divisionId + "\">" + ParseNullString(helper, secondaryDivision, primaryDivision) + "</a>";
+
+            return new HtmlString(htmlString);
+        }
     }
 }

@@ -4,26 +4,32 @@
     ViewBag.Title = "Rate " + Model.BeachName;
 }
 
-<div id="post-review-container" class="custom-canvas col-xs-10 col-xs-offset-1">   
+<div class="review-container custom-canvas col-xs-10 col-xs-offset-1">   
     <div class="row">
-        <div class="col-xs-4 col-xs-offset-2">
+        <div class="slick-carousel col-xs-4 col-xs-offset-2">
+            @Html.DisplayFor(model => model.BeachImagePaths)
+        </div>
+        <div class="col-xs-4">
             <div class="row">
-                <div class="col-xs-3 text-right">
-                    <div class="beach-score-box beach-review-scorebox">
+                <div class="col-xs-3 text-left">
+                    <div class="beach-score-box beach-score-box-big">
                         <div class="vertical-center">@Html.ParseNullableValue(Model.BeachTotalScore, "-")</div>
                     </div>
                     <span class="display-block">@Html.PluralizeValue(Model.BeachReviewsCount, "review")</span>
-                </div>                
-                <div class="review-header-info col-xs-8 text-left">
-                    <h2>@Model.BeachName</h2>
-                    <h5><i>@Model.BeachSecondaryDivision, @Model.BeachCountry</i></h5>
                 </div>
-            </div>            
-        </div>
-        <div class="slick-carousel col-xs-4">
-            @Html.DisplayFor(model => model.BeachImagePaths)
+                <div class="review-header-info col-xs-8 text-left">
+                    <h2><a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a></h2>
+                    <h5>
+                        <i>
+                            @Html.GetBeachAnchorTagDivisionAddress(Model.BeachPrimaryDivision, Model.BeachSecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId),
+                            <a href="/Countries/Beaches/@Model.CountryId">@Model.BeachCountry</a>
+                        </i>
+                    </h5>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="row">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "submitReviewForm" }))
         {
@@ -206,6 +212,7 @@
     @Scripts.Render("~/Scripts/External/dragdealer.js")
     @Scripts.Render("~/Scripts/External/rainbowvis.js")
     @Scripts.Render("~/Content/External/slick/slick.min.js")
+    @Scripts.Render("~/Scripts/Internal/dragdealers-manager.js")
     @Scripts.Render("~/Scripts/Internal/reviews.js")
 }
 

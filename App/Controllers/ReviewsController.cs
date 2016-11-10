@@ -16,12 +16,12 @@
         }
 
         [HttpGet]
-        public ActionResult Details(int id)
+        public PartialViewResult Details(int id)
         {
             var review = this.Data.Reviews.Find(id);
             var model = Mapper.Map<Review, DetailedReviewViewModel>(review);            
 
-            return this.View(model);
+            return this.PartialView(model);
         }
 
         [Authorize]

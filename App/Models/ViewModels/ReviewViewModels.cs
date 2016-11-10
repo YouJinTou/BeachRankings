@@ -23,8 +23,30 @@
     public class DetailedReviewViewModel : CriteriaBaseModel
     {
         public int Id { get; set; }
-
+        
         public int BeachId { get; set; }
+
+        public string BeachName { get; set; }
+
+        public string BeachCountry { get; set; }
+
+        public int CountryId { get; set; }
+
+        public string BeachPrimaryDivision { get; set; }
+
+        public int PrimaryDivisionId { get; set; }
+
+        public string BeachSecondaryDivision { get; set; }
+
+        public int? SecondaryDivisionId { get; set; }
+
+        public string BeachWaterBody { get; set; }
+
+        public double? BeachTotalScore { get; set; }
+
+        public int BeachReviewsCount { get; set; }
+
+        public IEnumerable<BeachImageThumbnailViewModel> BeachImagePaths { get; set; }
 
         public string AuthorId { get; set; }
 
@@ -42,11 +64,21 @@
 
     public class PostReviewViewModel : CriteriaBaseModel
     {
+        public int BeachId { get; set; }
+
         public string BeachName { get; set; }
 
         public string BeachCountry { get; set; }
 
+        public int CountryId { get; set; }
+
+        public string BeachPrimaryDivision { get; set; }
+
+        public int PrimaryDivisionId { get; set; }
+
         public string BeachSecondaryDivision { get; set; }
+
+        public int? SecondaryDivisionId { get; set; }
 
         public string BeachWaterBody { get; set; }
 

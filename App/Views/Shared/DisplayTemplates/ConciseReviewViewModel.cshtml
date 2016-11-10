@@ -1,6 +1,6 @@
 ﻿@model ConciseReviewViewModel
 
-<div class="concise-review row custom-canvas">
+<div data-expanded="false" data-already-loaded="false" class="concise-review row custom-canvas">
     <div class="col-md-2">
         <img class="img-responsive" src="@Model.AvatarPath" alt="No profile photo" />
         <div class="row">
@@ -21,11 +21,7 @@
         </div>        
     </div>
     <div class="col-xs-12 text-right">
-        <span>
-            @Html.ActionLink("Read the entire review", "Details",
-                 controllerName: "Reviews",
-                 routeValues: new { id = Model.Id },
-                 htmlAttributes: null)
-        </span>
+        <span data-review-id="@Model.Id" class="a-like-span review-expand glyphicon glyphicon-chevron-down"></span>
     </div>
+    <div class="row review-details"></div>
 </div>

@@ -53,7 +53,7 @@
                 WaterBodies = waterBodies
             };
 
-            return PartialView("_Autocomplete", model);
+            return this.PartialView("_Autocomplete", model);
         }
     }
 }

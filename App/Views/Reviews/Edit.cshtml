@@ -181,7 +181,7 @@
             @Html.LabelFor(model => model.LongTermStay, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-5">
                 <div id="long-term-stay-dragdealer" class="dragdealer">
-                    <div class="handle oval" data-long-term-stay-handle="@Model.Infrastructure"></div>
+                    <div class="handle oval" data-long-term-stay-handle="@Model.LongTermStay"></div>
                 </div>
             </div>
             <button class="btn reset-button" style="display: none;">Ignore</button>
@@ -204,6 +204,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/External/dragdealer.js")
     @Scripts.Render("~/Scripts/External/rainbowvis.js")
+    @Scripts.Render("~/Scripts/Internal/dragdealers-manager.js")
     @Scripts.Render("~/Scripts/Internal/reviews.js")
 }
 

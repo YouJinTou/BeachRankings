@@ -4,7 +4,7 @@
     ViewBag.Title = Model.Name;
 }
 
-<div id="details-container" class="col-xs-12">
+<div id="beach-details-container" class="col-xs-12">
     <aside class="beach-aside custom-canvas col-xs-offset-1 col-xs-2 text-left">
         <div>Country: <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></div>
         <div>Region: <a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></div>
@@ -50,8 +50,8 @@
 
                             <div class="col-xs-12">
                                 <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
-                                    <a class="control glyphicon glyphicon-edit" title="Edit" href="/Beaches/Edit/@Model.Id"></a>
-                                    <a id="delete-beach-a" href="#" title="Remove" class="control glyphicon glyphicon-remove"></a>
+                                    <span class="a-like-span control glyphicon glyphicon-edit" title="Edit" href="/Beaches/Edit/@Model.Id"></span>
+                                    <span id="delete-beach-a" title="Remove" class="a-like-span control glyphicon glyphicon-remove"></span>
                                 </form>                                   
                             </div>
                         }
@@ -74,22 +74,33 @@
     {
         @section Scripts {
             @Scripts.Render("~/Content/External/slick/slick.min.js")
+            @Scripts.Render("~/Scripts/External/rainbowvis.js")
+            @Scripts.Render("~/Scripts/External/dragdealer.js")
+            @Scripts.Render("~/Scripts/Internal/dragdealers-manager.js")
             @Scripts.Render("~/Scripts/Internal/beach-details.js")
+            @Scripts.Render("~/Scripts/Internal/reviews.js")
         }
 
         @section BeachStyles{
             @Styles.Render("~/Content/Internal/beach-details.css")
+            @Styles.Render("~/Content/Internal/reviews.css")
             @Styles.Render("~/Content/External/slick/slick.css")
             @Styles.Render("~/Content/External/slick/slick-theme.css")
+            @Styles.Render("~/Content/External/dragdealer.css")
         }
     }
     else
     {
         @Styles.Render("~/Content/Internal/beach-details.css")
+        @Styles.Render("~/Content/Internal/reviews.css")
         @Styles.Render("~/Content/External/slick/slick.css")
         @Styles.Render("~/Content/External/slick/slick-theme.css")
 
         @Scripts.Render("~/Content/External/slick/slick.min.js")
+        @Scripts.Render("~/Scripts/External/dragdealer.js")
+        @Scripts.Render("~/Scripts/External/rainbowvis.js")
+        @Scripts.Render("~/Scripts/Internal/dragdealers-manager.js")
+        @Scripts.Render("~/Scripts/Internal/reviews.js")
         @Scripts.Render("~/Scripts/Internal/beach-details.js")
     }
 }

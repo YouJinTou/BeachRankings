@@ -29,6 +29,16 @@ img {
     max-width: 100%;
 }
 
+.a-like-span {
+    font-size: 20px;
+    color: #337ab7;
+}
+
+.a-like-span:hover {
+    cursor: pointer;
+    color: #0642a3;
+}
+
 .col-no-padding {
     padding: 0;
 }
