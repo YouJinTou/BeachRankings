@@ -1,6 +1,4 @@
 ﻿var Helper = function () {
-    var $ = jQuery;
-
     function setScoreBoxesBackgroundColor(html) {
         if (!html) {
             $('.beach-score-box .vertical-center').each(function () {

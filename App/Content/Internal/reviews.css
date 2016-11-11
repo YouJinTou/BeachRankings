@@ -14,14 +14,24 @@
     height: 50px;
 }
 
-/* POST */
-.create-review-textarea {
+.review-textarea {
     width: 100%;
     resize: none;
+    border: none;
 }
 
 .btn-reset {
     box-shadow: 2px 2px 2px #888888;
+    height: 50%;
+}
+
+/* CONCISE */
+.review-avatar-box {
+    height: 130px;
+}
+
+.avatar-img {
+    display: inline-block;
 }
 
 /* DETAILS */
@@ -66,7 +76,7 @@
 .criterion-progress-bar {	
 	position: absolute;
 	z-index: 5;
-	left: 20px;
+	left: 55px;
     height: 10px;    
     background: #a4a9ad;
     -moz-border-radius: 0px 5px 5px 0px;
@@ -95,5 +105,3 @@
     text-align: justify;
     overflow: auto;
 }
-
-/* EDIT */

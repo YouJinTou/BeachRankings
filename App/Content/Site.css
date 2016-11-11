@@ -30,13 +30,17 @@ img {
 }
 
 .a-like-span {
-    font-size: 20px;
     color: #337ab7;
 }
 
 .a-like-span:hover {
     cursor: pointer;
     color: #0642a3;
+}
+
+.control {
+    font-size: 25px;
+    text-decoration: none !important;
 }
 
 .col-no-padding {

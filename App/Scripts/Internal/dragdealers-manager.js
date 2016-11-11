@@ -1,5 +1,4 @@
 ﻿var DragdealersManager = function () {
-    var $ = jQuery;
     var rainbow = getRainbowGradient();
     var criteriaNames = [
         'sand-quality',
@@ -102,13 +101,15 @@
             if (editing) {
                 var criterionValue = $(handleDataAttribute).data(criteriaNames[i] + '-handle');
                 var handleXPosition = (criterionValue / 10);
-
-                if (criterionValue !== "") {
+                
+                if (criterionValue !== '') {
                     dragdealer.enable();
 
                     dragdealer.setValue(handleXPosition, 0);
                     $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(criterionValue * 10)));
                     $(dragdealer.handle).text(criterionValue);
+
+                    setResetButtonEvents();
                 } else {
                     disableDragdealer(dragdealer);
                 }
@@ -123,7 +124,7 @@
             });
 
             function setResetButtonEvents() {
-                var resetButton = $(dragdealer.wrapper).parent().nextUntil('reset-button');
+                var resetButton = $(dragdealer.wrapper).parent().next().find('.btn-reset');
 
                 if (!resetButton.is(':visible')) {
                     resetButton.show();
@@ -159,7 +160,7 @@
         }
     }
 
-    function initializeMeters($container) {
+    function initializeMetersForDisplay($container) {
         for (var i = 0; i < criteriaNames.length; i++) {
             var criterionId = ('#' + criteriaNames[i] + '-meter');
             var $meter = $container.find(criterionId);
@@ -194,6 +195,6 @@
 
     return {
         initializeDragdealers: initializeDragdealers,
-        initializeMeters: initializeMeters
+        initializeMeters: initializeMetersForDisplay
     }
 };

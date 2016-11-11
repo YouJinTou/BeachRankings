@@ -82,7 +82,7 @@
                 return this.View(model);
             }
 
-            return this.RedirectToAction("Details", new { id = id }); // Unauthorized
+            return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId }); // Unauthorized
         }
 
         [Authorize]
@@ -95,12 +95,12 @@
                 return this.View();
             }
 
+            var review = this.Data.Reviews.Find(bindingModel.ReviewId);
+
             if (!this.User.Identity.CanEditReview(bindingModel.AuthorId))
             {
-                return this.RedirectToAction("Details", new { id = bindingModel.ReviewId });
+                return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId });
             }
-
-            var review = this.Data.Reviews.Find(bindingModel.ReviewId);
 
             Mapper.Map(bindingModel, review);
 
@@ -112,18 +112,18 @@
 
             this.Data.Beaches.SaveChanges();
 
-            return Json(new { redirectUrl = Url.Action("Details", "Reviews", new { id = bindingModel.ReviewId }) });
+            return Json(new { redirectUrl = Url.Action("Details", "Beaches", new { id = reviewedBeach.Id }) });
         }
 
         [Authorize]
         public ActionResult Delete(int id)
         {
+            var review = this.Data.Reviews.Find(id);
+
             if (!this.User.Identity.CanEditReview(this.UserProfile.Id))
             {
-                return this.RedirectToAction("Details", new { id = id });
+                return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId });
             }
-
-            var review = this.Data.Reviews.Find(id);
 
             this.Data.Reviews.Remove(review);
             this.Data.Reviews.SaveChanges();

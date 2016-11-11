@@ -152,19 +152,12 @@
                                 </div>
                             </div>
                             <!--End Infrastructure-->
-
                         </div>
                     </div>
                 }
             }
         </div>
     </div>
-
-    @{if (User.Identity.CanEditReview(Model.AuthorId))
-        {
-            <a class="btn btn-info pull-right" href="/Reviews/Edit/@Model.Id">Edit</a>
-        }
-    }
 </div>
 
 @section Scripts {

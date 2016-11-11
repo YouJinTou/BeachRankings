@@ -1,21 +1,211 @@
 ﻿{
-"Italy":{    
-     "Tyrrhenian Sea!Friuli–Venezia Giulia":  ["Pordenone","Udine","Gorizia","Trieste"],
-     "Tyrrhenian Sea!Sardinia":    ["Cagliari","Nuoro","Oristano","Sassari","South Sardinia"],
-     "Sicily":      ["Ionian Sea!Agrigento","Ionian Sea!Caltanissetta","Tyrrhenian Sea!Catania","Adriatic Sea!Enna","Adriatic Sea!Messina","Tyrrhenian Sea!Palermo","Tyrrhenian Sea!Ragusa","Ionian Sea!Siracusa","Ionian Sea!Trapani"]
-    },
-	"Atlantic Ocean!St. Helena":null,
-	"Adriatic Sea!Albania":{
-		 "Durrës":  ["Durrës","Krujë","Shijak"],
-		 "Fier":    ["Divjakë","Fier","Lushnjë","Mallakastër","Patos","Roskovec"],
-		 "Lezhë":   ["Kurbin","Lezhë","Mirditë"],
-		 "Shkodër": ["Fushë-Arrëz","Malësi e Madhe","Pukë","Shkodër","Vau i Dejës"],
-		 "Tiranë":  ["Kamëz","Kavajë","Rrogozhinë","Tiranë","Vorë"],
-		 "Vlorë":   ["Delvinë","Finiq","Himarë","Konispol","Sarandë","Selenicë","Vlorë"]
-        },
-	"Antigua and Barbuda":{
-		 "Black Sea!Antigua":  ["Saint George","Saint John","Saint Mary","Saint Paul","Saint Peter","Saint Philip"],
-		 "Red Sea!Barbuda": null,
-		 "Salish Sea!Redonda":  null
-        },
+	"Black Sea!Bulgaria": {
+		"Dobrich": [
+			"Shabla",
+			"Kavarna",
+			"Balchik"
+		],
+		"Varna": [
+			"Varna",
+			"Golden Sands",
+			"St. Konstantin and Helena",
+			"Avren",
+			"Dolni Chiflik",
+			"Byala"
+		],
+		"Bourgas": [
+			"Nesebar",
+			"Pomorie",
+			"Bourgas",
+			"Sozopol",
+			"Primorsko",
+			"Tsarevo"
+		]
+	},
+	"Italy": {
+		"Tyrrhenian Sea!Friuli–Venezia Giulia": [
+			"Pordenone",
+			"Udine",
+			"Gorizia",
+			"Trieste"
+		],
+		"Tyrrhenian Sea!Sardinia": [
+			"Cagliari",
+			"Nuoro",
+			"Oristano",
+			"Sassari",
+			"South Sardinia"
+		],
+		"Sicily": [
+			"Ionian Sea!Agrigento",
+			"Ionian Sea!Caltanissetta",
+			"Tyrrhenian Sea!Catania",
+			"Adriatic Sea!Enna",
+			"Adriatic Sea!Messina",
+			"Tyrrhenian Sea!Palermo",
+			"Tyrrhenian Sea!Ragusa",
+			"Ionian Sea!Siracusa",
+			"Ionian Sea!Trapani"
+		]
+	},
+	"Atlantic Ocean!St. Helena": null,
+	"Adriatic Sea!Albania": {
+		"Durrës": [
+			"Durrës",
+			"Krujë",
+			"Shijak"
+		],
+		"Fier": [
+			"Divjakë",
+			"Fier",
+			"Lushnjë",
+			"Mallakastër",
+			"Patos",
+			"Roskovec"
+		],
+		"Lezhë": [
+			"Kurbin",
+			"Lezhë",
+			"Mirditë"
+		],
+		"Shkodër": [
+			"Fushë-Arrëz",
+			"Malësi e Madhe",
+			"Pukë",
+			"Shkodër",
+			"Vau i Dejës"
+		],
+		"Tiranë": [
+			"Kamëz",
+			"Kavajë",
+			"Rrogozhinë",
+			"Tiranë",
+			"Vorë"
+		],
+		"Vlorë": [
+			"Delvinë",
+			"Finiq",
+			"Himarë",
+			"Konispol",
+			"Sarandë",
+			"Selenicë",
+			"Vlorë"
+		]
+	},
+	"Antigua and Barbuda": {
+		"Black Sea!Antigua": [
+			"Saint George",
+			"Saint John",
+			"Saint Mary",
+			"Saint Paul",
+			"Saint Peter",
+			"Saint Philip"
+		],
+		"Red Sea!Barbuda": null,
+		"Salish Sea!Redonda": null
+	},
+	"Mediterranean Sea!Greece": {
+		"Attica": [
+			"Athens",
+			" East Attica",
+			"Piraeus",
+			"West Attica"
+		],
+		"Central Greece": [
+			"Boeotia",
+			"Euboea",
+			"Evrytania",
+			"Phocis",
+			"Phthiotis"
+		],
+		"Central Macedonia": [
+			"Chalkidiki",
+			"Imathia",
+			"Kilkis",
+			"Pella",
+			"Pieria",
+			"Serres",
+			"Thessaloniki"
+		],
+		"Crete": [
+			"Chania",
+			"Heraklion",
+			"Rethymno",
+			"Lasithi"
+		],
+		"Eastern Macedonia and Thrace ": [
+			"Drama",
+			"Evros",
+			"Kavala",
+			"Rhodope",
+			"Thasos",
+			"Xanthi"
+		],
+		"Epirus": [
+			"Arta",
+			"Ioannina",
+			"Preveza",
+			"Thesprotia"
+		],
+		"Ionian Islands": [
+			"Corfu",
+			"Ithaca",
+			"Kefalonia",
+			"Lefkada",
+			"Zakynthos"
+		],
+		"North Aegean": [
+			"Chios",
+			"Ikaria",
+			"Lemnos",
+			"Lesbos",
+			"Samos"
+		],
+		"Peloponnese": [
+			"Arcadia",
+			"Argolis",
+			"Corinthia",
+			"Laconia",
+			"Messinia"
+		],
+		"South Aegean": [
+			"Andros",
+			"Kalymnos",
+			"Karpathos",
+			"Kea-Kythnos",
+			"Kos",
+			"Milos",
+			"Mykonos",
+			"Naxos",
+			"Paros",
+			"Rhodes",
+			"Syros",
+			"Thira",
+			"Tinos"
+		],
+		"Thessaly": [
+			"Karditsa",
+			"Larissa",
+			"Magnesia",
+			"Trikala",
+			{
+				"Sporades": [
+					"Skopelos",
+					"Alonnisos",
+					"Skiathos",
+					"Kyra Panagia",
+					"Peristera",
+					"Gioura",
+					"Skantzoura",
+					"Piperi",
+					"Tsougria"
+				]
+			}
+		],
+		"Western Greece": [
+			"Achaea",
+			"Aetolia-Acarnania",
+			"Elis"
+		]
+	}
 }

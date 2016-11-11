@@ -1,8 +1,8 @@
-﻿var dragdealersManager = new DragdealersManager();
-
-(function ($) {
+﻿(function ($) {
+    var dragdealersManager = new DragdealersManager();
     var expansionInProgress = false;
 
+    hideEmptyAsideElements();
     helper.setScoreBoxesBackgroundColor();
 
     $('.slick-carousel').slick({
@@ -26,24 +26,18 @@
 
         if (expanded) {
             $detailsContainer.hide(400);
-
             $reviewContainer.data('expanded', 'false');
-
             changeArrowDirection();
-
-            scrollScreen($this, true);
+            adjustScreen($this, true);
 
             return;
         }
 
         if (alreadyLoaded) {
-            $detailsContainer.show(400);
-            
+            $detailsContainer.show(400);            
             $reviewContainer.data('expanded', 'true');
-
             changeArrowDirection();
-
-            scrollScreen($this, false);
+            adjustScreen($this, false);
 
             return;
         }
@@ -59,15 +53,13 @@
             },
             success: function (result) {
                 $reviewContainer.data('already-loaded', 'true');
+                $reviewContainer.data('expanded', 'true');
 
                 $detailsContainer.append(result);
                 dragdealersManager.initializeMeters($detailsContainer);
 
-                $reviewContainer.data('expanded', 'true');
-
                 changeArrowDirection();
-
-                scrollScreen($this, false);
+                adjustScreen($this, false);
             },complete: function () {
                 expansionInProgress = false;
             }
@@ -81,16 +73,30 @@
             }
         }
 
-        function scrollScreen($arrow, collapsing) {
-            var margin = collapsing ? -($(window).height() / 3) : 0;
+        function adjustScreen($arrow, collapsing) {
+            var offset = collapsing ? -($(window).height() / 3) : 0;
 
             $('html, body').animate({
-                scrollTop: $arrow.offset().top + margin
+                scrollTop: $arrow.offset().top + offset
             }, 500);
         }
     });
 
-    $('#delete-beach-a').on('click', function () {
+    $('#delete-beach-span').on('click', function () {
         $('#delete-beach-form').submit();
-    });    
+    });
+
+    function hideEmptyAsideElements() {
+        var $container = $('.beach-aside');
+
+        $container.find('.aside-element').each(function () {
+            var $this = $(this);
+            var captureGroups = /\w+:\s*(\w+)/.exec($this.text());            
+            var elementEmpty = (captureGroups === null);
+
+            if (elementEmpty) {
+                $this.hide();
+            }
+        });
+    }
 })(jQuery);

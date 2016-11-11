@@ -6,12 +6,12 @@
 
 <div id="beach-details-container" class="col-xs-12">
     <aside class="beach-aside custom-canvas col-xs-offset-1 col-xs-2 text-left">
-        <div>Country: <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></div>
-        <div>Region: <a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></div>
-        <div>Area: <a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></div>
-        <div>Sub-area: <a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></div>
-        <div>Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
-        <div>Coordinates: @Model.Coordinates</div>
+        <div class="aside-element">Country: <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></div>
+        <div class="aside-element">Region: <a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></div>
+        <div class="aside-element">Area: <a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></div>
+        <div class="aside-element">Sub-area: <a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></div>
+        <div class="aside-element">Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
+        <div class="aside-element">Coordinates: @Model.Coordinates</div>
     </aside>
 
     <div class="beach-head custom-canvas col-xs-8">
@@ -21,7 +21,15 @@
                 <div class="beach-score-box beach-score-box-extended col-xs-4">
                     <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
                 </div>
-                <h4><i>@Html.ParseNullString(Model.SecondaryDivision, Model.PrimaryDivision), @Model.Country</i></h4>
+                <h4>
+                    <i>
+                        <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
+                        @Html.ParseNullString(
+                            @Html.GetBeachAnchorTagDivisionAddress(Model.PrimaryDivision, Model.SecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId) + ", ", 
+                            null) 
+                        <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a>
+                    </i>
+                </h4>
             </div>
             <div class="text-right col-xs-6">
                 @{
@@ -50,8 +58,8 @@
 
                             <div class="col-xs-12">
                                 <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
-                                    <span class="a-like-span control glyphicon glyphicon-edit" title="Edit" href="/Beaches/Edit/@Model.Id"></span>
-                                    <span id="delete-beach-a" title="Remove" class="a-like-span control glyphicon glyphicon-remove"></span>
+                                    <a class="a-like-span control glyphicon glyphicon-edit" title="Edit beach" href="/Beaches/Edit/@Model.Id"></a>
+                                    <span id="delete-beach-span" title="Delete beach" class="a-like-span control glyphicon glyphicon-remove"></span>
                                 </form>                                   
                             </div>
                         }

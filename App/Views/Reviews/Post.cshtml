@@ -21,7 +21,10 @@
                     <h2><a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a></h2>
                     <h5>
                         <i>
-                            @Html.GetBeachAnchorTagDivisionAddress(Model.BeachPrimaryDivision, Model.BeachSecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId),
+                            <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
+                            @Html.ParseNullString(
+                                @Html.GetBeachAnchorTagDivisionAddress(Model.BeachPrimaryDivision, Model.BeachSecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId) + ", ", 
+                                null)
                             <a href="/Countries/Beaches/@Model.CountryId">@Model.BeachCountry</a>
                         </i>
                     </h5>
@@ -45,7 +48,7 @@
             new
             {
                 data_review_content = "",
-                @class = "form-control create-review-textarea custom-focus-black",
+                @class = "form-control review-textarea custom-focus-black",
                 @rows = 5,
                 @cols = 40,
                 @placeholder = "Share your impressions of this beach"
@@ -62,7 +65,9 @@
                             <div class="handle oval" data-sand-quality-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -71,7 +76,9 @@
                             <div class="handle oval" data-beach-cleanliness-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.BeautifulScenery, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -80,7 +87,9 @@
                             <div class="handle oval" data-beautiful-scenery-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.CrowdFree, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -89,7 +98,9 @@
                             <div class="handle oval" data-crowd-free-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <!--End Beach-->
                 <!--Sea-->
@@ -100,7 +111,9 @@
                             <div class="handle oval" data-water-purity-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.WasteFreeSeabed, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -109,7 +122,9 @@
                             <div class="handle oval" data-wastefree-seabed-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.FeetFriendlyBottom, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -118,7 +133,9 @@
                             <div class="handle oval" data-feet-friendly-bottom-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -127,7 +144,9 @@
                             <div class="handle oval" data-sea-life-diversity-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.CoralReef, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -136,7 +155,9 @@
                             <div class="handle oval" data-coral-reef-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <!--End Sea-->
                 <!--Activities-->
@@ -147,7 +168,9 @@
                             <div class="handle oval" data-walking-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -156,7 +179,9 @@
                             <div class="handle oval" data-snorkeling-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Kayaking, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -165,7 +190,9 @@
                             <div class="handle oval" data-kayaking-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -174,7 +201,9 @@
                             <div class="handle oval" data-camping-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <!--End Activities-->
                 <!--Infrastructure-->
@@ -185,7 +214,9 @@
                             <div class="handle oval" data-infrastructure-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.LongTermStay, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -194,7 +225,9 @@
                             <div class="handle oval" data-long-term-stay-handle=""></div>
                         </div>
                     </div>
-                    <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    <div class="col-md-4">
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
+                    </div>
                 </div>
                 <!--End Infrastructure-->
                 <div class="form-group">

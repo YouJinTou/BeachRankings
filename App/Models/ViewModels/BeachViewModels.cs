@@ -19,7 +19,7 @@
 
         [Required(ErrorMessage = "The region field is required.")]
         [Display(Name = "Region")]
-        public int PrimaryDivisionId { get; set; }       
+        public int? PrimaryDivisionId { get; set; }       
 
         [Display(Name = "Area")]
         public int? SecondaryDivisionId { get; set; }
@@ -61,7 +61,7 @@
 
         [Required(ErrorMessage = "The region field is required.")]
         [Display(Name = "Region")]
-        public int PrimaryDivisionId { get; set; }
+        public int? PrimaryDivisionId { get; set; }
 
         [Display(Name = "Area")]
         public int? SecondaryDivisionId { get; set; }
@@ -125,19 +125,19 @@
 
         public string PrimaryDivision { get; set; }
 
-        public int PrimaryDivisionId { get; set; }
+        public int? PrimaryDivisionId { get; set; }
 
         public string SecondaryDivision { get; set; }
 
-        public int SecondaryDivisionId { get; set; }
+        public int? SecondaryDivisionId { get; set; }
 
         public string TertiaryDivision { get; set; }
 
-        public int TertiaryDivisionId { get; set; }
+        public int? TertiaryDivisionId { get; set; }
 
         public string QuaternaryDivision { get; set; }
 
-        public int QuaternaryDivisionId { get; set; }
+        public int? QuaternaryDivisionId { get; set; }
 
         public double? TotalScore { get; set; }
 
@@ -171,7 +171,7 @@
 
         public string PrimaryDivision { get; set; }
 
-        public int PrimaryDivisionId { get; set; }
+        public int? PrimaryDivisionId { get; set; }
 
         public string SecondaryDivision { get; set; }
 

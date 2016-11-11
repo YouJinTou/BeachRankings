@@ -157,12 +157,13 @@
         public void SetBeachData()
         {
             var interval = "-";
+            var primaryDivisionName = (this.PrimaryDivision == null) ? null : this.PrimaryDivision.Name + interval;
             var secondaryDivisionName = (this.SecondaryDivision == null) ? null : this.SecondaryDivision.Name + interval;
             var tertiaryDivisionName = (this.TertiaryDivision == null) ? null : this.TertiaryDivision.Name + interval;
             var quaternaryDivisinoName = (this.QuaternaryDivision == null) ? null : this.QuaternaryDivision.Name + interval;
             this.Address = (
-                this.Country.Name + interval + 
-                this.PrimaryDivision.Name + interval +
+                this.Country.Name + interval +
+                primaryDivisionName +
                 secondaryDivisionName +
                 tertiaryDivisionName +
                 quaternaryDivisinoName +
