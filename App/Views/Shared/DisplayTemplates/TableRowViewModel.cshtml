@@ -1,7 +1,7 @@
-﻿@model BeachTableRowViewModel
+﻿@model TableRowViewModel
 
 <tr>
-    <td class="text-left"><a href="/Beaches/Details/@Model.Id">@Model.Name</a></td>
+    <td class="text-left"><a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a></td>
     <td class="text-left"><a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></td>
     <td class="text-left"><a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></td>
     <td><a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></td>

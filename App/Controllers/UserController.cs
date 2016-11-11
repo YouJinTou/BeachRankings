@@ -19,13 +19,22 @@
         public ActionResult Dashboard()
         {
             var reviews = this.Data.Reviews.All().Where(r => r.AuthorId == this.UserProfile.Id);
-            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<DashboardReviewViewModel>>(reviews);
+            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<TableRowViewModel>>(reviews);
 
             return this.View(model);
         }
 
         [Authorize]
-        public ActionResult Images()
+        public PartialViewResult Statistics()
+        {
+            var reviews = this.Data.Reviews.All().Where(r => r.AuthorId == this.UserProfile.Id);
+            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<TableRowViewModel>>(reviews);
+
+            return this.PartialView(model);
+        }
+
+        [Authorize]
+        public PartialViewResult Images()
         {
             var imageGroups = this.Data.BeachImages.All().Where(i => i.AuthorId == this.UserProfile.Id).GroupBy(i => i.Beach.Name);
             var model = new List<DashboardImageViewModel>();
@@ -39,7 +48,7 @@
                 });
             }
 
-            return this.View(model);
+            return this.PartialView(model);
         }
     }
 }

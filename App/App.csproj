@@ -292,6 +292,7 @@
     <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Internal\beach-add-edit.css" />
     <Content Include="Content\Internal\beach-details.css" />
+    <Content Include="Content\Internal\dashboard.css" />
     <Content Include="Content\Internal\register.css" />
     <Content Include="Content\Internal\login.css" />
     <Content Include="Content\Internal\location.css" />
@@ -408,14 +409,15 @@
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteTertiaryViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteQuaternaryViewModel.cshtml" />
     <Content Include="Views\Beaches\Edit.cshtml" />
-    <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\User\Statistics.cshtml" />
     <Content Include="Views\User\Images.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DashboardReviewViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DashboardImageViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BeachImageThumbnailViewModel.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\BeachTableRowViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\TableRowViewModel.cshtml" />
     <Content Include="Views\Shared\BeachesPartial.cshtml" />
     <Content Include="Views\Shared\LocationBeaches.cshtml" />
+    <Content Include="Views\User\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

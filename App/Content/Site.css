@@ -127,6 +127,45 @@ img {
         background-color: #ffc928;
     }
 
+/* DATATABLES */
+#table-result_wrapper {
+    margin-top: 20px;
+}
+
+    #table-result_wrapper th {
+        height: 100px;
+        vertical-align: bottom;
+        background-color: white;
+    }
+
+.datatables-body {
+    font-size: 12px;    
+}
+
+.place-head {
+    font-size: 13px;
+    text-align: left;
+}
+
+.column-filter {
+    padding: 0px 5px 0px 5px;
+    margin-bottom: 2px;
+    font-weight: normal;
+    display: block;
+    /*max-width: 50%;*/ 
+}
+
+.criterion-head {
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    position: absolute;
+    font-weight: normal;
+    font-size: smaller;
+    white-space: nowrap;
+}
+
 /* NORMALIZE */
 /*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
 

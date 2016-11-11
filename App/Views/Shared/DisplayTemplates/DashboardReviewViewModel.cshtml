@@ -1,9 +1,14 @@
 ﻿@model DashboardReviewViewModel
 
 <tr>
-    <td>@Model.PostedOn</td>
-    <td>@Model.BeachName</td>
-    <td>@Model.TotalScore</td>
+    <td class="text-left"><a href="/Beaches/Details/@Model.Id">@Model.Name</a></td>
+    <td class="text-left"><a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></td>
+    <td class="text-left"><a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></td>
+    <td><a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></td>
+    <td><a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></td>
+    <td><a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></td>
+    <td><a href="/WaterBodies/Beaches/@Model.WaterBodyId">@Model.WaterBody</a></td>
+    <td class="bold">@Model.TotalScore</td>
     <td>@Model.SandQuality</td>
     <td>@Model.BeachCleanliness</td>
     <td>@Model.BeautifulScenery</td>
@@ -17,6 +22,6 @@
     <td>@Model.Snorkeling</td>
     <td>@Model.Kayaking</td>
     <td>@Model.Camping</td>
-    <td>@Model.Infrastructure</td>
     <td>@Model.LongTermStay</td>
+    <td>@Model.Infrastructure</td>
 </tr>

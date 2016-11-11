@@ -33,7 +33,7 @@
                  .FirstOrDefault(td => td.Id == id)
                  .Beaches
                  .Where(b => b.TotalScore != null);
-            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachTableRowViewModel>>(beaches);
+            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<TableRowViewModel>>(beaches);
 
             return this.PartialView(model);
         }
