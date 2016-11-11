@@ -1,7 +1,7 @@
 ﻿(function ($) {
     $(document).ready(function () {
         var lastFixedColumn = 2;
-        var table = $('#user-reviews-grid').DataTable({
+        var table = $('#table-result').DataTable({
             scrollX: true,
             scrollY: 300,
             scrollCollapse: true,

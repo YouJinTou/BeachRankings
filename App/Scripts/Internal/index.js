@@ -146,7 +146,7 @@
                 url: url,
                 type: 'GET',
                 success: function (result) {
-                    var $resultsContainer = $('#search-results-container');
+                    var $resultsContainer = $('#results-container');
                     var lastFixedColumn = 2;
 
                     $resultsContainer.html(result);
