@@ -22,6 +22,10 @@
         [Display(Name = "Country")]
         public string Name { get; set; }
 
+        public virtual WaterBody WaterBody { get; protected set; }
+
+        public int? WaterBodyId { get; set; }
+
         public virtual ICollection<PrimaryDivision> PrimaryDivisions
         {
             get

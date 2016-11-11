@@ -3,6 +3,7 @@
     using AutoMapper;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.Models.Interfaces;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using BeachRankings.App.Utils.Extensions;
@@ -206,11 +207,9 @@
                 .FirstOrDefault(c => c.Id == model.CountryId);
 
             var creatorId = this.UserProfile.Id;
-            var primaryDivision = this.Data.PrimaryDivisions.Find(model.PrimaryDivisionId);
-            var waterBody = this.Data.WaterBodies.Find(primaryDivision.WaterBodyId);
             var beach = Mapper.Map<AddBeachViewModel, Beach>(model);
             beach.CreatorId = creatorId;
-            beach.WaterBodyId = primaryDivision.WaterBodyId;
+            beach.WaterBodyId = this.GetWaterBodyId(model.CountryId, model.PrimaryDivisionId, model.SecondaryDivisionId);
 
             this.Data.Beaches.Add(beach);
             beach.SetBeachData();
@@ -219,6 +218,29 @@
             this.UpdateIndexEntries(beach);
 
             return beach;
+        }
+
+        private int GetWaterBodyId(int countryId, int? primaryDivisionid, int? secondaryDivisionId)
+        {
+            var secondaryDivision = this.Data.SecondaryDivisions.Find(secondaryDivisionId);
+            var secondaryDivisionHasWaterBody = (secondaryDivision != null && secondaryDivision.WaterBodyId != null);
+
+            if (secondaryDivisionHasWaterBody)
+            {
+                return (int)secondaryDivision.WaterBodyId;
+            }
+
+            var primaryDivision = this.Data.PrimaryDivisions.Find(primaryDivisionid);
+            var primaryDivisionHasWaterBody = (primaryDivision != null && primaryDivision.WaterBodyId != null);
+
+            if (primaryDivisionHasWaterBody)
+            {
+                return (int)primaryDivision.WaterBodyId;
+            }
+
+            var waterBodyId = this.Data.Countries.Find(countryId).WaterBodyId;
+
+            return (int)waterBodyId;
         }
 
         private void SaveBeachImages(Beach beach, AddBeachViewModel bindingModel)
@@ -265,7 +287,7 @@
             Mapper.Map(model, beach);
 
             var primaryDivision = this.Data.PrimaryDivisions.All().Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == model.PrimaryDivisionId);
-            beach.WaterBodyId = primaryDivision.WaterBodyId;
+            beach.WaterBodyId = this.GetWaterBodyId(model.CountryId, model.PrimaryDivisionId, model.SecondaryDivisionId);
 
             this.Data.Beaches.SaveChanges();
 

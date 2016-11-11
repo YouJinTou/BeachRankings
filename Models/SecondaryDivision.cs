@@ -25,17 +25,21 @@
         [Display(Name = "Second-level division")]
         public string Name { get; set; }
 
+        public virtual Country Country { get; protected set; }
+
         [Required]
         [Index("IX_CountrySecondary", IsUnique = true, Order = 2)]
         public int CountryId { get; set; }
+        
+        public virtual PrimaryDivision PrimaryDivision { get; protected set; }
 
-        public virtual Country Country { get; protected set; }
+        public virtual WaterBody WaterBody { get; protected set; }
+
+        public int? WaterBodyId { get; set; }
 
         [Required]
         [Index("IX_CountrySecondary", IsUnique = true, Order = 3)]
         public int PrimaryDivisionId { get; set; }
-
-        public virtual PrimaryDivision PrimaryDivision { get; protected set; }
 
         public virtual ICollection<TertiaryDivision> TertiaryDivisions
         {

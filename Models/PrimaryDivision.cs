@@ -32,10 +32,9 @@
 
         public virtual Country Country { get; protected set; }
 
-        [Required]
-        public int WaterBodyId { get; set; }
-
         public virtual WaterBody WaterBody { get; protected set; }
+
+        public int? WaterBodyId { get; set; }
 
         public virtual ICollection<SecondaryDivision> SecondaryDivisions
         {

@@ -37,9 +37,8 @@
 
         public virtual Country Country { get; set; }
 
-        [Required]
         [Index("IX_PrimaryBeach", IsUnique = true, Order = 2)]
-        public int PrimaryDivisionId { get; set; }
+        public int? PrimaryDivisionId { get; set; }
 
         public virtual PrimaryDivision PrimaryDivision { get; protected set; }
 

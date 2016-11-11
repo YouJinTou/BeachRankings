@@ -14,16 +14,17 @@ namespace BeachRankings.Data.Migrations
 
     public sealed class Configuration : DbMigrationsConfiguration<BeachRankingsDbContext>
     {
-        private static readonly string dolorSitAmet = 
+        private static readonly string dolorSitAmet =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus egestas ante a neque congue, " +
             "id eleifend felis laoreet. Pellentesque eget dui id libero rhoncus vestibulum. Nam bibendum rutrum sem...";
         private BeachRankingsDbContext data;
-        private int waterBodyId = 31;
         private static int currentCountryId;
         private static int currentPrimaryDivisionId;
         private static int currentSecondaryDivisionId;
         private static int currentTertiaryDivisionId;
         private static int currentQuaternaryDivisionId;
+        private static int? currentCountryWaterBodyId;
+        private static int? currentPrimaryDivisionWaterBodyId;
         private static int beachesCount;
         private static Random randomBeach;
         private static Random randomScore;
@@ -145,7 +146,8 @@ namespace BeachRankings.Data.Migrations
                     continue;
                 }
 
-                var countryEntity = new Country() { Name = country.Key };
+                currentCountryWaterBodyId = this.GetWaterBodyId(country.Key);
+                var countryEntity = new Country() { Name = this.GetPlaceName(country.Key), WaterBodyId = currentCountryWaterBodyId };
 
                 countriesIndexList.Add(countryEntity);
                 this.data.Countries.Add(countryEntity);
@@ -159,6 +161,37 @@ namespace BeachRankings.Data.Migrations
             LuceneSearch.Index = Index.CountryIndex;
 
             LuceneSearch.AddUpdateIndexEntries(countriesIndexList);
+        }
+
+        private string GetPlaceName(string place)
+        {
+            var tokens = place.Split(new char[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
+            var noWaterBody = (tokens.Length == 1);
+
+            if (noWaterBody)
+            {
+                return place;
+            }
+
+            var placeName = tokens[1];
+
+            return placeName;
+        }
+
+        private int? GetWaterBodyId(string place)
+        {
+            var tokens = place.Split(new char[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
+            var noWaterBody = (tokens.Length == 1);
+
+            if (noWaterBody)
+            {
+                return null;
+            }
+
+            var waterBodyName = tokens[0];
+            var waterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == waterBodyName).Id;
+
+            return waterBodyId;
         }
 
         private void SeedBeaches()
@@ -416,10 +449,11 @@ namespace BeachRankings.Data.Migrations
                 case 1:
                     var primaryDivision = new PrimaryDivision()
                     {
-                        Name = value,
+                        Name = this.GetPlaceName(value),
                         CountryId = currentCountryId,
-                        WaterBodyId = waterBodyId
+                        WaterBodyId = currentCountryWaterBodyId ?? this.GetWaterBodyId(value)
                     };
+                    currentPrimaryDivisionWaterBodyId = primaryDivision.WaterBodyId;
 
                     this.data.PrimaryDivisions.Add(primaryDivision);
                     this.data.SaveChanges();
@@ -432,9 +466,10 @@ namespace BeachRankings.Data.Migrations
                 case 2:
                     var secondaryDivision = new SecondaryDivision()
                     {
-                        Name = value,
+                        Name = this.GetPlaceName(value),
                         CountryId = currentCountryId,
-                        PrimaryDivisionId = currentPrimaryDivisionId
+                        PrimaryDivisionId = currentPrimaryDivisionId,
+                        WaterBodyId = currentPrimaryDivisionWaterBodyId ?? this.GetWaterBodyId(value)
                     };
 
                     this.data.SecondaryDivisions.Add(secondaryDivision);
