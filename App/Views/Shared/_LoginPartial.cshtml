@@ -5,12 +5,20 @@
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
-
+    
     <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        <li id="user-dashboard-dropdown" class="dropdown">
+            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                @User.Identity.GetUserName()
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dashboard-link">Statistics</a></li>
+                <li><a class="dashboard-link">Images</a></li>
+                <li><a class="dashboard-link">Settings</a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()" class="dashboard-link">Log off</a></li>
+            </ul>
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
     }
 }

@@ -1,34 +1,19 @@
 ﻿(function ($) {
-    $(document).ready(function () {
-        var lastFixedColumn = 2;
-        var table = $('#table-result').DataTable({
-            scrollX: true,
-            scrollY: 300,
-            scrollCollapse: true,
-            fixedColumns: {
-                leftColumns: 3
+    $('.dashboard-link').on('click', function () {
+        var action = $(this).text();
+        var url = (action === 'Settings') ? '/Manage/Index/' : ('/User/' + action + '/');
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (result) {
+                var dataTablesManager = new DataTablesManager();
+
+                dataTablesManager.initializeDataTable(result);
             },
-            columnDefs: [
-                { 'width': '20px', 'targets': [0, 1, 2] }
-            ],
-            autoWidth: false
-        });
-
-        table.columns().every(function (col) {
-            if (col > lastFixedColumn) {
-                return;
+            error: function (data) {
+                console.log(data);
             }
-
-            var column = this;
-            var filter = $(column.header()).find('.column-filter').data('filter');
-
-            $('.DTFC_LeftHeadWrapper [data-filter="' + filter + '"').on('keyup change', function () {
-                column.search($(this).val()).draw();
-            });
-
-            $('.DTFC_LeftHeadWrapper [data-filter="' + filter + '"').on('click', function (event) {
-                event.stopImmediatePropagation();
-            });
         });
-    });    
+    });
 })(jQuery);

@@ -1,7 +1,7 @@
 ﻿@model AutocompleteWaterBodyViewModel
 
 <li class="autocomplete-item water-body-li">
-    <a href="/WaterBodies/BeachesPartial/@Model.Id">
+    <a href="/WaterBodies/Statistics/@Model.Id">
         <h4 class="disable-block"><strong>@Model.Name</strong></h4>
         <h5 class="disable-block"><i>(@Html.PluralizeValue(Model.BeachCount, "beach"))</i></h5>
     </a>    

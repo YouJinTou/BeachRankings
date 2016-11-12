@@ -26,7 +26,7 @@
             return this.View("LocationBeaches", model);
         }
 
-        public PartialViewResult BeachesPartial(int id)
+        public PartialViewResult Statistics(int id)
         {
             var beaches = this.Data.SecondaryDivisions.All()
                 .Include(sd => sd.PrimaryDivision.WaterBody)

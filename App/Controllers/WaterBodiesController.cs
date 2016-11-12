@@ -24,7 +24,7 @@
             return this.View("LocationBeaches", model);
         }
 
-        public PartialViewResult BeachesPartial(int id)
+        public PartialViewResult Statistics(int id)
         {
             var beaches = this.Data.WaterBodies.Find(id).Beaches.Where(b => b.TotalScore != null);
             var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<TableRowViewModel>>(beaches);

@@ -16,15 +16,6 @@
         }
 
         [Authorize]
-        public ActionResult Dashboard()
-        {
-            var reviews = this.Data.Reviews.All().Where(r => r.AuthorId == this.UserProfile.Id);
-            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<TableRowViewModel>>(reviews);
-
-            return this.View(model);
-        }
-
-        [Authorize]
         public PartialViewResult Statistics()
         {
             var reviews = this.Data.Reviews.All().Where(r => r.AuthorId == this.UserProfile.Id);

@@ -25,7 +25,7 @@
             return this.View("LocationBeaches", model);
         }
         
-        public PartialViewResult BeachesPartial(int id)
+        public PartialViewResult Statistics(int id)
         {
             var beaches = this.Data.Countries.All()
                 .Include(c => c.PrimaryDivisions.Select(pd => pd.WaterBody))

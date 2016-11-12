@@ -36,3 +36,25 @@ body {
 .navbar .navbar-nav > li > a:hover {
     color: black;
 }
+
+ul.nav.navbar-nav .dropdown.open .dropdown-toggle{
+  color: red;
+  background-color: green;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:focus {
+	background-color: #1ACBFF;
+}
+
+.navbar-inverse .navbar-nav > .open > a:hover {
+	color: black;
+}
+
+.dashboard-link {
+	cursor: pointer;
+}
+
+#user-dashboard-dropdown .dropdown-menu {
+	right: 15px;
+}
