@@ -39,7 +39,7 @@
                 });
             }
 
-            model = model.Skip(page).Take(pageSize).ToList();
+            model = model.Skip(page * pageSize).Take(pageSize).ToList();
 
             return this.PartialView(model);
         }
