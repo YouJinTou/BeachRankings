@@ -25,7 +25,7 @@
         }
 
         [Authorize]
-        public PartialViewResult Images()
+        public PartialViewResult Images(int page = 0, int pageSize = 10)
         {
             var imageGroups = this.Data.BeachImages.All().Where(i => i.AuthorId == this.UserProfile.Id).GroupBy(i => i.Beach.Name);
             var model = new List<DashboardImageViewModel>();
@@ -38,6 +38,8 @@
                     Paths = Mapper.Map<IEnumerable<BeachImage>, IEnumerable<BeachImageThumbnailViewModel>>(group.ToList())
                 });
             }
+
+            model = model.Skip(page).Take(pageSize).ToList();
 
             return this.PartialView(model);
         }

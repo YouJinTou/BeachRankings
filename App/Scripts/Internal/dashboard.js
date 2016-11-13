@@ -7,13 +7,31 @@
             url: url,
             type: 'GET',
             success: function (result) {
-                var dataTablesManager = new DataTablesManager();
+                var isStatisticsModule = (action.indexOf('Statistics') > -1);
 
-                dataTablesManager.initializeDataTable(result);
+                //if (isStatisticsModule) {
+                    var dataTablesManager = new DataTablesManager();
+
+                    dataTablesManager.initializeDataTable(result);
+                //}                
+
+                setInfiniteScrolling(url);
             },
             error: function (data) {
                 console.log(data);
             }
         });
     });
+
+    function setInfiniteScrolling(url) {
+        var isImagesModule = (url.indexOf('Images') > -1);
+
+        if (!isImagesModule) {
+            return;
+        }
+
+        var infiniteScroller = new InfiniteScroller('user-images-container', 'images');
+
+        infiniteScroller.setInifiniteScroll();
+    }
 })(jQuery);

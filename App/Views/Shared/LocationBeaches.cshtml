@@ -9,12 +9,8 @@
 
         <hr />
 
-        <div id="beaches-result" class="custom-canvas col-xs-10 col-xs-offset-1">
-            @Html.DisplayFor(model => model.Beaches)
-
-            <div class="loading-image-container">
-                <img id="loading-main-results-image" src="~/Content/Images/ajax-loader.gif" alt="Loading" style="display: none;" />
-            </div>
+        <div id="location-beaches-container" class="custom-canvas col-xs-10 col-xs-offset-1">
+            @Html.DisplayFor(model => model.Beaches)            
         </div>
 
         @section Scripts {

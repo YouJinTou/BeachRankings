@@ -1,5 +1,12 @@
 ﻿@model DashboardImageViewModel
 
-@Html.DisplayTextFor(model => model.BeachName)
-@Html.DisplayFor(model => model.Paths)
+<div class="image-row row">
+    <div class="col-xs-3">
+        <h4>@Model.BeachName</h4>
+    </div>
+    <div class="images-container col-xs-9">
+        @Html.DisplayFor(model => model.Paths)       
+    </div>    
+</div>
+
 <hr />
