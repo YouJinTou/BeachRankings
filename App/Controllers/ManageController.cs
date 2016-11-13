@@ -49,8 +49,6 @@ namespace App.Controllers
             }
         }
 
-        //
-        // GET: /Manage/Index
         public async Task<PartialViewResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =

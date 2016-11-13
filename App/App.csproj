@@ -285,6 +285,7 @@
     <Content Include="Content\Internal\beach-add-edit.css" />
     <Content Include="Content\Internal\beach-details.css" />
     <Content Include="Content\Internal\images.css" />
+    <Content Include="Content\Internal\manage.css" />
     <Content Include="Content\Internal\register.css" />
     <Content Include="Content\Internal\login.css" />
     <Content Include="Content\Internal\location.css" />

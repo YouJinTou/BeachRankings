@@ -1,0 +1,16 @@
+﻿#user-images-container {
+    margin-top: 20px;
+}
+
+.image-row {
+    padding-top: 15px;
+}
+
+.images-container {
+    max-height: 60px;
+    text-align: left;
+}
+
+.images-container .img-container {
+    display: inline-block;
+}

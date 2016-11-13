@@ -1,10 +1,6 @@
 ﻿var DataTablesManager = function () {
     function initializeDataTable(data) {
-        var $resultsContainer = $('#results-container');
         var lastFixedColumn = 2;
-
-        $resultsContainer.html(data);
-
         var table = $('#table-result').DataTable({
             scrollX: true,
             scrollY: 300,

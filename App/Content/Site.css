@@ -127,6 +127,11 @@ img {
         background-color: #ffc928;
     }
 
+.btn-reset {
+    box-shadow: 2px 2px 2px #888888;
+    height: 50%;
+}
+
 /* DATATABLES */
 #table-result_wrapper {
     margin-top: 20px;

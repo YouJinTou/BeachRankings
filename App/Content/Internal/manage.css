@@ -1,0 +1,19 @@
+﻿.settings-container {
+    margin-top: 20px;
+}
+
+.settings-container a {
+    cursor: pointer;
+}
+
+.settings-container .form-group label {
+    text-align: left;
+}
+
+.settings-container .form-group input {
+    border-radius: 1px;
+}
+
+.settings-btn-back {
+    margin-right: 10px;
+}
