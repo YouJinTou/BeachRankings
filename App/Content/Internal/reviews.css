@@ -106,17 +106,13 @@
     margin-right: 10px;
 }
 
-.drag-holder {
-    position: inherit;
-}
-
 .review-popup {
     position: absolute;
     z-index: 10;
     width: 20%;
     height: 110px;
-    right: 11%;
-    top: -100%;
+    right: 1%;
+	top: 36%;
     padding: 4px;
     overflow: auto;
     text-align: left;
