@@ -15,10 +15,19 @@
     function setAutocompleteEvents() {
         var $mainSearchField = $('#main-search-field');
         var $autocompleteBox = $('.home-autocomplete-box');
-        var autocompleteSelected = 0;
+        var autocompleteSelected = 0; // bool
 
         $mainSearchField.on('keyup', function (event) {
             if (isValidKeyAction(event)) {
+                return;
+            }
+
+            var inputLength = $mainSearchField.val().length;
+            var searchBoxEmpty = (inputLength === 0);
+
+            if (searchBoxEmpty) {
+                $autocompleteBox.hide();
+
                 return;
             }
 
@@ -29,16 +38,15 @@
                     prefix: $mainSearchField.val()
                 },
                 success: function (result) {
-                    var inputLength = $mainSearchField.val().length;
-                    var noResults = ((result.indexOf('li') <= 0) && (inputLength > 1));
-
-                    $autocompleteBox.show();
-
+                    var noResults = ((result.indexOf('li') <= 0) && (inputLength >= 1));
+                    
                     if (noResults) {
                         result = '<ul><li><i>No results found</i></li></ul>';
                     }
 
                     $autocompleteBox.html(result);
+
+                    $autocompleteBox.show();
                 },
                 error: function (data) {
                     console.log(data);

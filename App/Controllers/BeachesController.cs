@@ -3,7 +3,6 @@
     using AutoMapper;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
-    using BeachRankings.Models.Interfaces;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using BeachRankings.App.Utils.Extensions;

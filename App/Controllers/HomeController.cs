@@ -22,11 +22,6 @@
 
         public PartialViewResult Autocomplete(string prefix)
         {
-            if (prefix.Length <= 1)
-            {
-                return null;
-            }
-
            var beaches = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteBeachViewModel>>
                (this.Data.Beaches.GetSearchResultsByKeyStroke(prefix));
             var primaryDivisions = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompletePrimaryViewModel>>
