@@ -113,7 +113,7 @@
         public string ImagePath { get; set; }
     }
 
-    public class DetailedBeachViewModel
+    public class DetailedBeachViewModel : CriteriaBaseModel
     {
         public int Id { get; set; }
 
@@ -148,7 +148,6 @@
         public string CreatorId { get; set; }
 
         public bool UserHasRated { get; set; }
-
 
         public string WaterBody { get; set; }
 

@@ -11,13 +11,31 @@
         <div class="aside-element">Area: <a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></div>
         <div class="aside-element">Sub-area: <a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></div>
         <div class="aside-element">Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
-        <div class="aside-element">Coordinates: @Model.Coordinates</div>
+        <div class="aside-element">Coordinates: <a href="http://www.google.com/maps/place/@Model.Coordinates" target="_blank">@Model.Coordinates</a></div>
+        <hr />
+        <div class="aside-element">Sand: @Model.SandQuality</div>
+        <div class="aside-element">Beach cleanliness: @Model.BeachCleanliness</div>
+        <div class="aside-element">Scenery: @Model.BeautifulScenery</div>
+        <div class="aside-element">Crowd-free: @Model.CrowdFree</div>
+        <div class="aside-element">Water purity: @Model.WaterPurity</div>
+        <div class="aside-element">Waste-free seabed: @Model.WasteFreeSeabed</div>
+        <div class="aside-element">Feet-friendly bottom: @Model.FeetFriendlyBottom</div>
+        <div class="aside-element">Sea life diversity: @Model.SeaLifeDiversity</div>
+        <div class="aside-element">Coral reef: @Model.CoralReef</div>
+        <div class="aside-element">Good for a walk: @Model.Walking</div>
+        <div class="aside-element">Snorkeling: @Model.Snorkeling</div>
+        <div class="aside-element">Kayaking: @Model.Kayaking</div>
+        <div class="aside-element">Camping: @Model.Camping</div>
+        <div class="aside-element">Infrastructure: @Model.Infrastructure</div>
+        <div class="aside-element">Long-term stay: @Model.LongTermStay</div>
     </aside>
 
     <div class="beach-head custom-canvas col-xs-8">
         <div class="row">
             <div class="text-left beach-name col-xs-5">
-                <h2>@Model.Name</h2>
+                <h2>
+                    @Model.Name <i>@Html.PluralizeValue(@Model.Reviews.Count(), "review")</i>
+                </h2>
                 <div class="beach-score-box beach-score-box-extended col-xs-4">
                     <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
                 </div>

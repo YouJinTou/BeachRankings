@@ -78,7 +78,7 @@
 
             $('html, body').animate({
                 scrollTop: $arrow.offset().top + offset
-            }, 500);
+            }, 750);
         }
     });
 

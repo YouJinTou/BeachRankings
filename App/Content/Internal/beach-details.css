@@ -24,6 +24,10 @@
         display: inline-block;
     }
 
+        .beach-name h2 i {
+            font-size: 15px;
+        }
+
     .beach-name h4 {
         font-weight: lighter;
         font-size: 15px;
