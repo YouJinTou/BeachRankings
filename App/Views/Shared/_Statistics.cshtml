@@ -1,0 +1,15 @@
+﻿@model TableUserReviewsViewModel
+
+@{ 
+    this.ViewBag.Title = Model.AuthorName + " Reviews";
+}
+
+<h4>@Model.AuthorName's reviews</h4>
+
+<hr />
+
+@Html.Partial("_StatisticsPartial", @Model.Reviews)
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/Internal/contributors.js")
+}

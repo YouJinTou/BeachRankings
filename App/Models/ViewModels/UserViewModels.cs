@@ -8,4 +8,11 @@
 
         public IEnumerable<BeachImageThumbnailViewModel> Paths { get; set; }
     }
+
+    public class TableUserReviewsViewModel
+    {
+        public string AuthorName { get; set; }
+
+        public IEnumerable<TableRowViewModel> Reviews { get; set; }
+    }
 }

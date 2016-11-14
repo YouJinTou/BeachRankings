@@ -147,8 +147,10 @@
                 type: 'GET',
                 success: function (result) {
                     var dataTablesManager = new DataTablesManager();
+
+                    $('#results-container').html(result);
                     
-                    dataTablesManager.initializeDataTable(result);                 
+                    dataTablesManager.initializeDataTable();                 
                 },
                 complete: function () {
                     $loadingImage.hide();

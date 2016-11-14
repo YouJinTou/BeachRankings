@@ -27,9 +27,10 @@
                 cfg.CreateMap<EditBeachViewModel, Beach>();
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
                 cfg.CreateMap<PostReviewBindingModel, Review>();
-                cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
-                cfg.CreateMap<EditReviewBindingModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());                
                 cfg.CreateMap<Review, DetailedReviewViewModel>();
+                cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
+                cfg.CreateMap<EditReviewBindingModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
+                cfg.CreateMap<User, TableUserReviewsViewModel>().ForMember(vm => vm.AuthorName, model => model.MapFrom(m => m.UserName));
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Images.FirstOrDefault().Path))
                     .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
@@ -90,7 +91,9 @@
                     .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.Beach.WaterBody.Name));
                 cfg.CreateMap<Review, ConciseReviewViewModel>()
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))
-                    .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath));
+                    .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath))
+                    .ForMember(vm => vm.ReviewsCount, model => model.MapFrom(m => m.Author.Reviews.Count))
+                    .ForMember(vm => vm.CountriesVisited, model => model.MapFrom(m => m.Author.GetVisitedCountriesCount()));
             });
         }
     }

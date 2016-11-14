@@ -21,7 +21,15 @@
             var reviews = this.Data.Reviews.All().Where(r => r.AuthorId == this.UserProfile.Id);
             var model = Mapper.Map<IEnumerable<Review>, IEnumerable<TableRowViewModel>>(reviews);
 
-            return this.PartialView(model);
+            return this.PartialView("_StatisticsPartial", model);
+        }
+        
+        public ActionResult Reviews(string authorId)
+        {
+            var user = this.Data.Users.Find(authorId);
+            var model = Mapper.Map<User, TableUserReviewsViewModel>(user);
+
+            return this.View("_Statistics", model);
         }
 
         [Authorize]

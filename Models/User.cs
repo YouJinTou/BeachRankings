@@ -50,5 +50,12 @@
         {
             return !this.Reviews.Any(r => r.BeachId == id);
         }
+
+        public int GetVisitedCountriesCount()
+        {
+            var countriesVisited = this.Reviews.GroupBy(r => r.Beach.Country.Name).Count();
+
+            return countriesVisited;
+        }
     }
 }

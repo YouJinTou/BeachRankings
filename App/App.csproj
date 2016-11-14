@@ -326,6 +326,7 @@
     <Content Include="Scripts\Internal\beach-details.js" />
     <Content Include="Scripts\Internal\datatables-manager.js" />
     <Content Include="Scripts\Internal\infinite-scroller.js" />
+    <Content Include="Scripts\Internal\contributors.js" />
     <Content Include="Scripts\Internal\utils.js" />
     <Content Include="Scripts\Internal\location.js" />
     <Content Include="Scripts\Internal\google-map-manager.js" />
@@ -408,8 +409,9 @@
     <Content Include="Views\Shared\DisplayTemplates\DashboardImageViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BeachImageThumbnailViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\TableRowViewModel.cshtml" />
-    <Content Include="Views\Shared\Statistics.cshtml" />
-    <Content Include="Views\Shared\LocationBeaches.cshtml" />
+    <Content Include="Views\Shared\_StatisticsPartial.cshtml" />
+    <Content Include="Views\Shared\_LocationBeaches.cshtml" />
+    <Content Include="Views\Shared\_Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

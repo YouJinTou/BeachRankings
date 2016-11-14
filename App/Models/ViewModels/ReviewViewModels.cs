@@ -9,8 +9,12 @@
         public int Id { get; set; }
 
         public string AuthorId { get; set; }
-
+        
         public string UserName { get; set; }
+
+        public int ReviewsCount { get; set; }
+
+        public int CountriesVisited { get; set; }
 
         public string AvatarPath { get; set; }
 

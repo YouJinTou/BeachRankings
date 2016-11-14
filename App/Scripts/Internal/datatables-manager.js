@@ -1,5 +1,5 @@
 ﻿var DataTablesManager = function () {
-    function initializeDataTable(data) {
+    function initializeDataTable() {
         var lastFixedColumn = 2;
         var table = $('#table-result').DataTable({
             scrollX: true,

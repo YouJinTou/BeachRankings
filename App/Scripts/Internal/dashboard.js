@@ -19,7 +19,7 @@
                     if (isStatisticsModule) {
                         var dataTablesManager = new DataTablesManager();
 
-                        dataTablesManager.initializeDataTable(result);
+                        dataTablesManager.initializeDataTable();
                     }                
 
                     setInfiniteScrolling(url);
