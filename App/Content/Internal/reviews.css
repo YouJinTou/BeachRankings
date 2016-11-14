@@ -17,7 +17,8 @@
 .review-textarea {
     width: 100%;
     resize: none;
-    border: none;
+    border: 1px solid #a4a9ad;
+    border-radius: 1px;
 }
 
 /* CONCISE */
@@ -99,4 +100,24 @@
     white-space: normal;
     text-align: justify;
     overflow: auto;
+}
+
+.form-group .info-icon {
+    margin-right: 10px;
+}
+
+.drag-holder {
+    position: inherit;
+}
+
+.review-popup {
+    position: absolute;
+    z-index: 10;
+    width: 20%;
+    height: 110px;
+    right: 11%;
+    top: -100%;
+    padding: 4px;
+    overflow: auto;
+    text-align: left;
 }

@@ -394,7 +394,6 @@
     <Content Include="Views\Beaches\Details.cshtml" />
     <Content Include="Views\Beaches\Add.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ConciseReviewViewModel.cshtml" />
-    <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="Views\Home\_Autocomplete.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteBeachViewModel.cshtml" />
@@ -412,6 +411,7 @@
     <Content Include="Views\Shared\_StatisticsPartial.cshtml" />
     <Content Include="Views\Shared\_LocationBeaches.cshtml" />
     <Content Include="Views\Shared\_Statistics.cshtml" />
+    <Content Include="Views\Reviews\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

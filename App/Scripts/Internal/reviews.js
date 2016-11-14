@@ -11,4 +11,12 @@
         arrows: false,
         mobileFirst: true
     });
+
+    $('.drag-holder').on('mouseenter mouseleave', function () {
+        $(this).find('.review-popup').toggle();
+    });
+
+    $('.info-icon').on('mouseenter mouseleave', function () {
+        $(this).parent().siblings('.review-popup').toggle();
+    });
 })();
