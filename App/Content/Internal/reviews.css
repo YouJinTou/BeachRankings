@@ -54,6 +54,15 @@
     /*margin-right: 50px;*/
 }
 
+.review-upvotes h4 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.review-upvotes i {
+    color: #42f656;
+}
+
 .criterion-score-box {
     position: relative;
     z-index: 6;

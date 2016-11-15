@@ -11,6 +11,7 @@
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
+    using System.Collections.Generic;
 
     public class BeachesController : BaseController
     {
@@ -21,11 +22,13 @@
 
         public ActionResult Details(int id)
         {
-            var beach = this.Data.Beaches.All().FirstOrDefault(b => b.Id == id);
-            var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);
-            model.UserHasRated = this.User.Identity.IsAuthenticated ? this.UserProfile.Reviews.Any(r => r.BeachId == id) : false;
+            var beach = this.Data.Beaches.Find(id);
+            var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);            
+            model.UserHasRated = this.User.Identity.IsAuthenticated ? this.UserProfile.Reviews.Any(r => r.BeachId == id) : false;            
+            model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn).ToList();
 
-            model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn);
+            this.SetViewThumbsDown(model.Reviews);
+            
 
             return this.View(model);
         }
@@ -166,6 +169,25 @@
         }
 
         #region Action Helpers
+
+        #region Read
+
+        private void SetViewThumbsDown(IEnumerable<ConciseReviewViewModel> reviews)
+        {
+            var reviewsAsList = reviews.ToList();
+
+            for (int i = 0; i < reviewsAsList.Count; i++)
+            {
+                var alreadyUpvoted = this.UserProfile.UpvotedReviews.Any(r => r.Id == reviewsAsList[i].Id);
+
+                if (alreadyUpvoted)
+                {
+                    reviewsAsList[i].AlreadyUpvoted = true;
+                }
+            }
+        }
+
+        #endregion
 
         #region Add
 

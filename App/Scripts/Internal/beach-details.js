@@ -5,7 +5,7 @@
 
     hideEmptyAsideElements();
     helper.setScoreBoxesBackgroundColor();
-    helper.toggleReviewThumbs();
+    helper.setVotingVariables();
 
     $('.slick-carousel').slick({
         slidesToShow: 1,
@@ -104,6 +104,7 @@
             },
             success: function (result) {
                 changeThumbsDirection();
+                changeDisplayValue();
             }, complete: function () {
                 votingInProgress = false;
             }
@@ -114,6 +115,28 @@
                 $this.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
             } else {
                 $this.removeClass('glyphicon-thumbs-down').addClass('glyphicon-thumbs-up');
+            }
+        }
+
+        function changeDisplayValue() {
+            var $displayBox = $this.closest('.concise-review').find('.review-upvotes h4 i');
+            var currentValue = $displayBox.text().substr(1);
+            var newValue;
+
+            if (isUpvote) {
+                newValue = parseInt(currentValue) + 1;
+
+                $displayBox.text('+ ' + newValue);
+
+                $displayBox.show();
+            } else {
+                newValue = parseInt(currentValue) - 1;
+                
+                $displayBox.text('+ ' + newValue);
+
+                if (newValue === 0) {
+                    $displayBox.hide();
+                }
             }
         }
     });

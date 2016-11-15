@@ -93,9 +93,8 @@
                     .ForMember(vm => vm.UserName, model => model.MapFrom(m => m.Author.UserName))
                     .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath))
                     .ForMember(vm => vm.ReviewsCount, model => model.MapFrom(m => m.Author.Reviews.Count))
-                    .ForMember(vm => vm.CountriesVisited, model => model.MapFrom(m => m.Author.GetVisitedCountriesCount()))
-                    .ForMember(vm => vm.AlreadyUpvoted, model => model.MapFrom(m => m.Author.UpvotedReviewIds.Contains(m.Id)));
+                    .ForMember(vm => vm.CountriesVisited, model => model.MapFrom(m => m.Author.GetVisitedCountriesCount()));
             });
         }
-    }
+    }    
 }

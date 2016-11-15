@@ -554,7 +554,7 @@ namespace BeachRankings.Data.Migrations
 
         private int b()
         {
-            return randomBeach.Next(1, beachesCount + 1);
+            return randomBeach.Next(1, 10);
         }
 
         private double? s()

@@ -15,13 +15,22 @@
         }        
     }
 
-    function toggleReviewThumbs() {
+    function setVotingVariables() {
         $('.concise-review').each(function () {
             var $this = $(this);
-            var alreadyUpvoted = $this.find('.icon-upvote').data('already-upvoted');
+            var $thumbs = $this.find('.icon-upvote');
+            var $upvotesDisplayBox = $this.find('.review-upvotes h4 i');
+            var noUpvotes = ($upvotesDisplayBox.text() === '+ 0');
+            var alreadyUpvoted = $thumbs.data('already-upvoted');
 
-            if (alreadyUpvoted === 'true') {
-                $this.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
+            if (noUpvotes) {
+                $upvotesDisplayBox.hide();  
+            }
+
+            if ($upvotesDisplayBox.text())
+
+            if (alreadyUpvoted === 'True') {
+                $thumbs.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
             }
         });
     }
@@ -46,7 +55,7 @@
 
     return {
         setScoreBoxesBackgroundColor: setScoreBoxesBackgroundColor,
-        toggleReviewThumbs: toggleReviewThumbs
+        setVotingVariables: setVotingVariables
     }
 };
 

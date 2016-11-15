@@ -10,7 +10,7 @@
     public class User : IdentityUser
     {
         private ICollection<Review> reviews;
-        private ICollection<int> upvotedReviewIds;
+        private ICollection<Review> upvotedReviews;
         private ICollection<BeachImage> images;
         private ClaimsIdentity identity;
 
@@ -28,11 +28,11 @@
             }
         }
 
-        public virtual ICollection<int> UpvotedReviewIds
+        public virtual ICollection<Review> UpvotedReviews
         {
             get
             {
-                return this.upvotedReviewIds ?? (this.upvotedReviewIds = new HashSet<int>());
+                return this.upvotedReviews ?? (this.upvotedReviews = new HashSet<Review>());
             }
         }
 

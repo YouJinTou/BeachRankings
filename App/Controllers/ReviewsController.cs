@@ -6,6 +6,7 @@
     using BeachRankings.App.Utils.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System.Linq;
     using System.Web.Mvc;
 
     public class ReviewsController : BaseController
@@ -136,8 +137,9 @@
         public ActionResult Upvote(int id)
         {
             var review = this.Data.Reviews.Find(id);
+            var upvotedReviewIds = this.UserProfile.UpvotedReviews.Select(r => r.Id).ToList();
             var canVote = this.User.Identity.CanVoteForReview(review.AuthorId);
-            var alreadyUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, this.UserProfile.UpvotedReviewIds);
+            var alreadyUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, upvotedReviewIds);
 
             if (!canVote || (canVote && alreadyUpvoted))
             {
@@ -146,7 +148,7 @@
 
             review.Upvotes += 1;
 
-            this.UserProfile.UpvotedReviewIds.Add(id);
+            this.UserProfile.UpvotedReviews.Add(review);
 
             this.Data.Reviews.SaveChanges();
             this.Data.Users.SaveChanges();
@@ -159,8 +161,9 @@
         public ActionResult Downvote(int id)
         {
             var review = this.Data.Reviews.Find(id);
+            var upvotedReviewIds = this.UserProfile.UpvotedReviews.Select(r => r.Id).ToList();
             var canVote = this.User.Identity.CanVoteForReview(review.AuthorId);
-            var hasUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, this.UserProfile.UpvotedReviewIds);
+            var hasUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, upvotedReviewIds);
 
             if (!canVote || (canVote && !hasUpvoted))
             {
@@ -169,7 +172,7 @@
 
             review.Upvotes -= 1;
 
-            this.UserProfile.UpvotedReviewIds.Remove(id);
+            this.UserProfile.UpvotedReviews.Remove(review);
 
             this.Data.Reviews.SaveChanges();
             this.Data.Users.SaveChanges();
