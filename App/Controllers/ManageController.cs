@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿using App.Controllers.Enums;
+using BeachRankings.App.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using BeachRankings.App.Models.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace App.Controllers
 {
@@ -49,15 +50,14 @@ namespace App.Controllers
             }
         }
 
-        public async Task<PartialViewResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(ActionMessage? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ActionMessage.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ActionMessage.ChangeAvatarSuccess ? "Your avatar has been changed."
+                : message == ActionMessage.DeleteAvatarSuccess ? "Your avatar has been deleted."
+                : message == ActionMessage.UploadAvatarError ? "Failed to upload avatar. Verify its size, dimensions, and format."
+                : message == ActionMessage.Error ? "An error has occurred. Please try again."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -69,7 +69,8 @@ namespace App.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
-            return this.PartialView(model);
+
+            return this.View(model);
         }
 
         //
@@ -78,7 +79,7 @@ namespace App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
-            ManageMessageId? message;
+            ActionMessage? message;
             var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
@@ -87,11 +88,11 @@ namespace App.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                message = ManageMessageId.RemoveLoginSuccess;
+                message = ActionMessage.RemoveLoginSuccess;
             }
             else
             {
-                message = ManageMessageId.Error;
+                message = ActionMessage.Error;
             }
             return this.RedirectToAction("ManageLogins", new { Message = message });
         }
@@ -184,7 +185,7 @@ namespace App.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return this.RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
+                return this.RedirectToAction("Index", new { Message = ActionMessage.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "Failed to verify phone");
@@ -198,14 +199,14 @@ namespace App.Controllers
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
-                return this.RedirectToAction("Index", new { Message = ManageMessageId.Error });
+                return this.RedirectToAction("Index", new { Message = ActionMessage.Error });
             }
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
-            return this.RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
+            return this.RedirectToAction("Index", new { Message = ActionMessage.RemovePhoneSuccess });
         }
 
         //
@@ -233,7 +234,7 @@ namespace App.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return this.RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return this.RedirectToAction("Index", new { Message = ActionMessage.ChangePasswordSuccess });
             }
             AddErrors(result);
             return this.View(model);
@@ -262,7 +263,7 @@ namespace App.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
-                    return this.RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+                    return this.RedirectToAction("Index", new { Message = ActionMessage.SetPasswordSuccess });
                 }
                 AddErrors(result);
             }
@@ -273,11 +274,11 @@ namespace App.Controllers
 
         //
         // GET: /Manage/ManageLogins
-        public async Task<ActionResult> ManageLogins(ManageMessageId? message)
+        public async Task<ActionResult> ManageLogins(ActionMessage? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ActionMessage.RemoveLoginSuccess ? "The external login was removed."
+                : message == ActionMessage.Error ? "An error has occurred."
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
@@ -311,10 +312,10 @@ namespace App.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
-                return this.RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+                return this.RedirectToAction("ManageLogins", new { Message = ActionMessage.Error });
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ActionMessage.Error });
         }
 
         protected override void Dispose(bool disposing)
@@ -366,17 +367,6 @@ namespace App.Controllers
                 return user.PhoneNumber != null;
             }
             return false;
-        }
-
-        public enum ManageMessageId
-        {
-            AddPhoneSuccess,
-            ChangePasswordSuccess,
-            SetTwoFactorSuccess,
-            SetPasswordSuccess,
-            RemoveLoginSuccess,
-            RemovePhoneSuccess,
-            Error
         }
 
 #endregion

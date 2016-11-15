@@ -133,6 +133,11 @@ img {
     height: 50%;
 }
 
+.user-avatar-box {
+    height: 150px;
+    border: 1px inset solid gray;
+}
+
 /* DATATABLES */
 #table-result_wrapper {
     margin-top: 20px;

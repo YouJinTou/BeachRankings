@@ -221,6 +221,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
+    <Compile Include="Controllers\Enums\ActionMessage.cs" />
     <Compile Include="Controllers\QuaternaryDivisionsController.cs" />
     <Compile Include="Controllers\TertiaryDivisionsController.cs" />
     <Compile Include="Controllers\SecondaryDivisionsController.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="CustomAttributes\UserAvatarValidAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -243,7 +245,7 @@
     <Compile Include="Utils\Extensions\SpecificHtmlExtensions.cs" />
     <Compile Include="Utils\Extensions\IdentityExtensions.cs" />
     <Compile Include="Utils\Helper.cs" />
-    <Compile Include="ValidationAttributes\ImagesValidAttribute.cs" />
+    <Compile Include="CustomAttributes\ImagesValidAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\HomeViewModels.cs" />
     <Compile Include="Models\ViewModels\ReviewViewModels.cs" />
@@ -412,6 +414,7 @@
     <Content Include="Views\Shared\_LocationBeaches.cshtml" />
     <Content Include="Views\Shared\_Statistics.cshtml" />
     <Content Include="Views\Reviews\Edit.cshtml" />
+    <Content Include="Views\User\ChangeAvatar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

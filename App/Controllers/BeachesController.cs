@@ -205,9 +205,8 @@
                 .Include(c => c.SecondaryDivisions)
                 .FirstOrDefault(c => c.Id == model.CountryId);
 
-            var creatorId = this.UserProfile.Id;
             var beach = Mapper.Map<AddBeachViewModel, Beach>(model);
-            beach.CreatorId = creatorId;
+            beach.CreatorId = this.UserProfile.Id;
             beach.WaterBodyId = this.GetWaterBodyId(model.CountryId, model.PrimaryDivisionId, model.SecondaryDivisionId);
 
             this.Data.Beaches.Add(beach);
@@ -221,7 +220,7 @@
 
         private int GetWaterBodyId(int countryId, int? primaryDivisionid, int? secondaryDivisionId)
         {
-            var secondaryDivision = this.Data.SecondaryDivisions.Find(secondaryDivisionId);
+            var secondaryDivision = this.Data.SecondaryDivisions.All().Include(sd => sd.WaterBody).FirstOrDefault(sd => sd.Id == secondaryDivisionId);
             var secondaryDivisionHasWaterBody = (secondaryDivision != null && secondaryDivision.WaterBodyId != null);
 
             if (secondaryDivisionHasWaterBody)
@@ -229,7 +228,7 @@
                 return (int)secondaryDivision.WaterBodyId;
             }
 
-            var primaryDivision = this.Data.PrimaryDivisions.Find(primaryDivisionid);
+            var primaryDivision = this.Data.PrimaryDivisions.All().Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == primaryDivisionid);
             var primaryDivisionHasWaterBody = (primaryDivision != null && primaryDivision.WaterBodyId != null);
 
             if (primaryDivisionHasWaterBody)
@@ -237,7 +236,7 @@
                 return (int)primaryDivision.WaterBodyId;
             }
 
-            var waterBodyId = this.Data.Countries.Find(countryId).WaterBodyId;
+            var waterBodyId = this.Data.Countries.All().Include(c => c.WaterBody).FirstOrDefault(c => c.Id == countryId).WaterBodyId;
 
             return (int)waterBodyId;
         }
@@ -249,7 +248,7 @@
                 return;
             }
 
-            var relativeBeachDir = Helper.GetBeachImagesRelativeDir(beach.Name);
+            var relativeBeachDir = BeachHelper.GetBeachImagesRelativeDir(beach.Name);
             var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachDir);
 
             Directory.CreateDirectory(beachDir);
@@ -360,7 +359,7 @@
 
         private void EraseImagesLocally(string beachName)
         {
-            var relativeBeachImagesDir = Helper.GetBeachImagesRelativeDir(beachName);
+            var relativeBeachImagesDir = BeachHelper.GetBeachImagesRelativeDir(beachName);
             var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachImagesDir);
 
             if (Directory.Exists(beachDir))

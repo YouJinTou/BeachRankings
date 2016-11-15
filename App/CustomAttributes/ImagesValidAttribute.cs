@@ -1,4 +1,4 @@
-﻿namespace BeachRankings.App.ValidationAttributes
+﻿namespace BeachRankings.App.CustomAttributes
 {
     using System.ComponentModel.DataAnnotations;
     using System.Drawing;
@@ -18,15 +18,14 @@
                 return true;
             }
 
-            var anyFileNull = (files.Any(f => f == null));
-            var countExceeded = (files.Length > 3);
-
-            if (anyFileNull || countExceeded)
+            if (files.Any(f => f == null))
             {
                 return false;
             }
 
             var filesValid = new bool[files.Length];
+            var maxTotalSize = 3.5 * 1024 * 1024;
+            var runningSize = 0;
 
             for (int i = 0; i < files.Length; i++)
             {
@@ -34,12 +33,10 @@
                 {
                     using (var image = Image.FromStream(files[i].InputStream))
                     {
-                        var maxSizeExceeded = (files[i].ContentLength > 1.5 * 1024 * 1024);
+                        runningSize += files[i].ContentLength;
                         var fileNameLengthExceeded = (files[i].FileName.Length > 100);
-                        var formatCorrect = (
-                            image.RawFormat.Equals(ImageFormat.Png) ||
-                            image.RawFormat.Equals(ImageFormat.Jpeg) ||
-                            image.RawFormat.Equals(ImageFormat.Tiff));
+                        var formatCorrect = (image.RawFormat.Equals(ImageFormat.Png) || image.RawFormat.Equals(ImageFormat.Jpeg));
+                        var maxSizeExceeded = (runningSize > maxTotalSize);
 
                         if (maxSizeExceeded || fileNameLengthExceeded || !formatCorrect)
                         {

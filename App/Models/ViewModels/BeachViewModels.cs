@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Web;
     using System.Web.Mvc;
-    using BeachRankings.App.ValidationAttributes;
+    using BeachRankings.App.CustomAttributes;
 
     public class AddBeachViewModel
     {
@@ -41,7 +41,7 @@
             ErrorMessage = "Invalid coordinates.")]
         public string Coordinates { get; set; }
 
-        [ImagesValid(ErrorMessage = "Failed to upload images. Verify their count, size, and format.")]
+        [ImagesValid(ErrorMessage = "Failed to upload images. Verify their total size and format.")]
         public IEnumerable<HttpPostedFileBase> Images { get; set; }
     }
 
