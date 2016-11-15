@@ -1,9 +1,11 @@
 ﻿(function ($) {
     var dragdealersManager = new DragdealersManager();
     var expansionInProgress = false;
+    var votingInProgress = false;
 
     hideEmptyAsideElements();
     helper.setScoreBoxesBackgroundColor();
+    helper.toggleReviewThumbs();
 
     $('.slick-carousel').slick({
         slidesToShow: 1,
@@ -79,6 +81,40 @@
             $('html, body').animate({
                 scrollTop: $arrow.offset().top + offset
             }, 750);
+        }
+    });
+
+    $('#beach-details-container').on('click', '.icon-upvote', function () {
+        if (votingInProgress) {
+            return;
+        }
+        
+        var $this = $(this);
+        var isUpvote = $this.hasClass('glyphicon-thumbs-up');
+        var url = isUpvote ? '/Reviews/Upvote/' : '/Reviews/Downvote';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                id: $this.data('review-id')
+            },
+            beforeSend: function () {
+                votingInProgress = true;
+            },
+            success: function (result) {
+                changeThumbsDirection();
+            }, complete: function () {
+                votingInProgress = false;
+            }
+        });
+
+        function changeThumbsDirection() {
+            if ($this.hasClass('glyphicon-thumbs-up')) {
+                $this.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
+            } else {
+                $this.removeClass('glyphicon-thumbs-down').addClass('glyphicon-thumbs-up');
+            }
         }
     });
 

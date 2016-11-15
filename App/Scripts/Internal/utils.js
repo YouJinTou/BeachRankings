@@ -15,6 +15,17 @@
         }        
     }
 
+    function toggleReviewThumbs() {
+        $('.concise-review').each(function () {
+            var $this = $(this);
+            var alreadyUpvoted = $this.find('.icon-upvote').data('already-upvoted');
+
+            if (alreadyUpvoted === 'true') {
+                $this.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
+            }
+        });
+    }
+
     function getScoreBoxBackgroundColor(score) {
         var color;
         
@@ -34,7 +45,8 @@
     }
 
     return {
-        setScoreBoxesBackgroundColor: setScoreBoxesBackgroundColor
+        setScoreBoxesBackgroundColor: setScoreBoxesBackgroundColor,
+        toggleReviewThumbs: toggleReviewThumbs
     }
 };
 

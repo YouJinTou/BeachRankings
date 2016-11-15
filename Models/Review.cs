@@ -79,6 +79,8 @@
         [Display(Name = "Review")]
         public string Content { get; private set; }
 
+        public int Upvotes { get; set; }
+
         [Range(0, 10)]
         public double? TotalScore { get; private set; }
 

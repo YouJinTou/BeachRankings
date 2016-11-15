@@ -24,6 +24,10 @@
         public double? TotalScore { get; set; }
 
         public string Content { get; set; }
+
+        public int Upvotes { get; set; }
+
+        public bool AlreadyUpvoted { get; set; }
     }
 
     public class DetailedReviewViewModel : CriteriaBaseModel

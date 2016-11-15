@@ -25,7 +25,7 @@
             var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);
             model.UserHasRated = this.User.Identity.IsAuthenticated ? this.UserProfile.Reviews.Any(r => r.BeachId == id) : false;
 
-            model.Reviews.OrderByDescending(r => r.PostedOn);
+            model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn);
 
             return this.View(model);
         }

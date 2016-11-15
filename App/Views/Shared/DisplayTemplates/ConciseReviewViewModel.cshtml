@@ -12,11 +12,14 @@
                                     controllerName: "User", 
                                     routeValues: new { authorId = Model.AuthorId },
                                     htmlAttributes: null)</h5></div>
+        <div class="text-center">
+            <h6>@Model.PostedOn.ToString("MMM d, yyyy")</h6>
+        </div>
     </div>
     <div class="col-md-10">
         <div class="row">
             <div class="col-xs-12">
-                <div class="pull-left">@Model.PostedOn.ToString("MMM d, yyyy")</div>
+                <div class="pull-left"><h3><i>@Model.Upvotes upvotes</i></h3></div>
                 <div class="beach-score-box beach-score-box-extended pull-right col-xs-12">
                     <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
                 </div>
@@ -27,11 +30,20 @@
         </div>        
     </div>
     <div class="col-xs-10">
-        @{if (User.Identity.CanEditReview(Model.AuthorId))
+        @{
+            if (User.Identity.CanEditReview(Model.AuthorId))
             {
-                <div class="col-xs-2 pull-right text-right">
+                <div class="pull-right text-right col-xs-2">
                     <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
                     <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
+                </div>
+            }
+        }
+        @{
+            if (User.Identity.CanVoteForReview(Model.AuthorId))
+            {
+                <div class="pull-right text-right col-xs-1">
+                    <span data-review-id="@Model.Id" data-already-upvoted="@Model.AlreadyUpvoted" class="icon-upvote a-like-span control glyphicon glyphicon-thumbs-up" title="Give thanks"></span>
                 </div>
             }
         }

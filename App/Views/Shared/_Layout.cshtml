@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@ViewBag.Title</title>
+    <title>@Html.ParseNullString((string)ViewBag.Title, "BeachesDb")</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Internal/main-layout.css")
     @Scripts.Render("~/bundles/modernizr")

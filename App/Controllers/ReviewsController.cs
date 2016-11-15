@@ -130,5 +130,51 @@
 
             return this.RedirectToAction("Index", "Home");
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Upvote(int id)
+        {
+            var review = this.Data.Reviews.Find(id);
+            var canVote = this.User.Identity.CanVoteForReview(review.AuthorId);
+            var alreadyUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, this.UserProfile.UpvotedReviewIds);
+
+            if (!canVote || (canVote && alreadyUpvoted))
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            review.Upvotes += 1;
+
+            this.UserProfile.UpvotedReviewIds.Add(id);
+
+            this.Data.Reviews.SaveChanges();
+            this.Data.Users.SaveChanges();
+
+            return new EmptyResult();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Downvote(int id)
+        {
+            var review = this.Data.Reviews.Find(id);
+            var canVote = this.User.Identity.CanVoteForReview(review.AuthorId);
+            var hasUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, this.UserProfile.UpvotedReviewIds);
+
+            if (!canVote || (canVote && !hasUpvoted))
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            review.Upvotes -= 1;
+
+            this.UserProfile.UpvotedReviewIds.Remove(id);
+
+            this.Data.Reviews.SaveChanges();
+            this.Data.Users.SaveChanges();
+
+            return new EmptyResult();
+        }
     }
 }

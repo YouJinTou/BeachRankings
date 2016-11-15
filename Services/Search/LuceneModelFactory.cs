@@ -26,8 +26,8 @@
             var addressTokens = doc.Get("Address").Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
             var tokensCount = addressTokens.Length;
             var country = addressTokens[0];
-            var primaryDivision = addressTokens[1];
-            var secondaryDivision = addressTokens[2];
+            var primaryDivision = (tokensCount > 2) ? addressTokens[1] : null;
+            var secondaryDivision = (tokensCount > 3) ? addressTokens[2] : null;
             var tertiaryDivision = (tokensCount > 4) ? addressTokens[3] : null;
             var quaternaryDivision = (tokensCount > 5) ? addressTokens[4] : null;
             var waterBody = addressTokens[tokensCount - 1];
