@@ -13,21 +13,6 @@
         <div class="aside-element">Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
         <div class="aside-element">Coordinates: <a href="https://www.google.com/maps/place/@Model.Coordinates" target="_blank">@Model.Coordinates</a></div>
         <hr />
-        <div class="aside-element">Sand: @Model.SandQuality</div>
-        <div class="aside-element">Beach cleanliness: @Model.BeachCleanliness</div>
-        <div class="aside-element">Scenery: @Model.BeautifulScenery</div>
-        <div class="aside-element">Crowd-free: @Model.CrowdFree</div>
-        <div class="aside-element">Water purity: @Model.WaterPurity</div>
-        <div class="aside-element">Waste-free seabed: @Model.WasteFreeSeabed</div>
-        <div class="aside-element">Feet-friendly bottom: @Model.FeetFriendlyBottom</div>
-        <div class="aside-element">Sea life diversity: @Model.SeaLifeDiversity</div>
-        <div class="aside-element">Coral reef: @Model.CoralReef</div>
-        <div class="aside-element">Good for a walk: @Model.Walking</div>
-        <div class="aside-element">Snorkeling: @Model.Snorkeling</div>
-        <div class="aside-element">Kayaking: @Model.Kayaking</div>
-        <div class="aside-element">Camping: @Model.Camping</div>
-        <div class="aside-element">Infrastructure: @Model.Infrastructure</div>
-        <div class="aside-element">Long-term stay: @Model.LongTermStay</div>
     </aside>
 
     <div class="beach-head custom-canvas col-xs-8">
@@ -67,7 +52,23 @@
                 @Html.DisplayFor(model => model.Images) 
             </div>
             <div class="col-xs-4">
-                <p class="beach-description-details text-justify">@Model.Description</p>
+                <div class="text-left">
+                    <div>Sand: @Html.ParseNullableValue(@Model.SandQuality, "-")</div>
+                    <div>Beach cleanliness: @Html.ParseNullableValue(@Model.BeachCleanliness, "-")</div>
+                    <div>Scenery: @Html.ParseNullableValue(@Model.BeautifulScenery, "-")</div>
+                    <div>Crowd-free: @Html.ParseNullableValue(@Model.CrowdFree, "-")</div>
+                    <div>Water purity: @Html.ParseNullableValue(@Model.WaterPurity, "-")</div>
+                    <div>Waste-free seabed: @Html.ParseNullableValue(@Model.WasteFreeSeabed, "-")</div>
+                    <div>Feet-friendly bottom: @Html.ParseNullableValue(@Model.FeetFriendlyBottom, "-")</div>
+                    <div>Sea life diversity: @Html.ParseNullableValue(@Model.SeaLifeDiversity, "-")</div>
+                    <div>Coral reef: @Html.ParseNullableValue(@Model.CoralReef, "-")</div>
+                    <div>Good for a walk: @Html.ParseNullableValue(@Model.Walking, "-")</div>
+                    <div>Snorkeling: @Html.ParseNullableValue(@Model.Snorkeling, "-")</div>
+                    <div>Kayaking: @Html.ParseNullableValue(@Model.Kayaking, "-")</div>
+                    <div>Camping: @Html.ParseNullableValue(@Model.Camping, "-")</div>
+                    <div>Infrastructure: @Html.ParseNullableValue(@Model.Infrastructure, "-")</div>
+                    <div>Long-term stay: @Html.ParseNullableValue(@Model.LongTermStay, "-")</div>
+                </div>                
                 <div class="row">
                     @{
                         if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
