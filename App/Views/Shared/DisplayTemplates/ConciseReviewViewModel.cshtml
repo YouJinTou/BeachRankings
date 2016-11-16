@@ -6,13 +6,18 @@
             <img class="avatar-img img-responsive" src="@Model.AvatarPath" alt="No profile photo" />
         </div>
         <div class="text-center"><h4>@Model.UserName</h4></div>
-        <div class="text-left"><h5>@Html.PluralizeValue(@Model.CountriesVisited, "country"), @Html.ActionLink(
-                                    linkText: Html.PluralizeValue(Model.ReviewsCount, "beach").ToString(), 
-                                    actionName: "Reviews", 
-                                    controllerName: "User", 
-                                    routeValues: new { authorId = Model.AuthorId },
-                                    htmlAttributes: null)</h5></div>
-        <div class="text-center">
+        <div class="text-left">
+            <h5>
+                @Html.PluralizeValue(@Model.CountriesVisited, "country"), @Html.ActionLink(
+                    linkText: Html.PluralizeValue(Model.ReviewsCount, "beach").ToString(), 
+                    actionName: "Reviews", 
+                    controllerName: "User", 
+                    routeValues: new { authorId = Model.AuthorId },
+                    htmlAttributes: null)
+            </h5>
+        </div>
+        <div class="text-left">Level @Model.Level traveller</div>
+        <div class="text-left">
             <h6>@Model.PostedOn.ToString("MMM d, yyyy")</h6>
         </div>
     </div>

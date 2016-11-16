@@ -61,10 +61,12 @@
             this.Data.Reviews.Add(review);
             this.Data.Reviews.SaveChanges();
 
+            this.UserProfile.RecalculateLevel();
+            this.Data.Users.SaveChanges();
+
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
 
             reviewedBeach.UpdateScores();
-
             this.Data.Beaches.SaveChanges();
 
             return Json(new { redirectUrl = Url.Action("Details", "Beaches", new { id = bindingModel.BeachId }) });
@@ -126,8 +128,13 @@
                 return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId });
             }
 
+            var author = this.Data.Users.Find(review.AuthorId); // It's possible that a moderator is deleting the review
+
             this.Data.Reviews.Remove(review);
             this.Data.Reviews.SaveChanges();
+
+            author.RecalculateLevel();
+            this.Data.Users.SaveChanges();
 
             return this.RedirectToAction("Index", "Home");
         }
@@ -143,7 +150,7 @@
 
             if (!canVote || (canVote && alreadyUpvoted))
             {
-                return new HttpStatusCodeResult(404);
+                return new HttpStatusCodeResult(401);
             }
 
             review.Upvotes += 1;
@@ -167,7 +174,7 @@
 
             if (!canVote || (canVote && !hasUpvoted))
             {
-                return new HttpStatusCodeResult(404);
+                return new HttpStatusCodeResult(401);
             }
 
             review.Upvotes -= 1;

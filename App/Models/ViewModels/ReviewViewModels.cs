@@ -16,6 +16,8 @@
 
         public int CountriesVisited { get; set; }
 
+        public int Level { get; set; }
+
         public string AvatarPath { get; set; }
 
         public DateTime PostedOn { get; set; }

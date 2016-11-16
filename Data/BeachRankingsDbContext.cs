@@ -89,6 +89,10 @@
                .HasMany(b => b.Images)
                .WithRequired(i => i.Beach)
                .WillCascadeOnDelete(true);
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Reviews)
+                .WithRequired(r => r.Author)
+                .WillCascadeOnDelete(true);
 
             base.OnModelCreating(modelBuilder);
         }

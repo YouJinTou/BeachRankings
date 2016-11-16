@@ -381,7 +381,7 @@ namespace BeachRankings.Data.Migrations
 
             var c = dolorSitAmet;
             var reviews = new List<Review>();
-            var authors = new string[]
+            var authorIds = new string[]
             {
                 this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id,
                 this.data.Users.FirstOrDefault(u => u.UserName == "user").Id,
@@ -399,7 +399,7 @@ namespace BeachRankings.Data.Migrations
 
             for (int i = 0; i < reviews.Count; i++)
             {
-                reviews[i].AuthorId = authors[randomAuthorId.Next(0, 3)];
+                reviews[i].AuthorId = authorIds[randomAuthorId.Next(0, 3)];
 
                 reviews[i].UpdateTotalScore();
 
@@ -409,6 +409,18 @@ namespace BeachRankings.Data.Migrations
                 var reviewedBeach = this.data.Beaches.Find(reviews[i].BeachId);
 
                 reviewedBeach.UpdateScores();
+            }
+
+            var authors = new User[]
+            {
+                this.data.Users.Find(authorIds[0]),
+                this.data.Users.Find(authorIds[1]),
+                this.data.Users.Find(authorIds[2])
+            };
+
+            for (int i = 0; i < authors.Length; i++)
+            {
+                authors[i].RecalculateLevel();
             }
 
             this.data.SaveChanges();

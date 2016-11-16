@@ -29,7 +29,6 @@
 
             this.SetViewThumbsDown(model.Reviews);
             
-
             return this.View(model);
         }
 
@@ -174,6 +173,11 @@
 
         private void SetViewThumbsDown(IEnumerable<ConciseReviewViewModel> reviews)
         {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return;
+            }
+
             var reviewsAsList = reviews.ToList();
 
             for (int i = 0; i < reviewsAsList.Count; i++)

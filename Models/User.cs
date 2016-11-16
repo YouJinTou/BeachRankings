@@ -9,6 +9,8 @@
 
     public class User : IdentityUser
     {
+        private readonly int[] LevelThresholds = new int[] { 10, 20, 50, 100, 200 };
+
         private ICollection<Review> reviews;
         private ICollection<Review> upvotedReviews;
         private ICollection<BeachImage> images;
@@ -16,15 +18,22 @@
 
         public User()
         {
+            this.Level = 1;
         }
 
         public string AvatarPath { get; set; }
+
+        public int Level { get; private set; }
 
         public virtual ICollection<Review> Reviews
         {
             get
             {
                 return this.reviews ?? (this.reviews = new HashSet<Review>());
+            }
+            protected set
+            {
+                this.reviews = value;
             }
         }
 
@@ -34,6 +43,10 @@
             {
                 return this.upvotedReviews ?? (this.upvotedReviews = new HashSet<Review>());
             }
+            protected set
+            {
+                this.upvotedReviews = value;
+            }
         }
 
         public virtual ICollection<BeachImage> Images
@@ -41,6 +54,10 @@
             get
             {
                 return this.images ?? (this.images = new HashSet<BeachImage>());
+            }
+            protected set
+            {
+                this.images = value;
             }
         }
 
@@ -65,6 +82,21 @@
             var countriesVisited = this.Reviews.GroupBy(r => r.Beach.Country.Name).Count();
 
             return countriesVisited;
+        }
+
+        public void RecalculateLevel()
+        {
+            var reviewsCount = this.Reviews.Count;
+
+            for (int i = this.LevelThresholds.Length - 1; i >= 0; i--)
+            {                
+                if (this.LevelThresholds[i] < reviewsCount)
+                {
+                    this.Level = i + 1;
+
+                    break;
+                }
+            }
         }
     }
 }
