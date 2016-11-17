@@ -48,6 +48,11 @@
         [Display(Name = "Review")]
         public string Content { get; private set; }
 
+        public bool IsBlogger { get; set; }
+
+        [Display(Name = "Blog article links")]
+        public string ArticleLinks { get; set; }
+
         public string BeachName { get; set; }
 
         public string BeachCountry { get; set; }

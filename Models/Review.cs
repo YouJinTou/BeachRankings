@@ -79,6 +79,8 @@
         [Display(Name = "Review")]
         public string Content { get; private set; }
 
+        public string ArticleLinks { get; set; }
+
         public int Upvotes { get; set; }
 
         [Range(0, 10)]

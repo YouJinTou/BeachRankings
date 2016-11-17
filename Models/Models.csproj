@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlogArticle.cs" />
     <Compile Include="Interfaces\IPlaceSearchable.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="PrimaryDivision.cs" />

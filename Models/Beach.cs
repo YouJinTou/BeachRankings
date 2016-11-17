@@ -11,6 +11,7 @@
     {
         private ICollection<Review> reviews;
         private ICollection<BeachImage> images;
+        private ICollection<BlogArticle> blogArticles;
 
         public Beach()
         {
@@ -28,6 +29,8 @@
 
         [Required]
         public string CreatorId { get; set; }
+
+        public virtual User Creator { get; set; }
 
         [Required]
         public DateTime AddedOn { get; private set; }
@@ -87,6 +90,18 @@
             protected set
             {
                 this.images = value;
+            }
+        }
+
+        public virtual ICollection<BlogArticle> BlogArticles
+        {
+            get
+            {
+                return this.blogArticles ?? (this.blogArticles = new HashSet<BlogArticle>());
+            }
+            protected set
+            {
+                this.blogArticles = value;
             }
         }
 

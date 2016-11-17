@@ -57,6 +57,17 @@
                         <span class="pull-right"><sub>A minimum of 100 symbols</sub></span>
                     </div>
                 </div>
+
+                @{ 
+                    if (Model.IsBlogger)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ArticleLinks)
+                            @Html.TextBoxFor(model => model.ArticleLinks, new { data_article_links = "", placeholder = "Comma separated" })
+                        </div>
+                    }
+                }
+
                 <!--Beach-->
                 <div class="form-group">
                     @Html.LabelFor(model => model.SandQuality, htmlAttributes: new { @class = "control-label col-md-3" })

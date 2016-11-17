@@ -29,6 +29,10 @@
 
         public IDbSet<Review> Reviews { get; set; }
 
+        public IDbSet<Blog> Blogs { get; set; }
+
+        public IDbSet<BlogArticle> BlogArticles { get; set; }
+
         public static BeachRankingsDbContext Create()
         {
             return new BeachRankingsDbContext();

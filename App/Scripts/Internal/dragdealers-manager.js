@@ -56,6 +56,7 @@
             var reviewJsonData = {
                 authorId: $('[data-hdn-author-id]').val(),
                 content: $('[data-review-content]').val(),
+                articleLinks: $('[data-article-links]').val(),
                 sandQuality: $('[data-sand-quality-handle]').text(),
                 beachCleanliness: $('[data-beach-cleanliness-handle]').text(),
                 beautifulScenery: $('[data-beautiful-scenery-handle]').text(),
