@@ -10,9 +10,19 @@
         [Required]
         public int BlogId { get; set; }
 
+        public virtual Blog Blog { get; set; }
+
+        [Required]
+        public int ReviewId { get; set; }
+
+        public virtual Review Review { get; set; }
+
+        [Required]
+        public int BeachId { get; set; }
+
+        public virtual Beach Beach { get; set; }
+
         [Required]
         public string Url { get; set; }
-
-        public virtual Blog Blog { get; set; }
     }
 }

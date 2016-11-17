@@ -55,6 +55,7 @@
                 return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachId });
             }
 
+
             var review = Mapper.Map<PostReviewBindingModel, Review>(bindingModel);
             review.AuthorId = this.UserProfile.Id;
 
@@ -65,6 +66,14 @@
             this.Data.Users.SaveChanges();
 
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
+
+            if (this.UserProfile.IsBlogger)
+            {
+                reviewedBeach.SetBlogArticleData(this.UserProfile.Blogs, bindingModel.ArticleLinks, review.Id);
+
+                this.Data.BlogArticles.AddMany(reviewedBeach.BlogArticles);
+                this.Data.BlogArticles.SaveChanges();
+            }
 
             reviewedBeach.UpdateScores();
             this.Data.Beaches.SaveChanges();

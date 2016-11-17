@@ -26,7 +26,7 @@
 
         public int Level { get; private set; }
 
-        public bool Blogger { get; set; }
+        public bool IsBlogger { get; set; }
 
         public virtual ICollection<Review> Reviews
         {

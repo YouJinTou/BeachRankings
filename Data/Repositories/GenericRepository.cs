@@ -1,6 +1,7 @@
 ﻿namespace BeachRankings.Data.Repositories
 {
     using BeachRankings.Data.Repositories.Interfaces;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
 
@@ -33,6 +34,14 @@
         public TEntity Add(TEntity entity)
         {
             return this.ChangeState(entity, EntityState.Added);
+        }
+
+        public void AddMany(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                this.Add(entity);
+            }
         }
 
         public TEntity Update(TEntity entity)

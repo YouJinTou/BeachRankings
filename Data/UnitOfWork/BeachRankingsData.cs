@@ -22,6 +22,8 @@
         private IBeachRepository beaches;
         private IGenericRepository<BeachImage> beachImages;
         private IGenericRepository<Review> reviews;
+        private IGenericRepository<Blog> blogs;
+        private IGenericRepository<BlogArticle> blogArticles;
 
         public BeachRankingsData()
             : this(new BeachRankingsDbContext())
@@ -174,7 +176,33 @@
 
                 return this.reviews;
             }
-        }    
+        }
+
+        public IGenericRepository<Blog> Blogs
+        {
+            get
+            {
+                if (this.blogs == null)
+                {
+                    this.blogs = new GenericRepository<Blog>(this.dbContext);
+                }
+
+                return this.blogs;
+            }
+        }
+
+        public IGenericRepository<BlogArticle> BlogArticles
+        {
+            get
+            {
+                if (this.blogArticles == null)
+                {
+                    this.blogArticles = new GenericRepository<BlogArticle>(this.dbContext);
+                }
+
+                return this.blogArticles;
+            }
+        }
 
         public void SaveChanges()
         {

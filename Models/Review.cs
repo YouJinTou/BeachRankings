@@ -1,11 +1,14 @@
 ﻿namespace BeachRankings.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Review
     {
         private const int BeachCriteriaCount = 15;
+
+        private ICollection<BlogArticle> blogArticles;
 
         protected Review()
         {
@@ -78,10 +81,20 @@
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         [Display(Name = "Review")]
         public string Content { get; private set; }
-
-        public string ArticleLinks { get; set; }
-
+        
         public int Upvotes { get; set; }
+
+        public virtual ICollection<BlogArticle> BlogArticles
+        {
+            get
+            {
+                return this.blogArticles ?? (this.blogArticles = new HashSet<BlogArticle>());
+            }
+            protected set
+            {
+                this.blogArticles = value;
+            }
+        }
 
         [Range(0, 10)]
         public double? TotalScore { get; private set; }
@@ -145,7 +158,7 @@
         [Display(Name = "Long-term stay")]
         public double? LongTermStay { get; private set; }
 
-        #endregion        
+        #endregion
 
         public void UpdateTotalScore()
         {

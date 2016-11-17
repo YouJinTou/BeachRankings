@@ -55,7 +55,7 @@
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Images))
-                    .ForMember(vm => vm.IsBlogger, model => model.MapFrom(m => m.Creator.Blogger));
+                    .ForMember(vm => vm.IsBlogger, model => model.MapFrom(m => m.Creator.IsBlogger));
                 cfg.CreateMap<Review, EditReviewViewModel>()
                     .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Beach.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))

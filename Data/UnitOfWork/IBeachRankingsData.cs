@@ -24,5 +24,9 @@
         IGenericRepository<BeachImage> BeachImages { get; }
 
         IGenericRepository<Review> Reviews { get; }
+
+        IGenericRepository<Blog> Blogs { get; }
+
+        IGenericRepository<BlogArticle> BlogArticles { get; }
     }
 }
