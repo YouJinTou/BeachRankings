@@ -145,6 +145,8 @@ namespace App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            this.ValidateBlogger(model);
+
             if (ModelState.IsValid)
             {
                 var user = new User { UserName = model.UserName, Email = model.Email };
@@ -420,6 +422,7 @@ namespace App.Controllers
         }
 
         #region Helpers
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -476,6 +479,17 @@ namespace App.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+
+        private void ValidateBlogger(RegisterViewModel model)
+        {
+            var bloggerWithoutSite = (model.Blogger && string.IsNullOrEmpty(model.Blogs));
+
+            if (bloggerWithoutSite)
+            {
+                this.ModelState.AddModelError(string.Empty, "At least one URL is required.");
+            }
+        }
+
         #endregion
     }
 }

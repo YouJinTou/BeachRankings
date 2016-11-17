@@ -63,17 +63,17 @@
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "The username field is required.")]
         [StringLength(16, ErrorMessage = "Your username must be between {1} and {2} characters long.", MinimumLength = 3)]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The email field is required.")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The password field is required.")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -81,8 +81,17 @@
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation passwords do not match.")]
+        [Compare("Password", ErrorMessage = "The two passwords do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "I blog about beaches")]
+        public bool Blogger { get; set; }
+
+        [Display(Name = "My blogs")]
+        [RegularExpression(
+            @"(?:(?:https?:\/\/)(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+",
+            ErrorMessage = "We couldn't process the URLs provided.")]
+        public string Blogs { get; set; }
     }
 
     public class ResetPasswordViewModel

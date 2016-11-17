@@ -2,10 +2,18 @@
     margin-top: 20px;
 }
 
+#register-container {
+    margin-top: 20px;
+}
+
 .checkbox-extended {
     margin-left: 10px;
 }
 
 .checkbox-extended label {
     font-weight: lighter;
+}
+
+#blogger-checkbox-container {
+    margin-left: 0px;
 }

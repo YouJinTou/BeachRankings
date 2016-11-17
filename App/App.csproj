@@ -287,9 +287,8 @@
     <Content Include="Content\Internal\beach-add-edit.css" />
     <Content Include="Content\Internal\beach-details.css" />
     <Content Include="Content\Internal\images.css" />
-    <Content Include="Content\Internal\manage.css" />
-    <Content Include="Content\Internal\register.css" />
-    <Content Include="Content\Internal\login.css" />
+    <Content Include="Content\Internal\dashboard.css" />
+    <Content Include="Content\Internal\account.css" />
     <Content Include="Content\Internal\location.css" />
     <Content Include="Content\Internal\main-layout.css" />
     <Content Include="Content\jquery-ui.css" />
@@ -326,6 +325,7 @@
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
     <Content Include="Scripts\Internal\beach-details.js" />
+    <Content Include="Scripts\Internal\account.js" />
     <Content Include="Scripts\Internal\datatables-manager.js" />
     <Content Include="Scripts\Internal\infinite-scroller.js" />
     <Content Include="Scripts\Internal\contributors.js" />

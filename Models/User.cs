@@ -14,6 +14,7 @@
         private ICollection<Review> reviews;
         private ICollection<Review> upvotedReviews;
         private ICollection<BeachImage> images;
+        private ICollection<Blog> blogs;
         private ClaimsIdentity identity;
 
         public User()
@@ -24,6 +25,8 @@
         public string AvatarPath { get; set; }
 
         public int Level { get; private set; }
+
+        public bool Blogger { get; set; }
 
         public virtual ICollection<Review> Reviews
         {
@@ -58,6 +61,18 @@
             protected set
             {
                 this.images = value;
+            }
+        }
+
+        public virtual ICollection<Blog> Blogs
+        {
+            get
+            {
+                return this.blogs ?? (this.blogs = new HashSet<Blog>());
+            }
+            protected set
+            {
+                this.blogs = value;
             }
         }
 

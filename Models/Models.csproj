@@ -63,6 +63,7 @@
     <Compile Include="QuaternaryDivision.cs" />
     <Compile Include="SecondaryDivision.cs" />
     <Compile Include="TertiaryDivision.cs" />
+    <Compile Include="Blog.cs" />
     <Compile Include="WaterBody.cs" />
     <Compile Include="Beach.cs" />
     <Compile Include="Interfaces\IBeachSearchable.cs" />
