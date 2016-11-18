@@ -211,60 +211,6 @@
             this.TotalScore = this.RoundScore(this.Reviews.Average(r => r.TotalScore));
         }
 
-        public void SetBlogArticleData(ICollection<Blog> blogs, string articleLinks, int reviewId)
-        {
-            if (blogs == null || blogs.Count == 0)
-            {
-                return;
-            }
-
-            if (!this.SetBlogArticles(articleLinks))
-            {
-                return;
-            }
-
-            foreach (var blogArticle in this.BlogArticles)
-            {
-                var articleMatch = Regex.Match(blogArticle.Url, @"(?:(?:https?:\/\/)?(?:www\.)?)(.*\.\w+)\/?", RegexOptions.None);
-
-                foreach (var blog in blogs)
-                {
-                    var blogMatch = Regex.Match(blog.Url, @"(?:(?:https?:\/\/)?(?:www\.)?)(.*\.\w+)\/?", RegexOptions.None);
-                    var foundBlog = blogMatch.Groups[1].ToString().ToLower().Equals(articleMatch.Groups[1].ToString().ToLower());
-
-                    if (foundBlog)
-                    {
-                        blogArticle.BlogId = blog.Id;
-                        blogArticle.ReviewId = reviewId;
-                        blogArticle.BeachId = this.Id;
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        private bool SetBlogArticles(string articleLinks)
-        {
-            if (string.IsNullOrEmpty(articleLinks))
-            {
-                return false;
-            }
-
-            var urls = articleLinks.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            var blogArticles = new HashSet<BlogArticle>();
-
-            foreach (var url in urls)
-            {
-                blogArticles.Add(new BlogArticle()
-                {
-                    Url = url
-                });
-            }
-
-            return true;
-        }
-
         private double? RoundScore(double? score)
         {
             if (!score.HasValue)

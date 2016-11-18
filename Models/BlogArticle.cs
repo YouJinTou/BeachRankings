@@ -10,12 +10,12 @@
         [Required]
         public int BlogId { get; set; }
 
-        public virtual Blog Blog { get; set; }
+        public virtual Blog Blog { get; protected set; }
 
         [Required]
         public int ReviewId { get; set; }
 
-        public virtual Review Review { get; set; }
+        public virtual Review Review { get; protected set; }
 
         [Required]
         public int BeachId { get; set; }

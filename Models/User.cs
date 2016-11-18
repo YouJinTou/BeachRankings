@@ -99,7 +99,7 @@
             return countriesVisited;
         }
 
-        public void RecalculateLevel()
+        public bool RecalculateLevel()
         {
             var reviewsCount = this.Reviews.Count;
 
@@ -109,9 +109,11 @@
                 {
                     this.Level = i + 1;
 
-                    break;
+                    return true;
                 }
             }
+
+            return false;
         }
     }
 }

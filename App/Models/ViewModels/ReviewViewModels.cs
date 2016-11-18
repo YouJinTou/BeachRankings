@@ -46,11 +46,14 @@
         [MinLength(100, ErrorMessage = "100 characters should be doable.")]
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         [Display(Name = "Review")]
-        public string Content { get; private set; }
+        public string Content { get; set; }
 
         public bool IsBlogger { get; set; }
 
         [Display(Name = "Blog article links")]
+        [RegularExpression(
+            @"(?:(?:https?:\/\/)(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+",
+            ErrorMessage = "We couldn't process the URLs provided.")]
         public string ArticleLinks { get; set; }
 
         public string BeachName { get; set; }
@@ -71,18 +74,28 @@
 
         public int BeachReviewsCount { get; set; }
 
-        public IEnumerable<BeachImageThumbnailViewModel> BeachImagePaths { get; set; }                
+        public IEnumerable<BeachImageThumbnailViewModel> BeachImagePaths { get; set; }
     }
 
     public class EditReviewViewModel : CriteriaBaseModel
     {
+        public int Id { get; set; }
+
         public string AuthorId { get; set; }
 
         [Required(ErrorMessage = "The review field is required.")]
         [MinLength(100, ErrorMessage = "100 characters should be doable.")]
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         [Display(Name = "Review")]
-        public string Content { get; private set; }
+        public string Content { get; set; }
+
+        public bool IsBlogger { get; set; }
+
+        [Display(Name = "Blog article links")]
+        [RegularExpression(
+            @"(?:(?:https?:\/\/)(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+",
+            ErrorMessage = "We couldn't process the URLs provided.")]
+        public string ArticleLinks { get; set; }
 
         public int BeachId { get; set; }
 

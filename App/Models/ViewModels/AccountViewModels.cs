@@ -1,5 +1,6 @@
 ﻿namespace BeachRankings.App.Models.ViewModels
 {
+    using CustomAttributes;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -85,12 +86,10 @@
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "I blog about beaches")]
-        public bool Blogger { get; set; }
+        public bool IsBlogger { get; set; }
 
         [Display(Name = "My blogs")]
-        [RegularExpression(
-            @"(?:(?:https?:\/\/)(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+",
-            ErrorMessage = "We couldn't process the URLs provided.")]
+        [UrisValid(ErrorMessage = "We couldn't process the links provided.")]
         public string Blogs { get; set; }
     }
 

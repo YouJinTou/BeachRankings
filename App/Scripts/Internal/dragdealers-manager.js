@@ -19,11 +19,6 @@
     ];
 
     function initializeDragdealers() {
-        var postIndex = window.location.href.indexOf('Post/');
-        var readIndex = window.location.href.indexOf('Details/');
-        var mode = ((postIndex > -1) ? 'post' : ((readIndex > -1) ? "read" : 'edit'));
-        var posting = (mode === "post");
-        var editing = (mode === "edit");
         var options = {
             disabled: 'true',
             steps: 101,
@@ -48,72 +43,22 @@
 
             attachDragdealerClickEventListener(dragdealer, i);
         }
-
-        $('[data-btn-submit-review]').on('click', function (event) {
-            event.preventDefault();
-
-            var actionUrl = posting ? '/Reviews/Post/' : '/Reviews/Edit/';
-            var reviewJsonData = {
-                authorId: $('[data-hdn-author-id]').val(),
-                content: $('[data-review-content]').val(),
-                articleLinks: $('[data-article-links]').val(),
-                sandQuality: $('[data-sand-quality-handle]').text(),
-                beachCleanliness: $('[data-beach-cleanliness-handle]').text(),
-                beautifulScenery: $('[data-beautiful-scenery-handle]').text(),
-                crowdFree: $('[data-crowd-free-handle]').text(),
-                waterPurity: $('[data-water-purity-handle]').text(),
-                wasteFreeSeabed: $('[data-wastefree-seabed-handle]').text(),
-                feetFriendlyBottom: $('[data-feet-friendly-bottom-handle]').text(),
-                coralReef: $('[data-coral-reef-handle]').text(),
-                seaLifeDiversity: $('[data-sea-life-diversity-handle]').text(),
-                walking: $('[data-walking-handle]').text(),
-                snorkeling: $('[data-snorkeling-handle]').text(),
-                kayaking: $('[data-kayaking-handle]').text(),
-                camping: $('[data-camping-handle]').text(),
-                infrastructure: $('[data-infrastructure-handle]').text(),
-                longTermStay: $('[data-long-term-stay-handle]').text()
-            };
-            var reviewForm = $('#submitReviewForm');
-            var csrfToken = $('input[name="__RequestVerificationToken"]', reviewForm).val();
-            var modelData = getModelData();
-
-            reviewJsonData[modelData.modelName] = modelData.modelId;
-
-            if (reviewForm.valid()) {
-                $.ajax({
-                    url: actionUrl,
-                    type: 'POST',
-                    data: {
-                        __RequestVerificationToken: csrfToken,
-                        bindingModel: reviewJsonData
-                    },
-                    success: function (result) {
-                        if (result.redirectUrl) {
-                            window.location.href = result.redirectUrl;
-                        }
-                    }
-                });
-            }
-        });
-
+        
         function attachDragdealerClickEventListener(dragdealer, i) {
             var handleDataAttribute = ('[data-' + criteriaNames[i] + '-handle]');
-
-            if (editing) {
-                var criterionValue = $(handleDataAttribute).data(criteriaNames[i] + '-handle');
-                var handleXPosition = (criterionValue / 10);
+            var criterionValue = $(handleDataAttribute).data(criteriaNames[i] + '-handle');
+            var handleXPosition = (criterionValue / 10);
                 
-                if (criterionValue !== '') {
-                    dragdealer.enable();
+            if (criterionValue !== '') {
+                dragdealer.enable();
 
-                    dragdealer.setValue(handleXPosition, 0);
-                    $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(criterionValue * 10)));
-                    $(dragdealer.handle).text(criterionValue);
+                dragdealer.setValue(handleXPosition, 0);
+                $(dragdealer.wrapper).css('background-color', ('#' + rainbow.colourAt(criterionValue * 10)));
+                $(dragdealer.handle).text(criterionValue);
 
-                    setResetButtonEvents();
-                } else {
-                    disableDragdealer(dragdealer);
-                }
+                setResetButtonEvents();
+            } else {
+                disableDragdealer(dragdealer);
             }
 
             $(handleDataAttribute).on('mousedown', function () {
@@ -146,17 +91,6 @@
                 dragdealer.setValue(0.5, 0);
                 $(dragdealer.wrapper).css('background-color', '#EEE');
                 $(dragdealer.handle).text('');
-            }
-        }
-
-        function getModelData() {
-            var pattern = /^.*?(\d+)\D*$/;
-            var modelId = pattern.exec(window.location.href)[1];
-            var modelName = posting ? "beachId" : "reviewId";
-
-            return {
-                modelId: modelId,
-                modelName: modelName
             }
         }
     }

@@ -26,7 +26,7 @@
                 cfg.CreateMap<Beach, EditBeachViewModel>();
                 cfg.CreateMap<EditBeachViewModel, Beach>();
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
-                cfg.CreateMap<PostReviewBindingModel, Review>();
+                cfg.CreateMap<PostReviewViewModel, Review>();
                 cfg.CreateMap<Review, DetailedReviewViewModel>();
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
                 cfg.CreateMap<EditReviewBindingModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
@@ -55,7 +55,21 @@
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Images))
-                    .ForMember(vm => vm.IsBlogger, model => model.MapFrom(m => m.Creator.IsBlogger));
+                    .ForMember(vm => vm.SandQuality, model => model.Ignore())
+                    .ForMember(vm => vm.BeachCleanliness, model => model.Ignore())
+                    .ForMember(vm => vm.BeautifulScenery, model => model.Ignore())
+                    .ForMember(vm => vm.CrowdFree, model => model.Ignore())
+                    .ForMember(vm => vm.WaterPurity, model => model.Ignore())
+                    .ForMember(vm => vm.WasteFreeSeabed, model => model.Ignore())
+                    .ForMember(vm => vm.FeetFriendlyBottom, model => model.Ignore())
+                    .ForMember(vm => vm.SeaLifeDiversity, model => model.Ignore())
+                    .ForMember(vm => vm.CoralReef, model => model.Ignore())
+                    .ForMember(vm => vm.Walking, model => model.Ignore())
+                    .ForMember(vm => vm.Snorkeling, model => model.Ignore())
+                    .ForMember(vm => vm.Kayaking, model => model.Ignore())
+                    .ForMember(vm => vm.Camping, model => model.Ignore())
+                    .ForMember(vm => vm.Infrastructure, model => model.Ignore())
+                    .ForMember(vm => vm.LongTermStay, model => model.Ignore());
                 cfg.CreateMap<Review, EditReviewViewModel>()
                     .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Beach.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
@@ -97,6 +111,6 @@
                     .ForMember(vm => vm.CountriesVisited, model => model.MapFrom(m => m.Author.GetVisitedCountriesCount()))
                     .ForMember(vm => vm.Level, model => model.MapFrom(m => m.Author.Level));
             });
-        }
-    }    
+        }                
+    }
 }

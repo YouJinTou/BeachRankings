@@ -1,15 +1,18 @@
-﻿using BeachRankings.App.Models.ViewModels;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using BeachRankings.Models;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-
-namespace App.Controllers
+﻿namespace App.Controllers
 {
+    using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.App.Utils;
+    using BeachRankings.Data;
+    using BeachRankings.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -149,11 +152,28 @@ namespace App.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.UserName, Email = model.Email };
+                var beachesDbContext = new BeachRankingsDbContext();
+                var user = new User { UserName = model.UserName, Email = model.Email, IsBlogger = model.IsBlogger, AvatarPath = UserHelper.GetUserDefaultAvatarPath() };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                var userStore = new UserStore<User>(beachesDbContext);
+                var userManager = new UserManager<User>(userStore);
 
                 if (result.Succeeded)
                 {
+                    userManager.AddToRole(user.Id, "User");
+
+                    if (model.IsBlogger)
+                    {
+                        var userBlogs = BlogsHelper.GetUserBlogs(model.Blogs, user.Id);
+
+                        foreach (var blog in userBlogs)
+                        {
+                            beachesDbContext.Blogs.Add(blog);
+                        }
+
+                        beachesDbContext.SaveChanges();
+                    }
+
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -482,7 +502,7 @@ namespace App.Controllers
 
         private void ValidateBlogger(RegisterViewModel model)
         {
-            var bloggerWithoutSite = (model.Blogger && string.IsNullOrEmpty(model.Blogs));
+            var bloggerWithoutSite = (model.IsBlogger && string.IsNullOrEmpty(model.Blogs));
 
             if (bloggerWithoutSite)
             {

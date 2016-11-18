@@ -1,7 +1,7 @@
 ﻿namespace BeachRankings.Data
 {
-    using Microsoft.AspNet.Identity.EntityFramework;
     using BeachRankings.Models;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Data.Entity;
 
     public class BeachRankingsDbContext : IdentityDbContext<User>
@@ -85,18 +85,25 @@
                .WithRequired(b => b.TertiaryDivision)
                .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Beach>()
-                .HasMany(b => b.Reviews)
-                .WithRequired(r => r.Beach)
-                .WillCascadeOnDelete(true);
-            modelBuilder.Entity<Beach>()
-               .HasMany(b => b.Images)
-               .WithRequired(i => i.Beach)
-               .WillCascadeOnDelete(true);
             modelBuilder.Entity<User>()
-                .HasMany(u => u.Reviews)
-                .WithRequired(r => r.Author)
-                .WillCascadeOnDelete(true);
+               .HasMany(u => u.Blogs)
+               .WithRequired(r => r.User)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Review>()
+                .HasRequired(r => r.Author)
+                .WithMany(a => a.Reviews)
+                .HasForeignKey(r => r.AuthorId)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Review>()
+                .HasRequired(r => r.Beach)
+                .WithMany(b => b.Reviews)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BeachImage>()
+               .HasRequired(bi => bi.Beach)
+               .WithMany(b => b.Images)
+               .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }

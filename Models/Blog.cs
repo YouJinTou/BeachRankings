@@ -13,6 +13,8 @@
         [Required]
         public string UserId { get; set; }
 
+        public virtual User User { get; protected set; }
+
         [Required]
         public string Url { get; set; }
 

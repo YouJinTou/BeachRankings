@@ -1,8 +1,10 @@
 ﻿namespace App.Controllers
 {
     using AutoMapper;
+    using BeachRankings.App.Models;
     using BeachRankings.App.Models.BindingModels;
     using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.App.Utils;
     using BeachRankings.App.Utils.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
@@ -36,6 +38,15 @@
 
             var beach = this.Data.Beaches.Find(id);
             var model = Mapper.Map<Beach, PostReviewViewModel>(beach);
+            model.IsBlogger = this.UserProfile.IsBlogger;
+            var isError = (this.TempData["PostReviewViewModel"] != null);
+
+            if (isError)
+            {
+                var bindingmodel = (PostReviewViewModel)this.TempData["PostReviewViewModel"];
+
+                this.OnErrorSetCriteriaData(model, bindingmodel);
+            }
 
             return this.View(model);
         }
@@ -43,11 +54,13 @@
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Post(PostReviewBindingModel bindingModel)
+        public ActionResult Post(PostReviewViewModel bindingModel)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                this.TempData["PostReviewViewModel"] = bindingModel;
+
+                return this.RedirectToAction("Post", new { id = bindingModel.BeachId });
             }
 
             if (!this.UserProfile.CanRateBeach(bindingModel.BeachId))
@@ -55,30 +68,31 @@
                 return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachId });
             }
 
-
-            var review = Mapper.Map<PostReviewBindingModel, Review>(bindingModel);
+            var review = Mapper.Map<PostReviewViewModel, Review>(bindingModel);
             review.AuthorId = this.UserProfile.Id;
 
             this.Data.Reviews.Add(review);
             this.Data.Reviews.SaveChanges();
 
-            this.UserProfile.RecalculateLevel();
-            this.Data.Users.SaveChanges();
+            if (this.UserProfile.RecalculateLevel())
+            {
+                this.Data.Users.SaveChanges();
+            }
 
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
 
             if (this.UserProfile.IsBlogger)
             {
-                reviewedBeach.SetBlogArticleData(this.UserProfile.Blogs, bindingModel.ArticleLinks, review.Id);
+                var blogArticles = BlogsHelper.GetBlogArticles(this.UserProfile.Blogs, bindingModel.ArticleLinks, review.BeachId, review.Id);
 
-                this.Data.BlogArticles.AddMany(reviewedBeach.BlogArticles);
+                this.Data.BlogArticles.AddMany(blogArticles);
                 this.Data.BlogArticles.SaveChanges();
             }
 
             reviewedBeach.UpdateScores();
             this.Data.Beaches.SaveChanges();
 
-            return Json(new { redirectUrl = Url.Action("Details", "Beaches", new { id = bindingModel.BeachId }) });
+            return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachId });
         }
 
         [Authorize]
@@ -87,14 +101,23 @@
         {
             var review = this.Data.Reviews.Find(id);
 
-            if (this.User.Identity.CanEditReview(review.AuthorId))
+            if (!this.User.Identity.CanEditReview(review.AuthorId))
             {
-                var model = Mapper.Map<Review, EditReviewViewModel>(review);
-
-                return this.View(model);
+                return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId });
             }
 
-            return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId }); // Unauthorized
+            var model = Mapper.Map<Review, EditReviewViewModel>(review);
+            model.IsBlogger = this.UserProfile.IsBlogger;
+            var isError = (this.TempData["EditReviewViewModel"] != null);
+
+            if (isError)
+            {
+                var bindingmodel = (EditReviewViewModel)this.TempData["EditReviewViewModel"];
+
+                this.OnErrorSetCriteriaData(model, bindingmodel);
+            }
+
+            return this.View(model);
         }
 
         [Authorize]
@@ -104,12 +127,14 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                this.TempData["EditReviewViewModel"] = bindingModel;
+
+                return this.RedirectToAction("Edit", new { id = bindingModel.Id });
             }
 
-            var review = this.Data.Reviews.Find(bindingModel.ReviewId);
+            var review = this.Data.Reviews.Find(bindingModel.Id);
 
-            if (!this.User.Identity.CanEditReview(bindingModel.AuthorId))
+            if (!this.User.Identity.CanEditReview(review.AuthorId))
             {
                 return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId });
             }
@@ -124,7 +149,7 @@
 
             this.Data.Beaches.SaveChanges();
 
-            return Json(new { redirectUrl = Url.Action("Details", "Beaches", new { id = reviewedBeach.Id }) });
+            return this.RedirectToAction("Details", "Beaches", new { id = reviewedBeach.Id });
         }
 
         [Authorize]
@@ -142,8 +167,10 @@
             this.Data.Reviews.Remove(review);
             this.Data.Reviews.SaveChanges();
 
-            author.RecalculateLevel();
-            this.Data.Users.SaveChanges();
+            if (author.RecalculateLevel())
+            {
+                this.Data.Users.SaveChanges();
+            }
 
             return this.RedirectToAction("Index", "Home");
         }
@@ -195,5 +222,28 @@
 
             return new EmptyResult();
         }
+
+        #region Helpers
+
+        private void OnErrorSetCriteriaData(CriteriaBaseModel viewModel, CriteriaBaseModel bindingModel)
+        {
+            viewModel.SandQuality = bindingModel.SandQuality;
+            viewModel.BeachCleanliness = bindingModel.BeachCleanliness;
+            viewModel.BeautifulScenery = bindingModel.BeautifulScenery;
+            viewModel.CrowdFree = bindingModel.CrowdFree;
+            viewModel.WaterPurity = bindingModel.WaterPurity;
+            viewModel.WasteFreeSeabed = bindingModel.WasteFreeSeabed;
+            viewModel.FeetFriendlyBottom = bindingModel.FeetFriendlyBottom;
+            viewModel.SeaLifeDiversity = bindingModel.SeaLifeDiversity;
+            viewModel.CoralReef = bindingModel.CoralReef;
+            viewModel.Walking = bindingModel.Walking;
+            viewModel.Snorkeling = bindingModel.Snorkeling;
+            viewModel.Kayaking = bindingModel.Kayaking;
+            viewModel.Camping = bindingModel.Camping;
+            viewModel.Infrastructure = bindingModel.Infrastructure;
+            viewModel.LongTermStay = bindingModel.LongTermStay;
+        }
+
+        #endregion
     }
 }

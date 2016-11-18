@@ -34,13 +34,14 @@
     </div>
 
     <div class="row">
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "submitReviewForm" }))
+        @using (Html.BeginForm("Post", "Reviews", FormMethod.Post, new { id = "submit-review-form" }))
         {
             @Html.AntiForgeryToken()
-
+            
             <div class="form-horizontal ">
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
@@ -59,11 +60,20 @@
                 </div>
 
                 @{ 
-                    if (Model.IsBlogger)
+                    if (this.Model.IsBlogger)
                     {
                         <div class="form-group">
-                            @Html.LabelFor(model => model.ArticleLinks)
-                            @Html.TextBoxFor(model => model.ArticleLinks, new { data_article_links = "", placeholder = "Comma separated" })
+                            @Html.LabelFor(model => model.ArticleLinks, new { @class = "control-label col-md-3" })
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.ArticleLinks,
+                                new
+                                {
+                                    @class = "form-control custom-focus-black",
+                                    data_article_links = "",
+                                    placeholder = "Comma separated"
+                                })
+                                @Html.ValidationMessageFor(model => model.ArticleLinks, "", new { @class = "text-danger" })
+                            </div>                            
                         </div>
                     }
                 }
@@ -90,7 +100,7 @@
                     @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="beach-cleanliness-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-beach-cleanliness-handle=""></div>
+                            <div class="handle oval" data-beach-cleanliness-handle="@Model.BeachCleanliness"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -107,7 +117,7 @@
                     @Html.LabelFor(model => model.BeautifulScenery, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="beautiful-scenery-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-beautiful-scenery-handle=""></div>
+                            <div class="handle oval" data-beautiful-scenery-handle="@Model.BeautifulScenery"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -124,7 +134,7 @@
                     @Html.LabelFor(model => model.CrowdFree, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="crowd-free-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-crowd-free-handle=""></div>
+                            <div class="handle oval" data-crowd-free-handle="@Model.CrowdFree"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -143,7 +153,7 @@
                     @Html.LabelFor(model => model.WaterPurity, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="water-purity-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-water-purity-handle=""></div>
+                            <div class="handle oval" data-water-purity-handle="@Model.WaterPurity"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -160,7 +170,7 @@
                     @Html.LabelFor(model => model.WasteFreeSeabed, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="wastefree-seabed-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-wastefree-seabed-handle=""></div>
+                            <div class="handle oval" data-wastefree-seabed-handle="@Model.WasteFreeSeabed"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -177,7 +187,7 @@
                     @Html.LabelFor(model => model.FeetFriendlyBottom, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="feet-friendly-bottom-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-feet-friendly-bottom-handle=""></div>
+                            <div class="handle oval" data-feet-friendly-bottom-handle="@Model.FeetFriendlyBottom"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -194,7 +204,7 @@
                     @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="sea-life-diversity-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-sea-life-diversity-handle=""></div>
+                            <div class="handle oval" data-sea-life-diversity-handle="@Model.SeaLifeDiversity"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -211,7 +221,7 @@
                     @Html.LabelFor(model => model.CoralReef, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="coral-reef-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-coral-reef-handle=""></div>
+                            <div class="handle oval" data-coral-reef-handle="@Model.CoralReef"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -230,7 +240,7 @@
                     @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="walking-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-walking-handle=""></div>
+                            <div class="handle oval" data-walking-handle="@Model.Walking"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -247,7 +257,7 @@
                     @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="snorkeling-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-snorkeling-handle=""></div>
+                            <div class="handle oval" data-snorkeling-handle="@Model.Snorkeling"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -264,7 +274,7 @@
                     @Html.LabelFor(model => model.Kayaking, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="kayaking-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-kayaking-handle=""></div>
+                            <div class="handle oval" data-kayaking-handle="@Model.Kayaking"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -281,7 +291,7 @@
                     @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="camping-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-camping-handle=""></div>
+                            <div class="handle oval" data-camping-handle="@Model.Camping"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -300,7 +310,7 @@
                     @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="infrastructure-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-infrastructure-handle=""></div>
+                            <div class="handle oval" data-infrastructure-handle="@Model.Infrastructure"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -317,7 +327,7 @@
                     @Html.LabelFor(model => model.LongTermStay, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
                         <div id="long-term-stay-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-long-term-stay-handle=""></div>
+                            <div class="handle oval" data-long-term-stay-handle="@Model.LongTermStay"></div>
                         </div>
                     </div>
                     <div class="col-md-4 text-left">
@@ -337,6 +347,23 @@
                     </div>
                 </div>
             </div>
+
+            @Html.HiddenFor(model => model.BeachId)
+            @Html.HiddenFor(model => model.SandQuality, new { id = "hdn-sand-quality" })
+            @Html.HiddenFor(model => model.BeachCleanliness, new { id = "hdn-beach-cleanliness" })
+            @Html.HiddenFor(model => model.BeautifulScenery, new { id = "hdn-beautiful-scenery" })
+            @Html.HiddenFor(model => model.CrowdFree, new { id = "hdn-crowd-free" })
+            @Html.HiddenFor(model => model.WaterPurity, new { id = "hdn-water-purity" })
+            @Html.HiddenFor(model => model.WasteFreeSeabed, new { id = "hdn-wastefree-seadbed" })
+            @Html.HiddenFor(model => model.FeetFriendlyBottom, new { id = "hdn-feet-friendly-bottom" })
+            @Html.HiddenFor(model => model.SeaLifeDiversity, new { id = "hdn-sea-life-diversity" })
+            @Html.HiddenFor(model => model.CoralReef, new { id = "hdn-coral-reef" })
+            @Html.HiddenFor(model => model.Walking, new { id = "hdn-walking" })
+            @Html.HiddenFor(model => model.Snorkeling, new { id = "hdn-snorkeling" })
+            @Html.HiddenFor(model => model.Kayaking, new { id = "hdn-kayaking" })
+            @Html.HiddenFor(model => model.Camping, new { id = "hdn-camping" })
+            @Html.HiddenFor(model => model.Infrastructure, new { id = "hdn-infrastructure" })
+            @Html.HiddenFor(model => model.LongTermStay, new { id = "hdn-long-term-stay" })
         }
     </div>
 </div>
