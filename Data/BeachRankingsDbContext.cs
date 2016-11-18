@@ -105,6 +105,19 @@
                .WithMany(b => b.Images)
                .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<BlogArticle>()
+                .HasRequired(ba => ba.Blog)
+                .WithMany(b => b.BlogArticles)
+                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<BlogArticle>()
+               .HasRequired(ba => ba.Beach)
+               .WithMany(b => b.BlogArticles)
+               .WillCascadeOnDelete(false);
+            modelBuilder.Entity<BlogArticle>()
+               .HasRequired(ba => ba.Review)
+               .WithMany(b => b.BlogArticles)
+               .WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
         }
     }

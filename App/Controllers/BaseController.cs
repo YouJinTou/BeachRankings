@@ -3,6 +3,7 @@
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -34,6 +35,29 @@
             }
 
             return base.BeginExecute(requestContext, callback, state);
+        }
+
+        protected ICollection<string> GetModelStateErrors()
+        {
+            var errors = new List<string>();
+
+            foreach (var modelState in this.ViewData.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    errors.Add(error.ErrorMessage);
+                }
+            }
+
+            return errors;
+        }
+
+        protected void AddModelStateErrors(ICollection<string> errors)
+        {
+            foreach (var error in errors)
+            {
+                this.ModelState.AddModelError(string.Empty, error);
+            }
         }
     }
 }

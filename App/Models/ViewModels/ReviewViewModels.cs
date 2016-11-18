@@ -1,9 +1,10 @@
 ﻿namespace BeachRankings.App.Models.ViewModels
 {
+    using BeachRankings.App.CustomAttributes;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public class ConciseReviewViewModel
     {
         public int Id { get; set; }
@@ -51,9 +52,7 @@
         public bool IsBlogger { get; set; }
 
         [Display(Name = "Blog article links")]
-        [RegularExpression(
-            @"(?:(?:https?:\/\/)(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+",
-            ErrorMessage = "We couldn't process the URLs provided.")]
+        [UrisValid(ErrorMessage = "We couldn't process the provided links.")]
         public string ArticleLinks { get; set; }
 
         public string BeachName { get; set; }
@@ -92,9 +91,7 @@
         public bool IsBlogger { get; set; }
 
         [Display(Name = "Blog article links")]
-        [RegularExpression(
-            @"(?:(?:https?:\/\/)(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+|(?:(?:https?:\/\/)?(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*),?)+",
-            ErrorMessage = "We couldn't process the URLs provided.")]
+        [UrisValid(ErrorMessage = "We couldn't process the provided links.")]
         public string ArticleLinks { get; set; }
 
         public int BeachId { get; set; }

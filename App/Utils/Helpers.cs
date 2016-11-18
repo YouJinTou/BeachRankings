@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     public static class GenericHelpers
@@ -11,7 +12,7 @@
         public static string GetUriHostName(string address)
         {
             var startsCorrectly = address.StartsWith("http://") || address.StartsWith("https://");
-            var uri = startsCorrectly ? new Uri(address) : new Uri(address.Insert(0, "http://"));
+            var uri = startsCorrectly ? new Uri(address) : new Uri(address.Trim().Insert(0, "http://"));
             var host = uri.Host.Replace("www.", string.Empty);
 
             return host;
@@ -55,7 +56,7 @@
                 return new HashSet<Blog>();
             }
 
-            var blogUrls = blogsString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var blogUrls = blogsString.Split(',').Select(s => s.Trim()).Where(s => s != string.Empty).ToList();
             var blogs = new HashSet<Blog>();
 
             foreach (var blogUrl in blogUrls)
@@ -97,6 +98,19 @@
             return blogArticles;
         }
 
+        public static bool AllArticleUrlsMatched(ICollection<Blog> blogs, string articleLinks)
+        {
+            if (string.IsNullOrEmpty(articleLinks))
+            {
+                return true;
+            }
+
+            var articlesCount = articleLinks.Split(',').Select(s => s.Trim()).Where(s => s != string.Empty).ToList().Count;
+            var matchedArticlesCount = GetBlogArticles(blogs, articleLinks, 0, 0).Count(a => a.BlogId != 0);
+
+            return (articlesCount == matchedArticlesCount);
+        }
+
         private static ICollection<BlogArticle> CreateBlogArticles(string articleLinks)
         {
             if (string.IsNullOrEmpty(articleLinks))
@@ -104,7 +118,7 @@
                 return new HashSet<BlogArticle>();
             }
 
-            var urls = articleLinks.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var urls = articleLinks.Split(',').Select(s => s.Trim()).Where(s => s != string.Empty).ToList();
             var blogArticles = new HashSet<BlogArticle>();
 
             foreach (var url in urls)

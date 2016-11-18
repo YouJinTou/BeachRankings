@@ -8,6 +8,7 @@
     using BeachRankings.App.Utils.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -44,8 +45,11 @@
             if (isError)
             {
                 var bindingmodel = (PostReviewViewModel)this.TempData["PostReviewViewModel"];
+                model.Content = bindingmodel.Content;
+                model.ArticleLinks = bindingmodel.ArticleLinks;
 
                 this.OnErrorSetCriteriaData(model, bindingmodel);
+                base.AddModelStateErrors((ICollection<string>)this.TempData["PostReviewModelStateErrors"]);
             }
 
             return this.View(model);
@@ -56,8 +60,11 @@
         [ValidateAntiForgeryToken]
         public ActionResult Post(PostReviewViewModel bindingModel)
         {
+            this.ValidateArticleLinks(bindingModel.ArticleLinks);
+
             if (!this.ModelState.IsValid)
             {
+                this.TempData["PostReviewModelStateErrors"] = base.GetModelStateErrors();
                 this.TempData["PostReviewViewModel"] = bindingModel;
 
                 return this.RedirectToAction("Post", new { id = bindingModel.BeachId });
@@ -83,10 +90,13 @@
 
             if (this.UserProfile.IsBlogger)
             {
-                var blogArticles = BlogsHelper.GetBlogArticles(this.UserProfile.Blogs, bindingModel.ArticleLinks, review.BeachId, review.Id);
+                var articles = BlogsHelper.GetBlogArticles(this.UserProfile.Blogs, bindingModel.ArticleLinks, review.BeachId, review.Id);
 
-                this.Data.BlogArticles.AddMany(blogArticles);
-                this.Data.BlogArticles.SaveChanges();
+                if (articles.Count > 0)
+                {
+                    this.Data.BlogArticles.AddMany(articles);
+                    this.Data.BlogArticles.SaveChanges();
+                }               
             }
 
             reviewedBeach.UpdateScores();
@@ -113,8 +123,11 @@
             if (isError)
             {
                 var bindingmodel = (EditReviewViewModel)this.TempData["EditReviewViewModel"];
+                model.Content = bindingmodel.Content;
+                model.ArticleLinks = bindingmodel.ArticleLinks;
 
                 this.OnErrorSetCriteriaData(model, bindingmodel);
+                base.AddModelStateErrors((ICollection<string>)this.TempData["EditReviewModelStateErrors"]);
             }
 
             return this.View(model);
@@ -123,10 +136,13 @@
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditReviewBindingModel bindingModel)
+        public ActionResult Edit(EditReviewViewModel bindingModel)
         {
+            this.ValidateArticleLinks(bindingModel.ArticleLinks);
+
             if (!this.ModelState.IsValid)
             {
+                this.TempData["EditReviewModelStateErrors"] = base.GetModelStateErrors();
                 this.TempData["EditReviewViewModel"] = bindingModel;
 
                 return this.RedirectToAction("Edit", new { id = bindingModel.Id });
@@ -142,6 +158,19 @@
             Mapper.Map(bindingModel, review);
 
             this.Data.Reviews.SaveChanges();
+
+            if (this.UserProfile.IsBlogger)
+            {
+                var editedArticles = BlogsHelper.GetBlogArticles(this.UserProfile.Blogs, bindingModel.ArticleLinks, review.BeachId, review.Id);
+                var existingArticles = this.Data.BlogArticles.All().Where(ba => ba.ReviewId == review.Id);
+                var newArticles  = editedArticles.Where(na => !existingArticles.Select(ea => ea.Url).Contains(na.Url)).ToList();
+
+                if (newArticles.Count > 0)
+                {
+                    this.Data.BlogArticles.AddMany(newArticles);
+                    this.Data.BlogArticles.SaveChanges();
+                }
+            }
 
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
 
@@ -242,6 +271,19 @@
             viewModel.Camping = bindingModel.Camping;
             viewModel.Infrastructure = bindingModel.Infrastructure;
             viewModel.LongTermStay = bindingModel.LongTermStay;
+        }
+
+        private void ValidateArticleLinks(string articleLinks)
+        {
+            if (!this.UserProfile.IsBlogger)
+            {
+                return;
+            }
+
+            if (!BlogsHelper.AllArticleUrlsMatched(this.UserProfile.Blogs, articleLinks))
+            {
+                this.ModelState.AddModelError(string.Empty, "The links provided are either invalid or do not belong to your blog.");
+            }
         }
 
         #endregion

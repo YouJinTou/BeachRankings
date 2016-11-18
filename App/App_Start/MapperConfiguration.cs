@@ -28,8 +28,8 @@
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
                 cfg.CreateMap<PostReviewViewModel, Review>();
                 cfg.CreateMap<Review, DetailedReviewViewModel>();
+                cfg.CreateMap<EditReviewViewModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
-                cfg.CreateMap<EditReviewBindingModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
                 cfg.CreateMap<User, TableUserReviewsViewModel>().ForMember(vm => vm.AuthorName, model => model.MapFrom(m => m.UserName));
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Images.FirstOrDefault().Path))
@@ -81,7 +81,8 @@
                     .ForMember(vm => vm.SecondaryDivisionId, model => model.MapFrom(m => m.Beach.SecondaryDivisionId))
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.Beach.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Beach.Reviews.Count(r => r.TotalScore != null)))
-                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Beach.Images));
+                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Beach.Images))
+                    .ForMember(vm => vm.ArticleLinks, model => model.MapFrom(m => string.Join(", ", m.BlogArticles.Where(ba => ba.ReviewId == m.Id).Select(ba => ba.Url))));
                 cfg.CreateMap<Beach, TableRowViewModel>()
                     .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))

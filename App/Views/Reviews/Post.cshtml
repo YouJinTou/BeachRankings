@@ -40,7 +40,7 @@
             
             <div class="form-horizontal ">
                 <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-3" })
