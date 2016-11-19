@@ -10,8 +10,14 @@
         public int Id { get; set; }
 
         public string AuthorId { get; set; }
-        
+
         public string UserName { get; set; }
+
+        public bool IsBlogger { get; set; }
+
+        public string BlogUrl { get; set; }
+
+        public IEnumerable<BlogArticleViewModel> BlogArticles { get; set; }
 
         public int ReviewsCount { get; set; }
 

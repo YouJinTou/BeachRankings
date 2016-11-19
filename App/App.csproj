@@ -241,6 +241,7 @@
     <Compile Include="Models\ViewModels\PlaceViewModels.cs" />
     <Compile Include="Models\ViewModels\GenericViewModels.cs" />
     <Compile Include="Models\ViewModels\ImageViewModels.cs" />
+    <Compile Include="Models\ViewModels\BlogViewModels.cs" />
     <Compile Include="Models\ViewModels\UserViewModels.cs" />
     <Compile Include="Utils\Extensions\SpecificHtmlExtensions.cs" />
     <Compile Include="Utils\Extensions\IdentityExtensions.cs" />
@@ -415,6 +416,7 @@
     <Content Include="Views\Shared\_Statistics.cshtml" />
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\User\ChangeAvatar.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BlogArticleViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

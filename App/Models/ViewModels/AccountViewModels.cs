@@ -88,9 +88,9 @@
         [Display(Name = "I blog about beaches")]
         public bool IsBlogger { get; set; }
 
-        [Display(Name = "My blogs")]
-        [UrisValid(ErrorMessage = "We couldn't process the links provided.")]
-        public string Blogs { get; set; }
+        [Display(Name = "My blog")]
+        [UrisValid(ErrorMessage = "We couldn't process the link provided.")]
+        public string BlogUrl { get; set; }
     }
 
     public class ResetPasswordViewModel

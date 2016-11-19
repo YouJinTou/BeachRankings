@@ -21,6 +21,11 @@
     border-radius: 1px;
 }
 
+.blog-link {
+    margin-bottom: 5px;
+    border-radius: 1px;
+}
+
 /* CONCISE */
 .review-avatar-box {
     height: 130px;
@@ -119,7 +124,7 @@
     margin-right: 10px;
 }
 
-.review-popup {
+.custom-popup {
     position: absolute;
     z-index: 10;
     width: 20%;

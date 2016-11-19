@@ -8,7 +8,7 @@
         public int Id { get; set; }
 
         [Required]
-        public int BlogId { get; set; }
+        public string BlogId { get; set; }
 
         public virtual Blog Blog { get; protected set; }
 

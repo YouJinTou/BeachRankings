@@ -14,7 +14,6 @@
         private ICollection<Review> reviews;
         private ICollection<Review> upvotedReviews;
         private ICollection<BeachImage> images;
-        private ICollection<Blog> blogs;
         private ClaimsIdentity identity;
 
         public User()
@@ -64,17 +63,7 @@
             }
         }
 
-        public virtual ICollection<Blog> Blogs
-        {
-            get
-            {
-                return this.blogs ?? (this.blogs = new HashSet<Blog>());
-            }
-            protected set
-            {
-                this.blogs = value;
-            }
-        }
+        public virtual Blog Blog { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

@@ -40,12 +40,16 @@
                     <div id="blogger-checkbox-container" class="disable-block checkbox-extended">
                         @Html.CheckBoxFor(m => m.IsBlogger, new { id = "checkbox-blogger" })
                         @Html.LabelFor(m => m.IsBlogger)
+                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
                     </div>
+                    <div class="custom-popup custom-canvas" style="display: none;">
+                        We will put a link to your blog in every review you leave.
+                    </div>  
                 </div>
             </div>
-            <div id="blogs" class="form-group display-none">
+            <div id="blog" class="form-group display-none">
                 <div class="col-md-12">
-                    @Html.TextBoxFor(m => m.Blogs, new { @class = "form-control form-control-extended custom-focus-black", @placeholder = "Separate URLs by a comma" })
+                    @Html.TextBoxFor(m => m.BlogUrl, new { @class = "form-control form-control-extended custom-focus-black", @placeholder = "For example, http://www.myblog.com/" })
                 </div>
             </div>
             <div class="form-group">

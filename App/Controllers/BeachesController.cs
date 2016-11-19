@@ -367,17 +367,9 @@
             var reviews = beach.Reviews.ToList();
             var images = beach.Images.ToList();
 
-            for (int i = 0; i < reviews.Count; i++)
-            {
-                this.Data.Reviews.Remove(reviews[i]);
-            }
-
+            this.Data.Reviews.RemoveMany(reviews);
+            this.Data.BeachImages.RemoveMany(images);
             this.EraseImagesLocally(beach.Name);
-
-            for (int i = 0; i < images.Count; i++)
-            {
-                this.Data.BeachImages.Remove(images[i]);
-            }
 
             this.Data.Reviews.SaveChanges();
             this.Data.BeachImages.SaveChanges();

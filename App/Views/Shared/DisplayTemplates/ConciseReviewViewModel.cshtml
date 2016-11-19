@@ -6,6 +6,12 @@
             <img class="avatar-img img-responsive" src="@Model.AvatarPath" alt="No profile photo" />
         </div>
         <div class="text-center"><h4>@Model.UserName</h4></div>
+        @{ 
+            if (Model.IsBlogger)
+            {
+                <div class="text-left"><a href="@Html.AttachSchemeToDomain(@Model.BlogUrl)" target="_blank">Blog</a></div>
+            }
+        }
         <div class="text-left">
             <h5>
                 @Html.PluralizeValue(@Model.CountriesVisited, "country"), @Html.ActionLink(
@@ -36,6 +42,9 @@
         </div>
         <div class="row">
             <p class="review-content text-justify">@Model.Content</p>
+            <div class="text-left">
+                Read more about it on my blog: @Html.DisplayFor(model => model.BlogArticles)
+            </div>
         </div>        
     </div>
     <div class="col-xs-10">

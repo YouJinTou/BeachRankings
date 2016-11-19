@@ -5,15 +5,12 @@
 
     public class Blog
     {
+        [Key]
+        public string Id { get; set; }
+
         private ICollection<BlogArticle> blogArticles;
 
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
-
-        public virtual User User { get; protected set; }
+        public virtual User User { get; set; }
 
         [Required]
         public string Url { get; set; }

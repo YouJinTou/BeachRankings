@@ -1,41 +1,39 @@
 ﻿(function ($) {
-    var $blogs = $('#blogs');
+    var $blog = $('#blog');
 
     showBlogsTextBoxOnModelErrors();
 
     $('#checkbox-blogger').on('click', function () {
-        $blogs.toggle(200);
+        $blog.toggle(200);
     });
 
     $('#btn-submit').on('click', function (event) {
         event.preventDefault();
 
-        var noBlogs = $('#blogs').is(':visible') && $('#blogs input').val().trim().length === 0;
+        var noBlog = $blog.is(':visible') && $('#blog input').val().trim().length === 0;
 
-        if (noBlogs) {
+        if (noBlog) {
             if (anyTextBoxEmpty()) { // Show validation errors
                 $('#register-form').submit();
             }
 
             var valSummary = $('[data-valmsg-summary] ul');
 
-            valSummary.find('li').remove('.blogs-val');
-            valSummary.append('<li class="blogs-val">The blogs field is required.</li>');
+            valSummary.find('li').remove('.blog-val');
+            valSummary.append('<li class="blog-val">The blog field is required.</li>');
         } else {
             $('#register-form').submit();
         }
     });
 
+    $('.info-icon').on('mouseenter mouseleave', function () {
+        $(this).parent().siblings('.custom-popup').toggle();
+    });
+
     function showBlogsTextBoxOnModelErrors() {
-        $('#register-container input[type=text]').each(function () {
-            var isError = ($(this).val().trim().length > 0);
-
-            if (isError) {
-                $blogs.show();
-
-                return false;
-            }
-        });
+        if ($('#checkbox-blogger').is(':checked')) {
+            $blog.show();
+        }
     }
 
     function anyTextBoxEmpty() {

@@ -8,6 +8,7 @@
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
@@ -135,8 +136,6 @@
             }
         }
 
-        //
-        // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -154,7 +153,7 @@
             {
                 var beachesDbContext = new BeachRankingsDbContext();
                 var user = new User { UserName = model.UserName, Email = model.Email, IsBlogger = model.IsBlogger, AvatarPath = UserHelper.GetUserDefaultAvatarPath() };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await this.UserManager.CreateAsync(user, model.Password);
                 var userStore = new UserStore<User>(beachesDbContext);
                 var userManager = new UserManager<User>(userStore);
 
@@ -164,13 +163,9 @@
 
                     if (model.IsBlogger)
                     {
-                        var userBlogs = BlogsHelper.GetUserBlogs(model.Blogs, user.Id);
+                        var blog = new Blog() { Id = user.Id, Url = GenericHelper.GetUriHostName(model.BlogUrl) };
 
-                        foreach (var blog in userBlogs)
-                        {
-                            beachesDbContext.Blogs.Add(blog);
-                        }
-
+                        beachesDbContext.Blogs.Add(blog);
                         beachesDbContext.SaveChanges();
                     }
 
@@ -502,7 +497,7 @@
 
         private void ValidateBlogger(RegisterViewModel model)
         {
-            var bloggerWithoutSite = (model.IsBlogger && string.IsNullOrEmpty(model.Blogs));
+            var bloggerWithoutSite = (model.IsBlogger && string.IsNullOrEmpty(model.BlogUrl));
 
             if (bloggerWithoutSite)
             {

@@ -37,7 +37,7 @@
 
             <div class="form-horizontal">
                 <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="form-group">
                     @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
@@ -60,16 +60,13 @@
                     {
                         <div class="form-group">
                             @Html.LabelFor(model => model.ArticleLinks, new { @class = "control-label col-md-3" })
-                            <div class="col-md-5">
-                                @Html.TextBoxFor(model => model.ArticleLinks,
-                                new
-                                {
-                                    @class = "form-control custom-focus-black",
-                                    data_article_links = "",
-                                    placeholder = "Comma separated"
-                                })
-                                @Html.ValidationMessageFor(model => model.ArticleLinks, "", new { @class = "text-danger" })
+                            <div id="links-container" class="col-md-5">
+                                <input type="text" class="blog-link form-control custom-focus-black" />
                             </div>
+                            <div class="col-md-4 text-left">
+                                <span class="add-more glyphicon glyphicon-plus-sign" title="Add another link"></span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ArticleLinks, "", new { @class = "text-danger" })
                         </div>
                     }
                 }
@@ -86,7 +83,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -103,7 +100,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -120,7 +117,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -137,7 +134,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -156,7 +153,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -173,7 +170,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -190,7 +187,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -207,7 +204,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -224,7 +221,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -243,7 +240,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -260,7 +257,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -277,7 +274,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -294,7 +291,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -313,7 +310,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -330,7 +327,7 @@
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
-                    <div class="review-popup custom-canvas" style="display: none;">
+                    <div class="custom-popup custom-canvas" style="display: none;">
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, consecitur
                         Lorem ipsum dolor sit amet, conseciturLorem ipsum dolor sit amet, consecitur
@@ -346,6 +343,7 @@
 
             @Html.HiddenFor(model => model.Id)
             @Html.HiddenFor(model => model.BeachId)
+            @Html.HiddenFor(model => model.ArticleLinks, new { id = "hdn-article-links" })
             @Html.HiddenFor(model => model.SandQuality, new { id = "hdn-sand-quality" })
             @Html.HiddenFor(model => model.BeachCleanliness, new { id = "hdn-beach-cleanliness" })
             @Html.HiddenFor(model => model.BeautifulScenery, new { id = "hdn-beautiful-scenery" })

@@ -1,8 +1,8 @@
 ﻿namespace BeachRankings.App.CustomAttributes
 {
+    using BeachRankings.App.Utils;
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
 
     public class UrisValidAttribute : ValidationAttribute
     {
@@ -13,12 +13,12 @@
                 return true;
             }
 
-            var tokens = value.ToString().Split(',').Select(s => s.Trim()).Where(s => s != string.Empty).ToList();
+            var tokens = BlogHelper.SplitArticleUrls(value.ToString());
 
             foreach (var token in tokens)
             {
                 var startsCorrectly = token.StartsWith("http://") || token.StartsWith("https://");
-                var isSingleWord = !(startsCorrectly && token.Contains("."));
+                var isSingleWord = !token.Contains(".");
 
                 if (isSingleWord)
                 {

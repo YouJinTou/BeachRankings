@@ -31,5 +31,17 @@
 
             return new HtmlString(htmlString);
         }
+
+        public static IHtmlString AttachSchemeToDomain(this HtmlHelper helper, string domain)
+        {
+            var schemeExists = domain.StartsWith("http://") || domain.StartsWith("https://");
+
+            if (schemeExists)
+            {
+                return new HtmlString(domain);
+            }
+
+            return new HtmlString(domain.Insert(0, "http://"));
+        }
     }
 }

@@ -2,6 +2,7 @@
 {
     using BeachRankings.Models;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
 
     public class BeachRankingsDbContext : IdentityDbContext<User>
@@ -40,6 +41,10 @@
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasOptional(u => u.Blog)
+                .WithRequired(b => b.User);
+
             modelBuilder.Entity<Country>()
                 .HasMany(c => c.PrimaryDivisions)
                 .WithRequired(pd => pd.Country)
@@ -85,11 +90,6 @@
                .WithRequired(b => b.TertiaryDivision)
                .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<User>()
-               .HasMany(u => u.Blogs)
-               .WithRequired(r => r.User)
-               .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Review>()
                 .HasRequired(r => r.Author)
                 .WithMany(a => a.Reviews)
@@ -99,6 +99,10 @@
                 .HasRequired(r => r.Beach)
                 .WithMany(b => b.Reviews)
                 .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Review>()
+                .HasMany(r => r.BlogArticles)
+                .WithRequired(ba => ba.Review)
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<BeachImage>()
                .HasRequired(bi => bi.Beach)
@@ -111,10 +115,6 @@
                 .WillCascadeOnDelete(false);
             modelBuilder.Entity<BlogArticle>()
                .HasRequired(ba => ba.Beach)
-               .WithMany(b => b.BlogArticles)
-               .WillCascadeOnDelete(false);
-            modelBuilder.Entity<BlogArticle>()
-               .HasRequired(ba => ba.Review)
                .WithMany(b => b.BlogArticles)
                .WillCascadeOnDelete(false);
 

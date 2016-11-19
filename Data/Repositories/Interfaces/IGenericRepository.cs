@@ -17,6 +17,8 @@
 
         void Remove(T entity);
 
+        void RemoveMany(IEnumerable<T> entities);
+
         T Remove(object id);
 
         void SaveChanges();

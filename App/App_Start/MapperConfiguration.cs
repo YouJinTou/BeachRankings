@@ -3,7 +3,6 @@
     using AutoMapper;
     using BeachRankings.Models;
     using BeachRankings.Models.Interfaces;
-    using BeachRankings.App.Models.BindingModels;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Services.Search.Models;
     using System.Linq;
@@ -28,6 +27,7 @@
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
                 cfg.CreateMap<PostReviewViewModel, Review>();
                 cfg.CreateMap<Review, DetailedReviewViewModel>();
+                cfg.CreateMap<BlogArticle, BlogArticleViewModel>();
                 cfg.CreateMap<EditReviewViewModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
                 cfg.CreateMap<User, TableUserReviewsViewModel>().ForMember(vm => vm.AuthorName, model => model.MapFrom(m => m.UserName));
@@ -82,7 +82,7 @@
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.Beach.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Beach.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Beach.Images))
-                    .ForMember(vm => vm.ArticleLinks, model => model.MapFrom(m => string.Join(", ", m.BlogArticles.Where(ba => ba.ReviewId == m.Id).Select(ba => ba.Url))));
+                    .ForMember(vm => vm.ArticleLinks, model => model.MapFrom(m => string.Join("@", m.BlogArticles.Where(ba => ba.ReviewId == m.Id).Select(ba => ba.Url))));
                 cfg.CreateMap<Beach, TableRowViewModel>()
                     .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
@@ -110,7 +110,10 @@
                     .ForMember(vm => vm.AvatarPath, model => model.MapFrom(m => m.Author.AvatarPath))
                     .ForMember(vm => vm.ReviewsCount, model => model.MapFrom(m => m.Author.Reviews.Count))
                     .ForMember(vm => vm.CountriesVisited, model => model.MapFrom(m => m.Author.GetVisitedCountriesCount()))
-                    .ForMember(vm => vm.Level, model => model.MapFrom(m => m.Author.Level));
+                    .ForMember(vm => vm.Level, model => model.MapFrom(m => m.Author.Level))
+                    .ForMember(vm => vm.IsBlogger, model => model.MapFrom(m => m.Author.IsBlogger))
+                    .ForMember(vm => vm.BlogUrl, model => model.MapFrom(m => m.Author.Blog.Url))
+                    .ForMember(vm => vm.BlogArticles, model => model.MapFrom(m => m.BlogArticles));
             });
         }                
     }

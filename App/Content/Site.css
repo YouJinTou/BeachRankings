@@ -38,6 +38,14 @@ img {
         color: #0642a3;
     }
 
+.add-more {
+    font-size: 30px;
+}
+
+    .add-more:hover {
+        cursor: pointer;
+    }
+
 .control {
     font-size: 25px;
     text-decoration: none !important;

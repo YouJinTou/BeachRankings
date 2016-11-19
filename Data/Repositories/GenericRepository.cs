@@ -54,6 +54,14 @@
             this.ChangeState(entity, EntityState.Deleted);
         }
 
+        public void RemoveMany(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                this.Remove(entity);
+            }
+        }
+
         public TEntity Remove(object id)
         {
             var entity = this.Find(id);

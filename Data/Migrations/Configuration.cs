@@ -220,7 +220,7 @@ namespace BeachRankings.Data.Migrations
             var blackSeaWaterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
             var beaches = new List<Beach>();
 
-            for (int i = 0; i < 120; i++)
+            for (int i = 0; i < 20; i++)
             {
                 var countryId = randomCountryId.Next(1, countriesCount + 1);
                 var waterBodyId = randomWaterBodyId.Next(1, waterBodiesCount + 1);
@@ -392,7 +392,7 @@ namespace BeachRankings.Data.Migrations
             randomScore = new Random();
             beachesCount = this.data.Beaches.Count();
 
-            for (int i = 0; i < 150; i++)
+            for (int i = 0; i < 40; i++)
             {
                 reviews.Add(new Review(b(), c, s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s(), s()));
             }

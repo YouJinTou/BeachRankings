@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using BeachRankings.App.Models;
-    using BeachRankings.App.Models.BindingModels;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using BeachRankings.App.Utils.Extensions;
@@ -46,7 +45,7 @@
             {
                 var bindingmodel = (PostReviewViewModel)this.TempData["PostReviewViewModel"];
                 model.Content = bindingmodel.Content;
-                model.ArticleLinks = bindingmodel.ArticleLinks;
+                model.ArticleLinks = BlogHelper.TrimArticleUrl(bindingmodel.ArticleLinks);
 
                 this.OnErrorSetCriteriaData(model, bindingmodel);
                 base.AddModelStateErrors((ICollection<string>)this.TempData["PostReviewModelStateErrors"]);
@@ -90,7 +89,7 @@
 
             if (this.UserProfile.IsBlogger)
             {
-                var articles = BlogsHelper.GetBlogArticles(this.UserProfile.Blogs, bindingModel.ArticleLinks, review.BeachId, review.Id);
+                var articles = BlogHelper.GetBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
 
                 if (articles.Count > 0)
                 {
@@ -124,7 +123,7 @@
             {
                 var bindingmodel = (EditReviewViewModel)this.TempData["EditReviewViewModel"];
                 model.Content = bindingmodel.Content;
-                model.ArticleLinks = bindingmodel.ArticleLinks;
+                model.ArticleLinks = BlogHelper.TrimArticleUrl(bindingmodel.ArticleLinks);
 
                 this.OnErrorSetCriteriaData(model, bindingmodel);
                 base.AddModelStateErrors((ICollection<string>)this.TempData["EditReviewModelStateErrors"]);
@@ -161,15 +160,12 @@
 
             if (this.UserProfile.IsBlogger)
             {
-                var editedArticles = BlogsHelper.GetBlogArticles(this.UserProfile.Blogs, bindingModel.ArticleLinks, review.BeachId, review.Id);
+                var newArticles = BlogHelper.GetBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
                 var existingArticles = this.Data.BlogArticles.All().Where(ba => ba.ReviewId == review.Id);
-                var newArticles  = editedArticles.Where(na => !existingArticles.Select(ea => ea.Url).Contains(na.Url)).ToList();
 
-                if (newArticles.Count > 0)
-                {
-                    this.Data.BlogArticles.AddMany(newArticles);
-                    this.Data.BlogArticles.SaveChanges();
-                }
+                this.Data.BlogArticles.RemoveMany(existingArticles);
+                this.Data.BlogArticles.AddMany(newArticles);
+                this.Data.BlogArticles.SaveChanges();
             }
 
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
@@ -191,7 +187,11 @@
                 return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId });
             }
 
+            var existingArticles = this.Data.BlogArticles.All().Where(ba => ba.ReviewId == review.Id);
             var author = this.Data.Users.Find(review.AuthorId); // It's possible that a moderator is deleting the review
+
+            this.Data.BlogArticles.RemoveMany(existingArticles);
+            this.Data.BlogArticles.SaveChanges();
 
             this.Data.Reviews.Remove(review);
             this.Data.Reviews.SaveChanges();
@@ -280,9 +280,9 @@
                 return;
             }
 
-            if (!BlogsHelper.AllArticleUrlsMatched(this.UserProfile.Blogs, articleLinks))
+            if (!BlogHelper.AllArticleUrlsMatched(this.UserProfile.Blog, articleLinks))
             {
-                this.ModelState.AddModelError(string.Empty, "The links provided are either invalid or do not belong to your blog.");
+                this.ModelState.AddModelError(string.Empty, "The links provided are either invalid, do not belong to your blog, or are duplicates.");
             }
         }
 
