@@ -35,6 +35,32 @@
         });
     }
 
+    function openModalPopup(html, value) {
+        var $mainPopup = $('[data-popup="main"');
+        var $htmlCase = $mainPopup.find('[data-html-case]');
+        var $nonHtmlCase = $mainPopup.find('[data-non-html-case]');
+        
+        if (!html) {
+            $htmlCase.remove();
+        } else {
+            $nonHtmlCase.remove();
+
+            $htmlCase.find('textarea').on('click', function () {
+                $(this).select();
+            });
+        }
+
+        $mainPopup.find('[data-custom-modal-text]').text(value);
+        $mainPopup.fadeIn(250);
+
+        $mainPopup.off('click');
+        $mainPopup.on('click', '[data-popup-close]', function (event) {
+            event.preventDefault();
+
+            $('[data-popup="main"').fadeOut(250);
+        });
+    }
+
     function getScoreBoxBackgroundColor(score) {
         var color;
         
@@ -55,7 +81,8 @@
 
     return {
         setScoreBoxesBackgroundColor: setScoreBoxesBackgroundColor,
-        setVotingVariables: setVotingVariables
+        setVotingVariables: setVotingVariables,
+        openModalPopup: openModalPopup
     }
 };
 

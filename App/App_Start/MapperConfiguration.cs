@@ -70,6 +70,19 @@
                     .ForMember(vm => vm.Camping, model => model.Ignore())
                     .ForMember(vm => vm.Infrastructure, model => model.Ignore())
                     .ForMember(vm => vm.LongTermStay, model => model.Ignore());
+                cfg.CreateMap<Beach, TableRowViewModel>()
+                   .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Id))
+                   .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
+                   .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
+                   .ForMember(vm => vm.PrimaryDivision, model => model.MapFrom(m => m.PrimaryDivision.Name))
+                   .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name))
+                   .ForMember(vm => vm.TertiaryDivision, model => model.MapFrom(m => m.TertiaryDivision.Name))
+                   .ForMember(vm => vm.QuaternaryDivision, model => model.MapFrom(m => m.QuaternaryDivision.Name))
+                   .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name));
+                cfg.CreateMap<Beach, ExportBeachHtmlViewModel>()
+                   .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
+                   .ForMember(vm => vm.PrimaryDivision, model => model.MapFrom(m => m.PrimaryDivision.Name))
+                   .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name));
                 cfg.CreateMap<Review, EditReviewViewModel>()
                     .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Beach.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
@@ -83,15 +96,6 @@
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Beach.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Beach.Images))
                     .ForMember(vm => vm.ArticleLinks, model => model.MapFrom(m => string.Join("@", m.BlogArticles.Where(ba => ba.ReviewId == m.Id).Select(ba => ba.Url))));
-                cfg.CreateMap<Beach, TableRowViewModel>()
-                    .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Id))
-                    .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
-                    .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
-                    .ForMember(vm => vm.PrimaryDivision, model => model.MapFrom(m => m.PrimaryDivision.Name))
-                    .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name))
-                    .ForMember(vm => vm.TertiaryDivision, model => model.MapFrom(m => m.TertiaryDivision.Name))
-                    .ForMember(vm => vm.QuaternaryDivision, model => model.MapFrom(m => m.QuaternaryDivision.Name))
-                    .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name));
                 cfg.CreateMap<Review, TableRowViewModel>()
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
                     .ForMember(vm => vm.CountryId, model => model.MapFrom(m => m.Beach.Country.Id))

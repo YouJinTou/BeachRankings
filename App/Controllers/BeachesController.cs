@@ -167,6 +167,15 @@
             return this.RedirectToAction("Index", "Home");
         }
 
+        public JsonResult ExportHtml(int id)
+        {
+            var beach = this.Data.Beaches.Find(id);
+            var model = Mapper.Map<Beach, ExportBeachHtmlViewModel>(beach);
+            var htmlResult = this.PartialView(@"~\Views\Beaches\ExportHtml.cshtml", model).RenderPartialViewAsString();
+
+            return this.Json(htmlResult, JsonRequestBehavior.AllowGet);
+        }
+
         #region Action Helpers
 
         #region Read

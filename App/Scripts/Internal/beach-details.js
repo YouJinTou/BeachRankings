@@ -2,6 +2,7 @@
     var dragdealersManager = new DragdealersManager();
     var expansionInProgress = false;
     var votingInProgress = false;
+    var exportInProgress = false;
 
     hideEmptyAsideElements();
     helper.setScoreBoxesBackgroundColor();
@@ -13,6 +14,28 @@
         autoplay: true,
         arrows: false,
         mobileFirst: true
+    });
+
+    $('#btn-export-html').on('click', function () {
+        if (exportInProgress) {
+            return;
+        }
+
+        $.ajax({
+            url: '/Beaches/ExportHtml/',
+            type: 'GET',
+            data: {
+                id: $(this).data('html-export-beach')
+            },
+            beforeSend: function () {
+                exportInProgress = true;
+            },
+            success: function (result) {
+                helper.openModalPopup(true, result);
+            }, complete: function () {
+                exportInProgress = false;
+            }
+        });
     });
 
     $('#beach-details-container').on('click', '.review-expand', function () {

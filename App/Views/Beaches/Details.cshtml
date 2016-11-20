@@ -35,6 +35,8 @@
                 </h4>
             </div>
             <div class="text-right col-xs-6">
+                @*@Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "a-like-span glyphicon glyphicon-export", title = "Get it as importable HTML" })*@
+                <span id="btn-export-html" data-html-export-beach="@Model.Id" class="a-like-span glyphicon glyphicon-export" title="Get it as importable HTML"></span>
                 @{
                     if (!Model.UserHasRated)
                     {
