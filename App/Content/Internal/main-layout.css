@@ -58,3 +58,7 @@ ul.nav.navbar-nav .dropdown.open .dropdown-toggle{
 #user-dashboard-dropdown .dropdown-menu {
 	right: 15px;
 }
+
+#results-container {
+    margin-top: 20px;
+}
