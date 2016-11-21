@@ -22,7 +22,7 @@
         [Authorize]
         public PartialViewResult Statistics()
         {
-            var reviews = this.Data.Reviews.All().Where(r => r.AuthorId == this.UserProfile.Id);
+            var reviews = this.UserProfile.Reviews;
             var model = Mapper.Map<IEnumerable<Review>, IEnumerable<TableRowViewModel>>(reviews);
 
             return this.PartialView("_StatisticsPartial", model);

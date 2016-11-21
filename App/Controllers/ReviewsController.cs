@@ -19,6 +19,15 @@
         }
 
         [HttpGet]
+        public ActionResult Details(int id)
+        {
+            var review = this.Data.Reviews.Find(id);
+            var model = Mapper.Map<Review, DetailedReviewViewModel>(review);
+
+            return this.View(model);
+        }
+
+        [HttpGet]
         public PartialViewResult DetailsPartial(int id)
         {
             var review = this.Data.Reviews.Find(id);
@@ -219,7 +228,7 @@
             }
 
             review.Upvotes += 1;
-            this.UserProfile.ThanksReceived++;
+            review.Author.ThanksReceived += 1;
 
             this.UserProfile.UpvotedReviews.Add(review);
 
@@ -244,7 +253,7 @@
             }
 
             review.Upvotes -= 1;
-            this.UserProfile.ThanksReceived--;
+            review.Author.ThanksReceived -= 1;
 
             this.UserProfile.UpvotedReviews.Remove(review);
 
