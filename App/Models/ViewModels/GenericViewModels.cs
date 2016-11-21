@@ -48,4 +48,25 @@
 
         public double? TotalScore { get; set; }
     }
+
+    public class ExportScoresAsHtmlViewModel : CriteriaBaseModel
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public int CountryId { get; set; }
+
+        public string Country { get; set; }
+
+        public int? PrimaryDivisionId { get; set; }
+
+        public string PrimaryDivision { get; set; }
+
+        public int? SecondaryDivisionId { get; set; }
+
+        public string SecondaryDivision { get; set; }
+
+        public double? TotalScore { get; set; }
+    }
 }

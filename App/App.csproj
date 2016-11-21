@@ -286,7 +286,7 @@
     <Content Include="Content\External\slick\slick.js" />
     <Content Include="Content\External\slick\slick.min.js" />
     <Content Include="Content\Images\ajax-loader.gif" />
-    <Content Include="Content\Images\beach-export-example.PNG" />
+    <Content Include="Content\Images\export-example.PNG" />
     <Content Include="Content\Internal\beach-add-edit.css" />
     <Content Include="Content\Internal\beach-details.css" />
     <Content Include="Content\Internal\images.css" />
@@ -419,7 +419,8 @@
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\User\ChangeAvatar.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BlogArticleViewModel.cshtml" />
-    <Content Include="Views\Beaches\ExportHtml.cshtml" />
+    <Content Include="Views\Shared\_ExportScoresHtml.cshtml" />
+    <Content Include="Views\Reviews\DetailsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

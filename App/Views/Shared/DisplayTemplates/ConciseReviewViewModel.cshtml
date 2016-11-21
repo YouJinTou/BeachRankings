@@ -52,6 +52,7 @@
             if (User.Identity.CanEditReview(Model.AuthorId))
             {
                 <div class="pull-right text-right col-xs-2">
+                    <a data-html-export-review="@Model.Id" class="review-export control a-like-span glyphicon glyphicon-export" title="Export a summary of this review to HTML"></a>
                     <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
                     <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
                 </div>

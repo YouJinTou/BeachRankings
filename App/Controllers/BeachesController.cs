@@ -170,8 +170,8 @@
         public JsonResult ExportHtml(int id)
         {
             var beach = this.Data.Beaches.Find(id);
-            var model = Mapper.Map<Beach, ExportBeachHtmlViewModel>(beach);
-            var htmlResult = this.PartialView(@"~\Views\Beaches\ExportHtml.cshtml", model).RenderPartialViewAsString();
+            var model = Mapper.Map<Beach, ExportScoresAsHtmlViewModel>(beach);
+            var htmlResult = this.PartialView(@"~\Views\Shared\_ExportScoresHtml.cshtml", model).RenderPartialViewAsString();
 
             return this.Json(htmlResult, JsonRequestBehavior.AllowGet);
         }

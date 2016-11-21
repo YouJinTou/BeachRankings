@@ -79,10 +79,10 @@
                    .ForMember(vm => vm.TertiaryDivision, model => model.MapFrom(m => m.TertiaryDivision.Name))
                    .ForMember(vm => vm.QuaternaryDivision, model => model.MapFrom(m => m.QuaternaryDivision.Name))
                    .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name));
-                cfg.CreateMap<Beach, ExportBeachHtmlViewModel>()
+                cfg.CreateMap<Beach, ExportScoresAsHtmlViewModel>()
                    .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
                    .ForMember(vm => vm.PrimaryDivision, model => model.MapFrom(m => m.PrimaryDivision.Name))
-                   .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name));
+                   .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name));                
                 cfg.CreateMap<Review, EditReviewViewModel>()
                     .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Beach.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
@@ -118,6 +118,14 @@
                     .ForMember(vm => vm.IsBlogger, model => model.MapFrom(m => m.Author.IsBlogger))
                     .ForMember(vm => vm.BlogUrl, model => model.MapFrom(m => m.Author.Blog.Url))
                     .ForMember(vm => vm.BlogArticles, model => model.MapFrom(m => m.BlogArticles));
+                cfg.CreateMap<Review, ExportScoresAsHtmlViewModel>()
+                    .ForMember(vm => vm.Name, model => model.MapFrom(m => m.Beach.Name))
+                    .ForMember(vm => vm.CountryId, model => model.MapFrom(m => m.Beach.Country.Id))
+                    .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Beach.Country.Name))
+                    .ForMember(vm => vm.PrimaryDivisionId, model => model.MapFrom(m => m.Beach.PrimaryDivision.Id))
+                    .ForMember(vm => vm.PrimaryDivision, model => model.MapFrom(m => m.Beach.PrimaryDivision.Name))
+                    .ForMember(vm => vm.SecondaryDivisionId, model => model.MapFrom(m => m.Beach.SecondaryDivision.Id))
+                    .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.Beach.SecondaryDivision.Name));
             });
         }                
     }

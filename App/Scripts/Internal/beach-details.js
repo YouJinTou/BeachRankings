@@ -14,30 +14,8 @@
         autoplay: true,
         arrows: false,
         mobileFirst: true
-    });
-
-    $('#btn-export-html').on('click', function () {
-        if (exportInProgress) {
-            return;
-        }
-
-        $.ajax({
-            url: '/Beaches/ExportHtml/',
-            type: 'GET',
-            data: {
-                id: $(this).data('html-export-beach')
-            },
-            beforeSend: function () {
-                exportInProgress = true;
-            },
-            success: function (result) {
-                helper.openModalPopup(true, result);
-            }, complete: function () {
-                exportInProgress = false;
-            }
-        });
-    });
-
+    });   
+    
     $('#beach-details-container').on('click', '.review-expand', function () {
         if (expansionInProgress) {
             return;
@@ -68,7 +46,7 @@
         }
 
         $.ajax({
-            url: '/Reviews/Details/',
+            url: '/Reviews/DetailsPartial/',
             type: 'GET',
             data: {
                 id: $this.data('review-id')
@@ -162,6 +140,50 @@
                 }
             }
         }
+    });
+
+    $('#btn-beach-export-html').on('click', function () {
+        if (exportInProgress) {
+            return;
+        }
+
+        $.ajax({
+            url: '/Beaches/ExportHtml/',
+            type: 'GET',
+            data: {
+                id: $(this).data('html-export-beach')
+            },
+            beforeSend: function () {
+                exportInProgress = true;
+            },
+            success: function (result) {
+                helper.openModalPopup(true, result);
+            }, complete: function () {
+                exportInProgress = false;
+            }
+        });
+    });
+
+    $('#beach-details-container').on('click', '.review-export', function () {
+        if (exportInProgress) {
+            return;
+        }
+
+        $.ajax({
+            url: '/Reviews/ExportHtml/',
+            type: 'GET',
+            data: {
+                id: $(this).data('html-export-review')
+            },
+            beforeSend: function () {
+                exportInProgress = true;
+            },
+            success: function (result) {
+                helper.openModalPopup(true, result);
+            }, complete: function () {
+                exportInProgress = false;
+            }
+        });
     });
 
     $('#delete-beach-span').on('click', function () {

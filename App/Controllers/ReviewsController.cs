@@ -19,7 +19,7 @@
         }
 
         [HttpGet]
-        public PartialViewResult Details(int id)
+        public PartialViewResult DetailsPartial(int id)
         {
             var review = this.Data.Reviews.Find(id);
             var model = Mapper.Map<Review, DetailedReviewViewModel>(review);            
@@ -250,6 +250,15 @@
             this.Data.Users.SaveChanges();
 
             return new EmptyResult();
+        }
+
+        public JsonResult ExportHtml(int id)
+        {
+            var review = this.Data.Reviews.Find(id);
+            var model = Mapper.Map<Review, ExportScoresAsHtmlViewModel>(review);
+            var htmlResult = this.PartialView(@"~\Views\Shared\_ExportScoresHtml.cshtml", model).RenderPartialViewAsString();
+
+            return this.Json(htmlResult, JsonRequestBehavior.AllowGet);
         }
 
         #region Helpers
