@@ -243,7 +243,6 @@
     <Compile Include="Models\ViewModels\GenericViewModels.cs" />
     <Compile Include="Models\ViewModels\ImageViewModels.cs" />
     <Compile Include="Models\ViewModels\BlogViewModels.cs" />
-    <Compile Include="Models\ViewModels\ContributorViewModels.cs" />
     <Compile Include="Models\ViewModels\UserViewModels.cs" />
     <Compile Include="Utils\Extensions\ViewExtensions.cs" />
     <Compile Include="Utils\Extensions\SpecificHtmlExtensions.cs" />
@@ -424,6 +423,7 @@
     <Content Include="Views\Shared\_ExportScoresHtml.cshtml" />
     <Content Include="Views\Reviews\DetailsPartial.cshtml" />
     <Content Include="Views\Contributors\Top.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ContributorViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />
