@@ -2,7 +2,6 @@
 {
     using App.Controllers.Enums;
     using AutoMapper;
-    using BeachRankings.App.CustomAttributes;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using BeachRankings.Data.UnitOfWork;
@@ -91,6 +90,8 @@
             return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.DeleteAvatarSuccess });
         }
 
+        #region Helpers
+
         private void SaveUserAvatar(ChangeAvatarViewModel bindingModel)
         {
             if (bindingModel.Avatar == null)
@@ -129,5 +130,7 @@
 
             this.Data.Users.SaveChanges();
         }
+
+        #endregion
     }
 }

@@ -225,6 +225,7 @@
     <Compile Include="Controllers\QuaternaryDivisionsController.cs" />
     <Compile Include="Controllers\TertiaryDivisionsController.cs" />
     <Compile Include="Controllers\SecondaryDivisionsController.cs" />
+    <Compile Include="Controllers\ContributorsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WaterBodiesController.cs" />
     <Compile Include="Controllers\PrimaryDivisionsController.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Models\ViewModels\GenericViewModels.cs" />
     <Compile Include="Models\ViewModels\ImageViewModels.cs" />
     <Compile Include="Models\ViewModels\BlogViewModels.cs" />
+    <Compile Include="Models\ViewModels\ContributorViewModels.cs" />
     <Compile Include="Models\ViewModels\UserViewModels.cs" />
     <Compile Include="Utils\Extensions\ViewExtensions.cs" />
     <Compile Include="Utils\Extensions\SpecificHtmlExtensions.cs" />
@@ -421,6 +423,7 @@
     <Content Include="Views\Shared\DisplayTemplates\BlogArticleViewModel.cshtml" />
     <Content Include="Views\Shared\_ExportScoresHtml.cshtml" />
     <Content Include="Views\Reviews\DetailsPartial.cshtml" />
+    <Content Include="Views\Contributors\Top.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

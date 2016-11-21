@@ -219,6 +219,7 @@
             }
 
             review.Upvotes += 1;
+            this.UserProfile.ThanksReceived++;
 
             this.UserProfile.UpvotedReviews.Add(review);
 
@@ -243,6 +244,7 @@
             }
 
             review.Upvotes -= 1;
+            this.UserProfile.ThanksReceived--;
 
             this.UserProfile.UpvotedReviews.Remove(review);
 

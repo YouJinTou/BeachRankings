@@ -25,4 +25,27 @@
         [UserAvatarValid]
         public HttpPostedFileBase Avatar { get; set; }
     }
+
+    public class ContributorViewModel
+    {
+        public string Id { get; set; }
+
+        public int Rank { get; set; }
+
+        public int Level { get; set; }
+
+        public string UserName { get; set; }
+
+        public string AvatarPath { get; set; }
+
+        public int ReviewsCount { get; set; }
+
+        public int CountriesVisited { get; set; }
+
+        public int ThanksReceived { get; set; }
+
+        public bool IsBlogger { get; set; }
+
+        public string BlogUrl { get; set; }
+    }
 }

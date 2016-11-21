@@ -156,8 +156,10 @@
         public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }
 
         public IEnumerable<BeachImageThumbnailViewModel> Images { get; set; }
+
+        public IEnumerable<BlogArticleViewModel> BlogArticles { get; set; }
     }
-    
+
     public class AutocompleteBeachViewModel : AutocompleteBaseViewModel
     {
         public string Country { get; set; }

@@ -35,6 +35,14 @@
     display: inline-block;
 }
 
+.concise-review-controls-box {
+    padding-top: 30px;
+}
+
+.concise-review-controls-box a {
+    margin-bottom: 10px;
+}
+
 /* DETAILS */
 #beach-reviews-container {
     margin-top: 10px;

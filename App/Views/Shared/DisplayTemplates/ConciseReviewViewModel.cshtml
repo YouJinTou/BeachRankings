@@ -9,7 +9,7 @@
         @{ 
             if (Model.IsBlogger)
             {
-                <div class="text-left"><a href="@Html.AttachSchemeToDomain(@Model.BlogUrl)" target="_blank">Blog</a></div>
+                <div class="text-left"><a href="@Html.AttachSchemeToDomain(@Model.BlogUrl)" target="_blank">My blog</a></div>
             }
         }
         <div class="text-left">
@@ -41,14 +41,41 @@
             </div>         
         </div>
         <div class="row">
-            <p class="review-content text-justify">@Model.Content</p>
-            <div class="text-left">
-                Read more about it on my blog: @Html.DisplayFor(model => model.BlogArticles)
-            </div>
-        </div>        
+            <div class="col-xs-11">
+                <p class="review-content text-justify">@Model.Content</p>   
+                @{
+                    if (Model.IsBlogger)
+                    {
+                        <p class="text-left">
+                            Read more about it on my blog: @Html.DisplayFor(model => model.BlogArticles)
+                        </p>
+                    }
+                }             
+            </div>  
+            <div class="concise-review-controls-box col-xs-1">
+                @{
+                    if (User.Identity.CanEditReview(Model.AuthorId))
+                    {
+                        <div class="col-xs-2">
+                            <a data-html-export-review="@Model.Id" class="review-export control a-like-span glyphicon glyphicon-export" title="Export a summary of this review to HTML"></a>
+                            <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
+                            <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
+                        </div>
+                    }
+                }
+                @{
+                    if (User.Identity.CanVoteForReview(Model.AuthorId))
+                    {
+                        <div class="col-xs-1">
+                            <span data-review-id="@Model.Id" data-already-upvoted="@Model.AlreadyUpvoted" class="icon-upvote a-like-span control glyphicon glyphicon-thumbs-up" title="Give thanks"></span>
+                        </div>
+                    }
+                }
+            </div>            
+        </div>   
     </div>
     <div class="col-xs-10">
-        @{
+        @*@{
             if (User.Identity.CanEditReview(Model.AuthorId))
             {
                 <div class="pull-right text-right col-xs-2">
@@ -65,7 +92,7 @@
                     <span data-review-id="@Model.Id" data-already-upvoted="@Model.AlreadyUpvoted" class="icon-upvote a-like-span control glyphicon glyphicon-thumbs-up" title="Give thanks"></span>
                 </div>
             }
-        }
+        }*@
         <span data-review-id="@Model.Id" title="More information" class="a-like-span review-expand glyphicon glyphicon-chevron-down text-right"></span>
     </div>
     <div class="row review-details"></div>

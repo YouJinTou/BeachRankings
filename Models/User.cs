@@ -25,6 +25,8 @@
 
         public int Level { get; private set; }
 
+        public int ThanksReceived { get; set; }
+
         public bool IsBlogger { get; set; }
 
         public virtual ICollection<Review> Reviews

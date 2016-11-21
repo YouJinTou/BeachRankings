@@ -31,6 +31,10 @@
                 cfg.CreateMap<EditReviewViewModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
                 cfg.CreateMap<User, TableUserReviewsViewModel>().ForMember(vm => vm.AuthorName, model => model.MapFrom(m => m.UserName));
+                cfg.CreateMap<User, ContributorViewModel>()
+                    .ForMember(vm => vm.ReviewsCount, model => model.MapFrom(m => m.Reviews.Count))
+                    .ForMember(vm => vm.CountriesVisited, model => model.MapFrom(m => m.GetVisitedCountriesCount()))
+                    .ForMember(vm => vm.BlogUrl, model => model.MapFrom(m => m.Blog.Url));
                 cfg.CreateMap<Beach, ConciseBeachViewModel>()
                     .ForMember(vm => vm.ImagePath, model => model.MapFrom(m => m.Images.FirstOrDefault().Path))
                     .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
