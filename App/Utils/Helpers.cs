@@ -1,6 +1,7 @@
 ﻿namespace BeachRankings.App.Utils
 {
     using BeachRankings.Models;
+    using BeachRankings.Models.Enums;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -44,6 +45,27 @@
             var relativeBeachDir = Path.Combine("Uploads", "Images", "Beaches", formattedBeachName);
 
             return relativeBeachDir;
+        }
+
+        public static string GetFilteredBeachesTitle(int criterionId, string country, string waterBody, bool isWaterBody)
+        {            
+            var criterionExist = (criterionId > 0 && criterionId <= 15);
+            var place = isWaterBody ? ("the " + waterBody) : country;
+
+            if (!criterionExist)
+            {
+                return "Top 25 Beaches in " + place;
+            }
+
+            var criterion = (Criterion)criterionId;
+
+            switch (criterion)
+            {
+                case Criterion.Snorkeling:
+                    return "Top 25 Beaches in " + place + " for Snorkeling";
+                default:
+                    return "Top 25 Beaches in " + place;
+            }
         }
     }
 

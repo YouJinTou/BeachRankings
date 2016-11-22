@@ -1,8 +1,9 @@
 ﻿var DataTablesManager = function () {
+    var lastFixedColumn = 2;
+    var visibilityHandlerAlreadyAttached = false;
+
     function initializeDataTable() {
-        var lastFixedColumn = 2;
-        var visibilityHandlerAlreadyAttached = false;
-        var table = $('#table-result').DataTable({
+        var options = {
             scrollX: true,
             scrollY: 300,
             scrollCollapse: true,
@@ -21,7 +22,8 @@
                     text: 'Add/remove criteria'
                 }
             ]
-        });
+        };
+        var table = $('#table-result').DataTable(options);
 
         table.columns().every(function (col) {
             if (col > lastFixedColumn) {

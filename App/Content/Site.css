@@ -150,6 +150,13 @@ img {
     border: 1px inset solid gray;
 }
 
+.already-rated {
+    font-size: 50px;
+    color: white;
+    background-color: #61cf42;
+    border-radius: 50%;
+}
+
 /* MODAL POPUP */
 .custom-modal-popup {
     width: 100%;

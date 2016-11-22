@@ -32,11 +32,16 @@
         </div>
         <div class="score-reviews-count text-right">by @Html.PluralizeValue(@Model.ReviewsCount, "user")</div>
         <div class="text-right">
-            @Html.ActionLink("Rate this beach", 
-               "Post", 
-               controllerName: "Reviews", 
-               routeValues: new { id = Model.Id }, 
-               htmlAttributes: new { @class = "btn btn-cta" })
+            @{
+                if (!Convert.ToBoolean(Model.UserHasRated))
+                {
+                    @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-cta" })
+                }
+                else
+                {
+                    <span class="already-rated pull-right glyphicon glyphicon-ok-circle" title="Already rated"></span>
+                }
+            }
         </div>
     </div>
 </div>

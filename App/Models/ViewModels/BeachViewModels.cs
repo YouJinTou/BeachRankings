@@ -98,11 +98,15 @@
 
         public string Name { get; set; }
 
+        public string ImagePath { get; set; }
+
         public string Country { get; set; }
 
         public string PrimaryDivision { get; set; }
 
         public string SecondaryDivision { get; set; }
+
+        public string WaterBody { get; set; }
 
         public double? TotalScore { get; set; }
 
@@ -110,7 +114,7 @@
 
         public string Description { get; set; }
 
-        public string ImagePath { get; set; }
+        public bool UserHasRated { get; set; }
     }
 
     public class DetailedBeachViewModel : CriteriaBaseModel
@@ -167,5 +171,5 @@
         public string PrimaryDivision { get; set; }
 
         public string SecondaryDivision { get; set; }
-    }    
+    }   
 }

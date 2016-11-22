@@ -25,15 +25,15 @@
             var reviews = this.UserProfile.Reviews;
             var model = Mapper.Map<IEnumerable<Review>, IEnumerable<TableRowViewModel>>(reviews);
 
-            return this.PartialView("_StatisticsPartial", model);
+            return this.PartialView(model);
         }
-        
+
         public ActionResult Reviews(string authorId)
         {
             var user = this.Data.Users.Find(authorId);
             var model = Mapper.Map<User, TableUserReviewsViewModel>(user);
 
-            return this.View("_Statistics", model);
+            return this.View(model);
         }
 
         [Authorize]
@@ -57,6 +57,7 @@
         }
 
         [Authorize]
+        [HttpGet]
         public PartialViewResult ChangeAvatar()
         {
             var model = new ChangeAvatarViewModel() { AvatarPath = this.UserProfile.AvatarPath };

@@ -1,17 +1,18 @@
 ﻿namespace App.Controllers
 {
     using AutoMapper;
+    using BeachRankings.Data.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using BeachRankings.App.Utils.Extensions;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
-    using System.Collections.Generic;
 
     public class BeachesController : BaseController
     {
@@ -20,14 +21,37 @@
         {
         }
 
+        public ActionResult Best()
+        {
+            return this.View();
+        }
+
+        public ActionResult Top(int criterion = 0, int countryId = 0, int waterBodyId = 0)
+        {
+            var beaches = this.Data.Beaches
+                 .FilterByCountry(countryId)
+                 .FilterByWaterBody(waterBodyId)
+                 .OrderByCriterion(criterion)
+                 .Take(25)
+                 .ToList();
+            var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<ConciseBeachViewModel>>(beaches);
+            var title = BeachHelper.GetFilteredBeachesTitle(criterion, beachesModel.First().Country, beachesModel.First().WaterBody, (countryId == 0));
+            var model = new LocationBeachesViewModel() { Name = title, Beaches = beachesModel };
+
+            model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
+
+            return this.View("_LocationBeaches", model);
+        }
+
         public ActionResult Details(int id)
         {
             var beach = this.Data.Beaches.Find(id);
             var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);            
             model.UserHasRated = this.User.Identity.IsAuthenticated ? this.UserProfile.Reviews.Any(r => r.BeachId == id) : false;            
             model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn).ToList();
+            Func<ConciseReviewViewModel, bool> userUpvoted = (r => (this.UserProfile.UpvotedReviews.Any(ur => ur.Id == r.Id)));
 
-            this.SetViewThumbsDown(model.Reviews);
+            model.Reviews.Select(r => { r.AlreadyUpvoted = userUpvoted(r); return r; }).ToList();
             
             return this.View(model);
         }
@@ -177,31 +201,7 @@
         }
 
         #region Action Helpers
-
-        #region Read
-
-        private void SetViewThumbsDown(IEnumerable<ConciseReviewViewModel> reviews)
-        {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return;
-            }
-
-            var reviewsAsList = reviews.ToList();
-
-            for (int i = 0; i < reviewsAsList.Count; i++)
-            {
-                var alreadyUpvoted = this.UserProfile.UpvotedReviews.Any(r => r.Id == reviewsAsList[i].Id);
-
-                if (alreadyUpvoted)
-                {
-                    reviewsAsList[i].AlreadyUpvoted = true;
-                }
-            }
-        }
-
-        #endregion
-
+        
         #region Add
 
         private void ValidateBindingModel(AddBeachViewModel model)

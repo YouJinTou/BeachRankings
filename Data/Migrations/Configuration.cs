@@ -222,7 +222,7 @@ namespace BeachRankings.Data.Migrations
 
             for (int i = 0; i < 50; i++)
             {
-                var countryId = bulgariaCountryId;
+                var countryId = randomCountryId.Next(1, countriesCount + 1);
                 var waterBodyId = randomWaterBodyId.Next(1, waterBodiesCount + 1);
                 var primaryId = randomPrimaryDivisionId.Next(7, 10);
                 var secondaryId = randomSecondaryDivisionId.Next(30, 45);

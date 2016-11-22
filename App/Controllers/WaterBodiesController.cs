@@ -21,6 +21,8 @@
             var model = Mapper.Map<WaterBody, LocationBeachesViewModel>(waterBody);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
 
+            model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
+
             return this.View("_LocationBeaches", model);
         }
 

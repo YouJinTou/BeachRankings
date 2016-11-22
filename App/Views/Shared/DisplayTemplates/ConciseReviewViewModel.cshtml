@@ -5,7 +5,7 @@
         <div class="review-avatar-box text-center">
             <img class="avatar-img img-responsive" src="@Model.AvatarPath" alt="No profile photo" />
         </div>
-        <div class="text-center"><h4>@Model.UserName</h4></div>
+        <div class="text-center"><h4><a href="/User/Reviews?authorId=@Model.AuthorId">@Model.UserName</a></h4></div>
         @{ 
             if (Model.IsBlogger)
             {

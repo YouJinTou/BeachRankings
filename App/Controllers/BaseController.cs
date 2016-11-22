@@ -1,5 +1,6 @@
 ﻿namespace App.Controllers
 {
+    using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using System;
@@ -24,6 +25,14 @@
         protected IBeachRankingsData Data { get; private set; }
 
         protected User UserProfile { get; private set; }
+
+        protected Func<ConciseBeachViewModel, bool> UserHasRated
+        {
+            get
+            {
+                return (b => (this.User.Identity.IsAuthenticated ? this.UserProfile.Reviews.Any(r => r.BeachId == b.Id) : false));
+            }
+        }
 
         protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
         {

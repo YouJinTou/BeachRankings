@@ -416,7 +416,7 @@
     <Content Include="Views\Shared\DisplayTemplates\TableRowViewModel.cshtml" />
     <Content Include="Views\Shared\_StatisticsPartial.cshtml" />
     <Content Include="Views\Shared\_LocationBeaches.cshtml" />
-    <Content Include="Views\Shared\_Statistics.cshtml" />
+    <Content Include="Views\User\Reviews.cshtml" />
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\User\ChangeAvatar.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BlogArticleViewModel.cshtml" />
@@ -424,6 +424,8 @@
     <Content Include="Views\Reviews\DetailsPartial.cshtml" />
     <Content Include="Views\Contributors\Top.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ContributorViewModel.cshtml" />
+    <Content Include="Views\Beaches\Best.cshtml" />
+    <Content Include="Views\User\Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />
