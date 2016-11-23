@@ -1,6 +1,7 @@
 ﻿namespace App.Controllers
 {
     using AutoMapper;
+    using BeachRankings.App.CustomAttributes;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
@@ -62,6 +63,19 @@
                 .ToListAsync();
 
             return this.Json(beachNames, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult Edit(RestructureViewModel bindingModel)
+        {
+            var primaryDivision = this.Data.PrimaryDivisions.Find(bindingModel.PrimaryDivisionId);
+            primaryDivision.Name = bindingModel.PrimaryDivision;
+
+            this.Data.PrimaryDivisions.SaveChanges();
+            this.Data.PrimaryDivisions.AddUpdateIndexEntry(primaryDivision);
+
+            return this.RedirectToAction("Restructure", "Admin");
         }
     }
 }

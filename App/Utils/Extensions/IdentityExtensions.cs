@@ -6,6 +6,25 @@
 
     public static class IdentityExtensions
     {
+        public static bool CanRestructure(this IIdentity identity, string authorId)
+        {
+            var claimsIdentity = (ClaimsIdentity)identity;
+
+            if (claimsIdentity == null)
+            {
+                return false;
+            }
+
+            var userRoleClaim = claimsIdentity.FindFirst(c => c.Type == ClaimTypes.Role);
+
+            if (userRoleClaim == null)
+            {
+                return false;
+            }
+
+            return (userRoleClaim.Value == "Admin");
+        }
+
         public static bool CanEditReview(this IIdentity identity, string authorId)
         {
             var claimsIdentity = (ClaimsIdentity)identity;

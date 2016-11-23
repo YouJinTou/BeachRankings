@@ -13,6 +13,7 @@
         {
         }
 
+        [HttpGet]
         public ActionResult Restructure()
         {
             var countries = this.Data.Countries.All().Select(c => new SelectListItem()

@@ -1,6 +1,7 @@
 ﻿namespace App.Controllers
 {
     using AutoMapper;
+    using BeachRankings.App.CustomAttributes;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
@@ -48,6 +49,19 @@
                 .ToListAsync();
 
             return this.Json(beachNames, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult Edit(RestructureViewModel bindingModel)
+        {
+            var quaternaryDivision = this.Data.Countries.Find(bindingModel.QuaternaryDivisionId);
+            quaternaryDivision.Name = bindingModel.QuaternaryDivision;
+
+            this.Data.QuaternaryDivisions.SaveChanges();
+            this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternaryDivision);
+
+            return this.RedirectToAction("Restructure", "Admin");
         }
     }
 }

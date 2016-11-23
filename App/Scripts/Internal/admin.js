@@ -90,6 +90,8 @@
     }
 
     function setCrudControlEvents() {
+        var form = '#restructure-form';
+
         $('.restructure-button').on('click', function (event) {
             event.preventDefault();
 
@@ -120,7 +122,7 @@
 
             function onAddClicked() {
                 if (editControlReadOnly) {
-                    setAdminCues();
+                    setUiCues();
                 }
             }
 
@@ -130,7 +132,10 @@
                 }
 
                 if (editControlReadOnly) {
-                    setAdminCues();
+                    setUiCues();
+                } else {
+                    $(form).attr('action', getControllerAction());
+                    $(form).submit();
                 }
             }
 
@@ -140,7 +145,7 @@
                 }
 
                 if (editControlReadOnly) {
-                    setAdminCues();
+                    setUiCues();
                 }
             }
 
@@ -160,7 +165,7 @@
                 $editControl.attr('readonly', true);
             }
 
-            function setAdminCues() {
+            function setUiCues() {
                 var cueText = 'Press to save (' + $this.text().toLowerCase() + ')';
 
                 $('#restructure-container').find('.admin-crud-controls').not($crudControls).hide();
@@ -174,6 +179,15 @@
                 var $activeDdlDivision = $crudControls.closest('.form-group').find('[data-ddl-division]');
 
                 return (getDivisionName($activeDdlDivision).indexOf('Choose') > -1);
+            }
+
+            function getControllerAction() {
+                var ddlDivision = $this.closest('.form-group').find('[data-ddl-division]').data('ddl-division');
+                var secondSlashIndex = ddlDivision.indexOf('/', 1);
+                var controller = ddlDivision.substr(1, secondSlashIndex);
+                var controllerAction = '/' + controller + action;
+
+                return controllerAction;
             }
         });
     }

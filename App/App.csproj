@@ -235,6 +235,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="CustomAttributes\RestructureAuthorizeAttribute.cs" />
     <Compile Include="CustomAttributes\UrisValidAttribute.cs" />
     <Compile Include="CustomAttributes\UserAvatarValidAttribute.cs" />
     <Compile Include="Global.asax.cs">

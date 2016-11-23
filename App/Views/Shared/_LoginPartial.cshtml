@@ -17,7 +17,7 @@
                 <li><a class="dashboard-link">Images</a></li>
                 <li><a class="dashboard-link">Settings</a></li>
                 @{
-                    if (this.User.IsInRole("Admin"))
+                    if (this.User.Identity.CanRestructure(this.User.Identity.GetUserId()))
                     {
                         <li><a href="/Admin/Restructure/">Restructure</a></li>
                     }
