@@ -16,6 +16,12 @@
                 <li><a class="dashboard-link">Statistics</a></li>
                 <li><a class="dashboard-link">Images</a></li>
                 <li><a class="dashboard-link">Settings</a></li>
+                @{
+                    if (this.User.IsInRole("Admin"))
+                    {
+                        <li><a href="/Admin/Restructure/">Restructure</a></li>
+                    }
+                }
                 <li><a href="javascript:document.getElementById('logoutForm').submit()" class="dashboard-link">Log off</a></li>
             </ul>
         </li>

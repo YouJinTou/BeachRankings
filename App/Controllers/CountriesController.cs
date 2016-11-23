@@ -9,7 +9,7 @@
     using System.Linq;
     using System.Web.Mvc;
 
-    public class CountriesController : BaseController
+    public class CountriesController : BaseLocationsController
     {
         public CountriesController(IBeachRankingsData data)
             : base(data)

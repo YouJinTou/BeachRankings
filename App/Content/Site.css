@@ -142,6 +142,8 @@ img {
 .btn-reset {
     border-radius: 1px;
     box-shadow: 2px 2px 2px #888888;
+    -webkit-box-shadow: 2px 2px 2px #888888;
+    -moz-box-shadow: 2px 2px 2px #888888;
     height: 50%;
 }
 

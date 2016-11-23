@@ -10,7 +10,7 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    public class SecondaryDivisionsController : BaseController
+    public class SecondaryDivisionsController : BaseLocationsController
     {
         public SecondaryDivisionsController(IBeachRankingsData data)
             : base(data)

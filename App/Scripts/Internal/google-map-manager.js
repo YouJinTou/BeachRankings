@@ -9,7 +9,7 @@
         var mapOptions = {
             zoom: 8,
             center: initialPosition,
-            mapTypeId: 'satellite'
+            mapTypeId: 'hybrid'
         };
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
         geocoder = new google.maps.Geocoder();

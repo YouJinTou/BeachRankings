@@ -1,0 +1,32 @@
+﻿#restructure-container {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.google-map {
+    height: 550px;
+}
+
+.btn-inactive {
+    border-radius: 1px;
+    background-color: #dd4949;
+    box-shadow: 2px 2px 2px #c22c2c;
+    -webkit-box-shadow: 2px 2px 2px #c22c2c;
+    -moz-box-shadow: 2px 2px 2px #c22c2c;
+    color: white;
+    font-weight: 600;
+}
+
+.btn-active {
+    border-radius: 1px;
+    background-color: #42a83e;
+    color: white;
+    font-weight: 600;
+    -webkit-box-shadow: 3px 3px 5px 0px rgba(37,112,0,1);
+    -moz-box-shadow: 3px 3px 5px 0px rgba(37,112,0,1);
+    box-shadow: 3px 3px 5px 0px rgba(37,112,0,1);
+}
+
+.btn-active:hover {
+    color: white;
+}

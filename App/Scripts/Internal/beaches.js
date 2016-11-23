@@ -7,7 +7,6 @@
     var $textBoxName = $('[data-textbox-name]');
     var $beachNameContainer = $('[data-beach-name]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
-    var $validationSpan = $('[data-generic-validation-alert]');
     
     if (adding) {
         resetCountriesDropdown();
@@ -63,17 +62,17 @@
             var $nextDivision = $($ddlDivisions[nextDivision]);
 
             if (!$this.val()) {
-                updateDivisionDropdowns(false);
+                setDivisionDropdownsVisibility(false);
 
                 return;
             }
 
             $.getJSON(url, function (result) {
                 if (result.length) {
-                    updateDivisionDropdowns(true);
+                    setDivisionDropdownsVisibility(true);
 
                 } else {
-                    updateDivisionDropdowns(false);
+                    setDivisionDropdownsVisibility(false);
 
                     setAutocomplete();
 
@@ -90,7 +89,7 @@
                 });
             });
 
-            function updateDivisionDropdowns(showingClosest) {
+            function setDivisionDropdownsVisibility(showingClosest) {
                 $nextDivision.closest(divisionHolder).show();
 
                 for (var i = nextDivision; i < $ddlDivisions.length; i++) {

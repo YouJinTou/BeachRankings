@@ -219,6 +219,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseLocationsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
     <Compile Include="Controllers\Enums\ActionMessage.cs" />
@@ -239,6 +241,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CriteriaBaseModel.cs" />
+    <Compile Include="Models\ViewModels\AdminViewModels.cs" />
     <Compile Include="Models\ViewModels\PlaceViewModels.cs" />
     <Compile Include="Models\ViewModels\GenericViewModels.cs" />
     <Compile Include="Models\ViewModels\ImageViewModels.cs" />
@@ -288,6 +291,7 @@
     <Content Include="Content\External\slick\slick.min.js" />
     <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\export-example.PNG" />
+    <Content Include="Content\Internal\admin.css" />
     <Content Include="Content\Internal\beach-add-edit.css" />
     <Content Include="Content\Internal\beach-details.css" />
     <Content Include="Content\Internal\images.css" />
@@ -328,6 +332,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
+    <Content Include="Scripts\Internal\admin.js" />
     <Content Include="Scripts\Internal\beach-details.js" />
     <Content Include="Scripts\Internal\account.js" />
     <Content Include="Scripts\Internal\datatables-manager.js" />
@@ -426,6 +431,7 @@
     <Content Include="Views\Shared\DisplayTemplates\ContributorViewModel.cshtml" />
     <Content Include="Views\Beaches\Best.cshtml" />
     <Content Include="Views\User\Statistics.cshtml" />
+    <Content Include="Views\Admin\Restructure.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

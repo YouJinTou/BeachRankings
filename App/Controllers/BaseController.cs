@@ -26,14 +26,6 @@
 
         protected User UserProfile { get; private set; }
 
-        protected Func<ConciseBeachViewModel, bool> UserHasRated
-        {
-            get
-            {
-                return (b => (this.User.Identity.IsAuthenticated ? this.UserProfile.Reviews.Any(r => r.BeachId == b.Id) : false));
-            }
-        }
-
         protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
         {
             if (requestContext.HttpContext.User.Identity.IsAuthenticated)

@@ -14,7 +14,7 @@
     using System.Linq;
     using System.Web.Mvc;
 
-    public class BeachesController : BaseController
+    public class BeachesController : BaseLocationsController
     {
         public BeachesController(IBeachRankingsData data)
             : base(data)
@@ -65,10 +65,7 @@
                 Text = c.Name,
                 Value = c.Id.ToString()
             });
-            var model = new AddBeachViewModel()
-            {
-                Countries = countries
-            };
+            var model = new AddBeachViewModel() { Countries = countries };
 
             return this.View(model);
         }

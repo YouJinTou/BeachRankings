@@ -8,7 +8,7 @@
     using System.Linq;
     using System.Web.Mvc;
 
-    public class WaterBodiesController : BaseController
+    public class WaterBodiesController : BaseLocationsController
     {
         public WaterBodiesController(IBeachRankingsData data)
             : base(data)

@@ -1,0 +1,206 @@
+﻿@model RestructureViewModel
+
+@{
+    ViewBag.Title = "Restructure";
+}
+
+<div id="restructure-container" class="custom-canvas col-xs-10 col-xs-offset-1">
+    @using (Html.BeginForm("Restructure", "Admin", FormMethod.Post, new { id = "restructure-form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-md-7">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.CountryId, Model.Countries, "-- Choose a country --",
+                new
+                {
+                    @class = "form-control form-control-extended custom-focus-black",
+                    data_ddl_country_name = "",
+                    data_ddl_division = "/Countries/PrimaryDivisions/",
+                    data_next_division = "1"
+                })
+                            @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="admin-crud-controls col-md-8">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.TextBoxFor(model => model.Country,
+                                   new
+                                   {
+                                       @class = "edit-control form-control form-control-extended custom-focus-black",
+                                       @readonly = "readonly",
+                                       @placeholder = "Name"
+                                   })
+                                </div>
+                                <div class="col-xs-6 text-left">
+                                    <button data-action="Add" class="restructure-button btn btn-inactive">Add</button>
+                                    <button data-action="Edit" class="restructure-button btn btn-inactive">Edit</button>
+                                    <button data-action="Cancel" class="restructure-button btn btn-reset">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-division-holder="" class="form-group" style="display: none;">
+                        @Html.LabelFor(model => model.PrimaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.PrimaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                new
+                {
+                    @class = "form-control form-control-extended custom-focus-black",
+                    data_ddl_primary_division_name = "",
+                    data_ddl_division = "/PrimaryDivisions/SecondaryDivisions/",
+                    data_next_division = "2"
+                })
+                            @Html.ValidationMessageFor(model => model.PrimaryDivisionId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="admin-crud-controls col-md-8">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.TextBoxFor(model => model.PrimaryDivision,
+                                   new
+                                   {
+                                       @class = "edit-control form-control form-control-extended custom-focus-black",
+                                       @readonly = "readonly",
+                                       @placeholder = "Name"
+                                   })
+                                </div>
+                                <div class="col-xs-6 text-left">
+                                    <button data-action="Add" class="restructure-button btn btn-inactive">Add</button>
+                                    <button data-action="Edit" class="restructure-button btn btn-inactive">Edit</button>
+                                    <button data-action="Delete" class="restructure-button btn btn-inactive">Delete</button>
+                                    <button data-action="Cancel" class="restructure-button btn btn-reset">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-division-holder="" class="form-group" style="display: none;">
+                        @Html.LabelFor(model => model.SecondaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.SecondaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                new
+                {
+                    @class = "form-control form-control-extended custom-focus-black",
+                    data_ddl_secondary_division_name = "",
+                    data_ddl_division = "/SecondaryDivisions/TertiaryDivisions/",
+                    data_next_division = "3"
+                })
+                            @Html.ValidationMessageFor(model => model.SecondaryDivisionId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="admin-crud-controls col-md-8">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.TextBoxFor(model => model.SecondaryDivision,
+                                   new
+                                   {
+                                       @class = "edit-control form-control form-control-extended custom-focus-black",
+                                       @readonly = "readonly",
+                                       @placeholder = "Name"
+                                   })
+                                </div>
+                                <div class="col-xs-6 text-left">
+                                    <button data-action="Add" class="restructure-button btn btn-inactive">Add</button>
+                                    <button data-action="Edit" class="restructure-button btn btn-inactive">Edit</button>
+                                    <button data-action="Delete" class="restructure-button btn btn-inactive">Delete</button>
+                                    <button data-action="Cancel" class="restructure-button btn btn-reset">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-division-holder="" class="form-group" style="display: none;">
+                        @Html.LabelFor(model => model.TertiaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.TertiaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                new
+                {
+                    @class = "form-control form-control-extended custom-focus-black",
+                    data_ddl_tertiary_division_name = "",
+                    data_ddl_division = "/TertiaryDivisions/QuaternaryDivisions/",
+                    data_next_division = "4"
+                })
+                            @Html.ValidationMessageFor(model => model.TertiaryDivisionId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="admin-crud-controls col-md-8">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.TextBoxFor(model => model.TertiaryDivision,
+                                   new
+                                   {
+                                       @class = "edit-control form-control form-control-extended custom-focus-black",
+                                       @readonly = "readonly",
+                                       @placeholder = "Name"
+                                   })
+                                </div>
+                                <div class="col-xs-6 text-left">
+                                    <button data-action="Add" class="restructure-button btn btn-inactive">Add</button>
+                                    <button data-action="Edit" class="restructure-button btn btn-inactive">Edit</button>
+                                    <button data-action="Delete" class="restructure-button btn btn-inactive">Delete</button>
+                                    <button data-action="Cancel" class="restructure-button btn btn-reset">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-division-holder="" class="form-group" style="display: none;">
+                        @Html.LabelFor(model => model.QuaternaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-3">
+                            @Html.DropDownListFor(model => model.QuaternaryDivisionId, Enumerable.Empty<SelectListItem>(),
+                new
+                {
+                    @class = "form-control form-control-extended custom-focus-black",
+                    data_ddl_quaternary_division_name = "",
+                    data_ddl_division = "/QuaternaryDivisions/",
+                    data_next_division = ""
+                })
+                            @Html.ValidationMessageFor(model => model.QuaternaryDivisionId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="admin-crud-controls col-md-8">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    @Html.TextBoxFor(model => model.QuaternaryDivision,
+                                   new
+                                   {
+                                       @class = "edit-control form-control form-control-extended custom-focus-black",
+                                       @readonly = "readonly",
+                                       @placeholder = "Name"
+                                   })
+                                </div>
+                                <div class="col-xs-6 text-left">
+                                    <button data-action="Add" class="restructure-button btn btn-inactive">Add</button>
+                                    <button data-action="Edit" class="restructure-button btn btn-inactive">Edit</button>
+                                    <button data-action="Delete" class="restructure-button btn btn-inactive">Delete</button>
+                                    <button data-action="Cancel" class="restructure-button btn btn-reset">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="google-map" id="map"></div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Internal/google-map-manager.js")
+    @Scripts.Render("~/Scripts/Internal/admin.js")
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?language=en&libraries=places&key=AIzaSyC8j9vpJT7miOsV0jLllMmqZdXpSnCzs9c&callback=gMapManager.initMap">
+    </script>
+}
+
+@section AdminStyles{
+    @Styles.Render("~/Content/Internal/admin.css")
+}

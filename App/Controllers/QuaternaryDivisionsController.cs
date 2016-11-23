@@ -10,7 +10,7 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    public class QuaternaryDivisionsController : BaseController
+    public class QuaternaryDivisionsController : BaseLocationsController
     {
         public QuaternaryDivisionsController(IBeachRankingsData data)
             : base(data)
