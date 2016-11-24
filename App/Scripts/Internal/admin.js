@@ -160,7 +160,7 @@
             function resetCrudControls() {
                 var $ddlDivision = $crudControls.closest('.form-group').find('[data-ddl-division]');
 
-                updateAdminControls($ddlDivision);
+                updateAdminControls($ddlDivision, true);
                 $('#restructure-container').find('.admin-crud-controls').show();
                 $crudControls.find('.restructure-button').each(function () {
                     var $button = $(this);
@@ -200,7 +200,7 @@
         });
     }
 
-    function updateAdminControls($ddlDivision) {
+    function updateAdminControls($ddlDivision, isCancel) {
         var $editControls = $ddlDivision.closest('.form-group').find('.admin-crud-controls');
         var divisionName = getDivisionName($ddlDivision);
         var nothingSelected = (divisionName.indexOf('Choose') > -1);
@@ -212,15 +212,18 @@
             divisionName = nothingSelected ? '' : divisionName;
 
             $editControls.find('.edit-control').val(divisionName);
-            $ddlDivision.closest(('.form-group')).next('.form-group').find('.edit-control').val('');
+
+            if (!isCancel) {
+                $ddlDivision.closest(('.form-group')).next('.form-group').find('.edit-control').val('');
+            }
         }
 
         function setCrudButtonsVisibility() {
             if (nothingSelected) {
                 $editControls.find('.restructure-button').not('[data-action="Add"]').hide();
+                $ddlDivision.closest(('.form-group')).next('.form-group').find('.restructure-button').not('[data-action="Add"]').hide();
             } else {
                 $editControls.find('.restructure-button').not('[data-action="Cancel"]').show();
-                $ddlDivision.closest(('.form-group')).next('.form-group').find('.restructure-button').not('[data-action="Add"]').hide();
             }
         }
     }
