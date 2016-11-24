@@ -86,7 +86,7 @@
 
                 return currentAddress;
             }
-        });        
+        });
     }
 
     function setCrudControlEvents() {
@@ -205,13 +205,14 @@
         var divisionName = getDivisionName($ddlDivision);
         var nothingSelected = (divisionName.indexOf('Choose') > -1);
 
-        setEditControlText();
+        setEditControlsText();
         setCrudButtonsVisibility();
 
-        function setEditControlText() {
+        function setEditControlsText() {
             divisionName = nothingSelected ? '' : divisionName;
 
             $editControls.find('.edit-control').val(divisionName);
+            $ddlDivision.closest(('.form-group')).next('.form-group').find('.edit-control').val('');
         }
 
         function setCrudButtonsVisibility() {
@@ -219,10 +220,11 @@
                 $editControls.find('.restructure-button').not('[data-action="Add"]').hide();
             } else {
                 $editControls.find('.restructure-button').not('[data-action="Cancel"]').show();
+                $ddlDivision.closest(('.form-group')).next('.form-group').find('.restructure-button').not('[data-action="Add"]').hide();
             }
         }
     }
-    
+
     function getDivisionName($ddlDivision) {
         var selector = '#' + $ddlDivision.attr('id') + ' option:selected';
         var name = $(selector).text();
