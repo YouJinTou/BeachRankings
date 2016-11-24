@@ -5,6 +5,7 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -67,17 +68,24 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
-            var tertiaryDivision = new TertiaryDivision()
+            try
             {
-                Name = bindingModel.TertiaryDivision,
-                CountryId = (int)bindingModel.CountryId,
-                PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
-                SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId,
-            };
+                var tertiaryDivision = new TertiaryDivision()
+                {
+                    Name = bindingModel.TertiaryDivision,
+                    CountryId = (int)bindingModel.CountryId,
+                    PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
+                    SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId,
+                };
 
-            this.Data.TertiaryDivisions.Add(tertiaryDivision);
-            this.Data.TertiaryDivisions.SaveChanges();
-            this.Data.TertiaryDivisions.AddUpdateIndexEntry(tertiaryDivision);
+                this.Data.TertiaryDivisions.Add(tertiaryDivision);
+                this.Data.TertiaryDivisions.SaveChanges();
+                this.Data.TertiaryDivisions.AddUpdateIndexEntry(tertiaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the third-level division is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }
@@ -86,11 +94,18 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
-            var tertiaryDivision = this.Data.TertiaryDivisions.Find(bindingModel.TertiaryDivisionId);
-            tertiaryDivision.Name = bindingModel.TertiaryDivision;
+            try
+            {
+                var tertiaryDivision = this.Data.TertiaryDivisions.Find(bindingModel.TertiaryDivisionId);
+                tertiaryDivision.Name = bindingModel.TertiaryDivision;
 
-            this.Data.TertiaryDivisions.SaveChanges();
-            this.Data.TertiaryDivisions.AddUpdateIndexEntry(tertiaryDivision);
+                this.Data.TertiaryDivisions.SaveChanges();
+                this.Data.TertiaryDivisions.AddUpdateIndexEntry(tertiaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the third-level division is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }

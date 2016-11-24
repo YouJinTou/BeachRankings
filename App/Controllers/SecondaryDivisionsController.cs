@@ -5,6 +5,7 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -68,16 +69,23 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
-            var secondaryDivision = new SecondaryDivision()
+            try
             {
-                Name = bindingModel.SecondaryDivision,
-                CountryId = (int)bindingModel.CountryId,
-                PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId
-            };
+                var secondaryDivision = new SecondaryDivision()
+                {
+                    Name = bindingModel.SecondaryDivision,
+                    CountryId = (int)bindingModel.CountryId,
+                    PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId
+                };
 
-            this.Data.SecondaryDivisions.Add(secondaryDivision);
-            this.Data.SecondaryDivisions.SaveChanges();
-            this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);
+                this.Data.SecondaryDivisions.Add(secondaryDivision);
+                this.Data.SecondaryDivisions.SaveChanges();
+                this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the second-level division is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }
@@ -86,11 +94,18 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
-            var secondaryDivision = this.Data.SecondaryDivisions.Find(bindingModel.SecondaryDivisionId);
-            secondaryDivision.Name = bindingModel.SecondaryDivision;
+            try
+            {
+                var secondaryDivision = this.Data.SecondaryDivisions.Find(bindingModel.SecondaryDivisionId);
+                secondaryDivision.Name = bindingModel.SecondaryDivision;
 
-            this.Data.SecondaryDivisions.SaveChanges();
-            this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);
+                this.Data.SecondaryDivisions.SaveChanges();
+                this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the second-level division is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }

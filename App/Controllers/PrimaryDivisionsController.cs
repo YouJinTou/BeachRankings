@@ -5,6 +5,7 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -69,11 +70,18 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
-            var primaryDivision = new PrimaryDivision() { Name = bindingModel.PrimaryDivision, CountryId = (int)bindingModel.CountryId };
+            try
+            {
+                var primaryDivision = new PrimaryDivision() { Name = bindingModel.PrimaryDivision, CountryId = (int)bindingModel.CountryId };
 
-            this.Data.PrimaryDivisions.Add(primaryDivision);
-            this.Data.PrimaryDivisions.SaveChanges();
-            this.Data.PrimaryDivisions.AddUpdateIndexEntry(primaryDivision);
+                this.Data.PrimaryDivisions.Add(primaryDivision);
+                this.Data.PrimaryDivisions.SaveChanges();
+                this.Data.PrimaryDivisions.AddUpdateIndexEntry(primaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the first-level division is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }
@@ -82,11 +90,18 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
-            var primaryDivision = this.Data.PrimaryDivisions.Find(bindingModel.PrimaryDivisionId);
-            primaryDivision.Name = bindingModel.PrimaryDivision;
+            try
+            {
+                var primaryDivision = this.Data.PrimaryDivisions.Find(bindingModel.PrimaryDivisionId);
+                primaryDivision.Name = bindingModel.PrimaryDivision;
 
-            this.Data.PrimaryDivisions.SaveChanges();
-            this.Data.PrimaryDivisions.AddUpdateIndexEntry(primaryDivision);
+                this.Data.PrimaryDivisions.SaveChanges();
+                this.Data.PrimaryDivisions.AddUpdateIndexEntry(primaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the first-level division is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }

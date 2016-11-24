@@ -23,6 +23,11 @@
             });
             var model = new RestructureViewModel() { Countries = countries };
 
+            if (this.TempData["ValidationError"] != null)
+            {
+                this.ModelState.AddModelError(string.Empty, this.TempData["ValidationError"].ToString());
+            }
+
             return this.View(model);
         }
     }

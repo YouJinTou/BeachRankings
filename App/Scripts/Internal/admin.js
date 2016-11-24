@@ -12,7 +12,7 @@
             var url = $this.data('ddl-division') + $this.val();
             var currentAddress = getCurrentAddress();
 
-            updateEditControl();
+            updateAdminControls($this);
 
             if (!nextDivision) {
                 return;
@@ -57,7 +57,11 @@
             }
 
             function updateEditControl() {
-                $this.closest('.form-group').find('.edit-control').val(getDivisionName($this));
+                var divisionName = getDivisionName($this);
+                var noName = (divisionName.indexOf('Choose') > -1);
+                divisionName = noName ? '' : divisionName;
+
+                $this.closest('.form-group').find('.edit-control').val(divisionName);
             }
 
             function createInitialOption(jQueryAppendee, text) {
@@ -118,6 +122,7 @@
 
             function onAddClicked() {
                 if (editControlReadOnly) {
+                    $editControl.val('');
                     setUiCues();
                 } else {
                     $(form).attr('action', getControllerAction());
@@ -153,11 +158,13 @@
             }
 
             function resetCrudControls() {
+                var $ddlDivision = $crudControls.closest('.form-group').find('[data-ddl-division]');
+
+                updateAdminControls($ddlDivision);
                 $('#restructure-container').find('.admin-crud-controls').show();
                 $crudControls.find('.restructure-button').each(function () {
                     var $button = $(this);
 
-                    $button.show();
                     $button.removeClass('btn-active');
                     $button.text($button.data('action'));
                 });
@@ -191,6 +198,29 @@
                 return controllerAction;
             }
         });
+    }
+
+    function updateAdminControls($ddlDivision) {
+        var $editControls = $ddlDivision.closest('.form-group').find('.admin-crud-controls');
+        var divisionName = getDivisionName($ddlDivision);
+        var nothingSelected = (divisionName.indexOf('Choose') > -1);
+
+        setEditControlText();
+        setCrudButtonsVisibility();
+
+        function setEditControlText() {
+            divisionName = nothingSelected ? '' : divisionName;
+
+            $editControls.find('.edit-control').val(divisionName);
+        }
+
+        function setCrudButtonsVisibility() {
+            if (nothingSelected) {
+                $editControls.find('.restructure-button').not('[data-action="Add"]').hide();
+            } else {
+                $editControls.find('.restructure-button').not('[data-action="Cancel"]').show();
+            }
+        }
     }
     
     function getDivisionName($ddlDivision) {

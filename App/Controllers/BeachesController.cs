@@ -75,9 +75,7 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachViewModel bindingModel)
         {
-            this.ValidateBindingModel(bindingModel);
-
-            if (!this.ModelState.IsValid)
+            if (!this.AddModelValid(bindingModel))
             {
                 bindingModel.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
                 {
@@ -201,7 +199,7 @@
         
         #region Add
 
-        private void ValidateBindingModel(AddBeachViewModel model)
+        private bool AddModelValid(AddBeachViewModel model)
         {
             var beachNameUnique = !this.Data.Beaches.All().Any(
                 b => b.PrimaryDivisionId == model.PrimaryDivisionId &&
@@ -222,12 +220,18 @@
             if (secondaryIdMissing || tertiaryIdMissing || quaternaryIdMissing)
             {
                 this.ModelState.AddModelError(string.Empty, "All location fields are required.");
+
+                return false;
             }
 
             if (!beachNameUnique)
             {
                 this.ModelState.AddModelError(string.Empty, "A beach with this name already exists.");
+
+                return false;
             }
+
+            return true;
         }
 
         private Beach SaveBeach(AddBeachViewModel model)

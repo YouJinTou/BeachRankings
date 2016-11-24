@@ -5,6 +5,7 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -55,18 +56,25 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
-            var quaternaryDivision = new QuaternaryDivision()
+            try
             {
-                Name = bindingModel.QuaternaryDivision,
-                CountryId = (int)bindingModel.CountryId,
-                PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
-                SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId,
-                TertiaryDivisionId = (int)bindingModel.TertiaryDivisionId
-            };
+                var quaternaryDivision = new QuaternaryDivision()
+                {
+                    Name = bindingModel.QuaternaryDivision,
+                    CountryId = (int)bindingModel.CountryId,
+                    PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
+                    SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId,
+                    TertiaryDivisionId = (int)bindingModel.TertiaryDivisionId
+                };
 
-            this.Data.QuaternaryDivisions.Add(quaternaryDivision);
-            this.Data.QuaternaryDivisions.SaveChanges();
-            this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternaryDivision);
+                this.Data.QuaternaryDivisions.Add(quaternaryDivision);
+                this.Data.QuaternaryDivisions.SaveChanges();
+                this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the fourth-level division is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }
@@ -75,11 +83,18 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
-            var quaternaryDivision = this.Data.Countries.Find(bindingModel.QuaternaryDivisionId);
-            quaternaryDivision.Name = bindingModel.QuaternaryDivision;
+            try
+            {
+                var quaternaryDivision = this.Data.Countries.Find(bindingModel.QuaternaryDivisionId);
+                quaternaryDivision.Name = bindingModel.QuaternaryDivision;
 
-            this.Data.QuaternaryDivisions.SaveChanges();
-            this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternaryDivision);
+                this.Data.QuaternaryDivisions.SaveChanges();
+                this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the fourth-level division is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }

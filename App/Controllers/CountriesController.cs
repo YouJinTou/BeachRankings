@@ -5,6 +5,7 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -27,7 +28,7 @@
 
             return this.View("_LocationBeaches", model);
         }
-        
+
         public PartialViewResult Statistics(int id)
         {
             var beaches = this.Data.Countries.All()
@@ -58,11 +59,18 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
-            var country = new Country() { Name = bindingModel.Country };
+            try
+            {
+                var country = new Country() { Name = bindingModel.Country };
 
-            this.Data.Countries.Add(country);
-            this.Data.Countries.SaveChanges();
-            this.Data.Countries.AddUpdateIndexEntry(country);
+                this.Data.Countries.Add(country);
+                this.Data.Countries.SaveChanges();
+                this.Data.Countries.AddUpdateIndexEntry(country);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the country is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }
@@ -71,11 +79,18 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
-            var country = this.Data.Countries.Find(bindingModel.CountryId);
-            country.Name = bindingModel.Country;
+            try
+            {
+                var country = this.Data.Countries.Find(bindingModel.CountryId);
+                country.Name = bindingModel.Country;
 
-            this.Data.Countries.SaveChanges();
-            this.Data.Countries.AddUpdateIndexEntry(country);
+                this.Data.Countries.SaveChanges();
+                this.Data.Countries.AddUpdateIndexEntry(country);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = "The name of the country is either a duplicate or is missing.";
+            }
 
             return this.RedirectToAction("Restructure", "Admin");
         }
