@@ -66,6 +66,24 @@
 
         [HttpPost]
         [RestructureAuthorize]
+        public ActionResult Add(RestructureViewModel bindingModel)
+        {
+            var secondaryDivision = new SecondaryDivision()
+            {
+                Name = bindingModel.SecondaryDivision,
+                CountryId = (int)bindingModel.CountryId,
+                PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId
+            };
+
+            this.Data.SecondaryDivisions.Add(secondaryDivision);
+            this.Data.SecondaryDivisions.SaveChanges();
+            this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
             var secondaryDivision = this.Data.SecondaryDivisions.Find(bindingModel.SecondaryDivisionId);

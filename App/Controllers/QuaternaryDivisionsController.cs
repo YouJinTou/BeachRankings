@@ -53,6 +53,26 @@
 
         [HttpPost]
         [RestructureAuthorize]
+        public ActionResult Add(RestructureViewModel bindingModel)
+        {
+            var quaternaryDivision = new QuaternaryDivision()
+            {
+                Name = bindingModel.QuaternaryDivision,
+                CountryId = (int)bindingModel.CountryId,
+                PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
+                SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId,
+                TertiaryDivisionId = (int)bindingModel.TertiaryDivisionId
+            };
+
+            this.Data.QuaternaryDivisions.Add(quaternaryDivision);
+            this.Data.QuaternaryDivisions.SaveChanges();
+            this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternaryDivision);
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
             var quaternaryDivision = this.Data.Countries.Find(bindingModel.QuaternaryDivisionId);

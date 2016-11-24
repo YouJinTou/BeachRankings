@@ -7,7 +7,7 @@
     public class RestructureViewModel
     {
         [Display(Name = "Country")]
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
 
         public string Country { get; set; }
 

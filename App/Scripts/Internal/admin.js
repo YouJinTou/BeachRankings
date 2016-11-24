@@ -27,11 +27,7 @@
             }
 
             $.getJSON(url, function (result) {
-                if (result.length) {
-                    setDivisionDropdownsVisibility(true);
-                } else {
-                    setDivisionDropdownsVisibility(false);
-                }
+                setDivisionDropdownsVisibility(true);
 
                 gMapManager.setMapByAddress(currentAddress);
 
@@ -66,7 +62,7 @@
 
             function createInitialOption(jQueryAppendee, text) {
                 $(document.createElement('option'))
-                            .attr('value', "")
+                            .attr('value', '')
                             .text(text)
                             .appendTo(jQueryAppendee);
             }
@@ -123,6 +119,9 @@
             function onAddClicked() {
                 if (editControlReadOnly) {
                     setUiCues();
+                } else {
+                    $(form).attr('action', getControllerAction());
+                    $(form).submit();
                 }
             }
 
@@ -162,6 +161,7 @@
                     $button.removeClass('btn-active');
                     $button.text($button.data('action'));
                 });
+                $crudControls.find('[data-action="Cancel"]').hide();
                 $editControl.attr('readonly', true);
             }
 
@@ -169,7 +169,8 @@
                 var cueText = 'Press to save (' + $this.text().toLowerCase() + ')';
 
                 $('#restructure-container').find('.admin-crud-controls').not($crudControls).hide();
-                $crudControls.find('.restructure-button').not($this).not('[data-action="Cancel"]').hide();
+                $crudControls.find('.restructure-button').not($this).hide();
+                $crudControls.find('[data-action="Cancel"]').show();
                 $this.addClass('btn-active');
                 $this.text(cueText);
                 $editControl.attr('readonly', false);

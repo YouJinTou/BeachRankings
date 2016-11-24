@@ -56,6 +56,19 @@
 
         [HttpPost]
         [RestructureAuthorize]
+        public ActionResult Add(RestructureViewModel bindingModel)
+        {
+            var country = new Country() { Name = bindingModel.Country };
+
+            this.Data.Countries.Add(country);
+            this.Data.Countries.SaveChanges();
+            this.Data.Countries.AddUpdateIndexEntry(country);
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
             var country = this.Data.Countries.Find(bindingModel.CountryId);
