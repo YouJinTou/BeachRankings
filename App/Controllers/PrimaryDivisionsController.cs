@@ -59,11 +59,22 @@
         public async Task<JsonResult> BeachNames(int id, string term)
         {
             var beachNames = await this.Data.Beaches.All()
-                .Where(pd => pd.PrimaryDivisionId == id && pd.Name.StartsWith(term))
-                .Select(pd => pd.Name)
+                .Where(b => b.PrimaryDivisionId == id && b.Name.StartsWith(term))
+                .Select(b => b.Name)
                 .ToListAsync();
 
             return this.Json(beachNames, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AdminBeaches(int id)
+        {
+            var beaches = this.Data.Beaches.All().Where(b => b.PrimaryDivisionId == id).Select(b => new SelectListItem
+            {
+                Text = b.Name,
+                Value = b.Id.ToString()
+            });
+
+            return this.Json(beaches, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -102,6 +113,14 @@
             {
                 this.TempData["ValidationError"] = "The name of the first-level division is either a duplicate or is missing.";
             }
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult MoveBeaches(RestructureViewModel bindingModel)
+        {
 
             return this.RedirectToAction("Restructure", "Admin");
         }

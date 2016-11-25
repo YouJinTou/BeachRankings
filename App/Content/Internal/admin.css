@@ -30,3 +30,15 @@
 .btn-active:hover {
     color: white;
 }
+
+#move-beaches-container {
+    margin: 10px;
+}
+
+.beach-checkbox-result {
+    margin-top: 5px;
+}
+
+.beach-checkbox-result input[type=checkbox] {
+    margin-right: 10px;
+}

@@ -19,7 +19,6 @@
                 new
                 {
                     @class = "form-control form-control-extended custom-focus-black",
-                    data_ddl_country_name = "",
                     data_ddl_division = "/Countries/PrimaryDivisions/",
                     data_next_division = "1"
                 })
@@ -46,14 +45,13 @@
                         </div>
                     </div>
 
-                    <div data-division-holder="" class="form-group" style="display: none;">
+                    <div data-division-holder="" class="form-group display-none">
                         @Html.LabelFor(model => model.PrimaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
                         <div class="col-md-3">
                             @Html.DropDownListFor(model => model.PrimaryDivisionId, Enumerable.Empty<SelectListItem>(),
                 new
                 {
                     @class = "form-control form-control-extended custom-focus-black",
-                    data_ddl_primary_division_name = "",
                     data_ddl_division = "/PrimaryDivisions/SecondaryDivisions/",
                     data_next_division = "2"
                 })
@@ -80,14 +78,13 @@
                         </div>
                     </div>
 
-                    <div data-division-holder="" class="form-group" style="display: none;">
+                    <div data-division-holder="" class="form-group display-none">
                         @Html.LabelFor(model => model.SecondaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
                         <div class="col-md-3">
                             @Html.DropDownListFor(model => model.SecondaryDivisionId, Enumerable.Empty<SelectListItem>(),
                 new
                 {
                     @class = "form-control form-control-extended custom-focus-black",
-                    data_ddl_secondary_division_name = "",
                     data_ddl_division = "/SecondaryDivisions/TertiaryDivisions/",
                     data_next_division = "3"
                 })
@@ -114,14 +111,13 @@
                         </div>
                     </div>
 
-                    <div data-division-holder="" class="form-group" style="display: none;">
+                    <div data-division-holder="" class="form-group display-none" >
                         @Html.LabelFor(model => model.TertiaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
                         <div class="col-md-3">
                             @Html.DropDownListFor(model => model.TertiaryDivisionId, Enumerable.Empty<SelectListItem>(),
                 new
                 {
                     @class = "form-control form-control-extended custom-focus-black",
-                    data_ddl_tertiary_division_name = "",
                     data_ddl_division = "/TertiaryDivisions/QuaternaryDivisions/",
                     data_next_division = "4"
                 })
@@ -148,14 +144,13 @@
                         </div>
                     </div>
 
-                    <div data-division-holder="" class="form-group" style="display: none;">
+                    <div data-division-holder="" class="form-group display-none">
                         @Html.LabelFor(model => model.QuaternaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
                         <div class="col-md-3">
                             @Html.DropDownListFor(model => model.QuaternaryDivisionId, Enumerable.Empty<SelectListItem>(),
                 new
                 {
                     @class = "form-control form-control-extended custom-focus-black",
-                    data_ddl_quaternary_division_name = "",
                     data_ddl_division = "/QuaternaryDivisions/",
                     data_next_division = ""
                 })
@@ -180,6 +175,24 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div id="move-beaches-container" class="form-group display-none text-left" >
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <button id="btn-move-beaches" data-action="Move beaches" class="btn btn-cta">List beaches to move</button>
+                                    <button id="btn-move-beaches-confirm" class="btn btn-active display-none">Move to selected</button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div id="beaches-result">
+                                    <div class="beach-checkbox-result beach-result-template text-left"></div>
+                                    <div id="beaches-result-container"></div>
+                                </div>
+                            </div>                           
+                        </div>                        
                     </div>
 
                     @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })

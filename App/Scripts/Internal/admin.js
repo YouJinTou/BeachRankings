@@ -1,6 +1,10 @@
 ﻿(function ($) {
     var $ddlDivisions = $('[data-ddl-division]');
     var divisionHolder = '[data-division-holder]';
+    var movingBeaches = false;
+    var lastDivisionReached = false;
+    var lastDivisionSelected = false;
+    var $currentDivision;
 
     setDivisionEvents();
     setCrudControlEvents();
@@ -11,17 +15,28 @@
             var nextDivision = $this.data('next-division');
             var url = $this.data('ddl-division') + $this.val();
             var currentAddress = getCurrentAddress();
+            lastDivisionReached = (nextDivision.length === 0)
+            $currentDivision = $this;
 
             updateAdminControls($this);
+            $('#move-beaches-container').show();
 
-            if (!nextDivision) {
+            if (lastDivisionReached) {
+                lastDivisionSelected = !($this.val() === '');
+
+                tryClearCheckBoxesContainer();
+                prepareBeachMovement();
+
                 return;
             }
 
             var $nextDivision = $($ddlDivisions[nextDivision]);
 
             if (!$this.val()) {
+                tryHideBeachMovementContainer();
                 setDivisionDropdownsVisibility(false);
+                tryClearCheckBoxesContainer();
+                prepareBeachMovement();
 
                 return;
             }
@@ -37,6 +52,11 @@
                         .text(this.Text)
                         .appendTo($nextDivision);
                 });
+
+                lastDivisionReached = (result.length === 0);
+
+                tryClearCheckBoxesContainer();
+                prepareBeachMovement();
             });
 
             function setDivisionDropdownsVisibility(showingClosest) {
@@ -198,6 +218,50 @@
                 return controllerAction;
             }
         });
+
+        $('#btn-move-beaches').on('click', function (event) {
+            event.preventDefault();
+
+            if (movingBeaches) {
+                alert('Remove the currently checked beaches in order to be able to list new ones.');
+
+                return;
+            }
+
+            var url = $currentDivision.data('ddl-division');
+            var secondSlashIndex = url.indexOf('/', 1);
+            var adminBeachesUrl = url.substr(0, secondSlashIndex) + '/AdminBeaches/' + $currentDivision.val();
+
+            tryClearCheckBoxesContainer();
+
+            $.getJSON(adminBeachesUrl, function (result) {
+                $(result).each(function () {
+                    var div = $('#beaches-result').find('.beach-result-template').first().clone();
+                    var label = $('<label />', { text: this.Text });
+                    var beachCheckBox = $('<input />',
+                        {
+                            type: 'checkbox',
+                            value: this.Value
+                        });
+
+                    div.removeClass('beach-result-template');
+                    div.append(beachCheckBox);
+                    div.append(label);
+                    $('#beaches-result-container').append(div);
+                });
+            });
+        });
+
+        $('#beaches-result').on('click', 'input:checkbox', function () {
+            var checkedCheckboxes = $('#beaches-result').find('input:checkbox').filter(function () {
+                return $(this).is(':checked');
+            });
+
+            movingBeaches = (checkedCheckboxes.length > 0);
+        });
+
+        $('#beaches-result').on('click', '#btn-move-beaches-confirm', function () {
+        });
     }
 
     function updateAdminControls($ddlDivision, isCancel) {
@@ -224,6 +288,10 @@
                 $ddlDivision.closest(('.form-group')).next('.form-group').find('.restructure-button').not('[data-action="Add"]').hide();
             } else {
                 $editControls.find('.restructure-button').not('[data-action="Cancel"]').show();
+
+                if (!isCancel) {
+                    $ddlDivision.closest(('.form-group')).next('.form-group').find('.restructure-button').not('[data-action="Add"]').hide();
+                }
             }
         }
     }
@@ -233,5 +301,25 @@
         var name = $(selector).text();
 
         return name;
+    }
+
+    function tryClearCheckBoxesContainer() {
+        if (!movingBeaches) {
+            $('#beaches-result-container').empty();
+        }
+    }
+
+    function tryHideBeachMovementContainer() {
+        if (!movingBeaches) {
+            $('#move-beaches-container').hide();
+        }
+    }
+
+    function prepareBeachMovement() {
+        if (movingBeaches && lastDivisionReached && lastDivisionSelected) {
+            $('#btn-move-beaches-confirm').show();
+        } else {
+            $('#btn-move-beaches-confirm').hide();
+        }
     }
 })(jQuery);

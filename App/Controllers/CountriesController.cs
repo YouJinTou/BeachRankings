@@ -9,6 +9,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Mvc;
 
     public class CountriesController : BaseLocationsController
@@ -55,6 +56,27 @@
             return this.Json(primaryDivisions, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<JsonResult> BeachNames(int id, string term)
+        {
+            var beachNames = await this.Data.Beaches.All()
+                .Where(b => b.CountryId == id && b.Name.StartsWith(term))
+                .Select(b => b.Name)
+                .ToListAsync();
+
+            return this.Json(beachNames, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AdminBeaches(int id)
+        {
+            var beaches = this.Data.Beaches.All().Where(b => b.CountryId == id).Select(b => new SelectListItem
+            {
+                Text = b.Name,
+                Value = b.Id.ToString()
+            });
+
+            return this.Json(beaches, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
@@ -91,6 +113,14 @@
             {
                 this.TempData["ValidationError"] = "The name of the country is either a duplicate or is missing.";
             }
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult MoveBeaches(RestructureViewModel bindingModel)
+        {
 
             return this.RedirectToAction("Restructure", "Admin");
         }
