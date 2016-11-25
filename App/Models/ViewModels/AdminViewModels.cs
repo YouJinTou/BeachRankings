@@ -32,5 +32,7 @@
         public string QuaternaryDivision { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }
+
+        public string BeachIdsToMove { get; set; }
     }
 }

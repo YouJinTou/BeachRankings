@@ -120,13 +120,5 @@
 
             return this.RedirectToAction("Restructure", "Admin");
         }
-
-        [HttpPost]
-        [RestructureAuthorize]
-        public ActionResult MoveBeaches(RestructureViewModel bindingModel)
-        {
-
-            return this.RedirectToAction("Restructure", "Admin");
-        }
     }
 }

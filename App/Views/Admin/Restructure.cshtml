@@ -8,6 +8,7 @@
     @using (Html.BeginForm("Restructure", "Admin", FormMethod.Post, new { id = "restructure-form" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.BeachIdsToMove, new { id = "hdn-beach-ids" })
 
         <div class="row">
             <div class="col-md-7">

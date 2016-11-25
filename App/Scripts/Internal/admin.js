@@ -15,14 +15,14 @@
             var nextDivision = $this.data('next-division');
             var url = $this.data('ddl-division') + $this.val();
             var currentAddress = getCurrentAddress();
-            lastDivisionReached = (nextDivision.length === 0)
+            lastDivisionReached = (nextDivision.length === 0);
             $currentDivision = $this;
 
             updateAdminControls($this);
             $('#move-beaches-container').show();
 
             if (lastDivisionReached) {
-                lastDivisionSelected = !($this.val() === '');
+                lastDivisionSelected = ($this.val() !== '');
 
                 tryClearCheckBoxesContainer();
                 prepareBeachMovement();
@@ -33,10 +33,10 @@
             var $nextDivision = $($ddlDivisions[nextDivision]);
 
             if (!$this.val()) {
-                tryHideBeachMovementContainer();
                 setDivisionDropdownsVisibility(false);
+                tryHideBeachMovementContainer();
                 tryClearCheckBoxesContainer();
-                prepareBeachMovement();
+                $('#btn-move-beaches-confirm').hide();
 
                 return;
             }
@@ -54,6 +54,7 @@
                 });
 
                 lastDivisionReached = (result.length === 0);
+                lastDivisionSelected = ($this.val() !== '');
 
                 tryClearCheckBoxesContainer();
                 prepareBeachMovement();
@@ -260,7 +261,28 @@
             movingBeaches = (checkedCheckboxes.length > 0);
         });
 
-        $('#beaches-result').on('click', '#btn-move-beaches-confirm', function () {
+        $('#btn-move-beaches-confirm').on('click', function (event) {
+            event.preventDefault();
+
+            setSelectedBeachIds();
+
+            $(form).attr('action', '/Beaches/MoveBeaches/');
+            $(form).submit();
+
+            function setSelectedBeachIds() {
+                var beachIds = [];
+                var beachIdsResult;
+
+                $('#beaches-result').find('input:checkbox').filter(function () {
+                    return ($(this).is(':checked'));
+                }).each(function () {
+                    beachIds.push($(this).val());
+                });
+
+                beachIdsResult = beachIds.join();
+
+                $('#hdn-beach-ids').val(beachIdsResult);
+            }
         });
     }
 

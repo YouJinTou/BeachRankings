@@ -1,6 +1,7 @@
 ﻿namespace App.Controllers
 {
     using AutoMapper;
+    using BeachRankings.App.CustomAttributes;
     using BeachRankings.Data.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
@@ -173,15 +174,15 @@
                 return this.RedirectToAction("Details", new { id = id });
             }
 
-            var beachCopy = new Beach();
+            var oldBeach = new Beach();
 
-            Mapper.Map(beach, beachCopy);
+            Mapper.Map(beach, oldBeach);
 
             this.RemoveChildReferences(beach);
             this.Data.Beaches.Remove(beach);
             this.Data.Beaches.SaveChanges();
-            this.UpdateIndexEntries(beachCopy);
-            this.Data.Beaches.DeleteIndexEntry(beachCopy);
+            this.UpdateIndexEntries(oldBeach);
+            this.Data.Beaches.DeleteIndexEntry(oldBeach);
 
             return this.RedirectToAction("Index", "Home");
         }
@@ -195,8 +196,39 @@
             return this.Json(htmlResult, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult MoveBeaches(RestructureViewModel bindingModel)
+        {
+            var beachIds = bindingModel.BeachIdsToMove.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var beachId in beachIds)
+            {
+                var beach = this.Data.Beaches.Find(int.Parse(beachId));
+                var oldBeach = new Beach();
+
+                Mapper.Map(beach, oldBeach);
+               
+                beach.CountryId = (int)bindingModel.CountryId;
+                beach.PrimaryDivisionId = bindingModel.PrimaryDivisionId;
+                beach.SecondaryDivisionId = bindingModel.SecondaryDivisionId;
+                beach.TertiaryDivisionId = bindingModel.TertiaryDivisionId;
+                beach.QuaternaryDivisionId = bindingModel.QuaternaryDivisionId;
+
+                this.Data.Beaches.SaveChanges();
+
+                beach.SetBeachData();
+
+                this.Data.Beaches.SaveChanges();
+
+                this.UpdateIndexEntries(beach, oldBeach);
+            }
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
         #region Action Helpers
-        
+
         #region Add
 
         private bool AddModelValid(AddBeachViewModel model)

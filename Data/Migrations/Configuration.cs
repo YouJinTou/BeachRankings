@@ -37,6 +37,9 @@ namespace BeachRankings.Data.Migrations
 
         protected override void Seed(BeachRankingsDbContext data)
         {
+            Type type = typeof(LuceneSearch);
+            System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(type.TypeHandle);
+
             this.data = data;
 
             this.SeedRoles();
