@@ -9,7 +9,6 @@
     using BeachRankings.Data.Repositories.Interfaces;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System;
     using System.Linq;
 
     public class BeachRepository : GenericRepository<Beach>, IBeachRepository

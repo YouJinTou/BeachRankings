@@ -28,5 +28,7 @@
         IGenericRepository<Blog> Blogs { get; }
 
         IGenericRepository<BlogArticle> BlogArticles { get; }
+
+        void SaveChanges();
     }
 }

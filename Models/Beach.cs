@@ -22,7 +22,7 @@
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The name field is required.")]
-        [Index("IX_PrimaryBeach", IsUnique = true, Order = 1)]
+        [Index("IX_PrimaryBeach", IsUnique = true, Order = 0)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
         public string Name { get; set; }
@@ -40,7 +40,7 @@
 
         public virtual Country Country { get; set; }
 
-        [Index("IX_PrimaryBeach", IsUnique = true, Order = 2)]
+        [Index("IX_PrimaryBeach", IsUnique = true, Order = 1)]
         public int? PrimaryDivisionId { get; set; }
 
         public virtual PrimaryDivision PrimaryDivision { get; protected set; }

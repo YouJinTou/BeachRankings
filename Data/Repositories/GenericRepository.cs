@@ -71,6 +71,11 @@
             return entity;
         }
 
+        public void Detach(TEntity entity)
+        {
+            this.ChangeState(entity, EntityState.Detached);
+        }
+
         public void SaveChanges()
         {
             this.dbContext.SaveChanges();

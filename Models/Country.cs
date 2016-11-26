@@ -17,14 +17,14 @@
         public int Id { get; set; }
 
         [Required]
-        [Index("IX_Country", IsUnique = true)]
+        [Index(IsUnique = true)]
         [MaxLength(100)]
         [Display(Name = "Country")]
         public string Name { get; set; }
 
-        public virtual WaterBody WaterBody { get; protected set; }
-
         public int? WaterBodyId { get; set; }
+
+        public virtual WaterBody WaterBody { get; protected set; }
 
         public virtual ICollection<PrimaryDivision> PrimaryDivisions
         {

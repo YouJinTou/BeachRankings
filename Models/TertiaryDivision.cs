@@ -18,20 +18,20 @@
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The third-level division field is required.")]
-        [Index("IX_CountryTertiary", IsUnique = true, Order = 1)]
+        [Index("IX_CountryTertiary", IsUnique = true, Order = 0)]
         [MinLength(2, ErrorMessage = "The third-level division should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The third-level division cannot be longer than 100 characters.")]
         [Display(Name = "Third-level division")]
         public string Name { get; set; }
 
         [Required]
-        [Index("IX_CountryTertiary", IsUnique = true, Order = 2)]
+        [Index("IX_CountryTertiary", IsUnique = true, Order = 1)]
         public int CountryId { get; set; }
 
         public virtual Country Country { get; protected set; }
 
         [Required]
-        [Index("IX_CountryTertiary", IsUnique = true, Order = 3)]
+        [Index("IX_CountryTertiary", IsUnique = true, Order = 2)]
         public int PrimaryDivisionId { get; set; }
 
         public virtual PrimaryDivision PrimaryDivision { get; protected set; }

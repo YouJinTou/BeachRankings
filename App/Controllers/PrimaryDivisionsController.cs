@@ -81,9 +81,11 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
+            PrimaryDivision primaryDivision = null;
+
             try
             {
-                var primaryDivision = new PrimaryDivision() { Name = bindingModel.PrimaryDivision, CountryId = (int)bindingModel.CountryId };
+                primaryDivision = new PrimaryDivision() { Name = bindingModel.PrimaryDivision, CountryId = (int)bindingModel.CountryId };
 
                 this.Data.PrimaryDivisions.Add(primaryDivision);
                 this.Data.PrimaryDivisions.SaveChanges();
@@ -92,6 +94,11 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the first-level division is either a duplicate or is missing.";
+
+                if (primaryDivision != null)
+                {
+                    this.Data.PrimaryDivisions.Detach(primaryDivision);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");
@@ -101,9 +108,11 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
+            PrimaryDivision primaryDivision = null;
+
             try
             {
-                var primaryDivision = this.Data.PrimaryDivisions.Find(bindingModel.PrimaryDivisionId);
+                primaryDivision = this.Data.PrimaryDivisions.Find(bindingModel.PrimaryDivisionId);
                 primaryDivision.Name = bindingModel.PrimaryDivision;
 
                 this.Data.PrimaryDivisions.SaveChanges();
@@ -112,6 +121,53 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the first-level division is either a duplicate or is missing.";
+
+                if (primaryDivision != null)
+                {
+                    this.Data.PrimaryDivisions.Detach(primaryDivision);
+                }
+            }
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult Delete(RestructureViewModel bindingModel)
+        {
+            PrimaryDivision primaryDivision = null;
+
+            try
+            {               
+                primaryDivision = this.Data.PrimaryDivisions.All()
+                   .Include(pd => pd.Beaches)
+                   .Include(pd => pd.SecondaryDivisions)
+                   .Include(pd => pd.TertiaryDivisions)
+                   .Include(pd => pd.QuaternaryDivisions)
+                   .FirstOrDefault(pd => pd.Id == bindingModel.PrimaryDivisionId);
+                var hasChildren = (primaryDivision.Beaches.Count > 0 ||
+                    primaryDivision.SecondaryDivisions.Count > 0 ||
+                    primaryDivision.TertiaryDivisions.Count > 0 ||
+                    primaryDivision.QuaternaryDivisions.Count > 0);
+
+                if (hasChildren)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.Data.PrimaryDivisions.Remove(primaryDivision);
+                this.Data.PrimaryDivisions.SaveChanges();
+                this.Data.PrimaryDivisions.DeleteIndexEntry(primaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] =
+                    "Could not delete first-level division. All of its children must be deleted first and its beaches moved to another division.";
+
+                if (primaryDivision != null)
+                {
+                    this.Data.PrimaryDivisions.Detach(primaryDivision);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");

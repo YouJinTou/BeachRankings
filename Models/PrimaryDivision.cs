@@ -20,21 +20,21 @@
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The first-level division field is required.")]
-        [Index("IX_CountryPrimary", IsUnique = true, Order = 1)]
+        [Index("IX_CountryPrimary", IsUnique = true, Order = 0)]
         [MinLength(2, ErrorMessage = "The first-level division should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The first-level division cannot be longer than 100 characters.")]
         [Display(Name = "First-level division")]
         public string Name { get; set; }
 
         [Required]
-        [Index("IX_CountryPrimary", IsUnique = true, Order = 2)]
+        [Index("IX_CountryPrimary", IsUnique = true, Order = 1)]
         public int CountryId { get; set; }
 
         public virtual Country Country { get; protected set; }
 
-        public virtual WaterBody WaterBody { get; protected set; }
-
         public int? WaterBodyId { get; set; }
+
+        public virtual WaterBody WaterBody { get; protected set; }
 
         public virtual ICollection<SecondaryDivision> SecondaryDivisions
         {

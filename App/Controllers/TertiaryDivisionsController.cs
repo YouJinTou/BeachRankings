@@ -79,9 +79,11 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
+            TertiaryDivision tertiaryDivision = null;
+
             try
             {
-                var tertiaryDivision = new TertiaryDivision()
+                tertiaryDivision = new TertiaryDivision()
                 {
                     Name = bindingModel.TertiaryDivision,
                     CountryId = (int)bindingModel.CountryId,
@@ -96,6 +98,11 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the third-level division is either a duplicate or is missing.";
+
+                if (tertiaryDivision != null)
+                {
+                    this.Data.TertiaryDivisions.Detach(tertiaryDivision);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");
@@ -105,9 +112,11 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
+            TertiaryDivision tertiaryDivision = null;
+
             try
             {
-                var tertiaryDivision = this.Data.TertiaryDivisions.Find(bindingModel.TertiaryDivisionId);
+                tertiaryDivision = this.Data.TertiaryDivisions.Find(bindingModel.TertiaryDivisionId);
                 tertiaryDivision.Name = bindingModel.TertiaryDivision;
 
                 this.Data.TertiaryDivisions.SaveChanges();
@@ -116,6 +125,48 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the third-level division is either a duplicate or is missing.";
+
+                if (tertiaryDivision != null)
+                {
+                    this.Data.TertiaryDivisions.Detach(tertiaryDivision);
+                }
+            }
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult Delete(RestructureViewModel bindingModel)
+        {
+            TertiaryDivision tertiaryDivision = null;
+
+            try
+            {
+                tertiaryDivision = this.Data.TertiaryDivisions.All()
+                    .Include(td => td.Beaches)
+                    .Include(td => td.QuaternaryDivisions)
+                    .FirstOrDefault(td => td.Id == bindingModel.TertiaryDivisionId);
+                var hasChildren = (tertiaryDivision.Beaches.Count > 0 || tertiaryDivision.QuaternaryDivisions.Count > 0);
+
+                if (hasChildren)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.Data.TertiaryDivisions.Remove(tertiaryDivision);
+                this.Data.TertiaryDivisions.SaveChanges();
+                this.Data.TertiaryDivisions.DeleteIndexEntry(tertiaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = 
+                    "Could not delete third-level division. All of its children must be deleted first and its beaches moved to another division.";
+
+                if (tertiaryDivision != null)
+                {
+                    this.Data.TertiaryDivisions.Detach(tertiaryDivision);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");

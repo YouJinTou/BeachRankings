@@ -214,6 +214,7 @@
                 beach.SecondaryDivisionId = bindingModel.SecondaryDivisionId;
                 beach.TertiaryDivisionId = bindingModel.TertiaryDivisionId;
                 beach.QuaternaryDivisionId = bindingModel.QuaternaryDivisionId;
+                beach.WaterBodyId = this.GetWaterBodyId((int)bindingModel.CountryId, bindingModel.PrimaryDivisionId, bindingModel.SecondaryDivisionId);
 
                 this.Data.Beaches.SaveChanges();
 

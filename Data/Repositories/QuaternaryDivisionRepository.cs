@@ -42,5 +42,12 @@
 
             LuceneSearch.AddUpdateIndexEntry(quaternaryDivision);
         }
+
+        public void DeleteIndexEntry(ISearchable quaternaryDivision)
+        {
+            LuceneSearch.Index = Index.QuaternaryDivisionIndex;
+
+            LuceneSearch.DeleteIndexEntry(quaternaryDivision);
+        }
     }
 }

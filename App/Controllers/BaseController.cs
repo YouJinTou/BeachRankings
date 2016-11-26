@@ -1,6 +1,6 @@
 ﻿namespace App.Controllers
 {
-    using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.Data;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using System;

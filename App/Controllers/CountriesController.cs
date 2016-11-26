@@ -81,10 +81,10 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
+            var country = new Country() { Name = bindingModel.Country };
+
             try
             {
-                var country = new Country() { Name = bindingModel.Country };
-
                 this.Data.Countries.Add(country);
                 this.Data.Countries.SaveChanges();
                 this.Data.Countries.AddUpdateIndexEntry(country);
@@ -92,6 +92,8 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the country is either a duplicate or is missing.";
+
+                this.Data.Countries.Detach(country);
             }
 
             return this.RedirectToAction("Restructure", "Admin");
@@ -101,9 +103,10 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
+            var country = this.Data.Countries.Find(bindingModel.CountryId);
+
             try
             {
-                var country = this.Data.Countries.Find(bindingModel.CountryId);
                 country.Name = bindingModel.Country;
 
                 this.Data.Countries.SaveChanges();
@@ -112,6 +115,52 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the country is either a duplicate or is missing.";
+
+                this.Data.Countries.Detach(country);
+            }
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult Delete(RestructureViewModel bindingModel)
+        {
+            Country country = null;
+
+            try
+            {
+                country = this.Data.Countries.All()
+                    .Include(c => c.Beaches)
+                    .Include(c => c.PrimaryDivisions)
+                    .Include(c => c.SecondaryDivisions)
+                    .Include(c => c.TertiaryDivisions)
+                    .Include(c => c.QuaternaryDivisions)
+                    .FirstOrDefault(c => c.Id == bindingModel.CountryId);
+                var hasChildren = (country.Beaches.Count > 0 ||
+                    country.PrimaryDivisions.Count > 0 ||
+                    country.SecondaryDivisions.Count > 0 ||
+                    country.TertiaryDivisions.Count > 0 ||
+                    country.QuaternaryDivisions.Count > 0);
+
+                if (hasChildren)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.Data.Countries.Remove(country);
+                this.Data.Countries.SaveChanges();
+                this.Data.Countries.DeleteIndexEntry(country);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] = 
+                    "Could not delete country. All of its children must be deleted first and beaches moved to another division.";
+
+                if (country != null)
+                {
+                    this.Data.Countries.Detach(country);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");

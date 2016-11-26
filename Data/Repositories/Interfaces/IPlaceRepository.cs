@@ -8,5 +8,7 @@
         IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix);
 
         void AddUpdateIndexEntry(ISearchable searchable);
+
+        void DeleteIndexEntry(ISearchable searchable);
     }
 }

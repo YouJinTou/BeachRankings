@@ -80,9 +80,11 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
+            SecondaryDivision secondaryDivision = null;
+
             try
             {
-                var secondaryDivision = new SecondaryDivision()
+                secondaryDivision = new SecondaryDivision()
                 {
                     Name = bindingModel.SecondaryDivision,
                     CountryId = (int)bindingModel.CountryId,
@@ -96,6 +98,11 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the second-level division is either a duplicate or is missing.";
+
+                if (secondaryDivision != null)
+                {
+                    this.Data.SecondaryDivisions.Detach(secondaryDivision);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");
@@ -105,9 +112,11 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
+            SecondaryDivision secondaryDivision = null;
+
             try
             {
-                var secondaryDivision = this.Data.SecondaryDivisions.Find(bindingModel.SecondaryDivisionId);
+                secondaryDivision = this.Data.SecondaryDivisions.Find(bindingModel.SecondaryDivisionId);
                 secondaryDivision.Name = bindingModel.SecondaryDivision;
 
                 this.Data.SecondaryDivisions.SaveChanges();
@@ -116,6 +125,51 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the second-level division is either a duplicate or is missing.";
+
+                if (secondaryDivision != null)
+                {
+                    this.Data.SecondaryDivisions.Detach(secondaryDivision);
+                }
+            }
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult Delete(RestructureViewModel bindingModel)
+        {
+            SecondaryDivision secondaryDivision = null;
+
+            try
+            {                
+                secondaryDivision = this.Data.SecondaryDivisions.All()
+                    .Include(sd => sd.Beaches)
+                    .Include(sd => sd.TertiaryDivisions)
+                    .Include(sd => sd.QuaternaryDivisions)
+                    .FirstOrDefault(sd => sd.Id == bindingModel.SecondaryDivisionId);
+                var hasChildren = (secondaryDivision.Beaches.Count > 0 || 
+                    secondaryDivision.TertiaryDivisions.Count > 0 || 
+                    secondaryDivision.QuaternaryDivisions.Count > 0);
+
+                if (hasChildren)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.Data.SecondaryDivisions.Remove(secondaryDivision);
+                this.Data.SecondaryDivisions.SaveChanges();
+                this.Data.SecondaryDivisions.DeleteIndexEntry(secondaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] =
+                    "Could not delete second-level division. All of its children must be deleted first and its beaches moved to another division.";
+
+                if (secondaryDivision != null)
+                {
+                    this.Data.SecondaryDivisions.Detach(secondaryDivision);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");

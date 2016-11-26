@@ -21,6 +21,8 @@
 
         T Remove(object id);
 
+        void Detach(T entity);
+
         void SaveChanges();
     }
 }

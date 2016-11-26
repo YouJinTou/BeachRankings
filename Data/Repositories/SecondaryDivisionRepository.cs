@@ -42,5 +42,12 @@
 
             LuceneSearch.AddUpdateIndexEntry(secondaryDivision);
         }
+
+        public void DeleteIndexEntry(ISearchable secondaryDivision)
+        {
+            LuceneSearch.Index = Index.SecondaryDivisionIndex;
+
+            LuceneSearch.DeleteIndexEntry(secondaryDivision);
+        }
     }
 }

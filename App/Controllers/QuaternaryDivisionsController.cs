@@ -67,9 +67,11 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
+            QuaternaryDivision quaternaryDivision = null;
+
             try
             {
-                var quaternaryDivision = new QuaternaryDivision()
+                quaternaryDivision = new QuaternaryDivision()
                 {
                     Name = bindingModel.QuaternaryDivision,
                     CountryId = (int)bindingModel.CountryId,
@@ -85,6 +87,11 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the fourth-level division is either a duplicate or is missing.";
+
+                if (quaternaryDivision != null)
+                {
+                    this.Data.QuaternaryDivisions.Detach(quaternaryDivision);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");
@@ -94,9 +101,11 @@
         [RestructureAuthorize]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
+            QuaternaryDivision quaternaryDivision = null;
+
             try
             {
-                var quaternaryDivision = this.Data.Countries.Find(bindingModel.QuaternaryDivisionId);
+                quaternaryDivision = this.Data.QuaternaryDivisions.Find(bindingModel.QuaternaryDivisionId);
                 quaternaryDivision.Name = bindingModel.QuaternaryDivision;
 
                 this.Data.QuaternaryDivisions.SaveChanges();
@@ -105,6 +114,46 @@
             catch (Exception)
             {
                 this.TempData["ValidationError"] = "The name of the fourth-level division is either a duplicate or is missing.";
+
+                if (quaternaryDivision != null)
+                {
+                    this.Data.QuaternaryDivisions.Detach(quaternaryDivision);
+                }
+            }
+
+            return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpPost]
+        [RestructureAuthorize]
+        public ActionResult Delete(RestructureViewModel bindingModel)
+        {
+            QuaternaryDivision quaternaryDivision = null;
+
+            try
+            {
+                quaternaryDivision = this.Data.QuaternaryDivisions.All()
+                    .Include(qd => qd.Beaches)
+                    .FirstOrDefault(qd => qd.Id == bindingModel.QuaternaryDivisionId);
+
+                if (quaternaryDivision.Beaches.Count > 0)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                this.Data.QuaternaryDivisions.Remove(quaternaryDivision);
+                this.Data.QuaternaryDivisions.SaveChanges();
+                this.Data.QuaternaryDivisions.DeleteIndexEntry(quaternaryDivision);
+            }
+            catch (Exception)
+            {
+                this.TempData["ValidationError"] =
+                    "Could not delete fourth-level division. Its beaches must first be moved to another division.";
+
+                if (quaternaryDivision != null)
+                {
+                    this.Data.QuaternaryDivisions.Detach(quaternaryDivision);
+                }
             }
 
             return this.RedirectToAction("Restructure", "Admin");

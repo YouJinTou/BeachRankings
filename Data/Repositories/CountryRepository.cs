@@ -42,5 +42,12 @@
 
             LuceneSearch.AddUpdateIndexEntry(country);
         }
+
+        public void DeleteIndexEntry(ISearchable country)
+        {
+            LuceneSearch.Index = Index.CountryIndex;
+
+            LuceneSearch.DeleteIndexEntry(country);
+        }
     }
 }

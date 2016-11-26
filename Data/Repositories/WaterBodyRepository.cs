@@ -42,5 +42,12 @@
 
             LuceneSearch.AddUpdateIndexEntry(waterBody);
         }
+
+        public void DeleteIndexEntry(ISearchable waterBody)
+        {
+            LuceneSearch.Index = Index.WaterBodyIndex;
+
+            LuceneSearch.DeleteIndexEntry(waterBody);
+        }
     }
 }
