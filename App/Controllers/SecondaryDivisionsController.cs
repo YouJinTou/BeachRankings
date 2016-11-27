@@ -12,7 +12,7 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    public class SecondaryDivisionsController : BaseLocationsController
+    public class SecondaryDivisionsController : BasePlacesController
     {
         public SecondaryDivisionsController(IBeachRankingsData data)
             : base(data)
@@ -22,12 +22,12 @@
         public ActionResult Beaches(int id, int page = 0, int pageSize = 10)
         {
             var secondaryDivision = this.Data.SecondaryDivisions.Find(id);
-            var model = Mapper.Map<SecondaryDivision, LocationBeachesViewModel>(secondaryDivision);
+            var model = Mapper.Map<SecondaryDivision, PlaceBeachesViewModel>(secondaryDivision);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
-            return this.View("_LocationBeaches", model);
+            return this.View("_PlaceBeaches", model);
         }
 
         public PartialViewResult Statistics(int id)
@@ -173,6 +173,14 @@
             }
 
             return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpGet]
+        public JsonResult WaterBody(int id)
+        {
+            var waterBodyId = this.Data.SecondaryDivisions.Find(id).WaterBodyId;
+
+            return this.Json(waterBodyId, JsonRequestBehavior.AllowGet);
         }
     }
 }

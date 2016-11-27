@@ -15,8 +15,8 @@
                 <div class="form-horizontal">
                     <div class="form-group">
                         @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-3">
-                            @Html.DropDownListFor(model => model.CountryId, Model.Countries, "-- Choose a country --",
+                        <div class="place-holder col-md-3">
+                            @Html.DropDownListFor(model => model.CountryId, Model.Countries, "-- Choose --",
                 new
                 {
                     @class = "form-control form-control-extended custom-focus-black",
@@ -35,6 +35,11 @@
                                        @readonly = "readonly",
                                        @placeholder = "Name"
                                    })
+                                    @Html.DropDownListFor(model => model.WaterBodyId, Model.WaterBodies, "-- Waterbody --",
+                                    new
+                                    {
+                                        @class = "admin-water-body form-control form-control-extended custom-focus-black display-none"
+                                    })
                                 </div>
                                 <div class="col-xs-6 text-left">
                                     <button data-action="Add" class="restructure-button btn btn-inactive">Add</button>
@@ -48,7 +53,7 @@
 
                     <div data-division-holder="" class="form-group display-none">
                         @Html.LabelFor(model => model.PrimaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-3">
+                        <div class="place-holder col-md-3">
                             @Html.DropDownListFor(model => model.PrimaryDivisionId, Enumerable.Empty<SelectListItem>(),
                 new
                 {
@@ -68,6 +73,11 @@
                                        @readonly = "readonly",
                                        @placeholder = "Name"
                                    })
+                                    @Html.DropDownListFor(model => model.WaterBodyId, Model.WaterBodies, "-- Waterbody --",
+                                    new
+                                    {
+                                        @class = "admin-water-body form-control form-control-extended custom-focus-black display-none"
+                                    })
                                 </div>
                                 <div class="col-xs-6 text-left">
                                     <button data-action="Add" class="restructure-button btn btn-inactive">Add</button>
@@ -81,7 +91,7 @@
 
                     <div data-division-holder="" class="form-group display-none">
                         @Html.LabelFor(model => model.SecondaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-3">
+                        <div class="place-holder col-md-3">
                             @Html.DropDownListFor(model => model.SecondaryDivisionId, Enumerable.Empty<SelectListItem>(),
                 new
                 {
@@ -101,6 +111,11 @@
                                        @readonly = "readonly",
                                        @placeholder = "Name"
                                    })
+                                    @Html.DropDownListFor(model => model.WaterBodyId, Model.WaterBodies, "-- Waterbody --",
+                                    new
+                                    {
+                                        @class = "admin-water-body form-control form-control-extended custom-focus-black display-none"
+                                    })
                                 </div>
                                 <div class="col-xs-6 text-left">
                                     <button data-action="Add" class="restructure-button btn btn-inactive">Add</button>
@@ -112,9 +127,9 @@
                         </div>
                     </div>
 
-                    <div data-division-holder="" class="form-group display-none" >
+                    <div data-division-holder="" class="form-group display-none">
                         @Html.LabelFor(model => model.TertiaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-3">
+                        <div class="place-holder col-md-3">
                             @Html.DropDownListFor(model => model.TertiaryDivisionId, Enumerable.Empty<SelectListItem>(),
                 new
                 {
@@ -147,7 +162,7 @@
 
                     <div data-division-holder="" class="form-group display-none">
                         @Html.LabelFor(model => model.QuaternaryDivisionId, htmlAttributes: new { @class = "control-label col-md-1" })
-                        <div class="col-md-3">
+                        <div class="place-holder col-md-3">
                             @Html.DropDownListFor(model => model.QuaternaryDivisionId, Enumerable.Empty<SelectListItem>(),
                 new
                 {
@@ -178,23 +193,36 @@
                         </div>
                     </div>
 
-                    <div id="move-beaches-container" class="form-group display-none text-left" >
+                    <div id="move-beaches-container" class="form-group display-none text-left">
                         <div class="col-xs-12">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <button id="btn-move-beaches" data-action="Move beaches" class="btn btn-cta">List beaches to move</button>
-                                    <button id="btn-beaches-toggle-selected" class="btn btn-info display-none">Select all</button>
-                                    <button id="btn-move-beaches-confirm" class="btn btn-active display-none">Move to selected</button>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <button id="btn-move-beaches" data-action="Move beaches" class="btn btn-cta">List beaches to move</button>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <button id="btn-beaches-toggle-selected" class="btn btn-info display-none">Select all</button>
+                                        </div>                                        
+                                        <div class="col-xs-5 pull-right">
+                                            <button id="btn-move-beaches-confirm" class="btn btn-active display-none">Move to selected</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            <input id="beach-filter" type="text" class="form-control form-control-extended custom-focus-black" placeholder="Filter beaches" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div id="beaches-result">
-                                    <div class="beach-checkbox-result beach-result-template text-left"></div>
+                                    <label class="beach-result-template text-left"></label>
                                     <div id="beaches-result-container"></div>
                                 </div>
-                            </div>                           
-                        </div>                        
+                            </div>
+                        </div>
                     </div>
 
                     @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })

@@ -5,9 +5,9 @@
     using System;
     using System.Linq;
 
-    public class BaseLocationsController : BaseController
+    public class BasePlacesController : BaseController
     {
-        public BaseLocationsController(IBeachRankingsData data)
+        public BasePlacesController(IBeachRankingsData data)
             : base(data)
         {
         }

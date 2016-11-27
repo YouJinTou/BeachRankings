@@ -220,7 +220,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\BaseLocationsController.cs" />
+    <Compile Include="Controllers\BasePlacesController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
     <Compile Include="Controllers\Enums\ActionMessage.cs" />
@@ -298,7 +298,7 @@
     <Content Include="Content\Internal\images.css" />
     <Content Include="Content\Internal\dashboard.css" />
     <Content Include="Content\Internal\account.css" />
-    <Content Include="Content\Internal\location.css" />
+    <Content Include="Content\Internal\place.css" />
     <Content Include="Content\Internal\main-layout.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\Images\bolata.jpg" />
@@ -340,7 +340,7 @@
     <Content Include="Scripts\Internal\infinite-scroller.js" />
     <Content Include="Scripts\Internal\contributors.js" />
     <Content Include="Scripts\Internal\utils.js" />
-    <Content Include="Scripts\Internal\location.js" />
+    <Content Include="Scripts\Internal\place.js" />
     <Content Include="Scripts\Internal\google-map-manager.js" />
     <Content Include="Scripts\Internal\beaches.js" />
     <Content Include="Scripts\Internal\dashboard.js" />
@@ -421,7 +421,7 @@
     <Content Include="Views\Shared\DisplayTemplates\BeachImageThumbnailViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\TableRowViewModel.cshtml" />
     <Content Include="Views\Shared\_StatisticsPartial.cshtml" />
-    <Content Include="Views\Shared\_LocationBeaches.cshtml" />
+    <Content Include="Views\Shared\_PlaceBeaches.cshtml" />
     <Content Include="Views\User\Reviews.cshtml" />
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\User\ChangeAvatar.cshtml" />

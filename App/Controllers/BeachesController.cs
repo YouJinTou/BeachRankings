@@ -15,7 +15,7 @@
     using System.Linq;
     using System.Web.Mvc;
 
-    public class BeachesController : BaseLocationsController
+    public class BeachesController : BasePlacesController
     {
         public BeachesController(IBeachRankingsData data)
             : base(data)
@@ -37,11 +37,11 @@
                  .ToList();
             var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<ConciseBeachViewModel>>(beaches);
             var title = BeachHelper.GetFilteredBeachesTitle(criterion, beachesModel.First().Country, beachesModel.First().WaterBody, (countryId == 0));
-            var model = new LocationBeachesViewModel() { Name = title, Beaches = beachesModel };
+            var model = new PlaceBeachesViewModel() { Name = title, Beaches = beachesModel };
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
-            return this.View("_LocationBeaches", model);
+            return this.View("_PlaceBeaches", model);
         }
 
         public ActionResult Details(int id)

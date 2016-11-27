@@ -30,6 +30,11 @@
         public int? QuaternaryDivisionId { get; set; }
 
         public string QuaternaryDivision { get; set; }
+        
+        [Display(Name = "Waterbody")]
+        public int? WaterBodyId { get; set; }
+
+        public IEnumerable<SelectListItem> WaterBodies { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }
 

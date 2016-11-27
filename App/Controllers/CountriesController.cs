@@ -12,7 +12,7 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    public class CountriesController : BaseLocationsController
+    public class CountriesController : BasePlacesController
     {
         public CountriesController(IBeachRankingsData data)
             : base(data)
@@ -22,12 +22,12 @@
         public ActionResult Beaches(int id, int page = 0, int pageSize = 10)
         {
             var country = this.Data.Countries.Find(id);
-            var model = Mapper.Map<Country, LocationBeachesViewModel>(country);
+            var model = Mapper.Map<Country, PlaceBeachesViewModel>(country);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
-            return this.View("_LocationBeaches", model);
+            return this.View("_PlaceBeaches", model);
         }
 
         public PartialViewResult Statistics(int id)
@@ -108,6 +108,7 @@
             try
             {
                 country.Name = bindingModel.Country;
+                country.WaterBodyId = bindingModel.WaterBodyId;
 
                 this.Data.Countries.SaveChanges();
                 this.Data.Countries.AddUpdateIndexEntry(country);
@@ -164,6 +165,15 @@
             }
 
             return this.RedirectToAction("Restructure", "Admin");
+        }
+
+        [HttpGet]
+        [RestructureAuthorize]
+        public JsonResult WaterBody(int id)
+        {
+            var waterBodyId = this.Data.Countries.Find(id).WaterBodyId;
+
+            return this.Json(waterBodyId, JsonRequestBehavior.AllowGet);
         }
     }
 }

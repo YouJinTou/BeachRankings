@@ -20,7 +20,7 @@
                 cfg.CreateMap<PlaceSearchResultModel, AutocompleteSecondaryViewModel>();
                 cfg.CreateMap<PlaceSearchResultModel, AutocompleteTertiaryViewModel>();
                 cfg.CreateMap<PlaceSearchResultModel, AutocompleteQuaternaryViewModel>();
-                cfg.CreateMap<IPlaceSearchable, LocationBeachesViewModel>();
+                cfg.CreateMap<IPlaceSearchable, PlaceBeachesViewModel>();
                 cfg.CreateMap<Beach, Beach>();
                 cfg.CreateMap<Beach, EditBeachViewModel>();
                 cfg.CreateMap<EditBeachViewModel, Beach>();

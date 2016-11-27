@@ -42,3 +42,21 @@
 .beach-checkbox-result input[type=checkbox] {
     margin-right: 10px;
 }
+
+#beaches-result {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.beach-checkbox-result {
+	display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    float: left;
+    width: 30%;
+    margin-left:18px;
+}
+
+#beach-filter {
+	margin-top: 10px;
+}

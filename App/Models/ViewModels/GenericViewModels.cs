@@ -9,7 +9,7 @@
         public string Name { get; set; }
     }
 
-    public class LocationBeachesViewModel
+    public class PlaceBeachesViewModel
     {
         public string Name { get; set; }
 

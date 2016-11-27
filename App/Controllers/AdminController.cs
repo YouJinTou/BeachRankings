@@ -21,7 +21,12 @@
                 Text = c.Name,
                 Value = c.Id.ToString()
             });
-            var model = new RestructureViewModel() { Countries = countries };
+            var waterBodies = this.Data.WaterBodies.All().Select(wb => new SelectListItem()
+            {
+                Text = wb.Name,
+                Value = wb.Id.ToString()
+            });
+            var model = new RestructureViewModel() { Countries = countries, WaterBodies = waterBodies };
 
             if (this.TempData["ValidationError"] != null)
             {

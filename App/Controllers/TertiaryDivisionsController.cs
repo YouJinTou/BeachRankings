@@ -12,7 +12,7 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    public class TertiaryDivisionsController : BaseLocationsController
+    public class TertiaryDivisionsController : BasePlacesController
     {
         public TertiaryDivisionsController(IBeachRankingsData data)
             : base(data)
@@ -22,12 +22,12 @@
         public ActionResult Beaches(int id, int page = 0, int pageSize = 10)
         {
             var tertiaryDivision = this.Data.TertiaryDivisions.Find(id);
-            var model = Mapper.Map<TertiaryDivision, LocationBeachesViewModel>(tertiaryDivision);
+            var model = Mapper.Map<TertiaryDivision, PlaceBeachesViewModel>(tertiaryDivision);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
-            return this.View("_LocationBeaches", model);
+            return this.View("_PlaceBeaches", model);
         }
 
         public PartialViewResult Statistics(int id)
