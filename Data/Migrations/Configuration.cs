@@ -8,6 +8,7 @@ namespace BeachRankings.Data.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.IO;
     using System.Linq;
@@ -219,16 +220,36 @@ namespace BeachRankings.Data.Migrations
             var randomWaterBodyId = new Random();
             var randomPrimaryDivisionId = new Random();
             var randomSecondaryDivisionId = new Random();
+            var randomTertiaryDivisionId = new Random();
+            var randomQuaternaryDivisionId = new Random();
             var bulgariaCountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Bulgaria").Id;
             var blackSeaWaterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
             var beaches = new List<Beach>();
 
             for (int i = 0; i < 50; i++)
             {
-                var countryId = randomCountryId.Next(1, countriesCount + 1);
-                var waterBodyId = randomWaterBodyId.Next(1, waterBodiesCount + 1);
-                var primaryId = randomPrimaryDivisionId.Next(7, 10);
-                var secondaryId = randomSecondaryDivisionId.Next(30, 45);
+                var countryId = randomCountryId.Next(1, countriesCount + 1);                
+                var firstPrimaryDivision = this.data.PrimaryDivisions.FirstOrDefault(pd => pd.CountryId == countryId);
+                var firstPrimaryDivisionId = (firstPrimaryDivision == null) ? 0 : firstPrimaryDivision.Id;
+                var lastPrimaryDivision = this.data.PrimaryDivisions.OrderByDescending(d => d.Id).FirstOrDefault(pd => pd.CountryId == countryId);
+                var lastPrimaryDivisionId = (lastPrimaryDivision == null) ? 0 : lastPrimaryDivision.Id;
+                var primaryId = (lastPrimaryDivisionId > 0) ? (int?)randomPrimaryDivisionId.Next(firstPrimaryDivisionId, lastPrimaryDivisionId + 1) : null;
+                var firstSecondaryDivision = this.data.SecondaryDivisions.FirstOrDefault(sd => sd.PrimaryDivisionId == primaryId);
+                var firstSecondaryDivisionId = (firstSecondaryDivision == null) ? 0 : firstSecondaryDivision.Id;
+                var lastSecondaryDivision = this.data.SecondaryDivisions.OrderByDescending(d => d.Id).FirstOrDefault(sd => sd.PrimaryDivisionId == primaryId);
+                var lastSecondaryDivisionId = (lastSecondaryDivision == null) ? 0 : lastSecondaryDivision.Id;               
+                var secondaryId = (lastSecondaryDivisionId > 0) ? (int?)randomSecondaryDivisionId.Next(firstSecondaryDivisionId, lastSecondaryDivisionId + 1) : null;
+                var firstTertiaryDivision = this.data.TertiaryDivisions.FirstOrDefault(td => td.SecondaryDivisionId == secondaryId);
+                var firstTertiaryDivisionId = (firstTertiaryDivision == null) ? 0 : firstTertiaryDivision.Id;
+                var lastTertiaryDivision = this.data.TertiaryDivisions.OrderByDescending(d => d.Id).FirstOrDefault(td => td.SecondaryDivisionId == secondaryId);
+                var lastTertiaryDivisionId = (lastTertiaryDivision == null) ? 0 : lastTertiaryDivision.Id;                
+                var tertiaryId = (lastTertiaryDivisionId > 0) ? (int?)randomTertiaryDivisionId.Next(firstTertiaryDivisionId, lastTertiaryDivisionId + 1) : null;               
+                var firstQuaternaryDivision = this.data.QuaternaryDivisions.FirstOrDefault(qd => qd.TertiaryDivisionId == tertiaryId);
+                var firstQuaternaryDivisionId = (firstQuaternaryDivision == null) ? 0 : firstQuaternaryDivision.Id;
+                var lastQuaternaryDivision = this.data.QuaternaryDivisions.OrderByDescending(d => d.Id).FirstOrDefault(qd => qd.TertiaryDivisionId == tertiaryId);
+                var lastQuaternaryDivisionId = (lastQuaternaryDivision == null) ? 0 : lastQuaternaryDivision.Id;
+                var quaternaryId = (lastQuaternaryDivisionId > 0) ? (int?)randomQuaternaryDivisionId.Next(firstQuaternaryDivisionId, lastQuaternaryDivisionId + 1) : null;
+                var waterBodyId = this.GetWaterBodyId(countryId, primaryId, secondaryId);
 
                 beaches.Add(new Beach()
                 {
@@ -237,6 +258,8 @@ namespace BeachRankings.Data.Migrations
                     CountryId = countryId,
                     PrimaryDivisionId = primaryId,
                     SecondaryDivisionId = secondaryId,
+                    TertiaryDivisionId = tertiaryId,
+                    QuaternaryDivisionId = quaternaryId,
                     WaterBodyId = waterBodyId,
                     Description = dolorSitAmet
                 });
@@ -296,7 +319,7 @@ namespace BeachRankings.Data.Migrations
                     PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Thessaly").Id,
                     SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Sporades").Id,
                     TertiaryDivisionId = this.data.TertiaryDivisions.FirstOrDefault(r => r.Name == "Skiathos").Id,
-                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Black Sea").Id,
+                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Mediterranean Sea").Id,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Coordinates = "43.204666,27.910543",
                 }
@@ -582,6 +605,29 @@ namespace BeachRankings.Data.Migrations
             }
 
             return Math.Round((randomScore.NextDouble() * 10), 1);
+        }
+
+        private int GetWaterBodyId(int countryId, int? primaryDivisionid, int? secondaryDivisionId)
+        {
+            var secondaryDivision = this.data.SecondaryDivisions.Include(sd => sd.WaterBody).FirstOrDefault(sd => sd.Id == secondaryDivisionId);
+            var secondaryDivisionHasWaterBody = (secondaryDivision != null && secondaryDivision.WaterBodyId != null);
+
+            if (secondaryDivisionHasWaterBody)
+            {
+                return (int)secondaryDivision.WaterBodyId;
+            }
+
+            var primaryDivision = this.data.PrimaryDivisions.Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == primaryDivisionid);
+            var primaryDivisionHasWaterBody = (primaryDivision != null && primaryDivision.WaterBodyId != null);
+
+            if (primaryDivisionHasWaterBody)
+            {
+                return (int)primaryDivision.WaterBodyId;
+            }
+
+            var waterBodyId = this.data.Countries.Include(c => c.WaterBody).FirstOrDefault(c => c.Id == countryId).WaterBodyId;
+
+            return (int)waterBodyId;
         }
     }
 }

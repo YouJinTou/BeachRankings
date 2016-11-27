@@ -2,10 +2,7 @@
 {
     using BeachRankings.Models;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
-    using System.Data.Entity.Infrastructure.Annotations;
-    using System.Data.Entity.ModelConfiguration.Configuration;
 
     public class BeachRankingsDbContext : IdentityDbContext<User>
     {
@@ -64,10 +61,6 @@
                 .WithRequired(pd => pd.Country)
                 .WillCascadeOnDelete(false);
             modelBuilder.Entity<PrimaryDivision>()
-                .HasMany(pd => pd.Beaches)
-                .WithRequired(b => b.PrimaryDivision)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<PrimaryDivision>()
                 .HasMany(pd => pd.SecondaryDivisions)
                 .WithRequired(b => b.PrimaryDivision)
                 .WillCascadeOnDelete(false);
@@ -123,18 +116,4 @@
             base.OnModelCreating(modelBuilder);
         }
     }
-
-    //internal static class TypeConfigurationExtensions
-    //{
-    //    public static PrimitivePropertyConfiguration HasUniqueIndexAnnotation(
-    //        this PrimitivePropertyConfiguration property,
-    //        string indexName,
-    //        int columnOrder)
-    //    {
-    //        var indexAttribute = new IndexAttribute(indexName, columnOrder) { IsUnique = true };
-    //        var indexAnnotation = new IndexAnnotation(indexAttribute);
-
-    //        return property.HasColumnAnnotation(IndexAnnotation.AnnotationName, indexAnnotation);
-    //    }
-    //}
 }

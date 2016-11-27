@@ -390,7 +390,10 @@
             var secondary = this.Data.SecondaryDivisions.Find(beach.SecondaryDivisionId);
             var tertiary = (beach.TertiaryDivisionId == null) ? null : this.Data.TertiaryDivisions.Find(beach.TertiaryDivisionId);
             var quaternary = (beach.QuaternaryDivisionId == null) ? null : this.Data.QuaternaryDivisions.Find(beach.QuaternaryDivisionId);
-            var waterBody = this.Data.WaterBodies.Find(primary.WaterBodyId);
+            var waterBodyId = (secondary == null) ?
+                (primary == null) ? country.WaterBodyId : primary.WaterBodyId
+                : secondary.WaterBodyId;
+            var waterBody = this.Data.WaterBodies.Find(waterBodyId);
 
             this.Data.Beaches.AddUpdateIndexEntry(beach);
             this.Data.Countries.AddUpdateIndexEntry(country);
