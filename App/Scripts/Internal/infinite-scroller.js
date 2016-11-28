@@ -6,7 +6,7 @@
     var inProgress = false;
     var allResultsShown = false;
 
-    helper.setScoreBoxesBackgroundColor();
+    genericHelper.setScoreBoxesBackgroundColor();
 
     function setInfiniteScroll() {
         $(window).scroll(function () {
@@ -39,7 +39,7 @@
 
                     $resultsContainer.append(appendee);
 
-                    helper.setScoreBoxesBackgroundColor($resultsContainer);
+                    genericHelper.setScoreBoxesBackgroundColor($resultsContainer);
 
                     page++;
                 },

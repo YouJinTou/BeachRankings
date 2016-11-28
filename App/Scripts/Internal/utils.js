@@ -1,4 +1,4 @@
-﻿var Helper = function () {
+﻿var GenericHelper = function () {
     function setScoreBoxesBackgroundColor(html) {
         if (!html) {
             $('.beach-score-box .vertical-center').each(function () {
@@ -13,26 +13,6 @@
                 $this.parent().css('background-color', getScoreBoxBackgroundColor($this.text()));
             });
         }        
-    }
-
-    function setVotingVariables() {
-        $('.concise-review').each(function () {
-            var $this = $(this);
-            var $thumbs = $this.find('.icon-upvote');
-            var $upvotesDisplayBox = $this.find('.review-upvotes h4 i');
-            var noUpvotes = ($upvotesDisplayBox.text() === '+ 0');
-            var alreadyUpvoted = $thumbs.data('already-upvoted');
-
-            if (noUpvotes) {
-                $upvotesDisplayBox.hide();  
-            }
-
-            if ($upvotesDisplayBox.text())
-
-            if (alreadyUpvoted === 'True') {
-                $thumbs.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
-            }
-        });
     }
 
     function openModalPopup(html, value) {
@@ -81,9 +61,149 @@
 
     return {
         setScoreBoxesBackgroundColor: setScoreBoxesBackgroundColor,
-        setVotingVariables: setVotingVariables,
         openModalPopup: openModalPopup
     }
 };
 
-var helper = new Helper();
+var ReviewsHelper = function () {
+    var votingInProgress = false;
+    var exportInProgress = false;
+    
+    function setReviewVotingVariables() {
+        $('.review').each(function () {
+            var $this = $(this);
+            var $thumbs = $this.find('.icon-upvote');
+            var $upvotesDisplayBox = $this.find('.review-upvotes h4 i');
+            var noUpvotes = ($upvotesDisplayBox.text() === '+ 0');
+            var alreadyUpvoted = $thumbs.data('already-upvoted');
+
+            if (noUpvotes) {
+                $upvotesDisplayBox.hide();
+            }
+
+            if ($upvotesDisplayBox.text())
+
+                if (alreadyUpvoted === 'True') {
+                    $thumbs.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
+                }
+        });
+    }
+
+    function upvoteReview($this) {
+        if (votingInProgress) {
+            return;
+        }
+
+        var isUpvote = $this.hasClass('glyphicon-thumbs-up');
+        var url = isUpvote ? '/Reviews/Upvote/' : '/Reviews/Downvote';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                id: $this.data('review-id')
+            },
+            beforeSend: function () {
+                votingInProgress = true;
+            },
+            success: function (result) {
+                changeThumbsDirection();
+                changeDisplayValue();
+            }, complete: function () {
+                votingInProgress = false;
+            }
+        });
+
+        function changeThumbsDirection() {
+            if ($this.hasClass('glyphicon-thumbs-up')) {
+                $this.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
+            } else {
+                $this.removeClass('glyphicon-thumbs-down').addClass('glyphicon-thumbs-up');
+            }
+        }
+
+        function changeDisplayValue() {
+            var $displayBox = $this.closest('.review').find('.review-upvotes h4 i');
+            var currentValue = $displayBox.text().substr(1);
+            var newValue;
+
+            if (isUpvote) {
+                newValue = parseInt(currentValue) + 1;
+
+                $displayBox.text('+ ' + newValue);
+
+                $displayBox.show();
+            } else {
+                newValue = parseInt(currentValue) - 1;
+
+                $displayBox.text('+ ' + newValue);
+
+                if (newValue === 0) {
+                    $displayBox.hide();
+                }
+            }
+        }
+    }
+
+    function exportReviewToHtml($this) {
+        if (exportInProgress) {
+            return;
+        }
+
+        $.ajax({
+            url: '/Reviews/ExportHtml/',
+            type: 'GET',
+            data: {
+                id: $this.data('html-export-review')
+            },
+            beforeSend: function () {
+                exportInProgress = true;
+            },
+            success: function (result) {
+                genericHelper.openModalPopup(true, result);
+            }, complete: function () {
+                exportInProgress = false;
+            }
+        });
+    }
+    
+    return {
+        setReviewVotingVariables: setReviewVotingVariables,
+        upvoteReview: upvoteReview,
+        exportReviewToHtml: exportReviewToHtml
+    }
+};
+
+var BeachesHelper = function () {
+    var exportInProgress = false;
+
+    function exportBeachToHtml($this) {
+        if (exportInProgress) {
+            return;
+        }
+
+        $.ajax({
+            url: '/Beaches/ExportHtml/',
+            type: 'GET',
+            data: {
+                id: $this.data('html-export-beach')
+            },
+            beforeSend: function () {
+                exportInProgress = true;
+            },
+            success: function (result) {
+                genericHelper.openModalPopup(true, result);
+            }, complete: function () {
+                exportInProgress = false;
+            }
+        });
+    }
+
+    return {
+        exportBeachToHtml: exportBeachToHtml
+    }
+};
+
+var genericHelper = new GenericHelper();
+var reviewsHelper = new ReviewsHelper();
+var beachesHelper = new BeachesHelper();

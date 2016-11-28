@@ -2,7 +2,7 @@
     var dragdealersManager = new DragdealersManager();
 
     dragdealersManager.initializeDragdealers();
-    helper.setScoreBoxesBackgroundColor();
+    genericHelper.setScoreBoxesBackgroundColor();
 
     tryLoadExistingArticleLinks();
 

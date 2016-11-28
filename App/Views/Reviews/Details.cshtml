@@ -1,8 +1,110 @@
 ﻿@model DetailedReviewViewModel
 
-<div class="review-container col-xs-10 col-xs-offset-1">    
+<div class="review review-container custom-canvas col-xs-10 col-xs-offset-1">  
+    <div class="row beach-head">
+        <div class="col-xs-8">
+            <div class="text-left beach-name col-xs-5">
+                <h2>
+                    <a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a> <i>@Html.PluralizeValue(Model.BeachReviewsCount, "review")</i>
+                </h2>
+                <div class="beach-score-box beach-score-box-extended col-xs-4">
+                    <div class="vertical-center">@Html.ParseNullableValue(Model.BeachTotalScore, "-")</div>
+                </div>
+                <h4>
+                    <i>
+                        <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
+                        @Html.ParseNullString(
+                        @Html.GetBeachAnchorTagDivisionAddress(Model.BeachPrimaryDivision, Model.BeachSecondaryDivision, Model.BeachPrimaryDivisionId, Model.BeachSecondaryDivisionId) + ", ",
+                        null)
+                        <a href="/Countries/Beaches/@Model.BeachCountryId">@Model.BeachCountry</a>
+                    </i>
+                </h4>
+            </div>
+            <div class="text-right col-xs-6">
+                <span id="btn-beach-export-html" data-html-export-beach="@Model.BeachId" class="beach-export a-like-span glyphicon glyphicon-export" title="Export a summary of this beach to HTML"></span>
+                @{
+                    if (!Model.UserHasRated)
+                    {
+                        @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.BeachId }, new { @class = "btn btn-cta" })
+                    }
+                    else
+                    {
+                        <span class="already-rated pull-right glyphicon glyphicon-ok-circle" title="Already rated"></span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="slick-carousel col-xs-7">
+                @Html.DisplayFor(model => model.BeachImages)
+            </div>
+            <div class="col-xs-4">
+                <div class="text-left">
+                    <div>Sand: @Html.ParseNullableValue(@Model.SandQuality, "-")</div>
+                    <div>Beach cleanliness: @Html.ParseNullableValue(@Model.BeachCleanliness, "-")</div>
+                    <div>Scenery: @Html.ParseNullableValue(@Model.BeautifulScenery, "-")</div>
+                    <div>Crowd-free: @Html.ParseNullableValue(@Model.CrowdFree, "-")</div>
+                    <div>Water purity: @Html.ParseNullableValue(@Model.WaterPurity, "-")</div>
+                    <div>Waste-free seabed: @Html.ParseNullableValue(@Model.WasteFreeSeabed, "-")</div>
+                    <div>Feet-friendly bottom: @Html.ParseNullableValue(@Model.FeetFriendlyBottom, "-")</div>
+                    <div>Sea life diversity: @Html.ParseNullableValue(@Model.SeaLifeDiversity, "-")</div>
+                    <div>Coral reef: @Html.ParseNullableValue(@Model.CoralReef, "-")</div>
+                    <div>Good for a walk: @Html.ParseNullableValue(@Model.Walking, "-")</div>
+                    <div>Snorkeling: @Html.ParseNullableValue(@Model.Snorkeling, "-")</div>
+                    <div>Kayaking: @Html.ParseNullableValue(@Model.Kayaking, "-")</div>
+                    <div>Camping: @Html.ParseNullableValue(@Model.Camping, "-")</div>
+                    <div>Infrastructure: @Html.ParseNullableValue(@Model.Infrastructure, "-")</div>
+                    <div>Long-term stay: @Html.ParseNullableValue(@Model.LongTermStay, "-")</div>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="review-avatar-box text-center">
+            <img class="avatar-img img-responsive" src="@Model.AvatarPath" alt="No profile photo" />
+        </div>
+        <div class="text-center"><h4><a href="/User/Reviews?authorId=@Model.AuthorId">@Model.UserName</a></h4></div>
+        @{
+            if (Model.IsBlogger)
+            {
+                <div class="text-left"><a href="@Html.AttachSchemeToDomain(@Model.BlogUrl)" target="_blank">My blog</a></div>
+            }
+        }
+        <div class="text-left">
+            <h5>
+                @Html.PluralizeValue(@Model.CountriesVisited, "country"), @Html.ActionLink(
+                    linkText: Html.PluralizeValue(Model.ReviewsCount, "beach").ToString(),
+                    actionName: "Reviews",
+                    controllerName: "User",
+                    routeValues: new { authorId = Model.AuthorId },
+                    htmlAttributes: null)
+            </h5>
+        </div>
+        <div class="text-left">Level @Model.Level traveller</div>
+        <div class="text-left">
+            <h6>@Model.PostedOn.ToString("MMM d, yyyy")</h6>
+        </div>
+    </div>
+      
     <div class="row">
+        <div class="review-upvotes pull-left col-xs-2">
+            <h4 class="text-left">
+                <i>+ @Model.Upvotes</i>
+            </h4>
+        </div>
         <div class="col-sm-11">
+            <div class="col-xs-11">
+                <p class="review-content text-justify">@Model.Content</p>
+                @{
+                    if (Model.IsBlogger)
+                    {
+                        <p class="text-left">
+                            Read more about it on my blog: @Html.DisplayFor(model => model.BlogArticles)
+                        </p>
+                    }
+                }
+            </div> 
             @{
                 if (!string.IsNullOrEmpty(Model.TotalScore.ToString()))
                 {
@@ -157,5 +259,47 @@
                 }
             }
         </div>
+        <div class="col-sm-1">
+            <div class="col-xs-2">
+                @{
+                    if (User.Identity.CanVoteForReview(Model.AuthorId))
+                    {
+                        <div>
+                            <span data-review-id="@Model.Id" data-already-upvoted="@Model.AlreadyUpvoted" class="icon-upvote a-like-span control glyphicon glyphicon-thumbs-up" title="Give thanks"></span>
+                        </div>
+                    }
+                }
+                <div>
+                    <a data-html-export-review="@Model.Id" class="review-export control a-like-span glyphicon glyphicon-export" title="Export a summary of this review to HTML"></a>
+                </div>
+                @{
+                    if (User.Identity.CanEditReview(Model.AuthorId))
+                    {
+                        <div>
+                            <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
+                        </div>
+                        <div>
+                            <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/Content/External/slick/slick.min.js")
+    @Scripts.Render("~/Scripts/External/rainbowvis.js")
+    @Scripts.Render("~/Scripts/External/dragdealer.js")
+    @Scripts.Render("~/Scripts/Internal/dragdealers-manager.js")
+    @Scripts.Render("~/Scripts/Internal/review-details.js")
+}
+
+@section ReviewsStyles{
+    @Styles.Render("~/Content/Internal/reviews.css")
+    @Styles.Render("~/Content/Internal/beach-details.css")
+    @Styles.Render("~/Content/External/slick/slick.css")
+    @Styles.Render("~/Content/External/slick/slick-theme.css")
+    @Styles.Render("~/Content/External/dragdealer.css")
+}

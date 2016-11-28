@@ -1,6 +1,6 @@
 ﻿@model ConciseReviewViewModel
 
-<div data-expanded="false" data-already-loaded="false" class="concise-review row custom-canvas">
+<div data-expanded="false" data-already-loaded="false" class="review concise-review row custom-canvas">
     <div class="col-md-2">
         <div class="review-avatar-box text-center">
             <img class="avatar-img img-responsive" src="@Model.AvatarPath" alt="No profile photo" />
@@ -52,47 +52,33 @@
                     }
                 }             
             </div>  
-            <div class="concise-review-controls-box col-xs-1">
-                @{
-                    if (User.Identity.CanEditReview(Model.AuthorId))
-                    {
-                        <div class="col-xs-2">
-                            <a data-html-export-review="@Model.Id" class="review-export control a-like-span glyphicon glyphicon-export" title="Export a summary of this review to HTML"></a>
-                            <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
-                            <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
-                        </div>
-                    }
-                }
+            <div class="concise-review-controls-box col-sm-1">
                 @{
                     if (User.Identity.CanVoteForReview(Model.AuthorId))
                     {
-                        <div class="col-xs-1">
+                        <div>
                             <span data-review-id="@Model.Id" data-already-upvoted="@Model.AlreadyUpvoted" class="icon-upvote a-like-span control glyphicon glyphicon-thumbs-up" title="Give thanks"></span>
                         </div>
                     }
                 }
+                <div>
+                    <a data-html-export-review="@Model.Id" class="review-export control a-like-span glyphicon glyphicon-export" title="Export a summary of this review to HTML"></a>
+                </div>
+                @{
+                    if (User.Identity.CanEditReview(Model.AuthorId))
+                    {
+                        <div>
+                            <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
+                        </div>
+                        <div>
+                            <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
+                        </div>
+                    }
+                }               
             </div>            
         </div>   
     </div>
-    <div class="col-xs-10">
-        @*@{
-            if (User.Identity.CanEditReview(Model.AuthorId))
-            {
-                <div class="pull-right text-right col-xs-2">
-                    <a data-html-export-review="@Model.Id" class="review-export control a-like-span glyphicon glyphicon-export" title="Export a summary of this review to HTML"></a>
-                    <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
-                    <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
-                </div>
-            }
-        }
-        @{
-            if (User.Identity.CanVoteForReview(Model.AuthorId))
-            {
-                <div class="pull-right text-right col-xs-1">
-                    <span data-review-id="@Model.Id" data-already-upvoted="@Model.AlreadyUpvoted" class="icon-upvote a-like-span control glyphicon glyphicon-thumbs-up" title="Give thanks"></span>
-                </div>
-            }
-        }*@
+    <div class="col-xs-10">       
         <span data-review-id="@Model.Id" title="More information" class="a-like-span review-expand glyphicon glyphicon-chevron-down text-right"></span>
     </div>
     <div class="row review-details"></div>

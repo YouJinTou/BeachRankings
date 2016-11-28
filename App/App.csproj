@@ -339,6 +339,7 @@
     <Content Include="Scripts\Internal\datatables-manager.js" />
     <Content Include="Scripts\Internal\infinite-scroller.js" />
     <Content Include="Scripts\Internal\contributors.js" />
+    <Content Include="Scripts\Internal\review-details.js" />
     <Content Include="Scripts\Internal\utils.js" />
     <Content Include="Scripts\Internal\place.js" />
     <Content Include="Scripts\Internal\google-map-manager.js" />

@@ -1,12 +1,10 @@
 ﻿(function ($) {
     var dragdealersManager = new DragdealersManager();
     var expansionInProgress = false;
-    var votingInProgress = false;
-    var exportInProgress = false;
 
     hideEmptyAsideElements();
-    helper.setScoreBoxesBackgroundColor();
-    helper.setVotingVariables();
+    genericHelper.setScoreBoxesBackgroundColor();
+    reviewsHelper.setReviewVotingVariables();
 
     $('.slick-carousel').slick({
         slidesToShow: 1,
@@ -86,104 +84,15 @@
     });
 
     $('#beach-details-container').on('click', '.icon-upvote', function () {
-        if (votingInProgress) {
-            return;
-        }
-        
-        var $this = $(this);
-        var isUpvote = $this.hasClass('glyphicon-thumbs-up');
-        var url = isUpvote ? '/Reviews/Upvote/' : '/Reviews/Downvote';
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                id: $this.data('review-id')
-            },
-            beforeSend: function () {
-                votingInProgress = true;
-            },
-            success: function (result) {
-                changeThumbsDirection();
-                changeDisplayValue();
-            }, complete: function () {
-                votingInProgress = false;
-            }
-        });
-
-        function changeThumbsDirection() {
-            if ($this.hasClass('glyphicon-thumbs-up')) {
-                $this.removeClass('glyphicon-thumbs-up').addClass('glyphicon-thumbs-down');
-            } else {
-                $this.removeClass('glyphicon-thumbs-down').addClass('glyphicon-thumbs-up');
-            }
-        }
-
-        function changeDisplayValue() {
-            var $displayBox = $this.closest('.concise-review').find('.review-upvotes h4 i');
-            var currentValue = $displayBox.text().substr(1);
-            var newValue;
-
-            if (isUpvote) {
-                newValue = parseInt(currentValue) + 1;
-
-                $displayBox.text('+ ' + newValue);
-
-                $displayBox.show();
-            } else {
-                newValue = parseInt(currentValue) - 1;
-                
-                $displayBox.text('+ ' + newValue);
-
-                if (newValue === 0) {
-                    $displayBox.hide();
-                }
-            }
-        }
+        reviewsHelper.upvoteReview($(this));
     });
 
     $('#btn-beach-export-html').on('click', function () {
-        if (exportInProgress) {
-            return;
-        }
-
-        $.ajax({
-            url: '/Beaches/ExportHtml/',
-            type: 'GET',
-            data: {
-                id: $(this).data('html-export-beach')
-            },
-            beforeSend: function () {
-                exportInProgress = true;
-            },
-            success: function (result) {
-                helper.openModalPopup(true, result);
-            }, complete: function () {
-                exportInProgress = false;
-            }
-        });
+        beachesHelper.exportBeachToHtml($(this));
     });
 
     $('#beach-details-container').on('click', '.review-export', function () {
-        if (exportInProgress) {
-            return;
-        }
-
-        $.ajax({
-            url: '/Reviews/ExportHtml/',
-            type: 'GET',
-            data: {
-                id: $(this).data('html-export-review')
-            },
-            beforeSend: function () {
-                exportInProgress = true;
-            },
-            success: function (result) {
-                helper.openModalPopup(true, result);
-            }, complete: function () {
-                exportInProgress = false;
-            }
-        });
+        reviewsHelper.exportReviewToHtml($(this));
     });
 
     $('#delete-beach-span').on('click', function () {

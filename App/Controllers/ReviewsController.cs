@@ -24,6 +24,13 @@
             var review = this.Data.Reviews.Find(id);
             var model = Mapper.Map<Review, DetailedReviewViewModel>(review);
 
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var upvotedReviewIds = this.UserProfile.UpvotedReviews.Select(r => r.Id).ToList();
+                model.UserHasRated = this.UserProfile.Reviews.Any(r => r.BeachId == review.BeachId);
+                model.AlreadyUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, upvotedReviewIds);
+            }          
+
             return this.View(model);
         }
 
