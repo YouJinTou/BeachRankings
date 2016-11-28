@@ -29,7 +29,7 @@
         public PartialViewResult Statistics(int id)
         {
             var beaches = this.Data.WaterBodies.Find(id).Beaches.Where(b => b.TotalScore != null);
-            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<TableRowViewModel>>(beaches);
+            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches);
 
             return this.PartialView("_StatisticsPartial", model);
         }

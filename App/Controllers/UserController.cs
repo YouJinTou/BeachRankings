@@ -23,7 +23,7 @@
         public PartialViewResult Statistics()
         {
             var reviews = this.UserProfile.Reviews;
-            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<TableRowViewModel>>(reviews);
+            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<ReviewRowViewModel>>(reviews);
 
             return this.PartialView(model);
         }

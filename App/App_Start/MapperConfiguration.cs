@@ -27,6 +27,8 @@
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
                 cfg.CreateMap<PostReviewViewModel, Review>();
                 cfg.CreateMap<BlogArticle, BlogArticleViewModel>();
+                cfg.CreateMap<TableRowViewModel, BeachRowViewModel>();
+                cfg.CreateMap<TableRowViewModel, ReviewRowViewModel>();
                 cfg.CreateMap<EditReviewViewModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
                 cfg.CreateMap<User, TableUserReviewsViewModel>().ForMember(vm => vm.AuthorName, model => model.MapFrom(m => m.UserName));
@@ -75,7 +77,7 @@
                     .ForMember(vm => vm.Camping, model => model.Ignore())
                     .ForMember(vm => vm.Infrastructure, model => model.Ignore())
                     .ForMember(vm => vm.LongTermStay, model => model.Ignore());
-                cfg.CreateMap<Beach, TableRowViewModel>()
+                cfg.CreateMap<Beach, BeachRowViewModel>()
                    .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Id))
                    .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
                    .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Country.Name))
@@ -136,7 +138,8 @@
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Beach.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Beach.Images))
                     .ForMember(vm => vm.ArticleLinks, model => model.MapFrom(m => string.Join("@", m.BlogArticles.Where(ba => ba.ReviewId == m.Id).Select(ba => ba.Url))));
-                cfg.CreateMap<Review, TableRowViewModel>()
+                cfg.CreateMap<Review, ReviewRowViewModel>()
+                    .ForMember(vm => vm.ReviewId, model => model.MapFrom(m => m.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
                     .ForMember(vm => vm.CountryId, model => model.MapFrom(m => m.Beach.Country.Id))
                     .ForMember(vm => vm.Country, model => model.MapFrom(m => m.Beach.Country.Name))

@@ -1,7 +1,10 @@
-﻿@model TableRowViewModel
+﻿@model ReviewRowViewModel
 
 <tr>
-    <td class="text-left"><a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a></td>
+    <td class="text-left">
+        <a href="/Reviews/Details/@Model.ReviewId" class="user-review-view-icon a-like-span glyphicon glyphicon-eye-open" title="Go to review page" target="_blank"></a>
+        <a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a>
+    </td>
     <td class="text-left"><a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></td>
     <td class="text-left"><a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></td>
     <td><a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></td>

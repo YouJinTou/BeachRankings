@@ -15,7 +15,7 @@
     {
         public string AuthorName { get; set; }
 
-        public IEnumerable<TableRowViewModel> Reviews { get; set; }
+        public IEnumerable<ReviewRowViewModel> Reviews { get; set; }
     }
 
     public class ChangeAvatarViewModel

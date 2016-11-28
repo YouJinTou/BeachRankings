@@ -93,6 +93,9 @@
                 <i>+ @Model.Upvotes</i>
             </h4>
         </div>
+        <div class="beach-score-box beach-score-box-extended col-xs-12">
+            <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
+        </div>
         <div class="col-sm-11">
             <div class="col-xs-11">
                 <p class="review-content text-justify">@Model.Content</p>

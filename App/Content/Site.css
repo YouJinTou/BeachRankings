@@ -160,6 +160,10 @@ img {
     border-radius: 50%;
 }
 
+.user-review-view-icon {
+    margin-right: 5px;
+}
+
 /* MODAL POPUP */
 .custom-modal-popup {
     z-index: 9999;

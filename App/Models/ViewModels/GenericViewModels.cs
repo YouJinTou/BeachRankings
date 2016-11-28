@@ -49,6 +49,15 @@
         public double? TotalScore { get; set; }
     }
 
+    public class BeachRowViewModel : TableRowViewModel
+    {
+    }
+
+    public class ReviewRowViewModel : TableRowViewModel
+    {
+        public int ReviewId { get; set; }
+    }
+
     public class ExportScoresAsHtmlViewModel : CriteriaBaseModel
     {
         public int Id { get; set; }
