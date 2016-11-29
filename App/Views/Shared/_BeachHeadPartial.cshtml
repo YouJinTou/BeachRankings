@@ -1,0 +1,95 @@
+﻿@model DetailedBeachViewModel
+
+<div class="col-xs-offset-1 col-xs-2 text-left">
+    <aside class="beach-aside custom-canvas text-left">
+        <div class="aside-element">Country: <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a></div>
+        <div class="aside-element">Region: <a href="/PrimaryDivisions/Beaches/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></div>
+        <div class="aside-element">Area: <a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></div>
+        <div class="aside-element">Sub-area: <a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></div>
+        <div class="aside-element">Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
+        <div class="aside-element">Coordinates: <a href="https://www.google.com/maps/place/@Model.Coordinates" target="_blank">@Model.Coordinates</a></div>
+        <hr />
+    </aside>
+
+    <aside class="beach-aside custom-canvas text-left">
+        <h4>What bloggers say</h4>
+
+        <hr />
+
+        @Html.DisplayFor(model => model.BlogArticles)
+    </aside>
+</div>
+
+<div class="beach-head custom-canvas col-xs-8">
+    <div class="row">
+        <div class="text-left beach-name col-xs-5">
+            <h2>
+                <a href="/Beaches/Details/@Model.Id">@Model.Name</a> <i>@Html.PluralizeValue(@Model.Reviews.Count(), "review")</i>
+            </h2>
+            <div class="beach-score-box beach-score-box-extended col-xs-4">
+                <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
+            </div>
+            <h4>
+                <i>
+                    <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
+                    @Html.ParseNullString(
+                        @Html.GetBeachAnchorTagDivisionAddress(Model.PrimaryDivision, Model.SecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId) + ", ",
+                        null)
+                    <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a>
+                </i>
+            </h4>
+        </div>
+        <div class="text-right col-xs-6">
+            <span id="btn-beach-export-html" data-html-export-beach="@Model.Id" class="beach-export a-like-span glyphicon glyphicon-export" title="Export a summary of this beach to HTML"></span>
+            @{
+                if (!Model.UserHasRated)
+                {
+                    @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-cta" })
+                }
+                else
+                {
+                    <span class="already-rated pull-right glyphicon glyphicon-ok-circle" title="Already rated"></span>
+                }
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="slick-carousel col-xs-7">
+            @Html.DisplayFor(model => model.Images)
+        </div>
+        <div class="col-xs-4">
+            <div class="text-left">
+                <div>Sand: @Html.ParseNullableValue(@Model.SandQuality, "-")</div>
+                <div>Beach cleanliness: @Html.ParseNullableValue(@Model.BeachCleanliness, "-")</div>
+                <div>Scenery: @Html.ParseNullableValue(@Model.BeautifulScenery, "-")</div>
+                <div>Crowd-free: @Html.ParseNullableValue(@Model.CrowdFree, "-")</div>
+                <div>Water purity: @Html.ParseNullableValue(@Model.WaterPurity, "-")</div>
+                <div>Waste-free seabed: @Html.ParseNullableValue(@Model.WasteFreeSeabed, "-")</div>
+                <div>Feet-friendly bottom: @Html.ParseNullableValue(@Model.FeetFriendlyBottom, "-")</div>
+                <div>Sea life diversity: @Html.ParseNullableValue(@Model.SeaLifeDiversity, "-")</div>
+                <div>Coral reef: @Html.ParseNullableValue(@Model.CoralReef, "-")</div>
+                <div>Good for a walk: @Html.ParseNullableValue(@Model.Walking, "-")</div>
+                <div>Snorkeling: @Html.ParseNullableValue(@Model.Snorkeling, "-")</div>
+                <div>Kayaking: @Html.ParseNullableValue(@Model.Kayaking, "-")</div>
+                <div>Camping: @Html.ParseNullableValue(@Model.Camping, "-")</div>
+                <div>Infrastructure: @Html.ParseNullableValue(@Model.Infrastructure, "-")</div>
+                <div>Long-term stay: @Html.ParseNullableValue(@Model.LongTermStay, "-")</div>
+            </div>
+            <div class="row">
+                @{
+                    if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
+                    {
+                        <hr />
+
+                            <div class="col-xs-12">
+                                <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
+                                    <a class="a-like-span control glyphicon glyphicon-edit" title="Edit beach" href="/Beaches/Edit/@Model.Id"></a>
+                                    <span id="delete-beach-span" title="Delete beach" class="a-like-span control glyphicon glyphicon-remove"></span>
+                                </form>
+                            </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,7 +19,7 @@
                 {
                     extend: 'colvis',
                     columns: [':nth-last-child(-n+15)'],
-                    text: 'Add/remove criteria'
+                    text: 'Change criteria'
                 }
             ]
         };

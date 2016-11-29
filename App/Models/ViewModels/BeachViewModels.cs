@@ -157,11 +157,11 @@
 
         public string Coordinates { get; set; }
 
-        public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }
-
         public IEnumerable<BeachImageThumbnailViewModel> Images { get; set; }
 
         public IEnumerable<BlogArticleViewModel> BlogArticles { get; set; }
+
+        public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }        
     }
 
     public class AutocompleteBeachViewModel : AutocompleteBaseViewModel

@@ -14,6 +14,8 @@ namespace App
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<BeachRankingsDbContext, Configuration>());
 
+            GlobalFilters.Filters.Add(new RequireHttpsAttribute());
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

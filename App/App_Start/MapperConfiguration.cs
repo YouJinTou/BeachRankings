@@ -99,32 +99,7 @@
                    .ForMember(vm => vm.IsBlogger, model => model.MapFrom(m => m.Author.IsBlogger))
                    .ForMember(vm => vm.BlogUrl, model => model.MapFrom(m => m.Author.Blog.Url))
                    .ForMember(vm => vm.BlogArticles, model => model.MapFrom(m => m.BlogArticles))
-                   .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Beach.Id))
-                   .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
-                   .ForMember(vm => vm.BeachCountry, model => model.MapFrom(m => m.Beach.Country.Name))
-                   .ForMember(vm => vm.BeachCountryId, model => model.MapFrom(m => m.Beach.CountryId))
-                   .ForMember(vm => vm.BeachPrimaryDivision, model => model.MapFrom(m => m.Beach.PrimaryDivision.Name))
-                   .ForMember(vm => vm.BeachPrimaryDivisionId, model => model.MapFrom(m => m.Beach.PrimaryDivisionId))
-                   .ForMember(vm => vm.BeachSecondaryDivision, model => model.MapFrom(m => m.Beach.SecondaryDivision.Name))
-                   .ForMember(vm => vm.BeachSecondaryDivisionId, model => model.MapFrom(m => m.Beach.SecondaryDivisionId))
-                   .ForMember(vm => vm.BeachImages, model => model.MapFrom(m => m.Beach.Images))
-                   .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Beach.Reviews.Count(r => r.TotalScore != null)))
-                   .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.Beach.TotalScore))
-                   .ForMember(vm => vm.BeachSandQuality, model => model.MapFrom(m => m.Beach.SandQuality))
-                   .ForMember(vm => vm.BeachBeachCleanliness, model => model.MapFrom(m => m.Beach.BeachCleanliness))
-                   .ForMember(vm => vm.BeachBeautifulScenery, model => model.MapFrom(m => m.Beach.BeautifulScenery))
-                   .ForMember(vm => vm.BeachCrowdFree, model => model.MapFrom(m => m.Beach.CrowdFree))
-                   .ForMember(vm => vm.BeachWaterPurity, model => model.MapFrom(m => m.Beach.WaterPurity))
-                   .ForMember(vm => vm.BeachWasteFreeSeabed, model => model.MapFrom(m => m.Beach.WasteFreeSeabed))
-                   .ForMember(vm => vm.BeachFeetFriendlyBottom, model => model.MapFrom(m => m.Beach.FeetFriendlyBottom))
-                   .ForMember(vm => vm.BeachSeaLifeDiversity, model => model.MapFrom(m => m.Beach.SeaLifeDiversity))
-                   .ForMember(vm => vm.BeachCoralReef, model => model.MapFrom(m => m.Beach.CoralReef))
-                   .ForMember(vm => vm.BeachWalking, model => model.MapFrom(m => m.Beach.Walking))
-                   .ForMember(vm => vm.BeachSnorkeling, model => model.MapFrom(m => m.Beach.Snorkeling))
-                   .ForMember(vm => vm.BeachKayaking, model => model.MapFrom(m => m.Beach.Kayaking))
-                   .ForMember(vm => vm.BeachCamping, model => model.MapFrom(m => m.Beach.Camping))
-                   .ForMember(vm => vm.BeachInfrastructure, model => model.MapFrom(m => m.Beach.Infrastructure))
-                   .ForMember(vm => vm.BeachLongTermStay, model => model.MapFrom(m => m.Beach.LongTermStay));
+                   .ForMember(vm => vm.BeachHead, model => model.MapFrom(m => m.Beach));
                 cfg.CreateMap<Review, EditReviewViewModel>()
                     .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Beach.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
@@ -170,6 +145,6 @@
                     .ForMember(vm => vm.SecondaryDivisionId, model => model.MapFrom(m => m.Beach.SecondaryDivision.Id))
                     .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.Beach.SecondaryDivision.Name));
             });
-        }
+        }    
     }
 }
