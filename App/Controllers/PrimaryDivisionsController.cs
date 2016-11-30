@@ -86,11 +86,18 @@
             try
             {
                 primaryDivision = new PrimaryDivision() { Name = bindingModel.PrimaryDivision, CountryId = (int)bindingModel.CountryId, WaterBodyId = bindingModel.WaterBodyId };
-
-                if (!this.CanAddEditWaterBody(primaryDivision, true))
+                var waterBodyIdHasValue = (bindingModel.WaterBodyId != null);
+                   
+                if (waterBodyIdHasValue && !this.CanAddEditWaterBody(primaryDivision, true))
                 {
                     throw new InvalidOperationException("Can't assign a water body; the water body is assigned at a different level.");
                 }
+
+                if (!waterBodyIdHasValue)
+                {
+                    var country = this.Data.Countries.Find(primaryDivision.CountryId);
+                    primaryDivision.WaterBodyId = country.WaterBodyId;
+                }                
 
                 this.Data.PrimaryDivisions.Add(primaryDivision);
                 this.Data.PrimaryDivisions.SaveChanges();
@@ -231,7 +238,11 @@
                 return false;
             }
 
-            var waterBodyAssignedAtPrimaryLevel = this.Data.PrimaryDivisions.All().Where(pd => pd.CountryId == country.Id).All(pd => pd.WaterBodyId != null);
+            var primaryDivisions = this.Data.PrimaryDivisions.All().Where(pd => pd.CountryId == country.Id).ToList();
+            var secondaryDivisions = this.Data.SecondaryDivisions.All().Where(pd => pd.CountryId == country.Id).ToList();
+            var justCreated = (primaryDivisions.All(pd => pd.WaterBodyId == null) && secondaryDivisions.All(sd => sd.WaterBodyId == null));
+            var waterBodyAssignedAtPrimaryLevel = justCreated ? true : 
+                (secondaryDivisions.Count > 0) ? primaryDivisions.All(pd => pd.WaterBodyId != null) : false;
 
             return waterBodyAssignedAtPrimaryLevel;
         }

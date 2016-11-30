@@ -97,6 +97,13 @@
                     throw new InvalidOperationException("Can't assign a water body; the water body is assigned at a different level.");
                 }
 
+                var missingWaterBody = (bindingModel.WaterBodyId == null && !this.TryAddWaterBody(secondaryDivision));
+
+                if (missingWaterBody)
+                {
+                    throw new InvalidOperationException("You must assign a water body when adding a second-level division.");
+                }
+
                 this.Data.SecondaryDivisions.Add(secondaryDivision);
                 this.Data.SecondaryDivisions.SaveChanges();
                 this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);
@@ -230,8 +237,33 @@
             var country = adding ? this.Data.Countries.Find(secondaryDivision.CountryId) : secondaryDivision.Country;
             var primaryDivision = adding ? this.Data.PrimaryDivisions.Find(secondaryDivision.PrimaryDivisionId) : secondaryDivision.PrimaryDivision;
             var waterBodyAssignedAtHigherLevel = (country.WaterBodyId != null || primaryDivision.WaterBodyId != null);
-            
+
+            if (adding)
+            {
+                var overriding = (secondaryDivision.WaterBodyId != null);
+
+                return waterBodyAssignedAtHigherLevel ? 
+                    overriding ? false : true :
+                    true;
+            }
+
             return waterBodyAssignedAtHigherLevel ? false : true;
+        }
+
+        private bool TryAddWaterBody(SecondaryDivision secondaryDivision)
+        {
+            var country = this.Data.Countries.Find(secondaryDivision.CountryId);
+            var primaryDivision = this.Data.PrimaryDivisions.Find(secondaryDivision.PrimaryDivisionId);
+            var waterBodyId = (country.WaterBodyId != null) ? country.WaterBodyId : primaryDivision.WaterBodyId;
+
+            if (waterBodyId == null)
+            {
+                return false;
+            }
+
+            secondaryDivision.WaterBodyId = waterBodyId;
+
+            return true;
         }
 
         private void AssignChildrenWaterBodyIds(SecondaryDivision secondaryDivision)
