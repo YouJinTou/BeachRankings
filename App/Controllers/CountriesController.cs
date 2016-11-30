@@ -81,7 +81,7 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
-            var country = new Country() { Name = bindingModel.Country };
+            var country = new Country() { Name = bindingModel.Country, WaterBodyId = bindingModel.WaterBodyId };
 
             try
             {

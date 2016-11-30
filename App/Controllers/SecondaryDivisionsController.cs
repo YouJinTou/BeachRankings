@@ -88,7 +88,8 @@
                 {
                     Name = bindingModel.SecondaryDivision,
                     CountryId = (int)bindingModel.CountryId,
-                    PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId
+                    PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
+                    WaterBodyId = bindingModel.WaterBodyId
                 };
 
                 this.Data.SecondaryDivisions.Add(secondaryDivision);
@@ -118,6 +119,7 @@
             {
                 secondaryDivision = this.Data.SecondaryDivisions.Find(bindingModel.SecondaryDivisionId);
                 secondaryDivision.Name = bindingModel.SecondaryDivision;
+                secondaryDivision.WaterBodyId = bindingModel.WaterBodyId;
 
                 this.Data.SecondaryDivisions.SaveChanges();
                 this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);

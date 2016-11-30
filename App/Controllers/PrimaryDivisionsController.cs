@@ -85,7 +85,7 @@
 
             try
             {
-                primaryDivision = new PrimaryDivision() { Name = bindingModel.PrimaryDivision, CountryId = (int)bindingModel.CountryId };
+                primaryDivision = new PrimaryDivision() { Name = bindingModel.PrimaryDivision, CountryId = (int)bindingModel.CountryId, WaterBodyId = bindingModel.WaterBodyId };
 
                 this.Data.PrimaryDivisions.Add(primaryDivision);
                 this.Data.PrimaryDivisions.SaveChanges();
@@ -114,6 +114,7 @@
             {
                 primaryDivision = this.Data.PrimaryDivisions.Find(bindingModel.PrimaryDivisionId);
                 primaryDivision.Name = bindingModel.PrimaryDivision;
+                primaryDivision.WaterBodyId = bindingModel.WaterBodyId;
 
                 this.Data.PrimaryDivisions.SaveChanges();
                 this.Data.PrimaryDivisions.AddUpdateIndexEntry(primaryDivision);

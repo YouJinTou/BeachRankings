@@ -195,6 +195,7 @@
 
             function onCancelClicked() {
                 resetCrudControls();
+                tryClearCheckBoxesContainer();
             }
 
             function resetCrudControls() {
@@ -273,6 +274,10 @@
 
                 return controllerAction;
             }
+        });
+
+        $('.admin-water-body').on('change', function () {
+            $('#hdn-waterbody-id').val($(this).val());
         });
 
         $('#btn-move-beaches').on('click', function (event) {
