@@ -48,12 +48,15 @@
         {
             var beach = this.Data.Beaches.Find(id);
             var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);            
-            model.UserHasRated = this.User.Identity.IsAuthenticated ? this.UserProfile.Reviews.Any(r => r.BeachId == id) : false;            
-            model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn).ToList();
             Func<ConciseReviewViewModel, bool> userUpvoted = (r => (this.UserProfile.UpvotedReviews.Any(ur => ur.Id == r.Id)));
+            model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn).ToList();
 
-            model.Reviews.Select(r => { r.AlreadyUpvoted = userUpvoted(r); return r; }).ToList();
-            
+            if (this.User.Identity.IsAuthenticated)
+            {
+                model.UserHasRated = this.UserProfile.Reviews.Any(r => r.BeachId == id);
+                model.Reviews.Select(r => { r.AlreadyUpvoted = userUpvoted(r); return r; }).ToList();
+            }
+
             return this.View(model);
         }
 
