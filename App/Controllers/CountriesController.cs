@@ -222,13 +222,8 @@
             }
 
             var waterBodyAssignedAtSecondaryLevel = country.SecondaryDivisions.Any(pd => pd.WaterBodyId != firstWaterBodyId);
-
-            if (waterBodyAssignedAtSecondaryLevel)
-            {
-                return false;
-            }
-
-            return true;
+            
+            return waterBodyAssignedAtSecondaryLevel ? false : true;
         }
 
         private void AssignChildrenWaterBodyIds(Country country)

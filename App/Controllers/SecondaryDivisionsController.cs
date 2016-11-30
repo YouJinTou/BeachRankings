@@ -230,13 +230,8 @@
             var country = adding ? this.Data.Countries.Find(secondaryDivision.CountryId) : secondaryDivision.Country;
             var primaryDivision = adding ? this.Data.PrimaryDivisions.Find(secondaryDivision.PrimaryDivisionId) : secondaryDivision.PrimaryDivision;
             var waterBodyAssignedAtHigherLevel = (country.WaterBodyId != null || primaryDivision.WaterBodyId != null);
-
-            if (waterBodyAssignedAtHigherLevel)
-            {
-                return false;
-            }            
-
-            return true;
+            
+            return waterBodyAssignedAtHigherLevel ? false : true;
         }
 
         private void AssignChildrenWaterBodyIds(SecondaryDivision secondaryDivision)

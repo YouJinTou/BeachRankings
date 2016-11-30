@@ -1,4 +1,47 @@
 ﻿{
+	"Adriatic Sea!Albania": {
+			"Durrës": [
+				"Durrës",
+				"Krujë",
+				"Shijak"
+			],
+			"Fier": [
+				"Divjakë",
+				"Fier",
+				"Lushnjë",
+				"Mallakastër",
+				"Patos",
+				"Roskovec"
+			],
+			"Lezhë": [
+				"Kurbin",
+				"Lezhë",
+				"Mirditë"
+			],
+			"Shkodër": [
+				"Fushë-Arrëz",
+				"Malësi e Madhe",
+				"Pukë",
+				"Shkodër",
+				"Vau i Dejës"
+			],
+			"Tiranë": [
+				"Kamëz",
+				"Kavajë",
+				"Rrogozhinë",
+				"Tiranë",
+				"Vorë"
+			],
+			"Vlorë": [
+				"Delvinë",
+				"Finiq",
+				"Himarë",
+				"Konispol",
+				"Sarandë",
+				"Selenicë",
+				"Vlorë"
+			]
+		},
 	"Black Sea!Bulgaria": {
 		"Dobrich": [
 			"Shabla",
@@ -124,6 +167,462 @@
 			"Achaea",
 			"Aetolia-Acarnania",
 			"Elis"
+		]
+	},
+	"Thailand": {
+		"Andaman Sea!Ranong": {
+			"Ranong Islands": [
+				"Ko Chang (Ranong)-Mu Ko Phayam",
+				"Ko Sin Hai-Mu Ko Phayam",
+				"Ko Dom-Mu Ko Phayam",
+				"Ko Plai-Mu Ko Phayam",
+				"Ko Talu (Rayong)-Mu Ko Phayam",
+				"Ko Phayam-Mu Ko Phayam",
+				"Ko Kang Khao",
+				"Mu Ko Kom",
+				"Ko Kam-Mu Ko Khom group",
+				"Ko Kam Tok-Mu Ko Khom group",
+				"Ko Kam Yai-Mu Ko Khom group",
+				"Ko Kam Nui-Mu Ko Khom group"
+			],
+			"Ranong Province Seacoast": null
+		},
+		"Andaman Sea!Phang Nga": {
+			"Ko Yao District - Phang Nga Bay": [
+				"Ko Yao Noi",
+				"Ko Yao Yai",
+				"Ao Phang Nga National Park"
+			],
+			"Similan Islands": [
+				"Island 11: Ko Tachai",
+				"Island 10: Ko Bon, AKA Ko Talu",
+				"Island 9: Ko Ba-ngu, AKA Ko Bayu",
+				"Island 8: Ko Similan",
+				"Island 7: Ko Hin Pousar",
+				"Island 6: Ko Payu, AKA Ko Pa Yu",
+				"Island 5: Ko Ha",
+				"Island 4: Ko Miang, AKA Ko Meang. Park HQ is here.",
+				"Island 3: Ko Payan, AKA Ko Pa Yan",
+				"Island 2: Ko Payang, AKA Ko Pa Yang",
+				"Island 1: Ko Huyong, AKA Ko Hu Yong"
+			],
+			"Surin Islands": [
+				"Ko Surin Nuea",
+				"Ko Surin Tai",
+				"Ko Ri",
+				"Ko Kai",
+				"Ko Klang"
+			],
+			"Phra Thong Islands": [
+				"Koh Phra Thong",
+				"Koh Ra - northern island",
+				"Koh Kho Khao - southern island"
+			],
+			"Mueang Phangnga District": null,
+			"Takua Thung District": null,
+			"Khura Buri District": null,
+			"Takua Pa District": null,
+			"Thai Mueang District": null,
+			"Thap Put District": null
+		},
+		"Andaman Sea!Phuket": {
+			"Phuket Island": null,
+			"Phuket Islands": [
+				"Ko Racha Yai",
+				"Ko Lon",
+				"Ko Mai Thon",
+				"Ko Maphrao",
+				"Ko Ngam",
+				"Ko Naka Yai",
+				"Ko Naka Noi",
+				"Ko Raet",
+				"Ko Siray",
+				"Ko Rang Yai",
+				"Ko Rang Noi",
+				"Ko Tapao",
+				"Ko Kaeo Yai",
+				"Ko Kaeo",
+				"Ko Bon",
+				"Ko Hae",
+				"Ko Aeo"
+			]
+		},
+		"Andaman Sea!Krabi": {
+			"Krabi District": [
+				{
+					"Phi Phi Archipelago": [
+						"Phi Phi Don",
+						"Phi Phi Lee",
+						"Ko Bida Nok",
+						"Ko Bida Noi",
+						"Ko  Yunu-Mosquito Island",
+						"Ko Mai Pai-Bamboo Island"
+					]
+				},
+				"Ao Nang",
+				"Railay Peninsula",
+				{
+					"Krabi Islands": [
+						"Chicken Island",
+						"Poda Island",
+						"Bamboo Island"
+					]
+				},
+				"Khao Khram Sub-district",
+				"Khao Thong Sub-district",
+				"Nong Thale Sub-district",
+				"Sai Thai Sub-district",
+				"Khlong Prasong Sub-district"
+			],
+			"Ko Lanta District": [
+				"Ko Lanta Noi",
+				"Ko Lanta Yai",
+				"Ko Ngai",
+				"Ko Klang",
+				"Ko Bu Bu",
+				"Mu Ko Rok",
+				"Mu Ko Haa",
+				"Mu Ko Maa",
+				"Ko Mai Ngam",
+				"Ko Pleo",
+				"Ko Por",
+				"Ko Rapule",
+				"Ko Talabeng",
+				"Ko Waen",
+				"Ko Wan Tia"
+			],
+			"Ao Luek District": [
+				"Ao Luek Islands",
+				"Laem Sak Sub-district",
+				"Ao Luek Noi"
+			],
+			"Nuea Khlong District": [
+				"Ko Siboya",
+				"Ko Jum",
+				"Ko To Lang",
+				"Taling Chan Sub-district"
+			],
+			"Khlong Thom District": [
+				"Khlong Phon Sub-district",
+				"Sai Khao Sub-district"
+			]
+		},
+		"Andaman Sea!Trang": [
+			{
+				"Trang Islands": [
+					"Ko Mook",
+					"Ko Kradan",
+					"Ko Libong",
+					"Ko Sukorn",
+					"Ko Phetra",
+					"Ko Lao Liang (North Island)",
+					"Ko Lao Liang (South Island)",
+					"Ko Takiend"
+				]
+			},
+			"Kantang  District",
+			"Sikao District",
+			"Hat Samran District",
+			"Manang District"
+		],
+		"Andaman Sea!Satun": {
+			"Ko Tarutao Archipelago": [
+				"Ko Tarutao Island",
+				"Ko Khai (Egg Island)",
+				"Ko Lipe",
+				"Ko Adang",
+				"Ko Rawi",
+				"Ko Batong (Ko Tong)",
+				"Ko Hin Ngam",
+				"Ko Lek",
+				"Ko Yang",
+				"Ko Chabang",
+				"Muko Dong"
+			],
+			"Ko Phetra Marine National Park": [
+				"Ko Lidi",
+				"Ko Khao Yai",
+				"Ko Bulon"
+			],
+			"Mueang Satun District": null,
+			"Tha Phae District": null,
+			"La-ngu District": null,
+			"Manang District": null
+		},
+		"Gulf of Thailand!Surat Thani": {
+			"Ko Samui District": [
+				{
+					"Ko Samui": [
+						"Bo Phut",
+						"Mae Nam",
+						"Maret",
+						"Na Mueang",
+						"Taling Ngam",
+						"Lipa Noi",
+						"Ang Thong"
+					]
+				},
+				"Ko Som",
+				"Ko Matlang",
+				"Ko Taen",
+				"Ko Mat Sum"
+			],
+			"Ko Pha Ngan District": null,
+			"Ko Tao": null,
+			"Angthong Marine Park": [
+				"Ko Wua Talap",
+				"Ko Mae Ko (Mother Island)",
+				"Ko Sam Sao (Tripod Island)",
+				"Wua Talap Island (Sleeping Cow)",
+				"Ko Mae Ko",
+				"Ko Kha",
+				"Ko Hin Dap",
+				"Ko Phi",
+				"Ko Phai Luak",
+				"Ko Wua Te",
+				"Ko Pha Luai",
+				"Ko Kong Phae",
+				"Ko Tao Pun"
+			],
+			"Ko Nang Yuan": null,
+			"Ko Nan": null,
+			"Don Sak Tha Chana": null,
+			"Kanchanadit District": null,
+			"Mueang Surat Thani District": null,
+			"Phunphin District": null,
+			"Tha Chang District": null,
+			"Chaiya District": null,
+			"Tha Chana District": null
+		},
+		"Gulf of Thailand!Chumphon": {
+			"Mueang Chumphon District": [
+				"Chumphon District",
+				"Chumphon District Islands"
+			],
+			"Pathio District": [
+				"Pathio District",
+				"Ko Wiang",
+				"Ko Phra",
+				"Ko Yo",
+				"Ko Khi Nok",
+				"Ko Si Kong",
+				"Ko Rang",
+				"Ko Khai"
+			],
+			"Sawi District": null,
+			"Thung Tako District": null,
+			"Lang Suan District": null,
+			"Lamae District": null
+		},
+		"Gulf of Thailand!Prachuap Khiri Khan": {
+			"Gulf of Thailand!Prachuap Khiri Khan Islands": [
+				"Ko Sai-Pran Rocks (off Hua Hin)",
+				"Ko Sadao-Pran Rocks",
+				"Ko Khi Nok-Pran Rocks",
+				"Ko Kho Ram-Khao Sam Roi Yot",
+				"Ko Nom Sao-Khao Sam Roi Yot",
+				"Ko Rawang",
+				"Khao Sam Roi Yot",
+				"Ko Rawing-Khao Sam Roi Yot",
+				"Ko Sattakut-Khao Sam Roi Yot",
+				"Ko Lak-Prachuap Bay",
+				"Ko La-Prachuap Bay",
+				"Ko Rom-Prachuap Bay",
+				"Ko Raet-Prachuap Bay",
+				"Ko Lueam-Ao Manao",
+				"Ko Aen-Ao Manao",
+				"Ko Phing-South of Ao Manao",
+				"Ko Phang-South of Ao Manao",
+				"Ko Chan-Off Hat Wanakon",
+				"Ko Thai Chan-Off Hat Wanakon",
+				"Ko Ram Ra-Khao Huai Khrok",
+				"Ko Hua Pin-Khao Mae Ram Phueng",
+				"Ko Thalu-Khao Mae Ram Phueng",
+				"Ko Sing-Khao Mae Ram Phueng",
+				"Ko Sang-Khao Mae Ram Phueng"
+			],
+			"Mueang Prachuap Khiri Khan District": null,
+			"Kui Buri District": null,
+			"Thap Sakae District": null,
+			"Bang Saphan District": null,
+			"Bang Saphan Noi District": null,
+			"Pran Buri": null,
+			"Hua Hin District": null,
+			"Sam Roi Yot District": null
+		},
+		"Gulf of Thailand!Phetchaburi": [
+			"Mueang Phetchaburi District",
+			"Ban Laem District",
+			"Cha-am District",
+			"Tha Yang District"
+		],
+		"Gulf of Thailand!Chonburi": {
+			"Pattaya": null,
+			"Pattaya-Near Islands": [
+				"Ko Larn (Ko Lan)",
+				"Ko Sak",
+				"Ko Krok"
+			],
+			"Pattaya-Far Islands": [
+				"Ko Luam",
+				"Ko Luam Noi",
+				"Ko Phai",
+				"Ko Hu Chang",
+				"Ko Klung Badan",
+				"Ko Man Wichai"
+			],
+			"Chonburi Islands": [
+				"Ko Sichang",
+				"Ko Kham Yai",
+				"Ko Kham Noi",
+				"Ko Ram Dok Mai",
+				"Ko Khang Khao",
+				"Ko Prong",
+				"Ko Yai Thao",
+				"Ko Thaai Tamuen",
+				"Ko Khram",
+				"Ko Khram Noi",
+				"Ko I Ra",
+				"Ko Tao Mo",
+				"Ko Phra",
+				"Ko Phra Noi",
+				"Ko I Lao",
+				"Ko Yo",
+				"Ko Mu",
+				"Ko Maeo",
+				"Ko Nang Ram",
+				"Ko Chorakhe",
+				"Ko Samae San",
+				"Ko Kham",
+				"Ko Raet",
+				"Ko Chang Kluea",
+				"Ko Chuang",
+				"Ko Chan",
+				"Ko Rong Nang",
+				"Ko Rong Khon"
+			],
+			"Mueang Chon Buri District-Seacoast": null,
+			"Si Racha District-Seacoast": null,
+			"Bang Lamung District-Seacoast": null,
+			"Sattahip District-Seacoast": null
+		},
+		"Gulf of Thailand!Rayong": {
+			"Rayong Islands": [
+				"Ko Saket",
+				"Ko Samet",
+				"Ko Platin",
+				"Ko Kraui",
+				"Ko Kudi",
+				"Ko Khangkhao",
+				"Ko Kham",
+				"Ko Yangklao",
+				"Ko Thalu",
+				"Ko Khi Pla-Coastal island",
+				"Ko Man Nai",
+				"Ko Man Khlang ",
+				"Ko Man Nok"
+			],
+			"Mueang Rayong District": null,
+			"Ban Chang District": null,
+			"Klaeng District": null
+		},
+		"Gulf of Thailand!Chanthaburi": {
+			"Chanthaburi Islands": [
+				"Ko Chong Saba",
+				"Ko Nom Sao",
+				"Ko Chula",
+				"Ko Nu",
+				"Ko Nang Ram",
+				"Ko Kwang",
+				"Ko Chik Nok",
+				"Ko Chik Klang"
+			],
+			"Na Yai Am District": null,
+			"Tha Mai District": null,
+			"Laem Sing District": null,
+			"Khlung District": null
+		},
+		"Gulf of Thailand!Trat": {
+			"Trat Islands (Ko Chang Marine National Park)": [
+				"Ko Chang",
+				"Ko Kut",
+				"Ko Mak",
+				"Mu Ko Rang",
+				"Ko Kradat",
+				"Ko Wai",
+				"Ko Mai Si Yai",
+				"Ko Mai Si Lek",
+				"Ko Ngam",
+				"Ko Phrao Nai",
+				"Ko Phrao Nok",
+				"Ko Chang Noi",
+				"Ko Suwan",
+				"Ko Rom",
+				"Ko Lim",
+				"Ko Salak",
+				"Ko Yuak",
+				"Ko Man Nai",
+				"Ko Man Nok",
+				"Ko Klum",
+				"Ko Lao Ya Nai",
+				"Ko Lao Ya Nok",
+				"Ko Bai Dang",
+				"Ko Chan",
+				"Ko Phi",
+				"Ko Kham",
+				"Ko Thong",
+				"Ko Rayang Nok",
+				"Ko Rang",
+				"Ko Tun",
+				"Mu Ko Lao Ya",
+				"Mu Ko Mai Si"
+			],
+			"Trat District": null,
+			"Laem Ngop District": null,
+			"Khlong Yai District": null
+		},
+		"Gulf of Thailand!Songkhla": [
+			"Thepha District",
+			"Chana District",
+			"Mueang Songkhla District",
+			"Singhanakhon District",
+			"Sathing Phra District",
+			"Ranot District"
+		],
+		"Gulf of Thailand!Pattani": [
+			"Nong Chik District",
+			"Mueang Pattani District",
+			"Yaring District",
+			"Panare District",
+			"Sai Buri District",
+			"Kapho District",
+			"Mai Kaen District"
+		],
+		"Gulf of Thailand!Narathiwat": [
+			"Mueang Narathiwat District",
+			"Tak Bai District"
+		],
+		"Gulf of Thailand!Chachoengsao": {
+			"Ban Pho District": null
+		},
+		"Gulf of Thailand!Samut Prakan": [
+			"Mueang Samut Prakan",
+			"Phra Samut Chedi District",
+			"Bang Bo District"
+		],
+		"Gulf of Thailand!Samut Sakhon": {
+			"Mueang Samut Sakhon": null
+		},
+		"Gulf of Thailand!Samut Songkhram": {
+			"Mueang Samut Songkhram District": null
+		},
+		"Gulf of Thailand!Nakhon Si Thammarat": [
+			"Khanom District",
+			"Sichon Pattani District",
+			"Tha Sala District",
+			"Mueang Nakhon Si Thammarat District",
+			"Pak Phanang District",
+			"Hua Sai District"
 		]
 	}
 }
