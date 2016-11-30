@@ -92,9 +92,20 @@
                     WaterBodyId = bindingModel.WaterBodyId
                 };
 
+                if (!this.CanAddEditWaterBody(secondaryDivision, true))
+                {
+                    throw new InvalidOperationException("Can't assign a water body; the water body is assigned at a different level.");
+                }
+
                 this.Data.SecondaryDivisions.Add(secondaryDivision);
                 this.Data.SecondaryDivisions.SaveChanges();
                 this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);
+            }
+            catch (InvalidOperationException ex)
+            {
+                this.TempData["ValidationError"] = ex.Message;
+
+                this.Data.SecondaryDivisions.Detach(secondaryDivision);
             }
             catch (Exception)
             {
@@ -117,12 +128,42 @@
 
             try
             {
-                secondaryDivision = this.Data.SecondaryDivisions.Find(bindingModel.SecondaryDivisionId);
+                secondaryDivision = this.Data.SecondaryDivisions.All()
+                    .Include(sd => sd.Beaches)
+                    .Include(sd => sd.Country)
+                    .Include(sd => sd.PrimaryDivision)
+                    .FirstOrDefault(sd => sd.Id == bindingModel.SecondaryDivisionId);
                 secondaryDivision.Name = bindingModel.SecondaryDivision;
-                secondaryDivision.WaterBodyId = bindingModel.WaterBodyId;
+                var waterBodyIdIsNew = (secondaryDivision.WaterBodyId != bindingModel.WaterBodyId);
+
+                if (waterBodyIdIsNew)
+                {
+                    if (!this.CanAddEditWaterBody(secondaryDivision, false))
+                    {
+                        throw new InvalidOperationException("Can't assign a water body; the water body is assigned at a different level.");
+                    }
+
+                    var oldWaterBody = this.Data.WaterBodies.Find(secondaryDivision.WaterBodyId);
+                    var newWaterBody = this.Data.WaterBodies.Find(bindingModel.WaterBodyId);
+
+                    secondaryDivision.WaterBodyId = bindingModel.WaterBodyId;
+
+                    this.AssignChildrenWaterBodyIds(secondaryDivision);
+
+                    this.Data.Beaches.SaveChanges();
+
+                    this.Data.WaterBodies.AddUpdateIndexEntry(oldWaterBody);
+                    this.Data.WaterBodies.AddUpdateIndexEntry(newWaterBody);
+                }
 
                 this.Data.SecondaryDivisions.SaveChanges();
                 this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondaryDivision);
+            }
+            catch (InvalidOperationException ex)
+            {
+                this.TempData["ValidationError"] = ex.Message;
+
+                this.Data.SecondaryDivisions.Detach(secondaryDivision);
             }
             catch (Exception)
             {
@@ -148,11 +189,8 @@
                 secondaryDivision = this.Data.SecondaryDivisions.All()
                     .Include(sd => sd.Beaches)
                     .Include(sd => sd.TertiaryDivisions)
-                    .Include(sd => sd.QuaternaryDivisions)
                     .FirstOrDefault(sd => sd.Id == bindingModel.SecondaryDivisionId);
-                var hasChildren = (secondaryDivision.Beaches.Count > 0 || 
-                    secondaryDivision.TertiaryDivisions.Count > 0 || 
-                    secondaryDivision.QuaternaryDivisions.Count > 0);
+                var hasChildren = (secondaryDivision.Beaches.Count > 0 || secondaryDivision.TertiaryDivisions.Count > 0);
 
                 if (hasChildren)
                 {
@@ -184,5 +222,31 @@
 
             return this.Json(waterBodyId, JsonRequestBehavior.AllowGet);
         }
+
+        #region Helpers
+
+        private bool CanAddEditWaterBody(SecondaryDivision secondaryDivision, bool adding)
+        {
+            var country = adding ? this.Data.Countries.Find(secondaryDivision.CountryId) : secondaryDivision.Country;
+            var primaryDivision = adding ? this.Data.PrimaryDivisions.Find(secondaryDivision.PrimaryDivisionId) : secondaryDivision.PrimaryDivision;
+            var waterBodyAssignedAtHigherLevel = (country.WaterBodyId != null || primaryDivision.WaterBodyId != null);
+
+            if (waterBodyAssignedAtHigherLevel)
+            {
+                return false;
+            }            
+
+            return true;
+        }
+
+        private void AssignChildrenWaterBodyIds(SecondaryDivision secondaryDivision)
+        {
+            foreach (var beach in secondaryDivision.Beaches)
+            {
+                beach.WaterBodyId = (int)secondaryDivision.WaterBodyId;
+            }
+        }
+
+        #endregion
     }
 }

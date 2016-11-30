@@ -88,7 +88,7 @@
                     Name = bindingModel.TertiaryDivision,
                     CountryId = (int)bindingModel.CountryId,
                     PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
-                    SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId,
+                    SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId
                 };
 
                 this.Data.TertiaryDivisions.Add(tertiaryDivision);
