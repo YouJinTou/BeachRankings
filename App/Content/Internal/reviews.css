@@ -51,6 +51,29 @@
         margin-bottom: 10px;
     }
 
+.review-criteria-table {
+    table-layout: fixed;
+    border: 1px solid black;
+    border-bottom: none;
+    border-collapse: collapse;
+    column-width: 30px;
+}
+
+    .review-criteria-table th {
+        border: 1px solid black;
+        font-weight: normal;
+        font-size: smaller;
+        width: 20px;
+        padding: 2px;
+    }
+
+    .review-criteria-table td {
+        border: 1px solid black;
+        border-bottom: none;
+        text-align: center;
+    }
+
+
 /* DETAILS */
 
 #detailed-review-container {
@@ -69,10 +92,6 @@
         margin-top: 5px;
         text-justify: auto;
     }
-
-.review-expand {
-    font-size: 40px;
-}
 
 .icon-upvote {
     /*margin-right: 50px;*/

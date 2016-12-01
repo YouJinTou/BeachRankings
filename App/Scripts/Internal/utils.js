@@ -12,14 +12,14 @@
 
                 $this.parent().css('background-color', getScoreBoxBackgroundColor($this.text()));
             });
-        }        
+        }
     }
 
     function openModalPopup(html, value) {
         var $mainPopup = $('[data-popup="main"');
         var $htmlCase = $mainPopup.find('[data-html-case]');
         var $nonHtmlCase = $mainPopup.find('[data-non-html-case]');
-        
+
         if (!html) {
             $htmlCase.remove();
         } else {
@@ -43,7 +43,7 @@
 
     function getScoreBoxBackgroundColor(score) {
         var color;
-        
+
         if (score === '-') {
             color = '#ccc';
         } else if (score <= 3) {
@@ -52,7 +52,7 @@
             color = '#0cb737';
         } else if (score <= 8) {
             color = '#ee7600';
-        } else  {
+        } else {
             color = '#ed2c1e';
         }
 
@@ -68,7 +68,7 @@
 var ReviewsHelper = function () {
     var votingInProgress = false;
     var exportInProgress = false;
-    
+
     function setReviewVotingVariables() {
         $('.review').each(function () {
             var $this = $(this);
@@ -166,11 +166,43 @@ var ReviewsHelper = function () {
             }
         });
     }
-    
+
+    function truncateReviews() {
+        var maxLength = 200;
+
+        $('.review-content').each(function () {
+            var $this = $(this);
+            var reviewText = $this.text();
+
+            if (reviewText.length <= maxLength) {
+                return;
+            }
+
+            $this.html(
+                reviewText.slice(0, maxLength) + '<span>... </span><a href="#" class="more">Read more</a>' +
+                '<span style="display:none;">' + reviewText.slice(maxLength, reviewText.length) + ' <a href="#" class="less">Less</a></span>'
+                );
+
+            $('#beach-details-container').on('click', '.more', function (event) {
+                event.preventDefault();
+
+                $(this).hide().prev().hide();
+                $(this).next().show();
+            });
+
+            $('#beach-details-container').on('click', '.less', function (event) {
+                event.preventDefault();
+
+                $(this).parent().hide().prev().show().prev().show();
+            });
+        });
+    }
+
     return {
         setReviewVotingVariables: setReviewVotingVariables,
         upvoteReview: upvoteReview,
-        exportReviewToHtml: exportReviewToHtml
+        exportReviewToHtml: exportReviewToHtml,
+        truncateReviews: truncateReviews
     }
 };
 

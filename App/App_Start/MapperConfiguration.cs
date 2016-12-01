@@ -29,6 +29,7 @@
                 cfg.CreateMap<BlogArticle, BlogArticleViewModel>();
                 cfg.CreateMap<TableRowViewModel, BeachRowViewModel>();
                 cfg.CreateMap<TableRowViewModel, ReviewRowViewModel>();
+                cfg.CreateMap<Review, CriteriaViewModel>();
                 cfg.CreateMap<EditReviewViewModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
                 cfg.CreateMap<User, TableUserReviewsViewModel>().ForMember(vm => vm.AuthorName, model => model.MapFrom(m => m.UserName));
@@ -135,7 +136,8 @@
                     .ForMember(vm => vm.Level, model => model.MapFrom(m => m.Author.Level))
                     .ForMember(vm => vm.IsBlogger, model => model.MapFrom(m => m.Author.IsBlogger))
                     .ForMember(vm => vm.BlogUrl, model => model.MapFrom(m => m.Author.Blog.Url))
-                    .ForMember(vm => vm.BlogArticles, model => model.MapFrom(m => m.BlogArticles));
+                    .ForMember(vm => vm.BlogArticles, model => model.MapFrom(m => m.BlogArticles))
+                    .ForMember(vm => vm.Criteria, model => model.MapFrom(m => m));
                 cfg.CreateMap<Review, ExportScoresAsHtmlViewModel>()
                     .ForMember(vm => vm.Name, model => model.MapFrom(m => m.Beach.Name))
                     .ForMember(vm => vm.CountryId, model => model.MapFrom(m => m.Beach.Country.Id))

@@ -34,15 +34,6 @@
             return this.View(model);
         }
 
-        [HttpGet]
-        public PartialViewResult DetailsPartial(int id)
-        {
-            var review = this.Data.Reviews.Find(id);
-            var model = Mapper.Map<Review, DetailedReviewViewModel>(review);            
-
-            return this.PartialView(model);
-        }
-
         [Authorize]
         [HttpGet]
         public ActionResult Post(int id)

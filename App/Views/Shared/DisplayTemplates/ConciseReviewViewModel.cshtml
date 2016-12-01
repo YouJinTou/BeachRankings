@@ -29,7 +29,10 @@
     </div>
     <div class="col-md-10">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="table-responsive col-xs-10">
+                @Html.DisplayFor(Model => Model.Criteria)
+            </div>  
+            <div class="col-xs-2">
                 <div class="review-upvotes pull-left col-xs-2">
                     <h4 class="text-left">
                         <i>+ @Model.Upvotes</i>
@@ -41,7 +44,7 @@
             </div>         
         </div>
         <div class="row">
-            <div class="col-xs-11">
+            <div class="col-xs-11">               
                 <p class="review-content text-justify">@Model.Content</p>   
                 @{
                     if (Model.IsBlogger)
@@ -78,8 +81,4 @@
             </div>            
         </div>   
     </div>
-    <div class="col-xs-10">       
-        <span data-review-id="@Model.Id" title="More information" class="a-like-span review-expand glyphicon glyphicon-chevron-down text-right"></span>
-    </div>
-    <div class="row review-details"></div>
 </div>

@@ -428,7 +428,6 @@
     <Content Include="Views\User\ChangeAvatar.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BlogArticleViewModel.cshtml" />
     <Content Include="Views\Shared\_ExportScoresHtml.cshtml" />
-    <Content Include="Views\Reviews\DetailsPartial.cshtml" />
     <Content Include="Views\Contributors\Top.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ContributorViewModel.cshtml" />
     <Content Include="Views\Beaches\Best.cshtml" />
@@ -436,6 +435,7 @@
     <Content Include="Views\Admin\Restructure.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ReviewRowViewModel.cshtml" />
     <Content Include="Views\Shared\_BeachHeadPartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CriteriaViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

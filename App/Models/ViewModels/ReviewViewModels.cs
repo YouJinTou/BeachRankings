@@ -37,6 +37,8 @@
         public int Upvotes { get; set; }
 
         public bool AlreadyUpvoted { get; set; }
+
+        public CriteriaViewModel Criteria { get; set; }
     }
 
     public class DetailedReviewViewModel : CriteriaBaseModel

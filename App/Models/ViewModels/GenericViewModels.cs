@@ -78,4 +78,8 @@
 
         public double? TotalScore { get; set; }
     }
+
+    public class CriteriaViewModel : CriteriaBaseModel
+    {
+    }
 }
