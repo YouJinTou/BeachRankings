@@ -1,8 +1,10 @@
 ﻿using App.Controllers.Enums;
 using BeachRankings.App.Models.ViewModels;
+using BeachRankings.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -32,9 +34,9 @@ namespace App.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -60,14 +62,18 @@ namespace App.Controllers
                 : message == ActionMessage.Error ? "An error has occurred. Please try again."
                 : "";
 
+            var beachesDbContext = new BeachRankingsDbContext();
             var userId = User.Identity.GetUserId();
+            var user = beachesDbContext.Users.Include(u => u.Blog).FirstOrDefault(u => u.Id == userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                IsBlogger = user.IsBlogger,
+                BlogUrl = user.Blog.Url
             };
 
             return this.View(model);
@@ -329,7 +335,7 @@ namespace App.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -369,6 +375,6 @@ namespace App.Controllers
             return false;
         }
 
-#endregion
+        #endregion
     }
 }

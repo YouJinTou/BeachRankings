@@ -117,7 +117,7 @@
         public bool UserHasRated { get; set; }
     }
 
-    public class DetailedBeachViewModel : CriteriaBaseModel
+    public class DetailedBeachViewModel
     {
         public int Id { get; set; }
 
@@ -161,7 +161,9 @@
 
         public IEnumerable<BlogArticleViewModel> BlogArticles { get; set; }
 
-        public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }        
+        public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }
+
+        public CriteriaViewModel Criteria { get; set; }
     }
 
     public class AutocompleteBeachViewModel : AutocompleteBaseViewModel

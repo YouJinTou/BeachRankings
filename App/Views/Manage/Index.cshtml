@@ -16,6 +16,19 @@
             <dd class="text-left">
                 <a data-index="password">Change</a>
             </dd>
+            <dt>I blog about beaches</dt>
+            <dd class="text-left">
+                @Html.CheckBoxFor(m => m.IsBlogger, new { id = "checkbox-blogger" })
+                <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                <div class="custom-popup custom-canvas" style="display: none;">
+                    We will put a link to your blog in every review you leave.
+                </div>
+                <div id="blog" class="form-group display-none">
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(m => m.BlogUrl, new { @class = "form-control form-control-extended custom-focus-black", @placeholder = "For example, http://www.myblog.com/" })
+                    </div>
+                </div>  
+            </dd>
         </dl>
     </div>
 </div>

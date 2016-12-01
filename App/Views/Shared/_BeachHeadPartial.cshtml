@@ -59,21 +59,7 @@
         </div>
         <div class="col-xs-4">
             <div class="text-left">
-                <div>Sand: @Html.ParseNullableValue(@Model.SandQuality, "-")</div>
-                <div>Beach cleanliness: @Html.ParseNullableValue(@Model.BeachCleanliness, "-")</div>
-                <div>Scenery: @Html.ParseNullableValue(@Model.BeautifulScenery, "-")</div>
-                <div>Crowd-free: @Html.ParseNullableValue(@Model.CrowdFree, "-")</div>
-                <div>Infrastructure: @Html.ParseNullableValue(@Model.Infrastructure, "-")</div>
-                <div>Water purity: @Html.ParseNullableValue(@Model.WaterPurity, "-")</div>
-                <div>Waste-free seabed: @Html.ParseNullableValue(@Model.WasteFreeSeabed, "-")</div>
-                <div>Feet-friendly bottom: @Html.ParseNullableValue(@Model.FeetFriendlyBottom, "-")</div>
-                <div>Sea life diversity: @Html.ParseNullableValue(@Model.SeaLifeDiversity, "-")</div>
-                <div>Coral reef: @Html.ParseNullableValue(@Model.CoralReef, "-")</div>
-                <div>Snorkeling: @Html.ParseNullableValue(@Model.Snorkeling, "-")</div>
-                <div>Kayaking: @Html.ParseNullableValue(@Model.Kayaking, "-")</div>
-                <div>Good for a walk: @Html.ParseNullableValue(@Model.Walking, "-")</div>
-                <div>Camping: @Html.ParseNullableValue(@Model.Camping, "-")</div>
-                <div>Long-term stay: @Html.ParseNullableValue(@Model.LongTermStay, "-")</div>
+                @Html.Partial("_BeachCriteria", Model.Criteria)
             </div>
             <div class="row">
                 @{

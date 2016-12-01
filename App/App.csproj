@@ -436,6 +436,7 @@
     <Content Include="Views\Shared\DisplayTemplates\ReviewRowViewModel.cshtml" />
     <Content Include="Views\Shared\_BeachHeadPartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CriteriaViewModel.cshtml" />
+    <Content Include="Views\Beaches\_BeachCriteria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

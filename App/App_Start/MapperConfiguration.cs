@@ -29,6 +29,7 @@
                 cfg.CreateMap<BlogArticle, BlogArticleViewModel>();
                 cfg.CreateMap<TableRowViewModel, BeachRowViewModel>();
                 cfg.CreateMap<TableRowViewModel, ReviewRowViewModel>();
+                cfg.CreateMap<Beach, CriteriaViewModel>();
                 cfg.CreateMap<Review, CriteriaViewModel>();
                 cfg.CreateMap<EditReviewViewModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
@@ -50,7 +51,8 @@
                     .ForMember(vm => vm.SecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name))
                     .ForMember(vm => vm.TertiaryDivision, model => model.MapFrom(m => m.TertiaryDivision.Name))
                     .ForMember(vm => vm.QuaternaryDivision, model => model.MapFrom(m => m.QuaternaryDivision.Name))
-                    .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name));
+                    .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name))
+                    .ForMember(vm => vm.Criteria, model => model.MapFrom(m => m));
                 cfg.CreateMap<Beach, PostReviewViewModel>()
                     .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Id))
                     .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
