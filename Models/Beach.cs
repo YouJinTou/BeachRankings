@@ -122,6 +122,9 @@
         [Display(Name = "Crowd-free")]
         public double? CrowdFree { get; private set; }
 
+        [Display(Name = "Environment-friendly infrastructure")]
+        public double? Infrastructure { get; private set; }
+
         #endregion
 
         #region Water
@@ -145,24 +148,17 @@
 
         #region Activities
 
-        [Display(Name = "Taking a walk")]
-        public double? Walking { get; private set; }
-
         [Display(Name = "Snorkeling")]
         public double? Snorkeling { get; private set; }
 
         [Display(Name = "Kayaking")]
         public double? Kayaking { get; private set; }
 
+        [Display(Name = "Taking a walk")]
+        public double? Walking { get; private set; }
+
         [Display(Name = "Camping")]
         public double? Camping { get; private set; }
-
-        #endregion
-
-        #region Tourist Infrastructure
-
-        [Display(Name = "Environment-friendly infrastructure")]
-        public double? Infrastructure { get; private set; }
 
         [Display(Name = "Long-term stay")]
         public double? LongTermStay { get; private set; }
@@ -192,6 +188,7 @@
             this.BeachCleanliness = this.RoundScore(this.Reviews.Average(r => r.BeachCleanliness));
             this.BeautifulScenery = this.RoundScore(this.Reviews.Average(r => r.BeautifulScenery));
             this.CrowdFree = this.RoundScore(this.Reviews.Average(r => r.CrowdFree));
+            this.Infrastructure = this.RoundScore(this.Reviews.Average(r => r.Infrastructure));
 
             this.WaterPurity = this.RoundScore(this.Reviews.Average(r => r.WaterPurity));
             this.WasteFreeSeabed = this.RoundScore(this.Reviews.Average(r => r.WasteFreeSeabed));
@@ -199,12 +196,10 @@
             this.SeaLifeDiversity = this.RoundScore(this.Reviews.Average(r => r.SeaLifeDiversity));
             this.CoralReef = this.RoundScore(this.Reviews.Average(r => r.CoralReef));
 
-            this.Walking = this.RoundScore(this.Reviews.Average(r => r.Walking));
             this.Snorkeling = this.RoundScore(this.Reviews.Average(r => r.Snorkeling));
             this.Kayaking = this.RoundScore(this.Reviews.Average(r => r.Kayaking));
+            this.Walking = this.RoundScore(this.Reviews.Average(r => r.Walking));
             this.Camping = this.RoundScore(this.Reviews.Average(r => r.Camping));
-
-            this.Infrastructure = this.RoundScore(this.Reviews.Average(r => r.Infrastructure));
             this.LongTermStay = this.RoundScore(this.Reviews.Average(r => r.LongTermStay));
 
             this.TotalScore = this.RoundScore(this.Reviews.Average(r => r.TotalScore));

@@ -278,16 +278,16 @@
             viewModel.BeachCleanliness = bindingModel.BeachCleanliness;
             viewModel.BeautifulScenery = bindingModel.BeautifulScenery;
             viewModel.CrowdFree = bindingModel.CrowdFree;
+            viewModel.Infrastructure = bindingModel.Infrastructure;
             viewModel.WaterPurity = bindingModel.WaterPurity;
             viewModel.WasteFreeSeabed = bindingModel.WasteFreeSeabed;
             viewModel.FeetFriendlyBottom = bindingModel.FeetFriendlyBottom;
             viewModel.SeaLifeDiversity = bindingModel.SeaLifeDiversity;
             viewModel.CoralReef = bindingModel.CoralReef;
-            viewModel.Walking = bindingModel.Walking;
             viewModel.Snorkeling = bindingModel.Snorkeling;
             viewModel.Kayaking = bindingModel.Kayaking;
+            viewModel.Walking = bindingModel.Walking;
             viewModel.Camping = bindingModel.Camping;
-            viewModel.Infrastructure = bindingModel.Infrastructure;
             viewModel.LongTermStay = bindingModel.LongTermStay;
         }
 

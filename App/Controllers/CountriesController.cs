@@ -119,7 +119,7 @@
                 {
                     if (!this.CanEditWaterBody(country))
                     {
-                        throw new InvalidOperationException("Can't assign a water body; the water body is assigned at a different level.");
+                        throw new InvalidOperationException("Cannnot assign a water body; the water body is assigned at a different level.");
                     }
 
                     var oldWaterBody = this.Data.WaterBodies.Find(country.WaterBodyId);

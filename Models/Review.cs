@@ -21,16 +21,16 @@
             double? beachCleanliness,
             double? beautifulScenery,
             double? crowdFree,
+            double? infrastructure,
             double? waterPurity,
             double? wasteFreeSeabed,
             double? feetFriendlyBottom,
             double? seaLifeDiversity,
             double? coralReef,
-            double? walking,
             double? snorkeling,
             double? kayaking,
+            double? walking,
             double? camping,
-            double? infrastructure,
             double? longTermStay
             )
         {
@@ -42,6 +42,7 @@
             this.BeachCleanliness = beachCleanliness;
             this.BeautifulScenery = beautifulScenery;
             this.CrowdFree = crowdFree;
+            this.Infrastructure = infrastructure;
 
             this.WaterPurity = waterPurity;
             this.WasteFreeSeabed = wasteFreeSeabed;
@@ -49,12 +50,10 @@
             this.SeaLifeDiversity = seaLifeDiversity;
             this.CoralReef = coralReef;
 
-            this.Walking = walking;
             this.Snorkeling = snorkeling;
             this.Kayaking = kayaking;
+            this.Walking = walking;
             this.Camping = camping;
-
-            this.Infrastructure = infrastructure;
             this.LongTermStay = longTermStay;
 
             this.UpdateTotalScore();
@@ -113,6 +112,9 @@
         [Display(Name = "Crowd-free")]
         public double? CrowdFree { get; private set; }
 
+        [Display(Name = "Environment-friendly infrastructure")]
+        public double? Infrastructure { get; private set; }
+
         #endregion
 
         #region Water
@@ -136,24 +138,17 @@
 
         #region Activities
 
-        [Display(Name = "Taking a walk")]
-        public double? Walking { get; private set; }
-
         [Display(Name = "Snorkeling")]
         public double? Snorkeling { get; private set; }
 
         [Display(Name = "Kayaking")]
         public double? Kayaking { get; private set; }
 
+        [Display(Name = "Taking a walk")]
+        public double? Walking { get; private set; }
+
         [Display(Name = "Camping")]
         public double? Camping { get; private set; }
-
-        #endregion
-
-        #region Tourist Infrastructure
-
-        [Display(Name = "Environment-friendly infrastructure")]
-        public double? Infrastructure { get; private set; }
 
         [Display(Name = "Long-term stay")]
         public double? LongTermStay { get; private set; }
@@ -177,6 +172,9 @@
             score += (this.CrowdFree ?? 0);
             nullCount += ((this.CrowdFree == null) ? 1 : 0);
 
+            score += (this.Infrastructure ?? 0);
+            nullCount += ((this.Infrastructure == null) ? 1 : 0);
+
             score += (this.WaterPurity ?? 0);
             nullCount += ((this.WaterPurity == null) ? 1 : 0);
 
@@ -192,20 +190,17 @@
             score += (this.CoralReef ?? 0);
             nullCount += ((this.CoralReef == null) ? 1 : 0);
 
-            score += (this.Walking ?? 0);
-            nullCount += ((this.Walking == null) ? 1 : 0);
-
             score += (this.Snorkeling ?? 0);
             nullCount += ((this.Snorkeling == null) ? 1 : 0);
-
+            
             score += (this.Kayaking ?? 0);
             nullCount += ((this.Kayaking == null) ? 1 : 0);
 
-            score += (this.Camping ?? 0);
-            nullCount += ((this.Camping == null) ? 1 : 0);          
+            score += (this.Walking ?? 0);
+            nullCount += ((this.Walking == null) ? 1 : 0);
 
-            score += (this.Infrastructure ?? 0);
-            nullCount += ((this.Infrastructure == null) ? 1 : 0);
+            score += (this.Camping ?? 0);
+            nullCount += ((this.Camping == null) ? 1 : 0);
 
             score += (this.LongTermStay ?? 0);
             nullCount += ((this.LongTermStay == null) ? 1 : 0);

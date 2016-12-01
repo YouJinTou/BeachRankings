@@ -60,7 +60,7 @@
 
     <tbody>
         <tr style="background-color: #f9d054;">
-            <td rowspan="4" style="text-align: center; padding: 0px 5px 0 5px; border-right: 2px solid #ddd;"><b>Beach</b></td>
+            <td rowspan="5" style="text-align: center; padding: 0px 5px 0 5px; border-right: 2px solid #ddd;"><b>Beach</b></td>
             <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">Sand quality</td>
             <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.SandQuality, "-")</td>
         </tr>
@@ -75,6 +75,10 @@
         <tr style="background-color: #f9d054;">
             <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">Crowd-free</td>
             <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.CrowdFree, "-")</td>
+        </tr>
+        <tr style="background-color: #f9d054">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">Environment-friendly infrastructure</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Infrastructure, "-")</td>
         </tr>
 
         <tr style="background-color: #5dbcf7;">
@@ -100,11 +104,7 @@
         </tr>
 
         <tr style="background-color: #6bff6b;">
-            <td rowspan="4" style="text-align: center; border-right: 2px solid #ddd;"><b>Activities</b></td>
-            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">Taking a walk</td>
-            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Walking, "-")</td>
-        </tr>
-        <tr style="background-color: #6bff6b;">
+            <td rowspan="5" style="text-align: center; border-right: 2px solid #ddd;"><b>Activities</b></td>
             <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">Snorkeling</td>
             <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Snorkeling, "-")</td>
         </tr>
@@ -113,16 +113,14 @@
             <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Kayaking, "-")</td>
         </tr>
         <tr style="background-color: #6bff6b;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">Taking a walk</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Walking, "-")</td>
+        </tr>
+        <tr style="background-color: #6bff6b;">
             <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">Camping</td>
             <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Camping, "-")</td>
         </tr>
-
-        <tr style="background-color: #ff6341">
-            <td rowspan="2" style="text-align: center; padding: 0px 5px 0 5px; border-right: 2px solid #ddd;"><b>Infrastructure</b></td>
-            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">Environment-friendly infrastructure</td>
-            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Infrastructure, "-")</td>
-        </tr>
-        <tr style="background-color: #ff6341">
+        <tr style="background-color: #6bff6b">
             <td style="padding-left: 5px;">Long-term stay</td>
             <td style="text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.LongTermStay, "-")</td>
         </tr>

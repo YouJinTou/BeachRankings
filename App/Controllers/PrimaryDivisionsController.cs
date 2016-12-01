@@ -90,7 +90,7 @@
                    
                 if (waterBodyIdHasValue && !this.CanAddEditWaterBody(primaryDivision, true))
                 {
-                    throw new InvalidOperationException("Can't assign a water body; the water body is assigned at a different level.");
+                    throw new InvalidOperationException("Cannnot assign a water body; the water body is assigned at a different level.");
                 }
 
                 if (!waterBodyIdHasValue)
@@ -141,7 +141,7 @@
                 {
                     if (!this.CanAddEditWaterBody(primaryDivision, false))
                     {
-                        throw new InvalidOperationException("Can't assign a water body; the water body is assigned at a different level.");
+                        throw new InvalidOperationException("Cannnot assign a water body; the water body is assigned at a different level.");
                     }
 
                     var oldWaterBody = this.Data.WaterBodies.Find(primaryDivision.WaterBodyId);

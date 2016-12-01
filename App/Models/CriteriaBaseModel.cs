@@ -18,6 +18,9 @@
         [Display(Name = "Crowd-free")]
         public double? CrowdFree { get; set; }
 
+        [Display(Name = "Environment-friendly infrastructure")]
+        public double? Infrastructure { get; set; }
+
         #endregion
 
         #region Water
@@ -41,28 +44,21 @@
 
         #region Activities
 
-        [Display(Name = "Taking a walk")]
-        public double? Walking { get; set; }
-
         [Display(Name = "Snorkeling")]
         public double? Snorkeling { get; set; }
 
         [Display(Name = "Kayaking")]
         public double? Kayaking { get; set; }
 
+        [Display(Name = "Taking a walk")]
+        public double? Walking { get; set; }
+
         [Display(Name = "Camping")]
         public double? Camping { get; set; }
-
-        #endregion
-
-        #region Tourist Infrastructure
-
-        [Display(Name = "Environment-friendly infrastructure")]
-        public double? Infrastructure { get; set; }
 
         [Display(Name = "Long-term stay")]
         public double? LongTermStay { get; set; }
 
-        #endregion        
+        #endregion      
     }
 }

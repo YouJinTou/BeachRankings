@@ -101,6 +101,15 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
+                                            <div class="col-sm-9">
+                                                <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.Infrastructure</div></div>
+                                                <div class="criterion-progress-bar col-xs-10 col-no-padding">
+                                                    <span id="infrastructure-meter"></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!--End Beach-->
                                         <!--Sea-->
                                         <div class="form-group row">
@@ -151,15 +160,6 @@
                                         <!--End Sea-->
                                         <!--Activities-->
                                         <div class="form-group row">
-                                            @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
-                                            <div class="col-sm-9">
-                                                <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.Walking</div></div>
-                                                <div class="criterion-progress-bar col-xs-10 col-no-padding">
-                                                    <span id="walking-meter"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
                                             @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
                                             <div class="col-sm-9">
                                                 <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.Snorkeling</div></div>
@@ -178,6 +178,15 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
+                                            @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
+                                            <div class="col-sm-9">
+                                                <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.Walking</div></div>
+                                                <div class="criterion-progress-bar col-xs-10 col-no-padding">
+                                                    <span id="walking-meter"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
                                             <div class="col-sm-9">
                                                 <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.Camping</div></div>
@@ -186,18 +195,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--End Activities-->
-                                        <!--Infrastructure-->
-                                        <div class="form-group row">
-                                            @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
-                                            <div class="col-sm-9">
-                                                <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.Infrastructure</div></div>
-                                                <div class="criterion-progress-bar col-xs-10 col-no-padding">
-                                                    <span id="infrastructure-meter"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <div class="form-group row">
                                             @Html.LabelFor(model => model.LongTermStay, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
                                             <div class="col-sm-9">
@@ -207,7 +204,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--End Infrastructure-->
+                                        <!--End Activities-->
                                     </div>
                                 </div>
                             }
@@ -232,9 +229,9 @@
                                     <div>
                                         <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
                                     </div>
-                                        <div>
-                                            <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
-                                        </div>
+                                    <div>
+                                        <a class="control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
+                                    </div>
                                 }
                             }
                         </div>
