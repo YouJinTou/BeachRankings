@@ -337,6 +337,7 @@
     <Content Include="Scripts\Internal\beach-details.js" />
     <Content Include="Scripts\Internal\account.js" />
     <Content Include="Scripts\Internal\datatables-manager.js" />
+    <Content Include="Scripts\Internal\site.js" />
     <Content Include="Scripts\Internal\infinite-scroller.js" />
     <Content Include="Scripts\Internal\contributors.js" />
     <Content Include="Scripts\Internal\review-details.js" />

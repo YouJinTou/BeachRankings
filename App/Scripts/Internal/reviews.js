@@ -53,10 +53,6 @@
         mobileFirst: true
     });
 
-    $('.info-icon').on('mouseenter mouseleave', function () {
-        $(this).parent().siblings('.custom-popup').toggle();
-    });
-
     function tryLoadExistingArticleLinks() {
         if ($('#hdn-article-links').val().length === 0) {
             return;

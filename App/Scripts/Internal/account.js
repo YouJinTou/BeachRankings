@@ -1,16 +1,16 @@
 ﻿(function ($) {
-    var $blog = $('#blog');
+    var $blog = $('#register-blog');
 
     showBlogsTextBoxOnModelErrors();
 
-    $('#checkbox-blogger').on('click', function () {
+    $('#register-container').on('click', '#checkbox-blogger', function () {
         $blog.toggle(200);
     });
 
-    $('#btn-submit').on('click', function (event) {
+    $('#register-container').on('click', '#btn-submit', function (event) {
         event.preventDefault();
 
-        var noBlog = $blog.is(':visible') && $('#blog input').val().trim().length === 0;
+        var noBlog = $blog.is(':visible') && $('#register-blog input').val().trim().length === 0;
 
         if (noBlog) {
             if (anyTextBoxEmpty()) { // Show validation errors
@@ -24,10 +24,6 @@
         } else {
             $('#register-form').submit();
         }
-    });
-
-    $('.info-icon').on('mouseenter mouseleave', function () {
-        $(this).parent().siblings('.custom-popup').toggle();
     });
 
     function showBlogsTextBoxOnModelErrors() {

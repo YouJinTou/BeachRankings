@@ -11,6 +11,7 @@
         ChangeAvatarSuccess,
         DeleteAvatarSuccess,
         UploadAvatarError,
+        BlogUrlInvalid,
         Error
     }
 }

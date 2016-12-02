@@ -7,7 +7,7 @@
 
     public class BasePlacesController : BaseController
     {
-        public BasePlacesController(IBeachRankingsData data)
+        protected BasePlacesController(IBeachRankingsData data)
             : base(data)
         {
         }

@@ -1,5 +1,4 @@
 ﻿(function ($) {
-    var dragdealersManager = new DragdealersManager();
     var expansionInProgress = false;
 
     hideEmptyAsideElements();
@@ -28,7 +27,11 @@
     });
 
     $('#delete-beach-span').on('click', function () {
-        $('#delete-beach-form').submit();
+        var toDelete = confirm("Are you sure you want to delete this beach?");
+
+        if (toDelete) {
+            $('#delete-beach-form').submit();
+        }
     });
 
     function hideEmptyAsideElements() {

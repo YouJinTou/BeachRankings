@@ -47,10 +47,10 @@
             <div class="col-xs-11">               
                 <p class="review-content text-justify">@Model.Content</p>   
                 @{
-                    if (Model.IsBlogger)
+                    if (Model.IsBlogger && Model.BlogArticles.Count() > 0)
                     {
                         <p class="text-left">
-                            Read more about it on my blog: @Html.DisplayFor(model => model.BlogArticles)
+                            <i>Read more about it on my blog</i>: @Html.DisplayFor(model => model.BlogArticles)
                         </p>
                     }
                 }             

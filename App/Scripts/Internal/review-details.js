@@ -12,10 +12,6 @@
         mobileFirst: true
     });
 
-    $('.info-icon').on('mouseenter mouseleave', function () {
-        $(this).parent().siblings('.custom-popup').toggle();
-    });
-
     $('.icon-upvote').on('click', function () {
         reviewsHelper.upvoteReview($(this));
     });

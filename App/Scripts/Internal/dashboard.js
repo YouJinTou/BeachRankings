@@ -31,6 +31,8 @@
     }
 
     function setSettingsEvents() {
+        setBlogEvents();
+
         $('.settings-container').on('click', '[data-index]', function () {
             var $this = $(this);
             var actionType = $this.data('index');
@@ -73,6 +75,57 @@
                 }
             });
         });
+
+        function setBlogEvents() {
+            var $blog = $('#settings-blog');
+            var $btnSaveBlog = $('#btn-save-blog');
+            var $checkBox = $('#settings-checkbox-blogger');
+            var $blogUrl = $('#txt-settings-blog-url');
+            var changed = false;
+
+            if ($checkBox.is(':checked')) {
+                $blog.show();
+                $blogUrl.show();
+            }
+
+            $checkBox.on('click', function () {
+                $blog.toggle(200);
+
+                if (!changed) {
+                    $btnSaveBlog.toggle();
+                }
+            });
+
+            $blogUrl.on('keyup', function () {
+                if (!$btnSaveBlog.is(':visible')) {
+                    changed = true;
+
+                    $btnSaveBlog.show();
+                }
+            });
+
+            $('.settings-container').on('click', '#btn-save-blog', function (event) {
+                event.preventDefault();
+
+                var shouldSubmit = true;
+                var noBlog = $blog.is(':visible') && $('#settings-blog input').val().trim().length === 0;
+                var deletingBlog = !$checkBox.is(':checked');
+
+                if (noBlog) {
+                    var valSummary = $('[data-valmsg-summary] ul');
+                    shouldSubmit = false;
+
+                    valSummary.find('li').remove('.blog-val');
+                    valSummary.append('<li class="blog-val">The blog field is required.</li>');
+                } else if (deletingBlog) {
+                    shouldSubmit = confirm("Are you sure you want to remove your blog and all the links you've posted?");
+                }
+
+                if (shouldSubmit) {
+                    $('#manage-blog-form').submit();
+                }
+            });
+        }        
     }
 
     function setInfiniteScrolling(url) {

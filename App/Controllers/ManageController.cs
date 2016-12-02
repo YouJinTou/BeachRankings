@@ -1,64 +1,35 @@
-﻿using App.Controllers.Enums;
-using BeachRankings.App.Models.ViewModels;
-using BeachRankings.Data;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-
-namespace App.Controllers
+﻿namespace App.Controllers
 {
+    using App.Controllers.Enums;
+    using BeachRankings.App.Models.ViewModels;
+    using BeachRankings.App.Utils;
+    using BeachRankings.Data;
+    using BeachRankings.Data.UnitOfWork;
+    using BeachRankings.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.Owin.Security;
+    using System.Data.Entity;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-
-        public ManageController()
+        public ManageController(IBeachRankingsData data)
+            : base(data)
         {
-        }
-
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
         }
 
         public async Task<ActionResult> Index(ActionMessage? message)
         {
-            ViewBag.StatusMessage =
+            this.ViewBag.StatusMessage =
                 message == ActionMessage.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ActionMessage.ChangeAvatarSuccess ? "Your avatar has been changed."
                 : message == ActionMessage.DeleteAvatarSuccess ? "Your avatar has been deleted."
                 : message == ActionMessage.UploadAvatarError ? "Failed to upload avatar. Verify its size, dimensions, and format."
+                : message == ActionMessage.BlogUrlInvalid ? "We couldn't process the blog URL provided."
                 : message == ActionMessage.Error ? "An error has occurred. Please try again."
                 : "";
 
@@ -73,14 +44,53 @@ namespace App.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
                 IsBlogger = user.IsBlogger,
-                BlogUrl = user.Blog.Url
+                BlogUrl = user.IsBlogger ? user.Blog.Url : string.Empty
             };
 
             return this.View(model);
         }
 
-        //
-        // POST: /Manage/RemoveLogin
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Blog(IndexViewModel model)
+        {
+            this.ValidateBlogger(model);
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Index", new { Message = ActionMessage.BlogUrlInvalid });
+            }
+
+            var blog = this.UserProfile.Blog;
+            this.UserProfile.IsBlogger = model.IsBlogger;
+                        
+            if (model.IsBlogger)
+            {
+                if (blog == null)
+                {
+                    blog = new Blog() { Id = this.UserProfile.Id };
+
+                    this.Data.Blogs.Add(blog);
+                }
+
+                blog.Url = GenericHelper.GetUriHostName(model.BlogUrl);
+            }
+            else
+            {
+                if (blog != null)
+                {
+                    var articles = this.Data.BlogArticles.All().Where(ba => ba.BlogId == blog.Id).ToList();
+
+                    this.Data.BlogArticles.RemoveMany(articles);
+                    this.Data.Blogs.Remove(blog);
+                }
+            }
+
+            this.Data.SaveChanges();
+
+            return this.RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
@@ -103,15 +113,11 @@ namespace App.Controllers
             return this.RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        //
-        // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
             return this.View();
         }
 
-        //
-        // POST: /Manage/AddPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
@@ -134,8 +140,6 @@ namespace App.Controllers
             return this.RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
-        //
-        // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
@@ -149,8 +153,6 @@ namespace App.Controllers
             return this.RedirectToAction("Index", "Manage");
         }
 
-        //
-        // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
@@ -164,8 +166,6 @@ namespace App.Controllers
             return this.RedirectToAction("Index", "Manage");
         }
 
-        //
-        // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
@@ -173,8 +173,6 @@ namespace App.Controllers
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
-        //
-        // POST: /Manage/VerifyPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
@@ -193,13 +191,12 @@ namespace App.Controllers
                 }
                 return this.RedirectToAction("Index", new { Message = ActionMessage.AddPhoneSuccess });
             }
-            // If we got this far, something failed, redisplay form
+
             ModelState.AddModelError("", "Failed to verify phone");
+
             return this.View(model);
         }
 
-        //
-        // GET: /Manage/RemovePhoneNumber
         public async Task<ActionResult> RemovePhoneNumber()
         {
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
@@ -215,15 +212,11 @@ namespace App.Controllers
             return this.RedirectToAction("Index", new { Message = ActionMessage.RemovePhoneSuccess });
         }
 
-        //
-        // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
             return this.View();
         }
 
-        //
-        // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
@@ -246,15 +239,11 @@ namespace App.Controllers
             return this.View(model);
         }
 
-        //
-        // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
             return this.View();
         }
 
-        //
-        // POST: /Manage/SetPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
@@ -274,12 +263,9 @@ namespace App.Controllers
                 AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
-            return this.View(model);
+            return this.View(model); // Error
         }
 
-        //
-        // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ActionMessage? message)
         {
             ViewBag.StatusMessage =
@@ -301,8 +287,6 @@ namespace App.Controllers
             });
         }
 
-        //
-        // POST: /Manage/LinkLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
@@ -311,8 +295,6 @@ namespace App.Controllers
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
-        //
-        // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
@@ -326,16 +308,17 @@ namespace App.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _userManager != null)
+            if (disposing && this.userManager != null)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                this.userManager.Dispose();
+                this.userManager = null;
             }
 
             base.Dispose(disposing);
         }
 
         #region Helpers
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -373,6 +356,16 @@ namespace App.Controllers
                 return user.PhoneNumber != null;
             }
             return false;
+        }
+
+        private void ValidateBlogger(IndexViewModel model)
+        {
+            var bloggerWithoutSite = (model.IsBlogger && string.IsNullOrEmpty(model.BlogUrl));
+
+            if (bloggerWithoutSite)
+            {
+                this.ModelState.AddModelError(string.Empty, "A blog URL is required.");
+            }
         }
 
         #endregion

@@ -21,11 +21,7 @@
     {
         @section Scripts {
             @Scripts.Render("~/Content/External/slick/slick.min.js")
-            @Scripts.Render("~/Scripts/External/rainbowvis.js")
-            @Scripts.Render("~/Scripts/External/dragdealer.js")
-            @Scripts.Render("~/Scripts/Internal/dragdealers-manager.js")
             @Scripts.Render("~/Scripts/Internal/beach-details.js")
-            @Scripts.Render("~/Scripts/Internal/reviews.js")
         }
 
         @section BeachStyles{
@@ -33,7 +29,6 @@
             @Styles.Render("~/Content/Internal/reviews.css")
             @Styles.Render("~/Content/External/slick/slick.css")
             @Styles.Render("~/Content/External/slick/slick-theme.css")
-            @Styles.Render("~/Content/External/dragdealer.css")
         }
     }
     else
@@ -44,10 +39,6 @@
         @Styles.Render("~/Content/External/slick/slick-theme.css")
 
         @Scripts.Render("~/Content/External/slick/slick.min.js")
-        @Scripts.Render("~/Scripts/External/dragdealer.js")
-        @Scripts.Render("~/Scripts/External/rainbowvis.js")
-        @Scripts.Render("~/Scripts/Internal/dragdealers-manager.js")
-        @Scripts.Render("~/Scripts/Internal/reviews.js")
         @Scripts.Render("~/Scripts/Internal/beach-details.js")
     }
 }

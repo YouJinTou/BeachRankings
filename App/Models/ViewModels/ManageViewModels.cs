@@ -1,5 +1,6 @@
 ﻿namespace BeachRankings.App.Models.ViewModels
 {
+    using BeachRankings.App.CustomAttributes;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Microsoft.AspNet.Identity;
@@ -19,6 +20,7 @@
 
         public bool IsBlogger { get; set; }
 
+        [UrisValid(ErrorMessage = "We couldn't process the link provided.")]
         public string BlogUrl { get; set; }
     }
 
