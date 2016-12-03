@@ -31,7 +31,7 @@
                 cfg.CreateMap<TableRowViewModel, ReviewRowViewModel>();
                 cfg.CreateMap<Beach, CriteriaViewModel>();
                 cfg.CreateMap<Review, CriteriaViewModel>();
-                cfg.CreateMap<EditReviewViewModel, Review>().AfterMap((vm, model) => model.UpdateTotalScore());
+                cfg.CreateMap<EditReviewViewModel, Review>().AfterMap((vm, model) => model.UpdateScores());
                 cfg.CreateMap<AddBeachViewModel, Beach>().ForMember(vm => vm.Images, model => model.Ignore());
                 cfg.CreateMap<User, TableUserReviewsViewModel>().ForMember(vm => vm.AuthorName, model => model.MapFrom(m => m.UserName));
                 cfg.CreateMap<User, ContributorViewModel>()

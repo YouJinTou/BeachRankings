@@ -1,31 +1,41 @@
 ﻿@using Microsoft.AspNet.Identity
+@using System.Security.Claims
 
 @if (Request.IsAuthenticated)
 {
+    var avatar = ((ClaimsIdentity)User.Identity).FindFirst("Avatar");
+    var level = ((ClaimsIdentity)User.Identity).FindFirst("Level");
+    var pointsToNext = ((ClaimsIdentity)User.Identity).FindFirst("PointsToNext");
+
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
-    
-    <ul class="nav navbar-nav navbar-right">
-        <li id="user-dashboard-dropdown" class="dropdown">
-            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="caret"></span>
-                @User.Identity.GetUserName()
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dashboard-link">Statistics</a></li>
-                <li><a class="dashboard-link">Images</a></li>
-                <li><a class="dashboard-link">Settings</a></li>
-                @{
-                    if (this.User.Identity.CanRestructure(this.User.Identity.GetUserId()))
-                    {
-                        <li><a href="/Admin/Restructure/">Restructure</a></li>
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <div class="img-container"><img src="@avatar.Value" class="img-circle img-responsive" /></div>
+                <div>Level @level.Value</div>
+                <div>@pointsToNext.Value</div>
+            </li>  
+            <li id="user-dashboard-dropdown" class="dropdown">                              
+                <a href="#" id="dashboard-dropdown-trigger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @User.Identity.GetUserName()
+                    <span class="caret"></span>
+                </a>
+                <ul id="dashboard-dropdown" class="dropdown-menu">
+                    <li><a class="dashboard-link">Statistics</a></li>
+                    <li><a class="dashboard-link">Images</a></li>
+                    <li><a class="dashboard-link">Settings</a></li>
+                    @{
+                        if (this.User.Identity.CanRestructure(this.User.Identity.GetUserId()))
+                        {
+                            <li><a href="/Admin/Restructure/">Restructure</a></li>
+                        }
                     }
-                }
-                <li><a href="javascript:document.getElementById('logoutForm').submit()" class="dashboard-link">Log off</a></li>
-            </ul>
-        </li>
-    </ul>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()" class="dashboard-link">Log off</a></li>
+                </ul>
+            </li>
+        </ul>
     }
 }
 else

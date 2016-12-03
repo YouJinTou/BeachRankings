@@ -9,7 +9,7 @@
 
     public class User : IdentityUser
     {
-        private readonly int[] LevelThresholds = new int[] { 10, 20, 50, 100, 200 };
+        private readonly int[] LevelThresholds = new int[] { 130, 320, 720, 1600, 3400 };
 
         private ICollection<Review> reviews;
         private ICollection<Review> upvotedReviews;
@@ -22,6 +22,8 @@
         }
 
         public string AvatarPath { get; set; }
+
+        public int Points { get; set; }
 
         public int Level { get; private set; }
 
@@ -67,11 +69,32 @@
 
         public virtual Blog Blog { get; set; }
 
+        private string PointsToNextLevel
+        {
+            get
+            {
+                var isAtMaxLevel = (this.Level == 6);
+
+                if (isAtMaxLevel)
+                {
+                    return string.Empty;
+                }
+
+                var index = (this.Level - 1);
+                var pointsToGo = (this.Points + "/" + this.LevelThresholds[index]);
+
+                return pointsToGo;
+            }
+        }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
+
+            userIdentity.AddClaim(new Claim("Avatar", this.AvatarPath));
+            userIdentity.AddClaim(new Claim("Level", this.Level.ToString()));
+            userIdentity.AddClaim(new Claim("PointsToNext", this.PointsToNextLevel));
 
             this.identity = userIdentity;
 
@@ -90,21 +113,23 @@
             return countriesVisited;
         }
 
-        public bool RecalculateLevel()
+        public void RecalculateLevel()
         {
             var reviewsCount = this.Reviews.Count;
+            var reviewsPoints = this.Reviews.Sum(r => r.Points);
+            var totalPoints = (reviewsCount + reviewsPoints);
+            var maxLevelIndex = 4;
+            this.Points = (totalPoints > this.LevelThresholds[maxLevelIndex]) ? this.LevelThresholds[maxLevelIndex] : totalPoints;
 
-            for (int i = this.LevelThresholds.Length - 1; i >= 0; i--)
+            for (int index = this.LevelThresholds.Length - 1; index >= 0; index--)
             {                
-                if (this.LevelThresholds[i] < reviewsCount)
+                if (this.LevelThresholds[index] < this.Points)
                 {
-                    this.Level = i + 1;
+                    this.Level = index + 2;
 
-                    return true;
+                    return;
                 }
             }
-
-            return false;
         }
     }
 }

@@ -87,10 +87,8 @@
             this.Data.Reviews.Add(review);
             this.Data.Reviews.SaveChanges();
 
-            if (this.UserProfile.RecalculateLevel())
-            {
-                this.Data.Users.SaveChanges();
-            }
+            this.UserProfile.RecalculateLevel();
+            this.Data.Users.SaveChanges();
 
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
 
@@ -178,8 +176,10 @@
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
 
             reviewedBeach.UpdateScores();
-
             this.Data.Beaches.SaveChanges();
+
+            this.UserProfile.RecalculateLevel();
+            this.Data.Users.SaveChanges();
 
             return this.RedirectToAction("Details", "Beaches", new { id = reviewedBeach.Id });
         }
@@ -203,10 +203,8 @@
             this.Data.Reviews.Remove(review);
             this.Data.Reviews.SaveChanges();
 
-            if (author.RecalculateLevel())
-            {
-                this.Data.Users.SaveChanges();
-            }
+            author.RecalculateLevel();
+            this.Data.Users.SaveChanges();
 
             return this.RedirectToAction("Index", "Home");
         }

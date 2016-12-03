@@ -3,6 +3,34 @@
     setSettingsEvents();
 
     function setDashboardEvents() {
+        var menuVisible = false;
+
+        $('#dashboard-dropdown-trigger').on('mouseenter', function () {
+            $('#dashboard-dropdown').show();
+        });
+
+        $('#dashboard-dropdown-trigger').on('mouseleave', function () {
+            setTimeout(hideMenu, 300);
+
+            function hideMenu() {
+                if (!menuVisible) {
+                    $('#dashboard-dropdown').hide();
+                }
+            }
+        });
+
+        $('#dashboard-dropdown').on('mouseenter', function () {
+            $(this).show();
+
+            menuVisible = true;
+        });
+
+        $('#dashboard-dropdown').on('mouseleave', function () {
+            $(this).hide();
+
+            menuVisible = false;
+        });
+
         $('.dashboard-link').on('click', function () {
             var action = $(this).text();
             var url = (action.indexOf('Settings') > -1) ? '/Manage/Index' : ('/User/' + action + '/');

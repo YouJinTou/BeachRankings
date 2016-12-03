@@ -56,7 +56,7 @@
             this.Camping = camping;
             this.LongTermStay = longTermStay;
 
-            this.UpdateTotalScore();
+            this.UpdateScores();
         }
 
         [Key]
@@ -82,6 +82,8 @@
         public string Content { get; set; }
         
         public int Upvotes { get; set; }
+
+        public int Points { get; set; }
 
         public virtual ICollection<BlogArticle> BlogArticles
         {
@@ -155,7 +157,7 @@
 
         #endregion
 
-        public void UpdateTotalScore()
+        public void UpdateScores()
         {
             double score = 0;
             int nullCount = 0; // Count of criteria NOT voted for
@@ -213,6 +215,7 @@
             }
 
             this.TotalScore = result;
+            this.Points = (BeachCriteriaCount - nullCount);
         }
     }
 }

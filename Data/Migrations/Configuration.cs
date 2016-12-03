@@ -427,7 +427,7 @@ namespace BeachRankings.Data.Migrations
             {
                 reviews[i].AuthorId = authorIds[randomAuthorId.Next(0, 3)];
 
-                reviews[i].UpdateTotalScore();
+                reviews[i].UpdateScores();
 
                 this.data.Reviews.Add(reviews[i]);
                 this.data.SaveChanges();
