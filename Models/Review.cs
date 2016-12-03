@@ -22,8 +22,8 @@
             double? beautifulScenery,
             double? crowdFree,
             double? infrastructure,
-            double? waterPurity,
-            double? wasteFreeSeabed,
+            double? waterVisibility,
+            double? litterFree,
             double? feetFriendlyBottom,
             double? seaLifeDiversity,
             double? coralReef,
@@ -44,8 +44,8 @@
             this.CrowdFree = crowdFree;
             this.Infrastructure = infrastructure;
 
-            this.WaterPurity = waterPurity;
-            this.WasteFreeSeabed = wasteFreeSeabed;
+            this.WaterVisibility = waterVisibility;
+            this.LitterFree = litterFree;
             this.FeetFriendlyBottom = feetFriendlyBottom;
             this.SeaLifeDiversity = seaLifeDiversity;
             this.CoralReef = coralReef;
@@ -121,11 +121,11 @@
 
         #region Water
 
-        [Display(Name = "Water purity")]
-        public double? WaterPurity { get; private set; }
+        [Display(Name = "Underwater visibility")]
+        public double? WaterVisibility { get; private set; }
 
-        [Display(Name = "Waste-free seabed")]
-        public double? WasteFreeSeabed { get; private set; }
+        [Display(Name = "Litter-free water")]
+        public double? LitterFree { get; private set; }
 
         [Display(Name = "Feet-friendly bottom")]
         public double? FeetFriendlyBottom { get; private set; }
@@ -177,11 +177,11 @@
             score += (this.Infrastructure ?? 0);
             nullCount += ((this.Infrastructure == null) ? 1 : 0);
 
-            score += (this.WaterPurity ?? 0);
-            nullCount += ((this.WaterPurity == null) ? 1 : 0);
+            score += (this.WaterVisibility ?? 0);
+            nullCount += ((this.WaterVisibility == null) ? 1 : 0);
 
-            score += (this.WasteFreeSeabed ?? 0);
-            nullCount += ((this.WasteFreeSeabed == null) ? 1 : 0);
+            score += (this.LitterFree ?? 0);
+            nullCount += ((this.LitterFree == null) ? 1 : 0);
 
             score += (this.FeetFriendlyBottom ?? 0);
             nullCount += ((this.FeetFriendlyBottom == null) ? 1 : 0);

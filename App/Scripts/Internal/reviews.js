@@ -30,16 +30,16 @@
         $('#hdn-beach-cleanliness').val($('[data-beach-cleanliness-handle]').text());
         $('#hdn-beautiful-scenery').val($('[data-beautiful-scenery-handle]').text());
         $('#hdn-crowd-free').val($('[data-crowd-free-handle]').text());
-        $('#hdn-water-purity').val($('[data-water-purity-handle]').text());
-        $('#hdn-wastefree-seadbed').val($('[data-wastefree-seabed-handle]').text());
+        $('#hdn-infrastructure').val($('[data-infrastructure-handle]').text());
+        $('#hdn-water-visibility').val($('[data-water-visibility-handle]').text());
+        $('#hdn-litter-free').val($('[data-litter-free-handle]').text());
         $('#hdn-feet-friendly-bottom').val($('[data-feet-friendly-bottom-handle]').text());
         $('#hdn-sea-life-diversity').val($('[data-sea-life-diversity-handle]').text());
         $('#hdn-coral-reef').val($('[data-coral-reef-handle]').text());
-        $('#hdn-walking').val($('[data-walking-handle]').text());
         $('#hdn-snorkeling').val($('[data-snorkeling-handle]').text());
         $('#hdn-kayaking').val($('[data-kayaking-handle]').text());
+        $('#hdn-walking').val($('[data-walking-handle]').text());
         $('#hdn-camping').val($('[data-camping-handle]').text());
-        $('#hdn-infrastructure').val($('[data-infrastructure-handle]').text());
         $('#hdn-long-term-stay').val($('[data-long-term-stay-handle]').text());
 
         $('#submit-review-form').submit();

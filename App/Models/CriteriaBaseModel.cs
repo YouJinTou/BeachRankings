@@ -25,11 +25,11 @@
 
         #region Water
 
-        [Display(Name = "Water purity")]
-        public double? WaterPurity { get; set; }
+        [Display(Name = "Underwater visibility")]
+        public double? WaterVisibility { get; set; }
 
-        [Display(Name = "Waste-free seabed")]
-        public double? WasteFreeSeabed { get; set; }
+        [Display(Name = "Litter-free water")]
+        public double? LitterFree { get; set; }
 
         [Display(Name = "Feet-friendly bottom")]
         public double? FeetFriendlyBottom { get; set; }

@@ -63,6 +63,10 @@ img {
     display: inline;
 }
 
+.disable-block-inline {
+    display: inline-block;
+}
+
 .display-block {
     display: block;
 }

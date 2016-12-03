@@ -277,8 +277,8 @@
             viewModel.BeautifulScenery = bindingModel.BeautifulScenery;
             viewModel.CrowdFree = bindingModel.CrowdFree;
             viewModel.Infrastructure = bindingModel.Infrastructure;
-            viewModel.WaterPurity = bindingModel.WaterPurity;
-            viewModel.WasteFreeSeabed = bindingModel.WasteFreeSeabed;
+            viewModel.WaterVisibility = bindingModel.WaterVisibility;
+            viewModel.LitterFree = bindingModel.LitterFree;
             viewModel.FeetFriendlyBottom = bindingModel.FeetFriendlyBottom;
             viewModel.SeaLifeDiversity = bindingModel.SeaLifeDiversity;
             viewModel.CoralReef = bindingModel.CoralReef;

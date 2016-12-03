@@ -5,16 +5,16 @@
         'beach-cleanliness',
         'beautiful-scenery',
         'crowd-free',
-        'water-purity',
-        'wastefree-seabed',
+        'infrastructure',
+        'water-visibility',
+        'litter-free',
         'feet-friendly-bottom',
         'sea-life-diversity',
         'coral-reef',
-        'walking',
         'snorkeling',
         'kayaking',
+        'walking',
         'camping',
-        'infrastructure',
         'long-term-stay'
     ];
 

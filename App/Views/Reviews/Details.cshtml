@@ -113,20 +113,20 @@
                                         <!--End Beach-->
                                         <!--Sea-->
                                         <div class="form-group row">
-                                            @Html.LabelFor(model => model.WaterPurity, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
+                                            @Html.LabelFor(model => model.WaterVisibility, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
                                             <div class="col-sm-9">
-                                                <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.WaterPurity</div></div>
+                                                <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.WaterVisibility</div></div>
                                                 <div class="criterion-progress-bar col-xs-10 col-no-padding">
-                                                    <span id="water-purity-meter"></span>
+                                                    <span id="water-visibility-meter"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            @Html.LabelFor(model => model.WasteFreeSeabed, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
+                                            @Html.LabelFor(model => model.LitterFree, htmlAttributes: new { @class = "control-label text-left col-sm-3" })
                                             <div class="col-sm-9">
-                                                <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.WasteFreeSeabed</div></div>
+                                                <div class="criterion-score-box col-xs-1"><div class="vertical-center">@Model.LitterFree</div></div>
                                                 <div class="criterion-progress-bar col-xs-10 col-no-padding">
-                                                    <span id="wastefree-seabed-meter"></span>
+                                                    <span id="litter-free-meter"></span>
                                                 </div>
                                             </div>
                                         </div>

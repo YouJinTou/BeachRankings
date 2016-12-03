@@ -155,7 +155,11 @@
     word-wrap: break-word;
     white-space: normal;
     text-align: justify;
-    overflow: auto;
+}
+
+.concise-review table {
+    float: right;
+    margin-left: 10px;
 }
 
 .form-group .info-icon {

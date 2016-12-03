@@ -129,11 +129,11 @@
 
         #region Water
 
-        [Display(Name = "Water purity")]
-        public double? WaterPurity { get; private set; }
+        [Display(Name = "Water visibility")]
+        public double? WaterVisibility { get; private set; }
 
-        [Display(Name = "Waste-free seabed")]
-        public double? WasteFreeSeabed { get; private set; }
+        [Display(Name = "Litter-free water")]
+        public double? LitterFree { get; private set; }
 
         [Display(Name = "Feet-friendly bottom")]
         public double? FeetFriendlyBottom { get; private set; }
@@ -190,8 +190,8 @@
             this.CrowdFree = this.RoundScore(this.Reviews.Average(r => r.CrowdFree));
             this.Infrastructure = this.RoundScore(this.Reviews.Average(r => r.Infrastructure));
 
-            this.WaterPurity = this.RoundScore(this.Reviews.Average(r => r.WaterPurity));
-            this.WasteFreeSeabed = this.RoundScore(this.Reviews.Average(r => r.WasteFreeSeabed));
+            this.WaterVisibility = this.RoundScore(this.Reviews.Average(r => r.WaterVisibility));
+            this.LitterFree = this.RoundScore(this.Reviews.Average(r => r.LitterFree));
             this.FeetFriendlyBottom = this.RoundScore(this.Reviews.Average(r => r.FeetFriendlyBottom));
             this.SeaLifeDiversity = this.RoundScore(this.Reviews.Average(r => r.SeaLifeDiversity));
             this.CoralReef = this.RoundScore(this.Reviews.Average(r => r.CoralReef));
