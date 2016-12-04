@@ -4,14 +4,17 @@
     using AutoMapper;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
+    using BeachRankings.App.Utils.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
 
+    [Authorize]
     public class UserController : BaseController
     {
         public UserController(IBeachRankingsData data)
@@ -19,7 +22,6 @@
         {
         }
 
-        [Authorize]
         public PartialViewResult Statistics()
         {
             var reviews = this.UserProfile.Reviews;
@@ -36,7 +38,6 @@
             return this.View(model);
         }
 
-        [Authorize]
         public PartialViewResult Images(int page = 0, int pageSize = 10)
         {
             var imageGroups = this.Data.BeachImages.All().Where(i => i.AuthorId == this.UserProfile.Id).GroupBy(i => i.Beach.Name);
@@ -47,7 +48,7 @@
                 model.Add(new DashboardImageViewModel()
                 {
                     BeachName = group.Key,
-                    Paths = Mapper.Map<IEnumerable<BeachImage>, IEnumerable<BeachImageThumbnailViewModel>>(group.ToList())
+                    Paths = Mapper.Map<IEnumerable<BeachImage>, IEnumerable<DashboardBeachImageThumbnailViewModel>>(group.ToList())
                 });
             }
 
@@ -56,7 +57,6 @@
             return this.PartialView(model);
         }
 
-        [Authorize]
         [HttpGet]
         public PartialViewResult ChangeAvatar()
         {
@@ -65,7 +65,6 @@
             return this.PartialView(model);
         }
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeAvatar(ChangeAvatarViewModel bindingModel)
@@ -80,7 +79,6 @@
             return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.ChangeAvatarSuccess });
         }
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteAvatar()
@@ -89,6 +87,28 @@
             this.SetDefaultAvatar();
 
             return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.DeleteAvatarSuccess });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteBeachImage(int id)
+        {
+            var image = this.Data.BeachImages.All().Include(i => i.Beach).FirstOrDefault(i => i.Id == id);
+
+            if (image == null)
+            {
+                return new HttpStatusCodeResult(404);
+            }
+
+            if (!this.User.Identity.CanDeleteBeachImage(image.AuthorId))
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
+            ImageHelper.EraseImageLocally(image.Beach.Name, image.Name);
+            this.Data.BeachImages.Remove(image);
+            this.Data.BeachImages.SaveChanges();
+            
+            return new HttpStatusCodeResult(200);
         }
 
         #region Helpers

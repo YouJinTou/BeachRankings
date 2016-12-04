@@ -394,24 +394,11 @@
 
             this.Data.Reviews.RemoveMany(reviews);
             this.Data.BeachImages.RemoveMany(images);
-            this.EraseImagesLocally(beach.Name);
+            ImageHelper.EraseImagesLocally(beach.Name);
 
             this.Data.Reviews.SaveChanges();
             this.Data.BeachImages.SaveChanges();
-        }
-
-        private void EraseImagesLocally(string beachName)
-        {
-            var relativeBeachImagesDir = BeachHelper.GetBeachImagesRelativeDir(beachName);
-            var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachImagesDir);
-
-            if (Directory.Exists(beachDir))
-            {
-                var imagesDir = new DirectoryInfo(beachDir);
-
-                imagesDir.Delete(true);
-            }
-        }
+        }        
 
         #endregion
 

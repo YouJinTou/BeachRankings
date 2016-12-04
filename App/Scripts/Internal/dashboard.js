@@ -1,8 +1,8 @@
 ﻿(function ($) {
-    setDashboardEvents();
+    setDashboardMenuEvents();
     setSettingsEvents();
 
-    function setDashboardEvents() {
+    function setDashboardMenuEvents() {
         var menuVisible = false;
 
         $('#dashboard-dropdown-trigger').on('mouseenter', function () {
@@ -40,6 +40,7 @@
                 type: 'GET',
                 success: function (result) {
                     var isStatisticsModule = (action.indexOf('Statistics') > -1);
+                    var isImagesModule = (action.indexOf('Images') > -1);
 
                     $('#results-container').html(result);
 
@@ -47,9 +48,10 @@
                         var dataTablesManager = new DataTablesManager();
 
                         dataTablesManager.initializeDataTable();
-                    }                
-
-                    setInfiniteScrolling(url);
+                    } else if (isImagesModule) {
+                        setImagesEvents();
+                        setInfiniteScrolling(url);
+                    }
                 },
                 error: function (data) {
                     console.log(data);
@@ -164,5 +166,38 @@
 
             infiniteScroller.setInifiniteScroll();
         }
+    }
+
+    function setImagesEvents() {
+        $('#user-images-container').on('click', '[data-remove-image]', function () {
+            var toDelete = confirm('Are you sure you want to delete this image?');
+
+            if (toDelete) {
+                var $this = $(this);
+
+                $.ajax({
+                    url: '/User/DeleteBeachImage',
+                    data: {
+                        id: $(this).data('remove-image')
+                    },
+                    type: 'POST',
+                    success: function () {
+                        var $imageRow = $this.closest('.image-row');
+
+                        $this.closest('.dashboard-image-wrapper').remove();
+
+                        var imagesLeft = $imageRow.find('.dashboard-image-wrapper').length;
+
+                        if (imagesLeft === 0) {
+                            $imageRow.next('hr').remove();
+                            $imageRow.remove();
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }            
+        });
     }
 })(jQuery);

@@ -209,5 +209,42 @@
 
             return beachImages;
         }
+
+        public static void EraseImagesLocally(string beachName)
+        {
+            var relativeBeachImagesDir = BeachHelper.GetBeachImagesRelativeDir(beachName);
+            var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachImagesDir);
+
+            if (Directory.Exists(beachDir))
+            {
+                var imagesDir = new DirectoryInfo(beachDir);
+
+                imagesDir.Delete(true);
+            }
+        }
+
+        public static void EraseImageLocally(string beachName, string imageName)
+        {
+            var relativeBeachImagesDir = BeachHelper.GetBeachImagesRelativeDir(beachName);
+            var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachImagesDir);
+
+            if (!Directory.Exists(beachDir))
+            {
+                return;
+            }
+
+            var imagesDir = new DirectoryInfo(beachDir);
+            var image = imagesDir.GetFiles(imageName).FirstOrDefault();
+
+            if (image != null)
+            {
+                image.Delete();
+            }
+
+            if (Directory.GetFiles(beachDir).Length == 0)
+            {
+                imagesDir.Delete(true);
+            }
+        }
     }
 }

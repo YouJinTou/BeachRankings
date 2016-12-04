@@ -4,4 +4,11 @@
     {
         public string Path { get; set; }
     }
+
+    public class DashboardBeachImageThumbnailViewModel
+    {
+        public int Id { get; set; }
+
+        public string Path { get; set; }
+    }
 }

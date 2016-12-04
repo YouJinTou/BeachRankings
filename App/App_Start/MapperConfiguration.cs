@@ -25,6 +25,7 @@
                 cfg.CreateMap<Beach, EditBeachViewModel>();
                 cfg.CreateMap<EditBeachViewModel, Beach>();
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
+                cfg.CreateMap<BeachImage, DashboardBeachImageThumbnailViewModel>();
                 cfg.CreateMap<PostReviewViewModel, Review>();
                 cfg.CreateMap<BlogArticle, BlogArticleViewModel>();
                 cfg.CreateMap<TableRowViewModel, BeachRowViewModel>();

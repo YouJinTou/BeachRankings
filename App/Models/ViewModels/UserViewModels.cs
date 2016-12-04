@@ -8,7 +8,7 @@
     {
         public string BeachName { get; set; }
 
-        public IEnumerable<BeachImageThumbnailViewModel> Paths { get; set; }
+        public IEnumerable<DashboardBeachImageThumbnailViewModel> Paths { get; set; }
     }
 
     public class TableUserReviewsViewModel
