@@ -92,6 +92,14 @@
 
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
 
+            reviewedBeach.UpdateScores();
+            this.Data.Beaches.SaveChanges();
+
+            var images = ImageHelper.PersistBeachImages(reviewedBeach, bindingModel.Images, this.UserProfile.Id);
+
+            this.Data.BeachImages.AddMany(images);
+            this.Data.BeachImages.SaveChanges();
+
             if (this.UserProfile.IsBlogger)
             {
                 var articles = BlogHelper.GetBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
@@ -100,11 +108,8 @@
                 {
                     this.Data.BlogArticles.AddMany(articles);
                     this.Data.BlogArticles.SaveChanges();
-                }               
+                }
             }
-
-            reviewedBeach.UpdateScores();
-            this.Data.Beaches.SaveChanges();
 
             return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachId });
         }

@@ -7,6 +7,7 @@
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Web;
 
     public static class GenericHelper
     {
@@ -90,11 +91,21 @@
     {
         public static ICollection<string> SplitArticleUrls(string articleLinks)
         {
+            if (string.IsNullOrEmpty(articleLinks))
+            {
+                return new HashSet<string>();
+            }
+
             return TrimArticleUrl(articleLinks).Split('@').Select(s => s.Trim()).Where(s => s != string.Empty).ToList();
         }
 
         public static string TrimArticleUrl(string url)
         {
+            if (string.IsNullOrEmpty(url))
+            {
+                return null;
+            }
+
             return url.Replace("@,", "@");
         }
 
@@ -161,6 +172,42 @@
             }
 
             return blogArticles;
+        }
+    }
+
+    public static class ImageHelper
+    {
+        public static ICollection<BeachImage> PersistBeachImages(Beach beach, IEnumerable<HttpPostedFileBase> images, string authorId)
+        {
+            if (images == null || images.ElementAt(0) == null)
+            {
+                return new List<BeachImage>();
+            }
+
+            var relativeBeachDir = BeachHelper.GetBeachImagesRelativeDir(beach.Name);
+            var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachDir);
+            var beachImages = new List<BeachImage>();
+
+            Directory.CreateDirectory(beachDir);
+
+            foreach (var image in images)
+            {
+                var uniqueName = Guid.NewGuid().ToString() + Path.GetFileName(image.FileName);
+                var imagePath = Path.Combine(beachDir, uniqueName);
+                var relativeImagePath = Path.Combine("\\", relativeBeachDir, uniqueName);
+                var beachImage = new BeachImage()
+                {
+                    AuthorId = authorId,
+                    BeachId = beach.Id,
+                    Name = uniqueName,
+                    Path = relativeImagePath
+                };
+
+                image.SaveAs(imagePath);
+                beachImages.Add(beachImage);
+            }
+
+            return beachImages;
         }
     }
 }

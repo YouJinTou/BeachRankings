@@ -1,10 +1,10 @@
 ﻿@model PostReviewViewModel
 
-@{ 
+@{
     ViewBag.Title = "Rate " + Model.BeachName;
 }
 
-<div class="review-container custom-canvas col-xs-10 col-xs-offset-1">   
+<div class="review-container custom-canvas col-xs-10 col-xs-offset-1">
     <div class="row">
         <div class="slick-carousel col-xs-4 col-xs-offset-3">
             @Html.DisplayFor(model => model.BeachImagePaths)
@@ -23,7 +23,7 @@
                         <i>
                             <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
                             @Html.ParseNullString(
-                                @Html.GetBeachAnchorTagDivisionAddress(Model.BeachPrimaryDivision, Model.BeachSecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId) + ", ", 
+                                @Html.GetBeachAnchorTagDivisionAddress(Model.BeachPrimaryDivision, Model.BeachSecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId) + ", ",
                                 null)
                             <a href="/Countries/Beaches/@Model.CountryId">@Model.BeachCountry</a>
                         </i>
@@ -34,10 +34,10 @@
     </div>
 
     <div class="row">
-        @using (Html.BeginForm("Post", "Reviews", FormMethod.Post, new { id = "submit-review-form" }))
+        @using (Html.BeginForm("Post", "Reviews", FormMethod.Post, new { id = "submit-review-form", enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
-            
+
             <div class="form-horizontal ">
                 <hr />
                 @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })
@@ -59,17 +59,17 @@
                     </div>
                 </div>
 
-                @{ 
+                @{
                     if (this.Model.IsBlogger)
                     {
                         <div class="form-group">
                             @Html.LabelFor(model => model.ArticleLinks, new { @class = "control-label col-md-3" })
                             <div id="links-container" class="col-md-5">
                                 <input type="text" class="blog-link form-control custom-focus-black" />
-                            </div>                               
+                            </div>
                             <div class="col-md-4 text-left">
                                 <span class="add-more glyphicon glyphicon-plus-sign" title="Add another link"></span>
-                            </div>                        
+                            </div>
                             @Html.ValidationMessageFor(model => model.ArticleLinks, "", new { @class = "text-danger" })
                         </div>
                     }
@@ -82,14 +82,14 @@
                         <div id="sand-quality-dragdealer" class="dragdealer">
                             <div class="handle oval" data-sand-quality-handle="@Model.SandQuality"></div>
                         </div>
-                    </div>                 
+                    </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>                        
+                        <button class="btn btn-reset" style="display: none;">Ignore</button>
                     </div>
                     <div class="custom-popup custom-canvas" style="display: none;">
-                            Rate high if the sand is light in color and pleasant to hold and walk on
-                    </div>                    
+                        Rate high if the sand is light in color and pleasant to hold and walk on
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -239,7 +239,7 @@
                     </div>
                 </div>
                 <!--End Sea-->
-                <!--Activities-->                
+                <!--Activities-->
                 <div class="form-group">
                     @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-5">
@@ -316,6 +316,15 @@
                     </div>
                 </div>
                 <!--End Activities-->
+
+                <div class="form-group">
+                    <label for="uploader" class="control-label col-md-3">Beach photos</label>
+                    <div class="col-md-5">
+                        <input id="uploader" type="file" name="images" class="upload" multiple />
+                    </div>
+                </div>
+                <sup>Up to 3.5 MB of JPG or PNG images</sup>
+
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input data-btn-submit-review="" type="submit" value="Post review" class="btn btn-cta" />
@@ -324,23 +333,23 @@
             </div>
 
             @Html.HiddenFor(model => model.BeachId)
-            @Html.HiddenFor(model => model.ArticleLinks, new { id = "hdn-article-links" })
-            @Html.HiddenFor(model => model.SandQuality, new { id = "hdn-sand-quality" })
-            @Html.HiddenFor(model => model.BeachCleanliness, new { id = "hdn-beach-cleanliness" })
-            @Html.HiddenFor(model => model.BeautifulScenery, new { id = "hdn-beautiful-scenery" })
-            @Html.HiddenFor(model => model.CrowdFree, new { id = "hdn-crowd-free" })
-            @Html.HiddenFor(model => model.Infrastructure, new { id = "hdn-infrastructure" })
-            @Html.HiddenFor(model => model.WaterVisibility, new { id = "hdn-water-visibility" })
-            @Html.HiddenFor(model => model.LitterFree, new { id = "hdn-litter-free" })
-            @Html.HiddenFor(model => model.FeetFriendlyBottom, new { id = "hdn-feet-friendly-bottom" })
-            @Html.HiddenFor(model => model.SeaLifeDiversity, new { id = "hdn-sea-life-diversity" })
-            @Html.HiddenFor(model => model.CoralReef, new { id = "hdn-coral-reef" })
-            @Html.HiddenFor(model => model.Snorkeling, new { id = "hdn-snorkeling" })
-            @Html.HiddenFor(model => model.Kayaking, new { id = "hdn-kayaking" })
-            @Html.HiddenFor(model => model.Walking, new { id = "hdn-walking" })
-            @Html.HiddenFor(model => model.Camping, new { id = "hdn-camping" })
-            @Html.HiddenFor(model => model.LongTermStay, new { id = "hdn-long-term-stay" })
-        }
+                    @Html.HiddenFor(model => model.ArticleLinks, new { id = "hdn-article-links" })
+                    @Html.HiddenFor(model => model.SandQuality, new { id = "hdn-sand-quality" })
+                    @Html.HiddenFor(model => model.BeachCleanliness, new { id = "hdn-beach-cleanliness" })
+                    @Html.HiddenFor(model => model.BeautifulScenery, new { id = "hdn-beautiful-scenery" })
+                    @Html.HiddenFor(model => model.CrowdFree, new { id = "hdn-crowd-free" })
+                    @Html.HiddenFor(model => model.Infrastructure, new { id = "hdn-infrastructure" })
+                    @Html.HiddenFor(model => model.WaterVisibility, new { id = "hdn-water-visibility" })
+                    @Html.HiddenFor(model => model.LitterFree, new { id = "hdn-litter-free" })
+                    @Html.HiddenFor(model => model.FeetFriendlyBottom, new { id = "hdn-feet-friendly-bottom" })
+                    @Html.HiddenFor(model => model.SeaLifeDiversity, new { id = "hdn-sea-life-diversity" })
+                    @Html.HiddenFor(model => model.CoralReef, new { id = "hdn-coral-reef" })
+                    @Html.HiddenFor(model => model.Snorkeling, new { id = "hdn-snorkeling" })
+                    @Html.HiddenFor(model => model.Kayaking, new { id = "hdn-kayaking" })
+                    @Html.HiddenFor(model => model.Walking, new { id = "hdn-walking" })
+                    @Html.HiddenFor(model => model.Camping, new { id = "hdn-camping" })
+                    @Html.HiddenFor(model => model.LongTermStay, new { id = "hdn-long-term-stay" })
+                    }
     </div>
 </div>
 

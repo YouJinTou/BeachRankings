@@ -13,6 +13,7 @@
     using System.Data.Entity;
     using System.IO;
     using System.Linq;
+    using System.Web;
     using System.Web.Mvc;
 
     public class BeachesController : BasePlacesController
@@ -96,8 +97,10 @@
             }
 
             var beach = this.SaveBeach(bindingModel);
+            var images = ImageHelper.PersistBeachImages(beach, bindingModel.Images, this.UserProfile.Id);
 
-            this.SaveBeachImages(beach, bindingModel);
+            this.Data.BeachImages.AddMany(images);
+            this.Data.BeachImages.SaveChanges();
 
             return this.RedirectToAction("Post", "Reviews", new { id = beach.Id });
         }
@@ -316,38 +319,6 @@
             var waterBodyId = this.Data.Countries.All().Include(c => c.WaterBody).FirstOrDefault(c => c.Id == countryId).WaterBodyId;
 
             return (int)waterBodyId;
-        }
-
-        private void SaveBeachImages(Beach beach, AddBeachViewModel bindingModel)
-        {
-            if (bindingModel.Images == null || bindingModel.Images.ElementAt(0) == null)
-            {
-                return;
-            }
-
-            var relativeBeachDir = BeachHelper.GetBeachImagesRelativeDir(beach.Name);
-            var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachDir);
-
-            Directory.CreateDirectory(beachDir);
-
-            foreach (var image in bindingModel.Images)
-            {
-                var uniqueName = Guid.NewGuid().ToString() + Path.GetFileName(image.FileName);
-                var imagePath = Path.Combine(beachDir, uniqueName);
-                var relativeImagePath = Path.Combine("\\", relativeBeachDir, uniqueName);
-                var beachPhoto = new BeachImage()
-                {
-                    AuthorId = this.UserProfile.Id,
-                    BeachId = beach.Id,
-                    Name = uniqueName,
-                    Path = relativeImagePath
-                };
-
-                image.SaveAs(imagePath);
-                this.Data.BeachImages.Add(beachPhoto);
-            }
-
-            this.Data.BeachImages.SaveChanges();
         }
 
         #endregion

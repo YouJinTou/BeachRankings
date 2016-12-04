@@ -89,7 +89,7 @@ namespace BeachRankings.Data.Migrations
             {
                 var userStore = new UserStore<User>(this.data);
                 var userManager = new UserManager<User>(userStore);
-                var user = new User { UserName = "user", Email = "some@email.com" };
+                var user = new User { UserName = "user", Email = "some@email.com", AvatarPath = "/Content/Images/unknown_profile.jpg" };
 
                 userManager.Create(user, "123456");
                 userManager.AddToRole(user.Id, "User");
@@ -99,7 +99,7 @@ namespace BeachRankings.Data.Migrations
             {
                 var userStore = new UserStore<User>(this.data);
                 var userManager = new UserManager<User>(userStore);
-                var user = new User { UserName = "user2", Email = "some2@email.com" };
+                var user = new User { UserName = "user2", Email = "some2@email.com", AvatarPath = "/Content/Images/unknown_profile.jpg" };
 
                 userManager.Create(user, "123456");
                 userManager.AddToRole(user.Id, "User");

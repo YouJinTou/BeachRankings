@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web;
 
     public class ConciseReviewViewModel
     {
@@ -114,6 +115,9 @@
         public int BeachReviewsCount { get; set; }
 
         public IEnumerable<BeachImageThumbnailViewModel> BeachImagePaths { get; set; }
+
+        [ImagesValid(ErrorMessage = "Failed to upload images. Verify their total size and format.")]
+        public IEnumerable<HttpPostedFileBase> Images { get; set; }
     }
 
     public class EditReviewViewModel : CriteriaBaseModel

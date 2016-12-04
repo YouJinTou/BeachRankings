@@ -65,6 +65,7 @@
                     .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
                     .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Images))
+                    .ForMember(vm => vm.Images, model => model.Ignore())
                     .ForMember(vm => vm.SandQuality, model => model.Ignore())
                     .ForMember(vm => vm.BeachCleanliness, model => model.Ignore())
                     .ForMember(vm => vm.BeautifulScenery, model => model.Ignore())
