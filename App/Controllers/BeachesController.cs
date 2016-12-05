@@ -11,9 +11,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
-    using System.IO;
     using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
 
     public class BeachesController : BasePlacesController
@@ -348,6 +346,7 @@
         {
             if (oldBeach != null)
             {
+                var oldContinent = this.Data.Continents.Find(oldBeach.ContinentId);
                 var oldCountry = this.Data.Countries.Find(oldBeach.CountryId);
                 var oldPrimary = this.Data.PrimaryDivisions.Find(oldBeach.PrimaryDivisionId);
                 var oldSecondary = this.Data.SecondaryDivisions.Find(oldBeach.SecondaryDivisionId);
@@ -356,6 +355,7 @@
                 var oldWaterBody = this.Data.WaterBodies.Find(oldBeach.WaterBodyId);
 
                 this.Data.Beaches.AddUpdateIndexEntry(oldBeach);
+                this.Data.Continents.AddUpdateIndexEntry(oldContinent);
                 this.Data.Countries.AddUpdateIndexEntry(oldCountry);
                 this.Data.PrimaryDivisions.AddUpdateIndexEntry(oldPrimary);
                 this.Data.SecondaryDivisions.AddUpdateIndexEntry(oldSecondary);
@@ -364,6 +364,7 @@
                 this.Data.WaterBodies.AddUpdateIndexEntry(oldWaterBody);
             }
 
+            var continent = this.Data.Continents.Find(beach.ContinentId);
             var country = this.Data.Countries.Find(beach.CountryId);
             var primary = this.Data.PrimaryDivisions.Find(beach.PrimaryDivisionId);
             var secondary = this.Data.SecondaryDivisions.Find(beach.SecondaryDivisionId);
@@ -375,6 +376,7 @@
             var waterBody = this.Data.WaterBodies.Find(waterBodyId);
 
             this.Data.Beaches.AddUpdateIndexEntry(beach);
+            this.Data.Continents.AddUpdateIndexEntry(continent);
             this.Data.Countries.AddUpdateIndexEntry(country);
             this.Data.PrimaryDivisions.AddUpdateIndexEntry(primary);
             this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondary);

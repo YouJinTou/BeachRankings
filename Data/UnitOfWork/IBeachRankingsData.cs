@@ -7,6 +7,8 @@
     {
         IGenericRepository<User> Users { get; }
 
+        IContinentRepository Continents { get; }
+
         ICountryRepository Countries { get; }
 
         IPrimaryDivisionRepository PrimaryDivisions { get; }

@@ -2,6 +2,7 @@
 {
     public enum Index
     {
+        ContinentIndex,
         CountryIndex,
         PrimaryDivisionIndex,
         SecondaryDivisionIndex,

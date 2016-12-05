@@ -20,6 +20,7 @@
         private static string indexDirPath;
         private static FSDirectory indexDir;
         private static FSDirectory beachIndexDir;
+        private static FSDirectory continentIndexDir;
         private static FSDirectory countryIndexDir;
         private static FSDirectory primaryDivisionIndexDir;
         private static FSDirectory secondaryDivisionIndexDir;
@@ -38,6 +39,7 @@
             }
 
             var beachIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
+            var continentIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "ContinentIndex");
             var countryIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "CountryIndex");
             var primaryDivisionIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "PrimaryDivisionIndex");
             var secondaryDivisionIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "SecondaryDivisionIndex");
@@ -46,6 +48,7 @@
             var waterBodyIndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "WaterBodyIndex");
 
             System.IO.Directory.CreateDirectory(beachIndexPath);
+            System.IO.Directory.CreateDirectory(continentIndexPath);
             System.IO.Directory.CreateDirectory(countryIndexPath);
             System.IO.Directory.CreateDirectory(primaryDivisionIndexPath);
             System.IO.Directory.CreateDirectory(secondaryDivisionIndexPath);
@@ -54,6 +57,7 @@
             System.IO.Directory.CreateDirectory(waterBodyIndexPath);
 
             beachIndexDir = FSDirectory.Open(new DirectoryInfo(beachIndexPath));
+            continentIndexDir = FSDirectory.Open(new DirectoryInfo(continentIndexPath));
             countryIndexDir = FSDirectory.Open(new DirectoryInfo(countryIndexPath));
             primaryDivisionIndexDir = FSDirectory.Open(new DirectoryInfo(primaryDivisionIndexPath));
             secondaryDivisionIndexDir = FSDirectory.Open(new DirectoryInfo(secondaryDivisionIndexPath));
@@ -78,6 +82,12 @@
                         ModelType = ModelType.Beach;
                         IndexDir = beachIndexDir;
                         indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "BeachIndex");
+
+                        break;
+                    case Index.ContinentIndex:
+                        ModelType = ModelType.Place;
+                        IndexDir = continentIndexDir;
+                        indexDirPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "ContinentIndex");
 
                         break;
                     case Index.CountryIndex:
@@ -182,6 +192,7 @@
                     case Index.QuaternaryDivisionIndex:
                     case Index.WaterBodyIndex:
                     case Index.CountryIndex:
+                    case Index.ContinentIndex:
                         return new string[] { "Name" };                    
                     default:
                         return new string[] { "Name" };

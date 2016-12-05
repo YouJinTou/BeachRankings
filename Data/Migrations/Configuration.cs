@@ -19,13 +19,18 @@ namespace BeachRankings.Data.Migrations
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus egestas ante a neque congue, " +
             "id eleifend felis laoreet. Pellentesque eget dui id libero rhoncus vestibulum. Nam bibendum rutrum sem...";
         private BeachRankingsDbContext data;
-        private static int currentCountryId;
-        private static int currentPrimaryDivisionId;
-        private static int currentSecondaryDivisionId;
-        private static int currentTertiaryDivisionId;
-        private static int currentQuaternaryDivisionId;
+        private static int currentContinentId;
+        private static int currentCountryId = 1;
+        private static int currentPrimaryDivisionId = 1;
+        private static int currentSecondaryDivisionId = 1;
+        private static int currentTertiaryDivisionId = 1;
+        private static int currentQuaternaryDivisionId = 1;
         private static int? currentCountryWaterBodyId;
         private static int? currentPrimaryDivisionWaterBodyId;
+        private static IDictionary<int, List<int>> countryPrimaryIds;
+        private static IDictionary<int, List<int>> primarySecondaryIds;
+        private static IDictionary<int, List<int>> secondaryTertiaryIds;
+        private static IDictionary<int, List<int>> tertiaryQuaternaryIds;
         private static int beachesCount;
         private static Random randomBeach;
         private static Random randomScore;
@@ -42,10 +47,15 @@ namespace BeachRankings.Data.Migrations
             System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(type.TypeHandle);
 
             this.data = data;
+            countryPrimaryIds = new Dictionary<int, List<int>>();
+            primarySecondaryIds = new Dictionary<int, List<int>>();
+            secondaryTertiaryIds = new Dictionary<int, List<int>>();
+            tertiaryQuaternaryIds = new Dictionary<int, List<int>>();
 
             this.SeedRoles();
             this.SeedUsers();
             this.SeedWaterBodies();
+            this.SeedContinents();
             this.SeedAdministrativeUnits();
             this.SeedBeaches();
             this.SeedBeachImages();
@@ -136,6 +146,36 @@ namespace BeachRankings.Data.Migrations
             LuceneSearch.AddUpdateIndexEntries(waterBodies);
         }
 
+        private void SeedContinents()
+        {
+            if (this.data.Continents.Any())
+            {
+                return;
+            }
+
+            var continentsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Continents.txt");
+            var continents = new List<Continent>();
+
+            using (var sr = new StreamReader(continentsPath))
+            {
+                string continentName;
+
+                while ((continentName = sr.ReadLine()) != null)
+                {
+                    var continent = new Continent() { Name = continentName };
+
+                    continents.Add(continent);
+                    this.data.Continents.Add(continent);
+                }
+            }
+
+            this.data.SaveChanges();
+
+            LuceneSearch.Index = Index.ContinentIndex;
+
+            LuceneSearch.AddUpdateIndexEntries(continents);
+        }
+
         private void SeedAdministrativeUnits()
         {
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Seed.txt");
@@ -152,52 +192,26 @@ namespace BeachRankings.Data.Migrations
                     continue;
                 }
 
+                currentContinentId = this.GetContinentId(country.Key);
                 currentCountryWaterBodyId = this.GetWaterBodyId(country.Key);
-                var countryEntity = new Country() { Name = countryName, WaterBodyId = currentCountryWaterBodyId };
+                var countryEntity = new Country() { Id = currentCountryId, Name = countryName, ContinentId = currentContinentId, WaterBodyId = currentCountryWaterBodyId };
 
                 countriesIndexList.Add(countryEntity);
                 this.data.Countries.Add(countryEntity);
-                this.data.SaveChanges();
+                //this.data.SaveChanges();
 
-                currentCountryId = countryEntity.Id;
+                this.AddCreateCountryPrimaryPair(countryEntity.Id);
 
                 this.TraverseDivisions(country, 1);
+
+                currentCountryId++;
             }
+
+            this.data.SaveChanges();
 
             LuceneSearch.Index = Index.CountryIndex;
 
             LuceneSearch.AddUpdateIndexEntries(countriesIndexList);
-        }
-
-        private string GetPlaceName(string place)
-        {
-            var tokens = place.Split(new char[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
-            var noWaterBody = (tokens.Length == 1);
-
-            if (noWaterBody)
-            {
-                return place;
-            }
-
-            var placeName = tokens[1];
-
-            return placeName;
-        }
-
-        private int? GetWaterBodyId(string place)
-        {
-            var tokens = place.Split(new char[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
-            var noWaterBody = (tokens.Length == 1);
-
-            if (noWaterBody)
-            {
-                return null;
-            }
-
-            var waterBodyName = tokens[0];
-            var waterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == waterBodyName).Id;
-
-            return waterBodyId;
         }
 
         private void SeedBeaches()
@@ -452,6 +466,88 @@ namespace BeachRankings.Data.Migrations
             this.data.SaveChanges();
         }
 
+        private int GetContinentId(string place)
+        {
+            var tokens = place.Split(new char[] { '%' }, StringSplitOptions.RemoveEmptyEntries);
+            var continent = tokens[0];
+
+            switch (continent)
+            {
+                case "Africa":
+                    return 1;
+                case "Antarctica":
+                    return 2;
+                case "Asia":
+                    return 3;
+                case "Europe":
+                    return 4;
+                case "North America":
+                    return 5;
+                case "Oceania":
+                    return 6;
+                case "South America":
+                    return 7;
+                default:
+                    throw new ArgumentException("Unrecognized continent.");
+            }
+        }
+
+        private string GetPlaceName(string place)
+        {
+            var tokens = place.Split(new char[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
+            var noWaterBody = (tokens.Length == 1);
+
+            if (noWaterBody)
+            {
+                return place;
+            }
+
+            var placeName = tokens[1];
+
+            return placeName;
+        }
+
+        private int? GetWaterBodyId(string place)
+        {
+            var continentIndex = place.IndexOf('%');
+            place = place.Substring(continentIndex + 1);
+            var tokens = place.Split(new char[] { '!' }, StringSplitOptions.RemoveEmptyEntries);
+            var noWaterBody = (tokens.Length == 1);
+
+            if (noWaterBody)
+            {
+                return null;
+            }
+
+            var waterBodyName = tokens[0];
+            var waterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == waterBodyName).Id;
+
+            return waterBodyId;
+        }
+
+        private int GetWaterBodyId(int countryId, int? primaryDivisionid, int? secondaryDivisionId)
+        {
+            var secondaryDivision = this.data.SecondaryDivisions.Include(sd => sd.WaterBody).FirstOrDefault(sd => sd.Id == secondaryDivisionId);
+            var secondaryDivisionHasWaterBody = (secondaryDivision != null && secondaryDivision.WaterBodyId != null);
+
+            if (secondaryDivisionHasWaterBody)
+            {
+                return (int)secondaryDivision.WaterBodyId;
+            }
+
+            var primaryDivision = this.data.PrimaryDivisions.Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == primaryDivisionid);
+            var primaryDivisionHasWaterBody = (primaryDivision != null && primaryDivision.WaterBodyId != null);
+
+            if (primaryDivisionHasWaterBody)
+            {
+                return (int)primaryDivision.WaterBodyId;
+            }
+
+            var waterBodyId = this.data.Countries.Include(c => c.WaterBody).FirstOrDefault(c => c.Id == countryId).WaterBodyId;
+
+            return (int)waterBodyId;
+        }
+
         private void TraverseDivisions(object parent, int depth)
         {
             if (parent is string)
@@ -495,16 +591,23 @@ namespace BeachRankings.Data.Migrations
                 case 1:
                     var primaryDivision = new PrimaryDivision()
                     {
+                        Id = currentPrimaryDivisionId,
                         Name = this.GetPlaceName(value),
+                        ContinentId = currentContinentId,
                         CountryId = currentCountryId,
                         WaterBodyId = currentCountryWaterBodyId ?? this.GetWaterBodyId(value)
                     };
                     currentPrimaryDivisionWaterBodyId = primaryDivision.WaterBodyId;
 
-                    this.data.PrimaryDivisions.Add(primaryDivision);
-                    this.data.SaveChanges();
+                    this.AddCreatePrimarySecondaryPair(primaryDivision.Id);
+                    this.AddCreateCountryPrimaryPair(currentCountryId, primaryDivision.Id);
 
-                    currentPrimaryDivisionId = primaryDivision.Id;
+                    this.data.PrimaryDivisions.Add(primaryDivision);
+                    //this.data.SaveChanges();
+
+                    currentPrimaryDivisionId++;
+                    //currentPrimaryDivisionId = primaryDivision.Id;
+
                     searchableDivision = primaryDivision;
                     LuceneSearch.Index = Index.PrimaryDivisionIndex;
 
@@ -512,16 +615,22 @@ namespace BeachRankings.Data.Migrations
                 case 2:
                     var secondaryDivision = new SecondaryDivision()
                     {
+                        Id = currentSecondaryDivisionId,
                         Name = this.GetPlaceName(value),
+                        ContinentId = currentContinentId,
                         CountryId = currentCountryId,
                         PrimaryDivisionId = currentPrimaryDivisionId,
                         WaterBodyId = currentPrimaryDivisionWaterBodyId ?? this.GetWaterBodyId(value)
                     };
 
-                    this.data.SecondaryDivisions.Add(secondaryDivision);
-                    this.data.SaveChanges();
+                    this.AddCreateSecondaryTertiaryPair(secondaryDivision.Id);
+                    this.AddCreatePrimarySecondaryPair(currentPrimaryDivisionId, secondaryDivision.Id);
 
-                    currentSecondaryDivisionId = secondaryDivision.Id;
+                    this.data.SecondaryDivisions.Add(secondaryDivision);
+                    //this.data.SaveChanges();
+
+                    currentSecondaryDivisionId++;
+                    //currentSecondaryDivisionId = secondaryDivision.Id;
                     searchableDivision = secondaryDivision;
                     LuceneSearch.Index = Index.SecondaryDivisionIndex;
 
@@ -529,16 +638,22 @@ namespace BeachRankings.Data.Migrations
                 case 3:
                     var tertiaryDivision = new TertiaryDivision()
                     {
+                        Id = currentTertiaryDivisionId,
                         Name = value,
+                        ContinentId = currentContinentId,
                         CountryId = currentCountryId,
                         PrimaryDivisionId = currentPrimaryDivisionId,
                         SecondaryDivisionId = currentSecondaryDivisionId
                     };
 
-                    this.data.TertiaryDivisions.Add(tertiaryDivision);
-                    this.data.SaveChanges();
+                    this.AddCreateTertiaryQuaternaryPair(tertiaryDivision.Id);
+                    this.AddCreateSecondaryTertiaryPair(currentSecondaryDivisionId, tertiaryDivision.Id);
 
-                    currentTertiaryDivisionId = tertiaryDivision.Id;
+                    this.data.TertiaryDivisions.Add(tertiaryDivision);
+                    //this.data.SaveChanges();
+
+                    currentTertiaryDivisionId++;
+                    //currentTertiaryDivisionId = tertiaryDivision.Id;
                     searchableDivision = tertiaryDivision;
                     LuceneSearch.Index = Index.TertiaryDivisionIndex;
 
@@ -546,17 +661,22 @@ namespace BeachRankings.Data.Migrations
                 case 4:
                     var quaternaryDivision = new QuaternaryDivision()
                     {
+                        Id = currentQuaternaryDivisionId,
                         Name = value,
+                        ContinentId = currentContinentId,
                         CountryId = currentCountryId,
                         PrimaryDivisionId = currentPrimaryDivisionId,
                         SecondaryDivisionId = currentSecondaryDivisionId,
                         TertiaryDivisionId = currentTertiaryDivisionId
                     };
 
-                    this.data.QuaternaryDivisions.Add(quaternaryDivision);
-                    this.data.SaveChanges();
+                    this.AddCreateTertiaryQuaternaryPair(currentTertiaryDivisionId, quaternaryDivision.Id);
 
-                    currentQuaternaryDivisionId = quaternaryDivision.Id;
+                    this.data.QuaternaryDivisions.Add(quaternaryDivision);
+                    //this.data.SaveChanges();
+
+                    currentQuaternaryDivisionId++;
+                    //currentQuaternaryDivisionId = quaternaryDivision.Id;
                     searchableDivision = quaternaryDivision;
                     LuceneSearch.Index = Index.QuaternaryDivisionIndex;
 
@@ -590,6 +710,66 @@ namespace BeachRankings.Data.Migrations
             throw new ArgumentException("Received an unexpected type.");
         }
 
+        private void AddCreateCountryPrimaryPair(int countryId, int primaryId = 0)
+        {
+            if (!countryPrimaryIds.ContainsKey(countryId))
+            {
+                countryPrimaryIds.Add(countryId, new List<int>());
+            }
+
+            if (primaryId == 0)
+            {
+                return;
+            }
+
+            countryPrimaryIds[countryId].Add(primaryId);
+        }
+
+        private void AddCreatePrimarySecondaryPair(int primaryId, int secondaryId = 0)
+        {
+            if (!primarySecondaryIds.ContainsKey(primaryId))
+            {
+                primarySecondaryIds.Add(primaryId, new List<int>());
+            }
+
+            if (secondaryId == 0)
+            {
+                return;
+            }
+
+            primarySecondaryIds[primaryId].Add(secondaryId);
+        }
+
+        private void AddCreateSecondaryTertiaryPair(int secondaryId, int tertiaryId = 0)
+        {
+            if (!secondaryTertiaryIds.ContainsKey(secondaryId))
+            {
+                secondaryTertiaryIds.Add(secondaryId, new List<int>());
+            }
+
+            if (tertiaryId == 0)
+            {
+                return;
+            }
+
+            secondaryTertiaryIds[secondaryId].Add(tertiaryId);
+        }
+
+        private void AddCreateTertiaryQuaternaryPair(int tertiaryId, int quaternaryId = 0)
+        {
+            if (!tertiaryQuaternaryIds.ContainsKey(tertiaryId))
+            {
+                tertiaryQuaternaryIds.Add(tertiaryId, new List<int>());
+            }
+
+            if (quaternaryId == 0)
+            {
+                return;
+            }
+
+            tertiaryQuaternaryIds[tertiaryId].Add(quaternaryId);
+        }
+
         private int b()
         {
             return randomBeach.Next(1, beachesCount);
@@ -605,29 +785,6 @@ namespace BeachRankings.Data.Migrations
             }
 
             return Math.Round((randomScore.NextDouble() * 10), 1);
-        }
-
-        private int GetWaterBodyId(int countryId, int? primaryDivisionid, int? secondaryDivisionId)
-        {
-            var secondaryDivision = this.data.SecondaryDivisions.Include(sd => sd.WaterBody).FirstOrDefault(sd => sd.Id == secondaryDivisionId);
-            var secondaryDivisionHasWaterBody = (secondaryDivision != null && secondaryDivision.WaterBodyId != null);
-
-            if (secondaryDivisionHasWaterBody)
-            {
-                return (int)secondaryDivision.WaterBodyId;
-            }
-
-            var primaryDivision = this.data.PrimaryDivisions.Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == primaryDivisionid);
-            var primaryDivisionHasWaterBody = (primaryDivision != null && primaryDivision.WaterBodyId != null);
-
-            if (primaryDivisionHasWaterBody)
-            {
-                return (int)primaryDivision.WaterBodyId;
-            }
-
-            var waterBodyId = this.data.Countries.Include(c => c.WaterBody).FirstOrDefault(c => c.Id == countryId).WaterBodyId;
-
-            return (int)waterBodyId;
         }
     }
 }

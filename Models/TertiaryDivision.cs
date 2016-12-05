@@ -25,6 +25,11 @@
         public string Name { get; set; }
 
         [Required]
+        public int ContinentId { get; set; }
+
+        public virtual Continent Continent { get; set; }
+
+        [Required]
         [Index("IX_CountryTertiary", IsUnique = true, Order = 1)]
         public int CountryId { get; set; }
 

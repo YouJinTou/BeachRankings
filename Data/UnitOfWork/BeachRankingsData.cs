@@ -13,6 +13,7 @@
 
         private IGenericRepository<User> users;
         private IUserStore<User> userStore;
+        private IContinentRepository continents;
         private ICountryRepository countries;
         private IPrimaryDivisionRepository primaryDivisions;
         private ISecondaryDivisionRepository secondaryDivisions;
@@ -58,6 +59,19 @@
                 }
 
                 return this.userStore;
+            }
+        }
+
+        public IContinentRepository Continents
+        {
+            get
+            {
+                if (this.continents == null)
+                {
+                    this.continents = new ContinentRepository(this.dbContext);
+                }
+
+                return this.continents;
             }
         }
 

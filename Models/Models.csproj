@@ -58,9 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogArticle.cs" />
+    <Compile Include="Country.cs" />
     <Compile Include="Enums\Criterion.cs" />
     <Compile Include="Interfaces\IPlaceSearchable.cs" />
-    <Compile Include="Country.cs" />
+    <Compile Include="Continent.cs" />
     <Compile Include="PrimaryDivision.cs" />
     <Compile Include="QuaternaryDivision.cs" />
     <Compile Include="SecondaryDivision.cs" />

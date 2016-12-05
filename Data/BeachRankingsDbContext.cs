@@ -11,6 +11,8 @@
         {
         }
 
+        public IDbSet<Continent> Continents { get; set; }
+
         public IDbSet<Country> Countries { get; set; }
 
         public IDbSet<PrimaryDivision> PrimaryDivisions { get; set; }
@@ -43,6 +45,11 @@
             modelBuilder.Entity<User>()
                 .HasOptional(u => u.Blog)
                 .WithRequired(b => b.User);
+
+            modelBuilder.Entity<Continent>()
+                .HasMany(c => c.Countries)
+                .WithRequired(pd => pd.Continent)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Country>()
                 .HasMany(c => c.PrimaryDivisions)

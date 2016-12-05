@@ -263,7 +263,7 @@
     <Compile Include="Utils\Extensions\GenericHtmlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Countries.txt" />
+    <Content Include="App_Data\Continents.txt" />
     <Content Include="App_Data\Seed.txt" />
     <Content Include="App_Data\WaterBodies.txt" />
     <Content Include="Content\bootstrap-theme.css" />

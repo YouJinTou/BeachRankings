@@ -5,8 +5,9 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Country : IPlaceSearchable
+    public class Continent : IPlaceSearchable
     {
+        private ICollection<Country> countries;
         private ICollection<PrimaryDivision> primaryDivisions;
         private ICollection<SecondaryDivision> secondaryDivisions;
         private ICollection<TertiaryDivision> tertiaryDivisions;
@@ -18,18 +19,22 @@
 
         [Required]
         [Index(IsUnique = true)]
-        [MaxLength(100)]
-        [Display(Name = "Country")]
+        [MaxLength(30)]
+        [Display(Name = "Continent")]
         public string Name { get; set; }
+        
+        public virtual ICollection<Country> Countries
+        {
+            get
+            {
+                return this.countries ?? (this.countries = new HashSet<Country>());
+            }
+            set
+            {
+                this.countries = value;
+            }
+        }
 
-        [Required]
-        public int ContinentId { get; set; }
-
-        public virtual Continent Continent { get; set; }
-
-        public int? WaterBodyId { get; set; }
-
-        public virtual WaterBody WaterBody { get; protected set; }
 
         public virtual ICollection<PrimaryDivision> PrimaryDivisions
         {

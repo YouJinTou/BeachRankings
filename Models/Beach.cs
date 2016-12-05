@@ -36,6 +36,11 @@
         public DateTime AddedOn { get; private set; }
 
         [Required]
+        public int ContinentId { get; set; }
+
+        public virtual Continent Continent { get; set; }
+
+        [Required]
         public int CountryId { get; set; }
 
         public virtual Country Country { get; set; }
@@ -180,6 +185,7 @@
                 quaternaryDivisinoName +
                 this.WaterBody.Name)
                 .Trim();
+            this.ContinentId = this.Country.ContinentId;
         }
 
         public void UpdateScores()
