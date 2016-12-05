@@ -84,10 +84,12 @@
 
             try
             {
+                var country = this.Data.Countries.Find(bindingModel.CountryId);
                 secondaryDivision = new SecondaryDivision()
                 {
                     Name = bindingModel.SecondaryDivision,
-                    CountryId = (int)bindingModel.CountryId,
+                    ContinentId = country.ContinentId,
+                    CountryId = country.Id,
                     PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
                     WaterBodyId = bindingModel.WaterBodyId
                 };

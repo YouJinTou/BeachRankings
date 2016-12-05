@@ -83,10 +83,12 @@
 
             try
             {
+                var country = this.Data.Countries.Find(bindingModel.CountryId);
                 tertiaryDivision = new TertiaryDivision()
                 {
                     Name = bindingModel.TertiaryDivision,
-                    CountryId = (int)bindingModel.CountryId,
+                    ContinentId = country.ContinentId,
+                    CountryId = country.Id,
                     PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
                     SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId
                 };

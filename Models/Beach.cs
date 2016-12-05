@@ -35,8 +35,7 @@
         [Required]
         public DateTime AddedOn { get; private set; }
 
-        [Required]
-        public int ContinentId { get; set; }
+        public int? ContinentId { get; set; }
 
         public virtual Continent Continent { get; set; }
 

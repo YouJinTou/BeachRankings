@@ -16,6 +16,11 @@
         [HttpGet]
         public ActionResult Restructure()
         {
+            var continents = this.Data.Continents.All().Select(c => new SelectListItem()
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            });
             var countries = this.Data.Countries.All().Select(c => new SelectListItem()
             {
                 Text = c.Name,
@@ -26,7 +31,12 @@
                 Text = wb.Name,
                 Value = wb.Id.ToString()
             });
-            var model = new RestructureViewModel() { Countries = countries, WaterBodies = waterBodies };
+            var model = new RestructureViewModel()
+            {
+                Continents = continents,
+                Countries = countries,
+                WaterBodies = waterBodies
+            };
 
             if (this.TempData["ValidationError"] != null)
             {

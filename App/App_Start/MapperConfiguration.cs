@@ -14,6 +14,7 @@
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<BeachSearchResultModel, AutocompleteBeachViewModel>();
+                cfg.CreateMap<PlaceSearchResultModel, AutocompleteContinentViewModel>();
                 cfg.CreateMap<PlaceSearchResultModel, AutocompleteCountryViewModel>();
                 cfg.CreateMap<PlaceSearchResultModel, AutocompleteWaterBodyViewModel>();
                 cfg.CreateMap<PlaceSearchResultModel, AutocompletePrimaryViewModel>();

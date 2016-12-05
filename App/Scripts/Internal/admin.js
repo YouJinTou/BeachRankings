@@ -145,6 +145,7 @@
                     $editControl.val('');
                     setUiCues();
                     $editControl.closest('.form-group').find('.admin-water-body').val('').show();
+                    $editControl.closest('.form-group').find('.admin-continent').val('').show();
                 } else {
                     $(form).attr('action', getControllerPart() + action);
                     $(form).submit();
@@ -158,6 +159,7 @@
 
                 if (editControlReadOnly) {
                     setUiCues();
+                    setContinentOnEdit();
                     setWaterBodyOnEdit();
                 } else {
                     $(form).attr('action', getControllerPart() + action);
@@ -211,10 +213,40 @@
                 });
                 $crudControls.find('[data-action="Cancel"]').hide();
                 $editControl.attr('readonly', true);
-                $editControl.closest('.form-group').find('.admin-water-body').hide();
+                $editControl.closest('.form-group').find('.admin-water-body').val('').hide();
+                $editControl.closest('.form-group').find('.admin-continent').val('').hide();
                 $('#restructure-container').find('.place-holder').show();
                 $('#restructure-container').find('.control-label').show();
                 $('#move-beaches-container').show();
+            }
+
+            function setContinentOnEdit() {
+                var $continents = $editControl.closest('.form-group').find('.admin-continent');
+                var $division = $editControl.closest('.form-group').find('[data-ddl-division]');
+                var nextDivision = $division.data('next-division');
+                var noContinent = (nextDivision !== 1);
+
+                $continents.val('');
+
+                if (noContinent) {
+                    return;
+                }
+
+                var countryId = $division.val();
+                var url = '/Countries/Continent/' + countryId;
+
+                $.getJSON(url, function (result) {
+                    var noResult = (result === null || result.length === 0);
+
+                    if (noResult) {
+                        return;
+                    }
+
+                    $continents.val(result);
+                    $('#hdn-continent-id').val(result);
+                });
+
+                $continents.show();
             }
 
             function setWaterBodyOnEdit() {
@@ -240,6 +272,7 @@
                     }
 
                     $waterBodies.val(result);
+                    $('#hdn-waterbody-id').val(result);
                 });
 
                 $waterBodies.show();

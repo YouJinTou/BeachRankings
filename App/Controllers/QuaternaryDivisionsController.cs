@@ -71,10 +71,12 @@
 
             try
             {
+                var country = this.Data.Countries.Find(bindingModel.CountryId);
                 quaternaryDivision = new QuaternaryDivision()
                 {
                     Name = bindingModel.QuaternaryDivision,
-                    CountryId = (int)bindingModel.CountryId,
+                    ContinentId = country.ContinentId,
+                    CountryId = country.Id,
                     PrimaryDivisionId = (int)bindingModel.PrimaryDivisionId,
                     SecondaryDivisionId = (int)bindingModel.SecondaryDivisionId,
                     TertiaryDivisionId = (int)bindingModel.TertiaryDivisionId

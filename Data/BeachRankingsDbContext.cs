@@ -48,7 +48,7 @@
 
             modelBuilder.Entity<Continent>()
                 .HasMany(c => c.Countries)
-                .WithRequired(pd => pd.Continent)
+                .WithOptional(pd => pd.Continent)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Country>()

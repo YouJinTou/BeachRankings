@@ -17,5 +17,7 @@
         public IEnumerable<AutocompleteQuaternaryViewModel> QuaternaryDivisions { get; set; }
 
         public IEnumerable<AutocompleteCountryViewModel> Countries { get; set; }
+
+        public IEnumerable<AutocompleteContinentViewModel> Continents { get; set; }
     }
 }

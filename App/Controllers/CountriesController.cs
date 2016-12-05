@@ -81,7 +81,12 @@
         [RestructureAuthorize]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
-            var country = new Country() { Name = bindingModel.Country, WaterBodyId = bindingModel.WaterBodyId };
+            var country = new Country()
+            {
+                Name = bindingModel.Country,
+                ContinentId = bindingModel.ContinentId,
+                WaterBodyId = bindingModel.WaterBodyId
+            };
 
             try
             {
@@ -114,6 +119,7 @@
                     .FirstOrDefault(c => c.Id == bindingModel.CountryId);
                 country.Name = bindingModel.Country;
                 var waterBodyIdIsNew = (country.WaterBodyId != bindingModel.WaterBodyId);
+                var continentIsNew = (country.ContinentId != bindingModel.ContinentId);
 
                 if (waterBodyIdIsNew)
                 {
@@ -129,15 +135,24 @@
 
                     this.AssignChildrenWaterBodyIds(country);
 
-                    this.Data.Beaches.SaveChanges();
-                    this.Data.PrimaryDivisions.SaveChanges();
-                    this.Data.SecondaryDivisions.SaveChanges();
-
                     this.Data.WaterBodies.AddUpdateIndexEntry(oldWaterBody);
                     this.Data.WaterBodies.AddUpdateIndexEntry(newWaterBody);
                 }
 
-                this.Data.Countries.SaveChanges();
+                if (continentIsNew)
+                {
+                    var oldContinent = this.Data.Continents.Find(country.ContinentId);
+                    var newContinent = this.Data.Continents.Find(bindingModel.ContinentId);
+
+                    country.ContinentId = bindingModel.ContinentId;
+
+                    this.AssignChildrenContinentIds(country);
+
+                    this.Data.Continents.AddUpdateIndexEntry(oldContinent);
+                    this.Data.Continents.AddUpdateIndexEntry(newContinent);
+                }
+
+                this.Data.SaveChanges();
                 this.Data.Countries.AddUpdateIndexEntry(country);
             }
             catch (InvalidOperationException ex)
@@ -195,6 +210,15 @@
 
         [HttpGet]
         [RestructureAuthorize]
+        public JsonResult Continent(int id)
+        {
+            var continentId = this.Data.Countries.Find(id).ContinentId;
+
+            return this.Json(continentId, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [RestructureAuthorize]
         public JsonResult WaterBody(int id)
         {
             var waterBodyId = this.Data.Countries.Find(id).WaterBodyId;
@@ -222,7 +246,7 @@
             }
 
             var waterBodyAssignedAtSecondaryLevel = country.SecondaryDivisions.Any(pd => pd.WaterBodyId != firstWaterBodyId);
-            
+
             return waterBodyAssignedAtSecondaryLevel ? false : true;
         }
 
@@ -241,6 +265,34 @@
             foreach (var secondaryDivision in country.SecondaryDivisions)
             {
                 secondaryDivision.WaterBodyId = country.WaterBodyId;
+            }
+        }
+
+        private void AssignChildrenContinentIds(Country country)
+        {
+            foreach (var beach in country.Beaches)
+            {
+                beach.ContinentId = (int)country.ContinentId;
+            }
+
+            foreach (var primaryDivision in country.PrimaryDivisions)
+            {
+                primaryDivision.ContinentId = country.ContinentId;
+            }
+
+            foreach (var secondaryDivision in country.SecondaryDivisions)
+            {
+                secondaryDivision.ContinentId = country.ContinentId;
+            }
+
+            foreach (var tertiaryDivision in country.TertiaryDivisions)
+            {
+                tertiaryDivision.ContinentId = country.ContinentId;
+            }
+
+            foreach (var quaternaryDivision in country.QuaternaryDivisions)
+            {
+                quaternaryDivision.ContinentId = country.ContinentId;
             }
         }
 

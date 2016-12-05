@@ -46,7 +46,6 @@
         public ActionResult Details(int id)
         {
             var beach = this.Data.Beaches.All()
-                .Include(b => b.Creator)
                 .Include(b => b.Reviews)
                 .Include(b => b.Images)
                 .Include(b => b.BlogArticles)

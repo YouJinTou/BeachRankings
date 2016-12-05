@@ -6,6 +6,11 @@
 
     public class RestructureViewModel
     {
+        [Display(Name = "Continent")]
+        public int? ContinentId { get; set; }
+
+        public string Continent { get; set; }
+
         [Display(Name = "Country")]
         public int? CountryId { get; set; }
 
@@ -37,6 +42,8 @@
         public IEnumerable<SelectListItem> WaterBodies { get; set; }
 
         public IEnumerable<SelectListItem> Countries { get; set; }
+
+        public IEnumerable<SelectListItem> Continents { get; set; }
 
         public string BeachIdsToMove { get; set; }
     }

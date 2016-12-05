@@ -10,6 +10,7 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.BeachIdsToMove, new { id = "hdn-beach-ids" })
         @Html.HiddenFor(model => model.WaterBodyId, new { id = "hdn-waterbody-id" })
+        @Html.HiddenFor(model => model.ContinentId, new { id = "hdn-continent-id" })
 
         <div class="row">
             <div class="col-md-7">
@@ -36,6 +37,11 @@
                                        @readonly = "readonly",
                                        @placeholder = "Name"
                                    })
+                                    @Html.DropDownListFor(model => model.ContinentId, Model.Continents, "-- Continent --",
+                                    new
+                                    {
+                                        @class = "admin-continent form-control form-control-extended custom-focus-black display-none"
+                                    })
                                     @Html.DropDownListFor(model => model.WaterBodyId, Model.WaterBodies, "-- Waterbody --",
                                     new
                                     {

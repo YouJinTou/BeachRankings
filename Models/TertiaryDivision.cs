@@ -24,8 +24,7 @@
         [Display(Name = "Third-level division")]
         public string Name { get; set; }
 
-        [Required]
-        public int ContinentId { get; set; }
+        public int? ContinentId { get; set; }
 
         public virtual Continent Continent { get; set; }
 

@@ -34,6 +34,8 @@
                 (this.Data.QuaternaryDivisions.GetSearchResultsByKeyStroke(prefix));
             var countries = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteCountryViewModel>>
                 (this.Data.Countries.GetSearchResultsByKeyStroke(prefix));
+            var continents = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteContinentViewModel>>
+                (this.Data.Continents.GetSearchResultsByKeyStroke(prefix));
             var waterBodies = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteWaterBodyViewModel>>
                 (this.Data.WaterBodies.GetSearchResultsByKeyStroke(prefix));
 
@@ -45,6 +47,7 @@
                 TertiaryDivisions = tertiaryDivisions,
                 QuaternaryDivisions = quaternaryDivisions,
                 Countries = countries,
+                Continents = continents,
                 WaterBodies = waterBodies
             };
 

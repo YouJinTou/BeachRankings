@@ -1,5 +1,10 @@
 ﻿namespace BeachRankings.App.Models.ViewModels
 {
+    public class AutocompleteContinentViewModel : AutocompleteBaseViewModel
+    {
+        public int BeachCount { get; set; }
+    }
+
     public class AutocompleteCountryViewModel : AutocompleteBaseViewModel
     {
         public int BeachCount { get; set; }
