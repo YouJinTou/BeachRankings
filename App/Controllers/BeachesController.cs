@@ -216,7 +216,8 @@
                 var oldBeach = new Beach();
 
                 Mapper.Map(beach, oldBeach);
-               
+
+                beach.ContinentId = bindingModel.ContinentId;
                 beach.CountryId = (int)bindingModel.CountryId;
                 beach.PrimaryDivisionId = bindingModel.PrimaryDivisionId;
                 beach.SecondaryDivisionId = bindingModel.SecondaryDivisionId;

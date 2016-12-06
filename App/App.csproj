@@ -223,6 +223,7 @@
     <Compile Include="Controllers\BasePlacesController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
+    <Compile Include="Controllers\ContinentsController.cs" />
     <Compile Include="Controllers\Enums\ActionMessage.cs" />
     <Compile Include="Controllers\QuaternaryDivisionsController.cs" />
     <Compile Include="Controllers\TertiaryDivisionsController.cs" />

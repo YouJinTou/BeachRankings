@@ -24,6 +24,7 @@
             var quaternaryDivision = this.Data.QuaternaryDivisions.Find(id);
             var model = Mapper.Map<QuaternaryDivision, PlaceBeachesViewModel>(quaternaryDivision);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
+            model.Controller = "QuaternaryDivisions";
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 

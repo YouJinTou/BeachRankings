@@ -24,6 +24,7 @@
             var country = this.Data.Countries.Find(id);
             var model = Mapper.Map<Country, PlaceBeachesViewModel>(country);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
+            model.Controller = "Countries";
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 

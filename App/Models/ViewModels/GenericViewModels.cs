@@ -11,7 +11,11 @@
 
     public class PlaceBeachesViewModel
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
+
+        public string Controller { get; set; }
 
         public IEnumerable<ConciseBeachViewModel> Beaches { get; set; }
     }

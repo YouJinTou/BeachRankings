@@ -173,5 +173,5 @@
         public string PrimaryDivision { get; set; }
 
         public string SecondaryDivision { get; set; }
-    }   
+    }
 }

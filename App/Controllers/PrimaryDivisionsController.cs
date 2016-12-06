@@ -24,6 +24,7 @@
             var primaryDivision = this.Data.PrimaryDivisions.Find(id);
             var model = Mapper.Map<PrimaryDivision, PlaceBeachesViewModel>(primaryDivision);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
+            model.Controller = "PrimaryDivisions";
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 

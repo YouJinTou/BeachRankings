@@ -20,6 +20,7 @@
             var waterBody = this.Data.WaterBodies.Find(id);
             var model = Mapper.Map<WaterBody, PlaceBeachesViewModel>(waterBody);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
+            model.Controller = "WaterBodies";
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
