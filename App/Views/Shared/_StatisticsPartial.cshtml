@@ -1,4 +1,8 @@
-﻿@model IEnumerable<TableRowViewModel>
+﻿@model StatisticsViewModel
+
+<h2><a href="/@Model.Controller/Beaches/@Model.Id">@Model.Name</a></h2>
+
+<hr />
 
 <div class="col-xs-12 table-responsive">
     <table id="table-result" class="display compact cell-border">
@@ -30,7 +34,7 @@
             </tr>
         </thead>
         <tbody class="datatables-body">
-            @Html.DisplayForModel()
+            @Html.DisplayFor(model => model.Rows)
         </tbody>
     </table>
 </div>

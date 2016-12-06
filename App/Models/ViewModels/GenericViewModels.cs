@@ -11,13 +11,20 @@
 
     public class PlaceBeachesViewModel
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
+
+        public IEnumerable<ConciseBeachViewModel> Beaches { get; set; }
+    }
+
+    public class StatisticsViewModel
+    {
+        public int Id { get; set; }
 
         public string Controller { get; set; }
 
-        public IEnumerable<ConciseBeachViewModel> Beaches { get; set; }
+        public string Name { get; set; }
+
+        public IEnumerable<TableRowViewModel> Rows { get; set; }
     }
 
     public class TableRowViewModel : CriteriaBaseModel

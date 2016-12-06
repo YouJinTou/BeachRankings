@@ -24,7 +24,6 @@
             var primaryDivision = this.Data.PrimaryDivisions.Find(id);
             var model = Mapper.Map<PrimaryDivision, PlaceBeachesViewModel>(primaryDivision);
             model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
-            model.Controller = "PrimaryDivisions";
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
@@ -33,15 +32,21 @@
 
         public PartialViewResult Statistics(int id)
         {
-            var beaches = this.Data.PrimaryDivisions.All()
+            var primaryDivision = this.Data.PrimaryDivisions.All()
                 .Include(pd => pd.WaterBody)
                 .Include(pd => pd.SecondaryDivisions)
                 .Include(pd => pd.TertiaryDivisions)
                 .Include(pd => pd.QuaternaryDivisions)
-                .FirstOrDefault(pd => pd.Id == id)
-                .Beaches
-                .Where(b => b.TotalScore != null);
-            var model = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches);
+                .Include(pd => pd.Beaches)
+                .FirstOrDefault(pd => pd.Id == id);
+            var beaches = primaryDivision.Beaches.Where(b => b.TotalScore != null);
+            var model = new StatisticsViewModel()
+            {
+                Id = id,
+                Controller = "PrimaryDivisions",
+                Name = primaryDivision.Name,
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
+            };
 
             return this.PartialView("_StatisticsPartial", model);
         }
