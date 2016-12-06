@@ -23,12 +23,28 @@
 
         public ActionResult Best()
         {
-            return this.View();
+            var model = new BestBeachesViewModel()
+            {
+                CaribbeanId = 40,
+                EuropeId = 4,
+                FranceId = 53,
+                GreeceId = 61,
+                ItalyId = 78,
+                MediterraneanId = 108,
+                SpainId = 147,
+                TurkeyId = 160,
+                CampingId = 13,
+                LongStayId = 15,
+                SnorkelingId = 11
+            };
+
+            return this.View(model);
         }
 
-        public ActionResult Top(int criterion = 0, int countryId = 0, int waterBodyId = 0)
+        public ActionResult Top(int criterion = 0, int countryId = 0, int waterBodyId = 0, int continentId = 0)
         {
             var beaches = this.Data.Beaches
+                 .FilterByContinent(continentId)
                  .FilterByCountry(countryId)
                  .FilterByWaterBody(waterBodyId)
                  .OrderByCriterion(criterion)

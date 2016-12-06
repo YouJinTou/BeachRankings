@@ -6,6 +6,31 @@
     using System.Web.Mvc;
     using BeachRankings.App.CustomAttributes;
 
+    public class BestBeachesViewModel
+    {
+        public int CaribbeanId { get; set; }
+
+        public int EuropeId { get; set; }
+
+        public int FranceId { get; set; }
+
+        public int GreeceId { get; set; }
+
+        public int ItalyId { get; set; }
+
+        public int MediterraneanId { get; set; }
+
+        public int SpainId { get; set; }
+
+        public int TurkeyId { get; set; }
+
+        public int CampingId { get; set; }
+
+        public int LongStayId { get; set; }
+
+        public int SnorkelingId { get; set; }
+    }
+
     public class AddBeachViewModel
     {
         [Required(ErrorMessage = "The name field is required.")]

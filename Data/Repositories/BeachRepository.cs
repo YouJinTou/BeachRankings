@@ -42,6 +42,11 @@
             return this.entitySet.OrderByCriterion(criterion);
         }
 
+        public IQueryable<Beach> FilterByContinent(int id)
+        {
+            return this.entitySet.FilterByContinent(id);
+        }
+
         public IQueryable<Beach> FilterByCountry(int id)
         {
             return this.entitySet.FilterByCountry(id);

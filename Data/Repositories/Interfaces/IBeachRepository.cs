@@ -7,6 +7,8 @@
     {
         IQueryable<Beach> OrderByCriterion(int criterion);
 
+        IQueryable<Beach> FilterByContinent(int id);
+
         IQueryable<Beach> FilterByCountry(int id);
 
         IQueryable<Beach> FilterByWaterBody(int id);

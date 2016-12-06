@@ -29,6 +29,18 @@ namespace BeachRankings.Data.Extensions
             return beaches.Provider.CreateQuery<Beach>(call);
         }
 
+        public static IQueryable<Beach> FilterByContinent(this IQueryable<Beach> beaches, int id)
+        {
+            var noCountrySelected = (id == 0);
+
+            if (noCountrySelected)
+            {
+                return beaches;
+            }
+
+            return beaches.Where(b => b.ContinentId == id);
+        }
+
         public static IQueryable<Beach> FilterByCountry(this IQueryable<Beach> beaches, int id)
         {
             var noCountrySelected = (id == 0);
