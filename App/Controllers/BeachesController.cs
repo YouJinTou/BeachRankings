@@ -41,17 +41,18 @@
             return this.View(model);
         }
 
-        public ActionResult Top(int criterion = 0, int countryId = 0, int waterBodyId = 0, int continentId = 0)
+        public ActionResult Top(int continentId = 0, int countryId = 0, int waterBodyId = 0, int criterionId = 0)
         {
             var beaches = this.Data.Beaches
                  .FilterByContinent(continentId)
                  .FilterByCountry(countryId)
                  .FilterByWaterBody(waterBodyId)
-                 .OrderByCriterion(criterion)
+                 .OrderByDescending(b => b.TotalScore)
+                 .OrderByCriterion(criterionId)
                  .Take(25)
                  .ToList();
             var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<ConciseBeachViewModel>>(beaches);
-            var title = BeachHelper.GetFilteredBeachesTitle(criterion, beachesModel.First().Country, beachesModel.First().WaterBody, (countryId == 0));
+            var title = BeachHelper.GetFilteredBeachesTitle(continentId, countryId, waterBodyId, criterionId);
             var model = new PlaceBeachesViewModel() { Name = title, Beaches = beachesModel };
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();

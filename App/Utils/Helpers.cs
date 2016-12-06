@@ -48,25 +48,52 @@
             return relativeBeachDir;
         }
 
-        public static string GetFilteredBeachesTitle(int criterionId, string country, string waterBody, bool isWaterBody)
+        public static string GetFilteredBeachesTitle(int continentId, int countryId, int waterBodyId, int criterionId)
         {            
+            var intro = "Top 25 Beaches in ";
+            var continent = (continentId == 0) ? string.Empty : GeoInitializer.Continents[continentId];
+            var country= (countryId == 0) ? string.Empty : GeoInitializer.Countries[countryId];
+            var waterBody = (waterBodyId == 0) ? string.Empty : ("the " + GeoInitializer.WaterBodies[waterBodyId]);
+            var place = TrimBeachesTitle((continent + ", " + country + waterBody));
             var criterionExist = (criterionId > 0 && criterionId <= 15);
-            var place = isWaterBody ? ("the " + waterBody) : country;
-
+           
             if (!criterionExist)
             {
-                return "Top 25 Beaches in " + place;
+                return intro + place;
             }
 
             var criterion = (Criterion)criterionId;
 
             switch (criterion)
             {
+                case Criterion.Camping:
+                    return intro + place + " for Camping";
+                case Criterion.LongTermStay:
+                    return intro + place + " for Long-term Stay";
                 case Criterion.Snorkeling:
-                    return "Top 25 Beaches in " + place + " for Snorkeling";
+                    return intro + place + " for Snorkeling";
                 default:
-                    return "Top 25 Beaches in " + place;
+                    return intro + place;
             }
+        }
+
+        private static string TrimBeachesTitle(string title)
+        {
+            var commonSeas = new HashSet<string> { "Caribbean Sea", "Mediterranean Sea" };
+            var result = title.Trim();
+            var landMissing = (result[0] == ',' || result[result.Length - 1] == ',');
+
+            if (landMissing)
+            {
+                result = result.Trim(new char[] { ',', ' ' });
+            }
+
+            if (commonSeas.Any(s => result.Contains(s)))
+            {
+                result = result.Replace(" Sea", string.Empty);
+            }
+
+            return result;
         }
     }
 

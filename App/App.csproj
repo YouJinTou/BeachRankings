@@ -252,6 +252,7 @@
     <Compile Include="Utils\Extensions\ViewExtensions.cs" />
     <Compile Include="Utils\Extensions\SpecificHtmlExtensions.cs" />
     <Compile Include="Utils\Extensions\IdentityExtensions.cs" />
+    <Compile Include="Utils\Initializers.cs" />
     <Compile Include="Utils\Helpers.cs" />
     <Compile Include="CustomAttributes\ImagesValidAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -264,8 +265,10 @@
     <Compile Include="Utils\Extensions\GenericHtmlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Countries.txt" />
     <Content Include="App_Data\Continents.txt" />
     <Content Include="App_Data\Seed.txt" />
+    <Content Include="App_Data\NestedWaterBodies.txt" />
     <Content Include="App_Data\WaterBodies.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

@@ -31,9 +31,9 @@ namespace BeachRankings.Data.Extensions
 
         public static IQueryable<Beach> FilterByContinent(this IQueryable<Beach> beaches, int id)
         {
-            var noCountrySelected = (id == 0);
+            var noContinentSelected = (id == 0);
 
-            if (noCountrySelected)
+            if (noContinentSelected)
             {
                 return beaches;
             }

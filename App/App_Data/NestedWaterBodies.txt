@@ -1,0 +1,63 @@
+﻿{
+	"Atlantic Ocean": [
+		"Argentine Sea",
+		"Bay of Biscay",
+		"Baltic Sea",
+		"Black Sea",
+		"Bismarck Sea",
+		"Caribbean Sea",
+		"Greenland Sea",
+		"Gulf of Alaska",
+		"Gulf of Mexico",
+		"Gulf of Venezuela",
+		"Massachusetts Bay",
+		"North Sea",
+		"Norwegian Sea",
+		"Sea of Azov",
+		{
+			"Mediterranean Sea": [
+				"Adriatic Sea",
+				"Aegean Sea",
+				"Alboran Sea",
+				"Balearic Sea",
+				"Ionian Sea",
+				"Marmara Sea",
+				"Sea of Sardinia",
+				"Sea of Sicily",
+				"Tyrrhenian Sea",
+				"Sea of Crete"
+			]
+		}
+	],
+	"Indian Ocean": [
+		"Andaman Sea",
+		"Arabian Sea",
+		"Bay of Bengal",
+		"Gulf of Aden",
+		"Gulf of Oman",
+		"Gulf of Thailand",
+		"Persian Gulf",
+		"Red Sea"
+	],
+	"Pacific Ocean": [
+		"Arafura Sea",
+		"Bali Sea",
+		"Banda Sea",
+		"Mindanao Sea",
+		"Camotes Sea",
+		"Celebes Sea",
+		"Coral Sea",
+		"East China Sea",
+		"Gulf of California",
+		"Java Sea",
+		"Molucca Sea",
+		"Philippine Sea",
+		"Sea of Japan",
+		"Sea of Okhotsk",
+		"South China Sea",
+		"Sulu Sea",
+		"Tasman Sea",
+		"Timor Sea",
+		"Visayan Sea"
+	]
+}
