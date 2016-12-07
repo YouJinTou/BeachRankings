@@ -6,22 +6,29 @@
     using Lucene.Net.Documents;
     using System;
 
-    internal static class LuceneModelFactory
+    internal class LuceneModelFactory
     {
-        public static ISearchable MapDocToModel(Document doc)
+        private ModelType modelType;
+
+        public LuceneModelFactory(ModelType modelType)
         {
-            switch (LuceneSearch.ModelType)
+            this.modelType = modelType;
+        }
+
+        public ISearchable MapDocToModel(Document doc)
+        {            
+            switch (this.modelType)
             {
                 case ModelType.Beach:
-                    return MapDocToBeachModel(doc);
+                    return this.MapDocToBeachModel(doc);
                 case ModelType.Place:
-                    return MapDocToPlace(doc);                       
+                    return this.MapDocToPlace(doc);
                 default:
                     return null;
             }
         }
 
-        private static ISearchable MapDocToBeachModel(Document doc)
+        private ISearchable MapDocToBeachModel(Document doc)
         {
             var addressTokens = doc.Get("Address").Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
             var tokensCount = addressTokens.Length;
@@ -47,7 +54,7 @@
             };
         }
 
-        private static ISearchable MapDocToPlace(Document doc)
+        private ISearchable MapDocToPlace(Document doc)
         {
             return new PlaceSearchResultModel()
             {
@@ -55,6 +62,6 @@
                 Name = doc.Get("Name"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
-        }        
+        }
     }
 }
