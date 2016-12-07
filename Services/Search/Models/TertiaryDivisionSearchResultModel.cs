@@ -8,11 +8,11 @@
 
         public string Name { get; set; }
 
-        public string CountryName { get; set; }
+        public string Country { get; set; }
 
-        public string PrimaryDivisionName { get; set; }
+        public string PrimaryDivision { get; set; }
 
-        public string SecondaryDivisionName { get; set; }
+        public string SecondaryDivision { get; set; }
 
         public int BeachCount { get; set; }
     }

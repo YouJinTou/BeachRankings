@@ -8,7 +8,7 @@
 
         public string Name { get; set; }
 
-        public string ContinentName { get; set; }
+        public string Continent { get; set; }
 
         public int BeachCount { get; set; }
     }

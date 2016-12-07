@@ -82,7 +82,7 @@
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name"),
-                ContinentName = doc.Get("ContinentName"),
+                Continent = doc.Get("Continent"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
@@ -93,7 +93,7 @@
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name"),
-                CountryName = doc.Get("CountryName"),
+                Country = doc.Get("Country"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
@@ -104,8 +104,8 @@
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name"),
-                CountryName = doc.Get("CountryName"),
-                PrimaryDivisionName = doc.Get("PrimaryName"),
+                Country = doc.Get("Country"),
+                PrimaryDivision = doc.Get("PrimaryDivision"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
@@ -116,9 +116,9 @@
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name"),
-                CountryName = doc.Get("CountryName"),
-                PrimaryDivisionName = doc.Get("PrimaryName"),
-                SecondaryDivisionName = doc.Get("SecondaryName"),
+                Country = doc.Get("Country"),
+                PrimaryDivision = doc.Get("PrimaryDivision"),
+                SecondaryDivision = doc.Get("SecondaryDivision"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
@@ -129,10 +129,10 @@
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name"),
-                CountryName = doc.Get("CountryName"),
-                PrimaryDivisionName = doc.Get("PrimaryName"),
-                SecondaryDivisionName = doc.Get("SecondaryName"),
-                TertiaryDivisionName = doc.Get("TertiaryName"),
+                Country = doc.Get("CountryName"),
+                PrimaryDivision = doc.Get("PrimaryDivision"),
+                SecondaryDivision = doc.Get("SecondaryDivision"),
+                TertiaryDivision = doc.Get("TertiaryDivision"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }

@@ -309,6 +309,10 @@
             }
         });
 
+        $('.admin-continent').on('change', function () {
+            $('#hdn-continent-id').val($(this).val());
+        });
+
         $('.admin-water-body').on('change', function () {
             $('#hdn-waterbody-id').val($(this).val());
         });

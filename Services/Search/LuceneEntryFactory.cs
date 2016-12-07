@@ -1,6 +1,5 @@
 ﻿namespace BeachRankings.Services.Search
 {
-    using System;
     using BeachRankings.Models;
     using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search.Enums;
@@ -137,22 +136,22 @@
                 return;
             }
 
-            var continentField = new Field("ContinentName", country.Continent.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var continentField = new Field("Continent", country.Continent.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
 
             doc.Add(continentField);
         }
 
         private void AddUpdatePrimaryDivisionDoc(Document doc, PrimaryDivision primaryDivision)
         {
-            var countryField = new Field("CountryName", primaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var countryField = new Field("Country", primaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
 
             doc.Add(countryField);
         }
 
         private void AddUpdateSecondaryDivisionDoc(Document doc, SecondaryDivision secondaryDivision)
         {
-            var countryField = new Field("CountryName", secondaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
-            var primaryField = new Field("PrimaryName", secondaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var countryField = new Field("Country", secondaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var primaryField = new Field("PrimaryDivision", secondaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
 
             doc.Add(countryField);
             doc.Add(primaryField);
@@ -160,9 +159,9 @@
 
         private void AddUpdateTertiaryDivisionDoc(Document doc, TertiaryDivision tertiaryDivision)
         {
-            var countryField = new Field("CountryName", tertiaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
-            var primaryField = new Field("PrimaryName", tertiaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
-            var secondaryField = new Field("SecondaryName", tertiaryDivision.SecondaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var countryField = new Field("Country", tertiaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var primaryField = new Field("PrimaryDivision", tertiaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var secondaryField = new Field("SecondaryDivision", tertiaryDivision.SecondaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
 
             doc.Add(countryField);
             doc.Add(primaryField);
@@ -171,10 +170,10 @@
 
         private void AddUpdateQuaternaryDivisionDoc(Document doc, QuaternaryDivision quaternaryDivision)
         {
-            var countryField = new Field("CountryName", quaternaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
-            var primaryField = new Field("PrimaryName", quaternaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
-            var secondaryField = new Field("SecondaryName", quaternaryDivision.SecondaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
-            var tertiaryField = new Field("TertiaryName", quaternaryDivision.TertiaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var countryField = new Field("Country", quaternaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var primaryField = new Field("PrimaryDivision", quaternaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var secondaryField = new Field("SecondaryDivision", quaternaryDivision.SecondaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var tertiaryField = new Field("TertiaryDivision", quaternaryDivision.TertiaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
 
             doc.Add(countryField);
             doc.Add(primaryField);
