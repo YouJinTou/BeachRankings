@@ -25,8 +25,8 @@
 
         public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
-            LuceneSearch.Index = Index.BeachIndex;
-            var searchables = LuceneSearch.SearchByPrefix(prefix, 10);
+            var searchService = new LuceneSearch(Index.BeachIndex);
+            var searchables = searchService.SearchByPrefix(prefix, 10);
             var results = new List<BeachSearchResultModel>();
 
             foreach (var searchable in searchables)
@@ -59,16 +59,16 @@
 
         public void AddUpdateIndexEntry(ISearchable beach)
         {
-            LuceneSearch.Index = Index.BeachIndex;
+            var searchService = new LuceneSearch(Index.BeachIndex);
 
-            LuceneSearch.AddUpdateIndexEntry(beach);
+            searchService.AddUpdateIndexEntry(beach);
         }
 
         public void DeleteIndexEntry(ISearchable beach)
         {
-            LuceneSearch.Index = Index.BeachIndex;
+            var searchService = new LuceneSearch(Index.BeachIndex);
 
-            LuceneSearch.DeleteIndexEntry(beach);
+            searchService.DeleteIndexEntry(beach);
         }
     }
 }

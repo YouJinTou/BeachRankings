@@ -24,30 +24,30 @@
 
         public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
-            LuceneSearch.Index = Index.WaterBodyIndex;
-            var searchables = LuceneSearch.SearchByPrefix(prefix, 10);
-            var results = new List<PlaceSearchResultModel>();
+            var searchService = new LuceneSearch(Index.WaterBodyIndex);
+            var searchables = searchService.SearchByPrefix(prefix, 10);
+            var results = new List<WaterBodySearchResultModel>();
 
             foreach (var searchable in searchables)
             {
-                results.Add((PlaceSearchResultModel)searchable);
+                results.Add((WaterBodySearchResultModel)searchable);
             }
 
-            return results.Where(r => r.BeachCount > 0).OrderByDescending(r => r.BeachCount);
+            return results.Where(wb => wb.BeachCount > 0).OrderByDescending(r => r.BeachCount);
         }
 
         public void AddUpdateIndexEntry(ISearchable waterBody)
         {
-            LuceneSearch.Index = Index.WaterBodyIndex;
+            var searchService = new LuceneSearch(Index.WaterBodyIndex);
 
-            LuceneSearch.AddUpdateIndexEntry(waterBody);
+            searchService.AddUpdateIndexEntry(waterBody);
         }
 
         public void DeleteIndexEntry(ISearchable waterBody)
         {
-            LuceneSearch.Index = Index.WaterBodyIndex;
+            var searchService = new LuceneSearch(Index.WaterBodyIndex);
 
-            LuceneSearch.DeleteIndexEntry(waterBody);
+            searchService.DeleteIndexEntry(waterBody);
         }
     }
 }

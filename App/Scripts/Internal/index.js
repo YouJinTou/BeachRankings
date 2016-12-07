@@ -1,5 +1,5 @@
 ﻿(function ($) {
-    initializeSearch();
+    //initializeSearch();
     setAutocompleteEvents();
 
     function initializeSearch() {

@@ -24,30 +24,30 @@
         
         public IEnumerable<ISearchable> GetSearchResultsByKeyStroke(string prefix)
         {
-            LuceneSearch.Index = Index.QuaternaryDivisionIndex;
-            var searchables = LuceneSearch.SearchByPrefix(prefix, 10);
-            var results = new List<PlaceSearchResultModel>();
+            var searchService = new LuceneSearch(Index.QuaternaryDivisionIndex);
+            var searchables = searchService.SearchByPrefix(prefix, 10);
+            var results = new List<QuaternaryDivisionSearchResultModel>();
 
             foreach (var searchable in searchables)
             {
-                results.Add((PlaceSearchResultModel)searchable);
+                results.Add((QuaternaryDivisionSearchResultModel)searchable);
             }
 
-            return results.Where(r => r.BeachCount > 0).OrderByDescending(r => r.BeachCount);
+            return results.Where(qd => qd.BeachCount > 0).OrderByDescending(r => r.BeachCount);
         }
 
         public void AddUpdateIndexEntry(ISearchable quaternaryDivision)
         {
-            LuceneSearch.Index = Index.QuaternaryDivisionIndex;
+            var searchService = new LuceneSearch(Index.QuaternaryDivisionIndex);
 
-            LuceneSearch.AddUpdateIndexEntry(quaternaryDivision);
+            searchService.AddUpdateIndexEntry(quaternaryDivision);
         }
 
         public void DeleteIndexEntry(ISearchable quaternaryDivision)
         {
-            LuceneSearch.Index = Index.QuaternaryDivisionIndex;
+            var searchService = new LuceneSearch(Index.QuaternaryDivisionIndex);
 
-            LuceneSearch.DeleteIndexEntry(quaternaryDivision);
+            searchService.DeleteIndexEntry(quaternaryDivision);
         }
     }
 }

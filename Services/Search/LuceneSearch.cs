@@ -55,43 +55,43 @@
 
                         break;
                     case Index.ContinentIndex:
-                        this.modelType = ModelType.Place;
+                        this.modelType = ModelType.Continent;
                         this.indexDirPath = Path.Combine(this.AppDataPath, "ContinentIndex");
 
                         break;
                     case Index.CountryIndex:
-                        this.modelType = ModelType.Place;
+                        this.modelType = ModelType.Country;
                         this.indexDirPath = Path.Combine(this.AppDataPath, "CountryIndex");
 
                         break;
                     case Index.PrimaryDivisionIndex:
-                        this.modelType = ModelType.Place;
+                        this.modelType = ModelType.PrimaryDivision;
                         this.indexDirPath = Path.Combine(this.AppDataPath, "PrimaryDivisionIndex");
 
                         break;
                     case Index.SecondaryDivisionIndex:
-                        this.modelType = ModelType.Place;
+                        this.modelType = ModelType.SecondaryDivision;
                         this.indexDirPath = Path.Combine(this.AppDataPath, "SecondaryDivisionIndex");
 
                         break;
                     case Index.TertiaryDivisionIndex:
-                        this.modelType = ModelType.Place;
+                        this.modelType = ModelType.TertiaryDivision;
                         this.indexDirPath = Path.Combine(this.AppDataPath, "TertiaryDivisionIndex");
 
                         break;
                     case Index.QuaternaryDivisionIndex:
-                        this.modelType = ModelType.Place;
+                        this.modelType = ModelType.QuaternaryDivision;
                         this.indexDirPath = Path.Combine(this.AppDataPath, "QuaternaryDivisionIndex");
 
                         break;
                     case Index.WaterBodyIndex:
-                        this.modelType = ModelType.Place;
+                        this.modelType = ModelType.WaterBody;
                         this.indexDirPath = Path.Combine(this.AppDataPath, "WaterBodyIndex");
 
                         break;
                     default:
                         this.index = Index.PrimaryDivisionIndex;
-                        this.modelType = ModelType.Place;
+                        this.modelType = ModelType.PrimaryDivision;
                         this.indexDirPath = Path.Combine(this.AppDataPath, "PrimaryDivisionIndex");
 
                         break;
@@ -223,11 +223,11 @@
 
             using (var writer = new IndexWriter(this.IndexDir, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
-                var entryFactory = new LuceneEntryFactory();
+                var entryFactory = new LuceneEntryFactory(this.modelType, writer);
 
                 foreach (var searchable in searchables)
                 {
-                    entryFactory.AddUpdateDocument(searchable, writer);
+                    entryFactory.AddUpdateDocument(searchable);
                 }
 
                 analyzer.Close();

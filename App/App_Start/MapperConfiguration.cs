@@ -14,13 +14,13 @@
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<BeachSearchResultModel, AutocompleteBeachViewModel>();
-                cfg.CreateMap<PlaceSearchResultModel, AutocompleteContinentViewModel>();
-                cfg.CreateMap<PlaceSearchResultModel, AutocompleteCountryViewModel>();
-                cfg.CreateMap<PlaceSearchResultModel, AutocompleteWaterBodyViewModel>();
-                cfg.CreateMap<PlaceSearchResultModel, AutocompletePrimaryViewModel>();
-                cfg.CreateMap<PlaceSearchResultModel, AutocompleteSecondaryViewModel>();
-                cfg.CreateMap<PlaceSearchResultModel, AutocompleteTertiaryViewModel>();
-                cfg.CreateMap<PlaceSearchResultModel, AutocompleteQuaternaryViewModel>();
+                cfg.CreateMap<ContinentSearchResultModel, AutocompleteContinentViewModel>();
+                cfg.CreateMap<CountrySearchResultModel, AutocompleteCountryViewModel>();
+                cfg.CreateMap<WaterBodySearchResultModel, AutocompleteWaterBodyViewModel>();
+                cfg.CreateMap<PrimaryDivisionSearchResultModel, AutocompletePrimaryViewModel>();
+                cfg.CreateMap<SecondaryDivisionSearchResultModel, AutocompleteSecondaryViewModel>();
+                cfg.CreateMap<TertiaryDivisionSearchResultModel, AutocompleteTertiaryViewModel>();
+                cfg.CreateMap<QuaternaryDivisionSearchResultModel, AutocompleteQuaternaryViewModel>();
                 cfg.CreateMap<IPlaceSearchable, PlaceBeachesViewModel>();
                 cfg.CreateMap<Beach, Beach>();
                 cfg.CreateMap<Beach, EditBeachViewModel>();

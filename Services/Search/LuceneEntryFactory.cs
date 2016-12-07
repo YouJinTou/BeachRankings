@@ -1,38 +1,53 @@
 ﻿namespace BeachRankings.Services.Search
 {
+    using System;
+    using BeachRankings.Models;
     using BeachRankings.Models.Interfaces;
+    using BeachRankings.Services.Search.Enums;
     using Lucene.Net.Documents;
     using Lucene.Net.Index;
     using Lucene.Net.Search;
 
     internal class LuceneEntryFactory
     {
-        public void AddUpdateDocument(ISearchable searchable, IndexWriter writer)
+        private ModelType modelType;
+        private IndexWriter writer;
+
+        public LuceneEntryFactory(ModelType modelType, IndexWriter writer)
+        {
+            this.modelType = modelType;
+            this.writer = writer;
+        }
+
+        public void AddUpdateDocument(ISearchable searchable)
         {
             if (searchable == null)
             {
                 return;
             }
 
-            if (searchable is IBeachSearchable)
+            switch (this.modelType)
             {
-                var beachSearchable = (IBeachSearchable)searchable;
+                case ModelType.Beach:
+                    var beach = (Beach)searchable;
 
-                this.AddUpdateBeachDoc(beachSearchable, writer);
-            }
-            else if (searchable is IPlaceSearchable)
-            {
-                var placeSearchable = (IPlaceSearchable)searchable;
+                    this.AddUpdateBeachDoc(beach);
 
-                this.AddUpdatePlaceDoc(placeSearchable, writer);
+                    break;
+                default:
+                    var placeSearchable = (IPlaceSearchable)searchable;
+
+                    this.AddUpdatePlaceDoc(placeSearchable);
+
+                    break;
             }
         }
 
-        private void AddUpdateBeachDoc(IBeachSearchable searchable, IndexWriter writer)
+        private void AddUpdateBeachDoc(IBeachSearchable searchable)
         {
             var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
 
-            writer.DeleteDocuments(oldDoc);
+            this.writer.DeleteDocuments(oldDoc);
 
             var newDoc = new Document();
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
@@ -49,14 +64,14 @@
             newDoc.Add(addressField);
             newDoc.Add(coordinatesField);
 
-            writer.AddDocument(newDoc);
+            this.writer.AddDocument(newDoc);
         }
 
-        private void AddUpdatePlaceDoc(IPlaceSearchable searchable, IndexWriter writer)
+        private void AddUpdatePlaceDoc(IPlaceSearchable searchable)
         {
             var oldDoc = new TermQuery(new Term("Id", searchable.Id.ToString()));
 
-            writer.DeleteDocuments(oldDoc);
+            this.writer.DeleteDocuments(oldDoc);
 
             var newDoc = new Document();
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
@@ -69,7 +84,102 @@
             newDoc.Add(nameField);
             newDoc.Add(beachCountField);
 
-            writer.AddDocument(newDoc);
+            this.AddPlaceDependentFields(searchable, newDoc);
+
+            this.writer.AddDocument(newDoc);
+        }
+
+        private void AddPlaceDependentFields(IPlaceSearchable searchable, Document doc)
+        {
+            switch (this.modelType)
+            {
+                case ModelType.Continent:
+                    return;
+                case ModelType.WaterBody:
+                    return;
+                case ModelType.Country:
+                    var country = (Country)searchable;
+
+                    this.AddUpdateCountryDoc(doc, country);
+
+                    break;
+                case ModelType.PrimaryDivision:
+                    var primaryDivision = (PrimaryDivision)searchable;
+
+                    this.AddUpdatePrimaryDivisionDoc(doc, primaryDivision);
+
+                    break;
+                case ModelType.SecondaryDivision:
+                    var secondaryDivision = (SecondaryDivision)searchable;
+
+                    this.AddUpdateSecondaryDivisionDoc(doc, secondaryDivision);
+
+                    break;
+                case ModelType.TertiaryDivision:
+                    var tertiaryDivision = (TertiaryDivision)searchable;
+
+                    this.AddUpdateTertiaryDivisionDoc(doc, tertiaryDivision);
+
+                    break;
+                case ModelType.QuaternaryDivision:
+                    var quaternaryDivision = (QuaternaryDivision)searchable;
+
+                    this.AddUpdateQuaternaryDivisionDoc(doc, quaternaryDivision);
+
+                    break;                
+            }
+        }
+
+        private void AddUpdateCountryDoc(Document doc, Country country)
+        {
+            if (country.Continent == null)
+            {
+                return;
+            }
+
+            var continentField = new Field("ContinentName", country.Continent.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+
+            doc.Add(continentField);
+        }
+
+        private void AddUpdatePrimaryDivisionDoc(Document doc, PrimaryDivision primaryDivision)
+        {
+            var countryField = new Field("CountryName", primaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+
+            doc.Add(countryField);
+        }
+
+        private void AddUpdateSecondaryDivisionDoc(Document doc, SecondaryDivision secondaryDivision)
+        {
+            var countryField = new Field("CountryName", secondaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var primaryField = new Field("PrimaryName", secondaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+
+            doc.Add(countryField);
+            doc.Add(primaryField);
+        }
+
+        private void AddUpdateTertiaryDivisionDoc(Document doc, TertiaryDivision tertiaryDivision)
+        {
+            var countryField = new Field("CountryName", tertiaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var primaryField = new Field("PrimaryName", tertiaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var secondaryField = new Field("SecondaryName", tertiaryDivision.SecondaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+
+            doc.Add(countryField);
+            doc.Add(primaryField);
+            doc.Add(secondaryField);
+        }
+
+        private void AddUpdateQuaternaryDivisionDoc(Document doc, QuaternaryDivision quaternaryDivision)
+        {
+            var countryField = new Field("CountryName", quaternaryDivision.Country.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var primaryField = new Field("PrimaryName", quaternaryDivision.PrimaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var secondaryField = new Field("SecondaryName", quaternaryDivision.SecondaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var tertiaryField = new Field("TertiaryName", quaternaryDivision.TertiaryDivision.Name, Field.Store.YES, Field.Index.NOT_ANALYZED);
+
+            doc.Add(countryField);
+            doc.Add(primaryField);
+            doc.Add(secondaryField);
+            doc.Add(tertiaryField);
         }
     }
 }

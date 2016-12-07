@@ -16,13 +16,25 @@
         }
 
         public ISearchable MapDocToModel(Document doc)
-        {            
+        {
             switch (this.modelType)
             {
                 case ModelType.Beach:
                     return this.MapDocToBeachModel(doc);
-                case ModelType.Place:
-                    return this.MapDocToPlace(doc);
+                case ModelType.Continent:
+                    return this.MapDocToContinentModel(doc);
+                case ModelType.Country:
+                    return this.MapDocToCountryModel(doc);
+                case ModelType.PrimaryDivision:
+                    return this.MapDocToPrimaryDivisionModel(doc);
+                case ModelType.SecondaryDivision:
+                    return this.MapDocToSecondaryDivisionModel(doc);
+                case ModelType.TertiaryDivision:
+                    return this.MapDocToTertiaryDivisionModel(doc);
+                case ModelType.QuaternaryDivision:
+                    return this.MapDocToQuaternaryDivisionModel(doc);
+                case ModelType.WaterBody:
+                    return this.MapDocToWaterBodyModel(doc);
                 default:
                     return null;
             }
@@ -54,9 +66,80 @@
             };
         }
 
-        private ISearchable MapDocToPlace(Document doc)
+        private ISearchable MapDocToContinentModel(Document doc)
         {
-            return new PlaceSearchResultModel()
+            return new ContinentSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
+            };
+        }
+
+        private ISearchable MapDocToCountryModel(Document doc)
+        {
+            return new CountrySearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name"),
+                ContinentName = doc.Get("ContinentName"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
+            };
+        }
+
+        private ISearchable MapDocToPrimaryDivisionModel(Document doc)
+        {
+            return new PrimaryDivisionSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name"),
+                CountryName = doc.Get("CountryName"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
+            };
+        }
+
+        private ISearchable MapDocToSecondaryDivisionModel(Document doc)
+        {
+            return new SecondaryDivisionSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name"),
+                CountryName = doc.Get("CountryName"),
+                PrimaryDivisionName = doc.Get("PrimaryName"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
+            };
+        }
+        
+        private ISearchable MapDocToTertiaryDivisionModel(Document doc)
+        {
+            return new TertiaryDivisionSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name"),
+                CountryName = doc.Get("CountryName"),
+                PrimaryDivisionName = doc.Get("PrimaryName"),
+                SecondaryDivisionName = doc.Get("SecondaryName"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
+            };
+        }
+
+        private ISearchable MapDocToQuaternaryDivisionModel(Document doc)
+        {
+            return new QuaternaryDivisionSearchResultModel()
+            {
+                Id = int.Parse(doc.Get("Id")),
+                Name = doc.Get("Name"),
+                CountryName = doc.Get("CountryName"),
+                PrimaryDivisionName = doc.Get("PrimaryName"),
+                SecondaryDivisionName = doc.Get("SecondaryName"),
+                TertiaryDivisionName = doc.Get("TertiaryName"),
+                BeachCount = int.Parse(doc.Get("BeachCount"))
+            };
+        }
+
+        private ISearchable MapDocToWaterBodyModel(Document doc)
+        {
+            return new WaterBodySearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
                 Name = doc.Get("Name"),
