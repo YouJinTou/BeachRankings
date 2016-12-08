@@ -3,6 +3,7 @@
     using BeachRankings.Models;
     using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search.Enums;
+    using BeachRankings.Services.Formatters;
     using Lucene.Net.Documents;
     using Lucene.Net.Index;
     using Lucene.Net.Search;
@@ -48,9 +49,11 @@
 
             this.writer.DeleteDocuments(oldDoc);
 
+            var formatter = new NameFormatter();
             var newDoc = new Document();
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
-            var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
+            var nameField = new Field("Name", formatter.GetFormattedBeachName(searchable.Name), Field.Store.YES, Field.Index.ANALYZED);
+            var originalNameField = new Field("OriginalName", formatter.GetOutboundName(searchable.Name), Field.Store.YES, Field.Index.NOT_ANALYZED);
             var descriptionField = new Field("Description", searchable.Description ?? string.Empty, Field.Store.YES, Field.Index.NOT_ANALYZED);
             var addressField = new Field("Address", searchable.Address ?? string.Empty, Field.Store.YES, Field.Index.NOT_ANALYZED);
             var coordinatesField = new Field("Coordinates", searchable.Coordinates ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
@@ -59,6 +62,7 @@
 
             newDoc.Add(idField);
             newDoc.Add(nameField);
+            newDoc.Add(originalNameField);
             newDoc.Add(descriptionField);
             newDoc.Add(addressField);
             newDoc.Add(coordinatesField);
@@ -72,15 +76,18 @@
 
             this.writer.DeleteDocuments(oldDoc);
 
+            var formatter = new NameFormatter();
             var newDoc = new Document();
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
-            var nameField = new Field("Name", searchable.Name, Field.Store.YES, Field.Index.ANALYZED);
+            var nameField = new Field("Name", formatter.GetFormattedPlaceName(searchable.Name), Field.Store.YES, Field.Index.ANALYZED);
+            var originalNameField = new Field("OriginalName", formatter.GetOutboundName(searchable.Name), Field.Store.YES, Field.Index.NOT_ANALYZED);
             var beachCountField = new NumericField("BeachCount", Field.Store.YES, false).SetIntValue(searchable.Beaches.Count);
 
             nameField.Boost = 3.0f;
 
             newDoc.Add(idField);
             newDoc.Add(nameField);
+            newDoc.Add(originalNameField);
             newDoc.Add(beachCountField);
 
             this.AddPlaceDependentFields(searchable, newDoc);
@@ -93,7 +100,6 @@
             switch (this.modelType)
             {
                 case ModelType.Continent:
-                    return;
                 case ModelType.WaterBody:
                     return;
                 case ModelType.Country:

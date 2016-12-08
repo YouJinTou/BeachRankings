@@ -1,4 +1,4 @@
-﻿namespace BeachRankings.App.Utils
+﻿namespace BeachRankings.Services.Initializers
 {
     using System;
     using System.Collections.Generic;

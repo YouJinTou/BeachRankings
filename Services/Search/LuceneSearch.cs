@@ -2,6 +2,7 @@
 {
     using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search.Enums;
+    using BeachRankings.Services.Formatters;
     using Lucene.Net.Analysis;
     using Lucene.Net.Analysis.Standard;
     using Lucene.Net.Documents;
@@ -163,17 +164,19 @@
             {
                 var analyzer = new StandardAnalyzer(Version.LUCENE_30);
                 var hitsLimit = 1000;
+                var formatter = new NameFormatter();
+                var formattedSearchQuery = formatter.GetFormattedPlaceName(searchQuery);
                 IEnumerable<ScoreDoc> hits;
                 IEnumerable<ISearchable> results;
 
                 if (string.IsNullOrEmpty(searchField))
                 {
-                    var queries = this.GetFuzzyQueries(searchQuery);
+                    var queries = this.GetFuzzyQueries(formattedSearchQuery);
                     hits = this.GetHits(queries, searcher, hitsLimit);
                 }
                 else
                 {
-                    var query = new FuzzyQuery(new Term(searchField, searchQuery));
+                    var query = new FuzzyQuery(new Term(searchField, formattedSearchQuery));
                     hits = searcher.Search(query, hitsLimit).ScoreDocs;
                 }
 
@@ -199,7 +202,9 @@
             {
                 DefaultOperator = QueryParser.Operator.OR
             };
-            var query = this.ParseQuery(prefix + "*", parser);
+            var formatter = new NameFormatter();
+            var formattedPrefix = formatter.GetFormattedPlaceName(prefix);
+            var query = this.ParseQuery(formattedPrefix + "*", parser);
             var filter = new QueryWrapperFilter(query);
             var sort = new Sort(new SortField("BeachCount", SortField.INT, true));
 

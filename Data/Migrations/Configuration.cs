@@ -134,9 +134,6 @@ namespace BeachRankings.Data.Migrations
             }
 
             this.data.SaveChanges();
-
-            var searchService = new LuceneSearch(Index.WaterBodyIndex);
-            searchService.AddUpdateIndexEntries(waterBodies);
         }
 
         private void SeedContinents()
@@ -163,9 +160,6 @@ namespace BeachRankings.Data.Migrations
             }
 
             this.data.SaveChanges();
-
-            var searchService = new LuceneSearch(Index.ContinentIndex);
-            searchService.AddUpdateIndexEntries(continents);
         }
 
         private void SeedAdministrativeUnits()
@@ -208,9 +202,6 @@ namespace BeachRankings.Data.Migrations
             }
 
             this.data.SaveChanges();
-
-            var searchService = new LuceneSearch(Index.CountryIndex);
-            searchService.AddUpdateIndexEntries(countriesIndexList);
 
             this.data.Configuration.AutoDetectChangesEnabled = true;
             this.data.Configuration.ValidateOnSaveEnabled = true;
@@ -277,7 +268,7 @@ namespace BeachRankings.Data.Migrations
 
                 beaches.Add(new Beach()
                 {
-                    Name = "Beach " + i,
+                    Name = "Beach   @#@#    !!!!! _!asds--pesho" + i,
                     CreatorId = creatorIds[randomCreatorId.Next(0, 3)],
                     ContinentId = continentId,
                     CountryId = countryId,
@@ -360,37 +351,12 @@ namespace BeachRankings.Data.Migrations
                 beach.SetBeachData();
 
                 this.data.SaveChanges();
-
-                var searchService = new LuceneSearch(Index.BeachIndex);
-                searchService.AddUpdateIndexEntry(beach);
-
-                var continent = this.data.Continents.Find(beach.ContinentId);
-                var country = this.data.Countries.Find(beach.CountryId);
-                var primaryDivision = this.data.PrimaryDivisions.Find(beach.PrimaryDivisionId);
-                var secondaryDivision = this.data.SecondaryDivisions.Find(beach.SecondaryDivisionId);
-                var tertiaryDivision = this.data.TertiaryDivisions.Find(beach.TertiaryDivisionId);
-                var quaternaryDivision = this.data.QuaternaryDivisions.Find(beach.QuaternaryDivisionId);
-                var waterBody = this.data.WaterBodies.Find(beach.WaterBodyId);
-
-                searchService.Index = Index.ContinentIndex;
-                searchService.AddUpdateIndexEntry(continent);
-                searchService.Index = Index.CountryIndex;
-                searchService.AddUpdateIndexEntry(country);
-                searchService.Index = Index.PrimaryDivisionIndex;
-                searchService.AddUpdateIndexEntry(primaryDivision);
-                searchService.Index = Index.SecondaryDivisionIndex;
-                searchService.AddUpdateIndexEntry(secondaryDivision);
-                searchService.Index = Index.TertiaryDivisionIndex;
-                searchService.AddUpdateIndexEntry(tertiaryDivision);
-                searchService.Index = Index.QuaternaryDivisionIndex;
-                searchService.AddUpdateIndexEntry(quaternaryDivision);
-                searchService.Index = Index.WaterBodyIndex;
-                searchService.AddUpdateIndexEntry(waterBody);
             }
         }
 
         private void SeedIndexEntries()
         {
+            var beaches = this.data.Beaches;
             var continents = this.data.Continents.Include(c => c.Beaches);
             var countries = this.data.Countries.Include(c => c.Beaches).Include(c => c.Continent);
             var primaryDivisions = this.data.PrimaryDivisions.Include(pd => pd.Beaches).Include(pd => pd.Country);
@@ -399,7 +365,9 @@ namespace BeachRankings.Data.Migrations
             var quaternaryDivisions = this.data.QuaternaryDivisions.Include(qd => qd.Beaches).Include(qd => qd.Country).Include(qd => qd.PrimaryDivision).Include(qd => qd.SecondaryDivision).Include(qd => qd.TertiaryDivision);
             var waterBodies = this.data.WaterBodies.Include(wb => wb.Beaches);
 
-            var searchService = new LuceneSearch(Index.ContinentIndex);
+            var searchService = new LuceneSearch(Index.BeachIndex);
+            searchService.AddUpdateIndexEntries(beaches);
+            searchService.Index = Index.ContinentIndex;
             searchService.AddUpdateIndexEntries(continents);
             searchService.Index = Index.CountryIndex;
             searchService.AddUpdateIndexEntries(countries);

@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Initializers\GeoInitializer.cs" />
+    <Compile Include="Initializers\LetterInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\Enums\Index.cs" />
     <Compile Include="Search\LuceneEntryFactory.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Search\Models\CountrySearchResultModel.cs" />
     <Compile Include="Search\Models\ContinentSearchResultModel.cs" />
     <Compile Include="Search\Models\BeachSearchResultModel.cs" />
+    <Compile Include="Formatters\NameFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

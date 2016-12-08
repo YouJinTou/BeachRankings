@@ -6,6 +6,31 @@
     using System.Web.Mvc;
     using BeachRankings.App.CustomAttributes;
 
+    public interface IAddEditBeachModel
+    {
+        [Required(ErrorMessage = "The name field is required.")]
+        [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
+        [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
+        string Name { get; set; }
+
+        [Required(ErrorMessage = "The country field is required.")]
+        [Display(Name = "Country")]
+        int CountryId { get; set; }
+
+        [Required(ErrorMessage = "The region field is required.")]
+        [Display(Name = "Region")]
+        int? PrimaryDivisionId { get; set; }
+
+        [Display(Name = "Area")]
+        int? SecondaryDivisionId { get; set; }
+
+        [Display(Name = "Sub-area")]
+        int? TertiaryDivisionId { get; set; }
+
+        [Display(Name = "Locality")]
+        int? QuaternaryDivisionId { get; set; }
+    }
+
     public class BestBeachesViewModel
     {
         public int CaribbeanId { get; set; }
@@ -31,7 +56,7 @@
         public int SnorkelingId { get; set; }
     }
 
-    public class AddBeachViewModel
+    public class AddBeachViewModel : IAddEditBeachModel
     {
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
@@ -44,7 +69,7 @@
 
         [Required(ErrorMessage = "The region field is required.")]
         [Display(Name = "Region")]
-        public int? PrimaryDivisionId { get; set; }       
+        public int? PrimaryDivisionId { get; set; }
 
         [Display(Name = "Area")]
         public int? SecondaryDivisionId { get; set; }
@@ -70,7 +95,7 @@
         public IEnumerable<HttpPostedFileBase> Images { get; set; }
     }
 
-    public class EditBeachViewModel
+    public class EditBeachViewModel : IAddEditBeachModel
     {
         [Required]
         public int Id { get; set; }

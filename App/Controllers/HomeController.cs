@@ -1,9 +1,9 @@
 ﻿namespace App.Controllers
 {
     using AutoMapper;
+    using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models.Interfaces;
-    using BeachRankings.App.Models.ViewModels;
     using System.Collections.Generic;
     using System.Web.Mvc;
 

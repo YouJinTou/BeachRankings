@@ -1,16 +1,5 @@
 ﻿(function ($) {
-    //initializeSearch();
     setAutocompleteEvents();
-
-    function initializeSearch() {
-        $.ajax({
-            url: '/Home/Autocomplete/',
-            type: 'GET',
-            data: {
-                prefix: 'bu'
-            }
-        });
-    }
 
     function setAutocompleteEvents() {
         var $mainSearchField = $('#main-search-field');

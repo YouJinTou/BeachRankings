@@ -42,6 +42,23 @@
 			"Vlorë"
 		]
 	},
+	"North America%Caribbean Sea!Belize": {
+		"Belize District": [
+			"Belize Rural North",
+			"Belize Rural Central",
+			"Belize Rural South",
+			"Ambergris Caye",
+			"Caye Caulker",
+			"St. George's Caye",
+			"Caye Chapel",
+			"English Caye",
+			"Goff's Caye",
+			"Turneffe Atoll"
+		],
+		"Corozal District": null,
+		"Stann Creek District": null,
+		"Toledo District": null
+	},
 	"Europe%Black Sea!Bulgaria": {
 		"Dobrich": [
 			"Shabla",
@@ -73,5 +90,286 @@
 		"Gracias a Dios",
 		"Islas de la Bahía",
 		"Valle"
+	],
+	"Asia%Vietnam": {
+		"South China Sea!Northeast": {
+			"Quảng Ninh Province": [
+				"Hạ Long Bay"
+			]
+		},
+		"South China Sea!Red River Delta": null,
+		"South China Sea!North Central Coast": [
+			"Hà Tĩnh Province",
+			"Nghệ An Province",
+			"Quảng Bình Province",
+			"Quảng Trị Province",
+			"Thanh Hóa Province",
+			"Thừa Thiên–Huế Province"
+		],
+		"South China Sea!South Central Coast": [
+			"Đà Nẵng Province",
+			"Quảng Nam Province",
+			"Quảng Ngãi Province",
+			"Bình Định Province",
+			"Phú Yên Province",
+			"Khánh Hòa Province",
+			"Ninh Thuận Province",
+			"Bình Thuận Province"
+		],
+		"South China Sea!Southeast Vietnam": [
+			"Bà Rịa-Vũng Tàu Province",
+			"Đồng Nai Province"
+		],
+		"Gulf of Thailand!South-western region": [
+			"Phú Quốc Island",
+			"Bạc Liêu Province",
+			"Bến Tre Province",
+			"Cà Mau Province",
+			"Kiên Giang Province",
+			"Sóc Trăng Province",
+			"Trà Vinh Province"
+		]
+	},
+	"Asia%Turkey": {
+		"Mediterranean Sea!Adana": [
+			"Karataş",
+			"Yumurtalik"
+		],
+		"Black Sea!Artvin": [
+			"Arhavi",
+			"Hopa"
+		],
+		"Mediterranean Sea!Antalya": [
+			"Alanya",
+			"Antalya",
+			"Finike",
+			"Gazipaşa",
+			"Kale",
+			"Kaş",
+			"Kemer",
+			"Kumluca",
+			"Manavgat",
+			"Serik"
+		],
+		"Aegean Sea!Aydın": [
+			"Didim",
+			"Kuşadası"
+		],
+		"Balıkesir": [
+			"Aegean Sea!Ayvalık",
+			"Marmara Sea!Bandırma",
+			"Aegean Sea!Burhaniye",
+			"Edremit",
+			"Marmara Sea!Erdek",
+			"Aegean Sea!Gömeç",
+			"Marmara Sea!Gönen",
+			"Marmara Sea!Marmara"
+		],
+		"Black Sea!Bartın": [
+			"Amasra",
+			"Bartın",
+			"Kurucaşile"
+		],
+		"Marmara Sea!Bursa": [
+			"Gemlik",
+			"Karacabey",
+			"Mudanya",
+			"Nilüfer"
+		],
+		"Aegean Sea!Çanakkale": [
+			"Ayvacık",
+			"Biga",
+			"Bozcaada",
+			"Çanakkale",
+			"Eceabat",
+			"Ezine",
+			"Gelibolu",
+			"Gökçeada",
+			"Lapseki"
+		],
+		"Black Sea!Düzce": [
+			"Akçakoca"
+		],
+		"Aegean Sea!Edirne": [
+			"Enez",
+			"Keşan"
+		],
+		"Black Sea!Giresun": [
+			"Bulancak",
+			"Espiye",
+			"Eynesil",
+			"Giresun",
+			"Görele",
+			"Keşap",
+			"Piraziz",
+			"Tirebolu"
+		],
+		"Mediterranean Sea!Hatay": [
+			"Dörtyol",
+			"Erzin",
+			"İskenderun",
+			"Samandağ",
+			"Yayladağı"
+		],
+		"Marmara Sea!Istanbul": [
+			"Adalar",
+			"Arnavutköy",
+			"Avcılar",
+			"Beykoz",
+			"Beylikdüzü",
+			"Büyükçekmece",
+			"Eyüp",
+			"Kartal",
+			"Küçükçekmece",
+			"Maltepe",
+			"Pendik",
+			"Şile",
+			"Sarıyer",
+			"Silivri",
+			"Tuzla"
+		],
+		"Aegean Sea!Izmir": [
+			"Aliağa",
+			"Balçova",
+			"Bayraklı",
+			"Çeşme",
+			"Çiğli",
+			"Foça",
+			"Güzelbahçe",
+			"Karaburun",
+			"Konak",
+			"Menderes",
+			"Menemen",
+			"Narlıdere",
+			"Seferihisar",
+			"Selçuk",
+			"Urla",
+			"Dikili"
+		],
+		"Black Sea!Kastamonu": [
+			"Abana",
+			"Bozkurt",
+			"Çatalzeytin",
+			"Cide",
+			"Doğanyurt",
+			"İnebolu"
+		],
+		"Black Sea!Kırklareli": [
+			"Demirköy",
+			"Vize"
+		],
+		"Black Sea!Kocaeli": [
+			"Darıca",
+			"Derince",
+			"Dilovası",
+			"Gebze",
+			"Gölcük",
+			"İzmit",
+			"Kandıra",
+			"Karamürsel",
+			"Körfez"
+		],
+		"Aegean Sea!Muğla": [
+			"Bodrum",
+			"Dalaman",
+			"Datça",
+			"Fethiye",
+			"Köyceğiz",
+			"Marmaris",
+			"Milas",
+			"Ortaca"
+		],
+		"Mediterranean Sea!Mersin": [
+			"Aydıncık",
+			"Akdeniz",
+			"Anamur",
+			"Bozyazı",
+			"Erdemli",
+			"Gülnar",
+			"Mezitli",
+			"Silifke",
+			"Tarsus",
+			"Yenişehir"
+		],
+		"Black Sea!Ordu": [
+			"Altınordu",
+			"Fatsa",
+			"Gülyalı",
+			"Perşembe",
+			"Ünye"
+		],
+		"Black Sea!Rize": [
+			"Ardeşen",
+			"Fındıklı",
+			"Çayeli",
+			"Derepazarı",
+			"İyidere",
+			"Pazar",
+			"Rize"
+		],
+		"Black Sea!Sakarya": [
+			"Kaynarca",
+			"Kocaali",
+			"Karasu"
+		],
+		"Black Sea!Samsun": [
+			"Alaçam",
+			"Bafra",
+			"Çarşamba",
+			"Ondokuzmayıs",
+			"Samsun",
+			"Tekkeköy",
+			"Terme",
+			"Yakakent"
+		],
+		"Black Sea!Sinop": [
+			"Ayancık",
+			"Dikmen",
+			"Erfelek",
+			"Gerze",
+			"Sinop",
+			"Türkeli"
+		],
+		"Marmara Sea!Tekirdağ": [
+			"Çorlu",
+			"Marmaraereğlisi",
+			"Saray",
+			"Şarköy",
+			"Tekirdağ"
+		],
+		"Black Sea!Trabzon": [
+			"Akçaabat",
+			"Arsin",
+			"Beşikdüzü",
+			"Çarşıbaşı",
+			"Of",
+			"Sürmene",
+			"Trabzon",
+			"Vakfıkebir",
+			"Yomra"
+		],
+		"Black Sea!Zonguldak": [
+			"Alaplı",
+			"Çaycuma",
+			"Ereğli (Heraclea Pontica)",
+			"Zonguldak"
+		]
+	},
+	"Europe%Atlantic Ocean!Faroe Islands": [
+		"Streymoy Island",
+		"Eysturoy Island",
+		"Vágar Island",
+		"Suðuroy Island",
+		"Sandoy Island",
+		"Borðoy Island",
+		"Viðoy Island",
+		"Kunoy Island",
+		"Kalsoy Island",
+		"Svínoy Island",
+		"Fugloy Island",
+		"Nólsoy Island",
+		"Mykines Island",
+		"Skúvoy Island",
+		"Hestur Island"
 	]
 }

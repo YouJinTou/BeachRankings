@@ -54,7 +54,7 @@
             return new BeachSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
+                Name = doc.Get("OriginalName"),
                 Description = doc.Get("Description"),
                 Country = country,
                 PrimaryDivision = primaryDivision,
@@ -71,7 +71,7 @@
             return new ContinentSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
+                Name = doc.Get("OriginalName"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }
@@ -81,7 +81,7 @@
             return new CountrySearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
+                Name = doc.Get("OriginalName"),
                 Continent = doc.Get("Continent"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
@@ -92,7 +92,7 @@
             return new PrimaryDivisionSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
+                Name = doc.Get("OriginalName"),
                 Country = doc.Get("Country"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
@@ -103,7 +103,7 @@
             return new SecondaryDivisionSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
+                Name = doc.Get("OriginalName"),
                 Country = doc.Get("Country"),
                 PrimaryDivision = doc.Get("PrimaryDivision"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
@@ -115,7 +115,7 @@
             return new TertiaryDivisionSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
+                Name = doc.Get("OriginalName"),
                 Country = doc.Get("Country"),
                 PrimaryDivision = doc.Get("PrimaryDivision"),
                 SecondaryDivision = doc.Get("SecondaryDivision"),
@@ -128,7 +128,7 @@
             return new QuaternaryDivisionSearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
+                Name = doc.Get("OriginalName"),
                 Country = doc.Get("CountryName"),
                 PrimaryDivision = doc.Get("PrimaryDivision"),
                 SecondaryDivision = doc.Get("SecondaryDivision"),
@@ -142,7 +142,7 @@
             return new WaterBodySearchResultModel()
             {
                 Id = int.Parse(doc.Get("Id")),
-                Name = doc.Get("Name"),
+                Name = doc.Get("OriginalName"),
                 BeachCount = int.Parse(doc.Get("BeachCount"))
             };
         }

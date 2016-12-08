@@ -12,6 +12,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Web.Mvc;
 
     public class BeachesController : BasePlacesController
@@ -67,7 +68,7 @@
                 .Include(b => b.Images)
                 .Include(b => b.BlogArticles)
                 .FirstOrDefault(b => b.Id == id);
-            var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);            
+            var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);
             model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn).ToList();
 
             if (this.User.Identity.IsAuthenticated)
@@ -79,7 +80,7 @@
 
             return this.View(model);
         }
-        
+
         [Authorize]
         [HttpGet]
         public ActionResult Add()
@@ -99,7 +100,7 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachViewModel bindingModel)
         {
-            if (!this.AddModelValid(bindingModel))
+            if (!this.AddEditModelValid(bindingModel))
             {
                 bindingModel.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
                 {
@@ -124,51 +125,13 @@
         public ActionResult Edit(int id)
         {
             var beach = this.Data.Beaches.Find(id);
-            
+
             if (!this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
             {
                 return this.RedirectToAction("Details", new { id = id });
             }
 
-            var model = Mapper.Map<Beach, EditBeachViewModel>(beach);
-            model.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
-            {
-                Text = c.Name,
-                Value = c.Id.ToString(),
-                Selected = (c.Id == model.CountryId)
-            });
-            model.PrimaryDivisions = this.Data.PrimaryDivisions.All()
-                .Where(pd => pd.CountryId == beach.CountryId)
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                    Selected = (c.Id == model.PrimaryDivisionId)
-                });
-            model.SecondaryDivisions = this.Data.SecondaryDivisions.All()
-                .Where(sd => sd.PrimaryDivisionId == beach.PrimaryDivisionId)
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                    Selected = (c.Id == model.SecondaryDivisionId)
-                });
-            model.TertiaryDivisions = this.Data.TertiaryDivisions.All()
-                .Where(td => td.SecondaryDivisionId == beach.SecondaryDivisionId)
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                    Selected = (c.Id == model.TertiaryDivisionId)
-                });
-            model.QuaternaryDivisions = this.Data.QuaternaryDivisions.All()
-                .Where(qd => qd.TertiaryDivisionId == beach.TertiaryDivisionId)
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                    Selected = (c.Id == model.QuaternaryDivisionId)
-                });
+            var model = this.GetEditBeachViewModel(beach);
 
             return this.View("Edit", model);
         }
@@ -176,13 +139,25 @@
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditBeachViewModel model)
+        public ActionResult Edit(EditBeachViewModel bindingModel)
         {
-            var beach = this.Data.Beaches.Find(model.Id);
+            var beach = this.Data.Beaches.Find(bindingModel.Id);
 
             if (this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
             {
-                this.UpdateBeach(beach, model);
+                if (!this.AddEditModelValid(bindingModel))
+                {
+                    var model = this.GetEditBeachViewModel(beach);
+                    bindingModel.Countries = model.Countries;
+                    bindingModel.PrimaryDivisions = model.PrimaryDivisions;
+                    bindingModel.SecondaryDivisions = model.SecondaryDivisions;
+                    bindingModel.TertiaryDivisions = model.TertiaryDivisions;
+                    bindingModel.QuaternaryDivisions = model.QuaternaryDivisions;
+
+                    return this.View(bindingModel);
+                }
+
+                this.UpdateBeach(beach, bindingModel);
             }
 
             return this.RedirectToAction("Details", new { id = beach.Id });
@@ -258,12 +233,13 @@
 
         #region Add
 
-        private bool AddModelValid(AddBeachViewModel model)
+        private bool AddEditModelValid(IAddEditBeachModel model)
         {
             var beachNameUnique = !this.Data.Beaches.All().Any(
                 b => b.PrimaryDivisionId == model.PrimaryDivisionId &&
                 b.SecondaryDivisionId == model.SecondaryDivisionId &&
                 b.Name.ToLower() == model.Name.ToLower());
+            var englishAlphabetUsed = Regex.IsMatch(model.Name, @"^[A-Za-z0-9\s-]+$");
             var primaryDivision = this.Data.PrimaryDivisions.All()
                 .Include(pd => pd.SecondaryDivisions)
                 .Include(pd => pd.TertiaryDivisions)
@@ -286,6 +262,13 @@
             if (!beachNameUnique)
             {
                 this.ModelState.AddModelError(string.Empty, "A beach with this name already exists.");
+
+                return false;
+            }
+
+            if (!englishAlphabetUsed)
+            {
+                this.ModelState.AddModelError(string.Empty, "The name must be in written in the English alphabet.");
 
                 return false;
             }
@@ -338,7 +321,52 @@
 
         #endregion
 
-        #region Update
+        #region Edit
+
+        private EditBeachViewModel GetEditBeachViewModel(Beach beach)
+        {
+            var model = Mapper.Map<Beach, EditBeachViewModel>(beach);
+            model.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
+            {
+                Text = c.Name,
+                Value = c.Id.ToString(),
+                Selected = (c.Id == model.CountryId)
+            });
+            model.PrimaryDivisions = this.Data.PrimaryDivisions.All()
+                .Where(pd => pd.CountryId == beach.CountryId)
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                    Selected = (c.Id == model.PrimaryDivisionId)
+                });
+            model.SecondaryDivisions = this.Data.SecondaryDivisions.All()
+                .Where(sd => sd.PrimaryDivisionId == beach.PrimaryDivisionId)
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                    Selected = (c.Id == model.SecondaryDivisionId)
+                });
+            model.TertiaryDivisions = this.Data.TertiaryDivisions.All()
+                .Where(td => td.SecondaryDivisionId == beach.SecondaryDivisionId)
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                    Selected = (c.Id == model.TertiaryDivisionId)
+                });
+            model.QuaternaryDivisions = this.Data.QuaternaryDivisions.All()
+                .Where(qd => qd.TertiaryDivisionId == beach.TertiaryDivisionId)
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                    Selected = (c.Id == model.QuaternaryDivisionId)
+                });
+
+            return model;
+        }
 
         private void UpdateBeach(Beach beach, EditBeachViewModel model)
         {
@@ -417,7 +445,7 @@
 
             this.Data.Reviews.SaveChanges();
             this.Data.BeachImages.SaveChanges();
-        }        
+        }
 
         #endregion
 

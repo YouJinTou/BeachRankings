@@ -2,6 +2,7 @@
 {
     using BeachRankings.Models;
     using BeachRankings.Models.Enums;
+    using BeachRankings.Services.Initializers;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -273,5 +274,5 @@
                 imagesDir.Delete(true);
             }
         }
-    }
+    }    
 }
