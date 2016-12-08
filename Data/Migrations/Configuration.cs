@@ -268,7 +268,7 @@ namespace BeachRankings.Data.Migrations
 
                 beaches.Add(new Beach()
                 {
-                    Name = "Beach   @#@#    !!!!! _!asds--pesho" + i,
+                    Name = "Beach " + i,
                     CreatorId = creatorIds[randomCreatorId.Next(0, 3)],
                     ContinentId = continentId,
                     CountryId = countryId,
@@ -330,19 +330,19 @@ namespace BeachRankings.Data.Migrations
                     WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Ionian Sea").Id,
                     Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
                     Coordinates = "43.204666,27.910543",
+                },
+                new Beach()
+                {
+                    Name = "Skiathos First Beach",
+                    CreatorId = creatorIds[2],
+                    CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Greece").Id,
+                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Thessaly").Id,
+                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Sporades").Id,
+                    TertiaryDivisionId = this.data.TertiaryDivisions.FirstOrDefault(r => r.Name == "Skiathos").Id,
+                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Mediterranean Sea").Id,
+                    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
+                    Coordinates = "43.204666,27.910543",
                 }
-                //new Beach()
-                //{
-                //    Name = "Skiathos First Beach",
-                //    CreatorId = creatorIds[2],
-                //    CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Greece").Id,
-                //    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Thessaly").Id,
-                //    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Sporades").Id,
-                //    TertiaryDivisionId = this.data.TertiaryDivisions.FirstOrDefault(r => r.Name == "Skiathos").Id,
-                //    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Mediterranean Sea").Id,
-                //    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
-                //    Coordinates = "43.204666,27.910543",
-                //}
             });
 
             foreach (var beach in beaches)

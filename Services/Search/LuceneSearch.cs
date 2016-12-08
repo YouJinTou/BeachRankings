@@ -206,11 +206,21 @@
             var formattedPrefix = formatter.GetFormattedPlaceName(prefix);
             var query = this.ParseQuery(formattedPrefix + "*", parser);
             var filter = new QueryWrapperFilter(query);
-            var sort = new Sort(new SortField("BeachCount", SortField.INT, true));
 
             using (var searcher = new IndexSearcher(this.IndexDir, true))
             {
-                var hits = searcher.Search(query, filter, maxItems, sort).ScoreDocs;
+                ScoreDoc[] hits = null;
+
+                if (this.Index == Index.BeachIndex)
+                {
+                    hits = searcher.Search(query, filter, maxItems).ScoreDocs;
+                }
+                else
+                {
+                    var sort = new Sort(new SortField("BeachCount", SortField.INT, true));
+                    hits = searcher.Search(query, filter, maxItems, sort).ScoreDocs;
+                }
+
                 var results = this.MapDocsToModels(hits, searcher);
 
                 return results;

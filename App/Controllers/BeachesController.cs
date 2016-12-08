@@ -231,7 +231,7 @@
 
         #region Action Helpers
 
-        #region Add
+        #region Common
 
         private bool AddEditModelValid(IAddEditBeachModel model)
         {
@@ -266,15 +266,12 @@
                 return false;
             }
 
-            if (!englishAlphabetUsed)
-            {
-                this.ModelState.AddModelError(string.Empty, "The name must be in written in the English alphabet.");
-
-                return false;
-            }
-
             return true;
         }
+
+        #endregion
+
+        #region Add        
 
         private Beach SaveBeach(AddBeachViewModel model)
         {

@@ -5,40 +5,62 @@
         var $mainSearchField = $('#main-search-field');
         var $autocompleteBox = $('.home-autocomplete-box');
         var autocompleteSelected = 0; // bool
+        var resultsCache = {};
 
-        $mainSearchField.on('keyup', function (event) {
+        $mainSearchField.on('keyup', function (event) {            
             if (isValidKeyAction(event)) {
                 return;
             }
 
-            var inputLength = $mainSearchField.val().length;
-            var searchBoxEmpty = (inputLength === 0);
+            if (isEmpty()) {
+                return;
+            }
 
-            if (searchBoxEmpty) {
+            var prefix = $mainSearchField.val();
+
+            if (prefix.length === 0) {
                 $autocompleteBox.hide();
 
                 return;
             }
 
+            if (keyCached(prefix)) {
+                $autocompleteBox.html(resultsCache[prefix]);
+                $autocompleteBox.show();
+
+                return;
+            }
+
+            if (isDelete(event) && keyCached(prefix)) {
+                $autocompleteBox.html(resultsCache[prefix]);
+                $autocompleteBox.show();
+
+                return;
+            }
+            
             $.ajax({
                 url: '/Home/Autocomplete/',
                 type: 'GET',
                 data: {
-                    prefix: $mainSearchField.val()
+                    prefix: prefix
                 },
                 success: function (result) {
-                    var noResults = ((result.indexOf('li') <= 0) && (inputLength >= 1));
+                    var noResults = ((result.indexOf('li') <= 0) && (prefix.length >= 1));
                     
                     if (noResults) {
                         result = '<ul><li><i>No results found</i></li></ul>';
                     }
 
                     $autocompleteBox.html(result);
+                    resultsCache[prefix] = result;
 
                     $autocompleteBox.show();
                 },
                 error: function (data) {
-                    console.log(data);
+                    result = '<ul><li><i>Something went wrong, for which we apologize</i></li></ul>';
+
+                    $autocompleteBox.html(result);
+                    $autocompleteBox.show();
                 }
             });
         });
@@ -93,6 +115,21 @@
             }
 
             return false;
+        }
+
+        function isEmpty() {
+            var term = $mainSearchField.val();
+            var lastCharIsEmpty = (term[term.length - 1] === ' ');
+
+            return lastCharIsEmpty;
+        }
+
+        function keyCached(prefix){
+            return (prefix in resultsCache);
+        }
+
+        function isDelete(event) {
+            return (event.keyCode === 8 || event.keyCode === 46);
         }
 
         function traverseResults(isKeyUp) {

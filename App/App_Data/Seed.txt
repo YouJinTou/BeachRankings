@@ -42,6 +42,110 @@
 			"Vlorë"
 		]
 	},
+	"Europe%Greece": {
+		"Aegean Sea!Attica": [
+			"Athens",
+			"East Attica",
+			"Piraeus",
+			"West Attica"
+		],
+		"Aegean Sea!Central Greece": [
+			"Boeotia",
+			"Euboea",
+			"Evrytania",
+			"Phocis",
+			"Phthiotis"
+		],
+		"Aegean Sea!Central Macedonia": [
+			"Chalkidiki",
+			"Imathia",
+			"Kilkis",
+			"Pella",
+			"Pieria",
+			"Serres",
+			"Thessaloniki"
+		],
+		"Mediterranean Sea!Crete": [
+			"Chania",
+			"Heraklion",
+			"Rethymno",
+			"Lasithi"
+		],
+		"Aegean Sea!Eastern Macedonia and Thrace": [
+			"Drama",
+			"Evros",
+			"Kavala",
+			"Rhodope",
+			"Thasos",
+			"Xanthi"
+		],
+		"Ionian Sea!Epirus": [
+			"Arta",
+			"Ioannina",
+			"Preveza",
+			"Thesprotia"
+		],
+		"Ionian Sea!Ionian Islands": [
+			"Corfu",
+			"Ithaca",
+			"Kefalonia",
+			"Lefkada",
+			"Zakynthos"
+		],
+		"Aegean Sea!North Aegean": [
+			"Chios",
+			"Ikaria",
+			"Lemnos",
+			"Lesbos",
+			"Samos"
+		],
+		"Ionian Sea!Peloponnese": [
+			"Arcadia",
+			"Argolis",
+			"Corinthia",
+			"Laconia",
+			"Messinia"
+		],
+		"Aegean Sea!South Aegean": [
+			"Andros",
+			"Kalymnos",
+			"Karpathos",
+			"Kea-Kythnos",
+			"Kos",
+			"Milos",
+			"Mykonos",
+			"Naxos",
+			"Paros",
+			"Rhodes",
+			"Syros",
+			"Thira",
+			"Tinos"
+		],
+		"Aegean Sea!Thessaly": [
+			"Karditsa",
+			"Larissa",
+			"Magnesia",
+			"Trikala",
+			{
+				"Sporades": [
+					"Skopelos",
+					"Alonnisos",
+					"Skiathos",
+					"Kyra Panagia",
+					"Peristera",
+					"Gioura",
+					"Skantzoura",
+					"Piperi",
+					"Tsougria"
+				]
+			}
+		],
+		"Ionian Sea!Western Greece": [
+			"Achaea",
+			"Aetolia-Acarnania",
+			"Elis"
+		]
+	},
 	"North America%Caribbean Sea!Belize": {
 		"Belize District": [
 			"Belize Rural North",
