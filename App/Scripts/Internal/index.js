@@ -4,9 +4,9 @@
     function setAutocompleteEvents() {
         var $mainSearchField = $('#main-search-field');
         var $autocompleteBox = $('.home-autocomplete-box');
-        var autocompleteSelected = 0; // bool
+        var insideSearchArea = 0; // bool
         var resultsCache = {};
-
+        
         $mainSearchField.on('keyup', function (event) {            
             if (isValidKeyAction(event)) {
                 return;
@@ -37,7 +37,7 @@
 
                 return;
             }
-            
+
             $.ajax({
                 url: '/Home/Autocomplete/',
                 type: 'GET',
@@ -46,7 +46,7 @@
                 },
                 success: function (result) {
                     var noResults = ((result.indexOf('li') <= 0) && (prefix.length >= 1));
-                    
+
                     if (noResults) {
                         result = '<ul><li><i>No results found</i></li></ul>';
                     }
@@ -66,11 +66,11 @@
         });
 
         $mainSearchField.on('click', function () {
-            if ($mainSearchField.val().length <= 1) {
+            if ($mainSearchField.val().length <= 0) {
                 return;
             }
 
-            $mainSearchField.keyup();
+            $autocompleteBox.show();
         });
 
         $('body').on('click', '.autocomplete-item a', function (event) {
@@ -83,12 +83,12 @@
             getAutocompleteResults(url);
         });
 
-        $('.home-search-header').on('hover', function () {
-            autocompleteSelected ^= 1;
+        $('.home-search-header').on('mouseenter mouseleave', function () {
+            insideSearchArea ^= 1;
         });        
 
         $(document).on('click', function () {
-            if (!autocompleteSelected) {
+            if (!insideSearchArea) {
                 $autocompleteBox.hide();
             }
         });
