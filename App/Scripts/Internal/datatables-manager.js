@@ -1,6 +1,9 @@
 ﻿var DataTablesManager = function () {
+    var table;
     var lastFixedColumn = 2;
+    var lastTextColumn = 6;
     var visibilityHandlerAlreadyAttached = false;
+    var letterPairs = initializeLetterPairs();
 
     function initializeDataTable() {
         var options = {
@@ -23,9 +26,10 @@
                 }
             ]
         };
-        var table = $('#table-result').DataTable(options);
+        table = $('#table-result').DataTable(options);
 
-        setFilterEvents();            
+        replaceNonLatinLetters();
+        setFilterEvents();
 
         $('.buttons-colvis').on('click', function () {
             if (visibilityHandlerAlreadyAttached) {
@@ -83,6 +87,90 @@
                 });
             });
         }
+    }
+
+    function initializeLetterPairs() {
+        return {
+            'ă': 'a',
+            'á': 'a',
+            'ã': 'a',
+            'å': 'a',
+            'ä': 'a',
+            'ā': 'a',
+            'â': 'a',
+            'à': 'a',
+            'ả': 'a',
+            'ạ': 'a',
+            'ẵ': 'a',
+            'ậ': 'a',
+            'ć': 'c',
+            'č': 'c',
+            'ç': 'c',
+            'đ': 'd',
+            'ð': 'd',
+            'ë': 'e',
+            'é': 'e',
+            'ê': 'e',
+            'è': 'e',
+            'ė': 'e',
+            'ệ': 'e',
+            'ế': 'e',
+            'ğ': 'g',
+            'ï': 'i',
+            'í': 'i',
+            'ì': 'i',
+            'î': 'i',
+            'ı': 'i',
+            'ĩ': 'i',
+            'ị': 'i',
+            'ñ': 'n',
+            'ó': 'o',
+            'ô': 'o',
+            'ō': 'o',
+            'õ': 'o',
+            'ö': 'o',
+            'ò': 'o',
+            'ồ': 'o',
+            'ố': 'o',
+            'ø': 'o',
+            'ş': 's',
+            'š': 's',
+            'ț': 't',
+            'ü': 'u',
+            'ú': 'u',
+            'ū': 'u',
+            'ũ': 'u',
+            'ừ': 'u',
+            'ž': 'z'
+        };
+    }
+    
+    function replaceNonLatinLetters() {
+        table.rows().every(function (row) {
+            for (var col = 0; col <= lastTextColumn; col++) {
+                var replacedContent = replaceCellContent(table.cell(row, col).data());
+
+                table.cell(row, col).data(replacedContent);
+            }
+        });
+
+        table.draw();
+    }
+
+    function replaceCellContent(text) {
+        var result = [];
+
+        for (var i = 0; i < text.length; i++) {
+            var letter = text[i];
+
+            if (letter in letterPairs) {
+                result.push(letterPairs[letter]);
+            } else {
+                result.push(letter);
+            }
+        }
+
+        return result.join('');
     }
 
     return {
