@@ -6,7 +6,7 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
 
-    public class IndexViewModel
+    public class ManageIndexViewModel
     {
         public bool HasPassword { get; set; }
 

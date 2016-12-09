@@ -1,0 +1,14 @@
+﻿@model UserOverviewViewModel
+
+<li id="user-overview">
+    <div id="level-info" class="disable-block-inline">
+        <div class="vertical-center">
+            <b>@Model.Level</b>
+            <div id="points"><i><sub>@Model.PointsToNextLevel</sub></i></div>
+        </div>
+    </div>
+    <div class="dashboard-img-container disable-block-inline">
+        <img src="@Model.AvatarPath" class="img-circle img-responsive vertical-center" />
+    </div>
+    <div class="user-overview-helper display-none"><div class="vertical-center">Points to next level</div></div>
+</li>

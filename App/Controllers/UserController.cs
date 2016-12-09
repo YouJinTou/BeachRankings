@@ -22,12 +22,12 @@
         {
         }
 
-        public PartialViewResult Statistics()
+        public ActionResult Statistics()
         {
             var reviews = this.UserProfile.Reviews;
             var model = Mapper.Map<IEnumerable<Review>, IEnumerable<ReviewRowViewModel>>(reviews);
 
-            return this.PartialView(model);
+            return this.View(model);
         }
 
         public ActionResult Reviews(string authorId)
@@ -38,7 +38,7 @@
             return this.View(model);
         }
 
-        public PartialViewResult Images(int page = 0, int pageSize = 10)
+        public ActionResult Images(int page = 0, int pageSize = 10)
         {
             var imageGroups = this.Data.BeachImages.All().Where(i => i.AuthorId == this.UserProfile.Id).GroupBy(i => i.Beach.Name);
             var model = new List<DashboardImageViewModel>();
@@ -54,7 +54,7 @@
 
             model = model.Skip(page * pageSize).Take(pageSize).ToList();
 
-            return this.PartialView(model);
+            return this.View(model);
         }
 
         [HttpGet]
@@ -83,8 +83,10 @@
         [ValidateAntiForgeryToken]
         public ActionResult DeleteAvatar()
         {
-            this.DeleteOldAvatar();
-            this.SetDefaultAvatar();
+            if (this.DeleteOldAvatar())
+            {
+                this.SetDefaultAvatar();
+            }
 
             return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.DeleteAvatarSuccess });
         }
@@ -107,7 +109,7 @@
             ImageHelper.EraseImageLocally(image.Beach.Name, image.Name);
             this.Data.BeachImages.Remove(image);
             this.Data.BeachImages.SaveChanges();
-            
+
             return new HttpStatusCodeResult(200);
         }
 
@@ -134,15 +136,24 @@
             this.Data.Users.SaveChanges();
         }
 
-        private void DeleteOldAvatar()
+        private bool DeleteOldAvatar()
         {
             var oldRelativePath = this.UserProfile.AvatarPath.TrimStart('\\');
             var oldAvatarPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, oldRelativePath);
+            var defaultAvatarPath = UserHelper.GetUserDefaultAvatarPath();
+            var userHasDefaultAvatar = oldAvatarPath.Contains(defaultAvatarPath);
+
+            if (userHasDefaultAvatar)
+            {
+                return false;
+            }
 
             if (System.IO.File.Exists(oldAvatarPath))
             {
                 System.IO.File.Delete(oldAvatarPath);
             }
+
+            return true;
         }
 
         private void SetDefaultAvatar()

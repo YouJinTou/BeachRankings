@@ -2,6 +2,15 @@
 {
     using System.Collections.Generic;
 
+    public class UserOverviewViewModel
+    {
+        public string AvatarPath { get; set; }
+
+        public int Level { get; set; }
+
+        public string PointsToNextLevel { get; set; }
+    }
+
     public class SearchViewModel
     {
         public IEnumerable<AutocompleteBeachViewModel> Beaches { get; set; }

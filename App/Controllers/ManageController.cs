@@ -36,7 +36,7 @@
             var beachesDbContext = new BeachRankingsDbContext();
             var userId = User.Identity.GetUserId();
             var user = beachesDbContext.Users.Include(u => u.Blog).FirstOrDefault(u => u.Id == userId);
-            var model = new IndexViewModel
+            var model = new ManageIndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
@@ -52,7 +52,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Blog(IndexViewModel model)
+        public ActionResult Blog(ManageIndexViewModel model)
         {
             this.ValidateBlogger(model);
 
@@ -358,7 +358,7 @@
             return false;
         }
 
-        private void ValidateBlogger(IndexViewModel model)
+        private void ValidateBlogger(ManageIndexViewModel model)
         {
             var bloggerWithoutSite = (model.IsBlogger && string.IsNullOrEmpty(model.BlogUrl));
 

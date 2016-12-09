@@ -69,7 +69,7 @@
 
         public virtual Blog Blog { get; set; }
 
-        private string PointsToNextLevel
+        public string PointsToNextLevel
         {
             get
             {
@@ -91,11 +91,6 @@
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-
-            userIdentity.AddClaim(new Claim("Avatar", this.AvatarPath));
-            userIdentity.AddClaim(new Claim("Level", this.Level.ToString()));
-            userIdentity.AddClaim(new Claim("PointsToNext", this.PointsToNextLevel));
-
             this.identity = userIdentity;
 
             return userIdentity;

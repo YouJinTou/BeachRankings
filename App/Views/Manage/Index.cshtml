@@ -1,4 +1,4 @@
-﻿@model IndexViewModel
+﻿@model ManageIndexViewModel
 
 <div class="settings-container custom-canvas col-xs-6 col-xs-offset-3">
     <p id="action-message-box" class="text-info">@ViewBag.StatusMessage</p>
@@ -9,11 +9,11 @@
         <dl class="dl-horizontal">
             <dt>Avatar:</dt>
             <dd class="text-left">
-                <a data-index="avatar">Change</a>
+                <a data-settings-index="avatar">Change</a>
             </dd>
             <dt>Password:</dt>
             <dd class="text-left">
-                <a data-index="password">Change</a>
+                <a data-settings-index="password">Change</a>
             </dd>
             <dt>I blog about beaches</dt>
             <dd class="text-left">
@@ -37,5 +37,3 @@
         </dl>
     </div>
 </div>
-
-@Scripts.Render("~/Scripts/Internal/dashboard.js")

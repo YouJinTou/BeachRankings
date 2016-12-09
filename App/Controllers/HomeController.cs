@@ -20,6 +20,18 @@
             return this.View();
         }
 
+        public PartialViewResult UserOverview()
+        {
+            var model = new UserOverviewViewModel()
+            {
+                AvatarPath = this.UserProfile.AvatarPath,
+                Level = this.UserProfile.Level,
+                PointsToNextLevel = this.UserProfile.PointsToNextLevel
+            };
+
+            return this.PartialView("_UserOverviewPartial", model);
+        }
+
         public PartialViewResult Autocomplete(string prefix)
         {
             var beaches = Mapper.Map<IEnumerable<ISearchable>, IEnumerable<AutocompleteBeachViewModel>>

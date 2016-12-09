@@ -1,6 +1,9 @@
 ﻿(function ($) {
     setDashboardMenuEvents();
     setSettingsEvents();
+    setStatistics();
+    setInfiniteScrolling();
+    setImagesEvents();
 
     function setDashboardMenuEvents() {
         var menuVisible = false;
@@ -31,35 +34,7 @@
             menuVisible = false;
         });
 
-        $('.dashboard-link').on('click', function () {
-            var action = $(this).text();
-            var url = (action.indexOf('Settings') > -1) ? '/Manage/Index' : ('/User/' + action + '/');
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (result) {
-                    var isStatisticsModule = (action.indexOf('Statistics') > -1);
-                    var isImagesModule = (action.indexOf('Images') > -1);
-
-                    $('#results-container').html(result);
-
-                    if (isStatisticsModule) {
-                        var dataTablesManager = new DataTablesManager();
-
-                        dataTablesManager.initializeDataTable();
-                    } else if (isImagesModule) {
-                        setImagesEvents();
-                        setInfiniteScrolling(url);
-                    }
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        });
-
-        $('#user-overview').off('mouseenter mouseleave').on('mouseenter mouseleave', function () {
+        $('#user-overview').on('mouseenter mouseleave', function () {
             $('.user-overview-helper').toggle(200);
         });
     }
@@ -67,9 +42,9 @@
     function setSettingsEvents() {
         setBlogEvents();
 
-        $('.settings-container').on('click', '[data-index]', function () {
+        $('#results-container').on('click', '[data-settings-index]', function () {
             var $this = $(this);
-            var actionType = $this.data('index');
+            var actionType = $this.data('settings-index');
             var url = (actionType === 'avatar') ? '/User/ChangeAvatar/' : '/Manage/ChangePassword/';
             var changingAvatar = (actionType === 'avatar');
 
@@ -88,24 +63,26 @@
             function setAvatarOnSubmitEvents() {
                 var form = $('#avatar-form');
 
-                $("#delete-avatar-link").on('click', function () {
+                $("#delete-avatar-link").off('click').on('click', function () {
                     form.attr('action', '/User/DeleteAvatar');
                     form.submit();
                 });
 
-                $("#save-avatar-btn").on('click', function () {
+                $("#save-avatar-btn").off('click').on('click', function () {
                     form.attr('action', '/User/ChangeAvatar');
                     form.submit();
                 });
             }
         });
 
-        $('.settings-container').on('click', '[data-settings-back]', function () {
+        $('#results-container').on('click', '[data-settings-back]', function () {
             $.ajax({
                 url: '/Manage/Index/',
                 type: 'GET',
                 success: function (result) {
                     $('#results-container').html(result);
+
+                    setBlogEvents();
                 }
             });
         });
@@ -115,7 +92,7 @@
             var $btnSaveBlog = $('#btn-save-blog');
             var $checkBox = $('#settings-checkbox-blogger');
             var $blogUrl = $('#txt-settings-blog-url');
-            var changed = false;
+            var changed = false;            
 
             if ($checkBox.is(':checked')) {
                 $blog.show();
@@ -162,8 +139,18 @@
         }        
     }
 
-    function setInfiniteScrolling(url) {
-        var isImagesModule = (url.indexOf('Images') > -1);
+    function setStatistics() {
+        var isStatisticsModule = (window.location.href.indexOf('Statistics') > -1);
+
+        if (isStatisticsModule) {
+            var dataTablesManager = new DataTablesManager();
+
+            dataTablesManager.initializeDataTable();
+        }
+    }
+
+    function setInfiniteScrolling() {
+        var isImagesModule = (window.location.href.indexOf('Images') > -1);
 
         if (isImagesModule) {
             var infiniteScroller = new InfiniteScroller('user-images-container', 'images');
@@ -173,7 +160,7 @@
     }
 
     function setImagesEvents() {
-        $('#user-images-container').on('click', '[data-remove-image]', function () {
+        $('#results-container').on('click', '[data-remove-image]', function () {
             var toDelete = confirm('Are you sure you want to delete this image?');
 
             if (toDelete) {
