@@ -21,3 +21,34 @@
 #action-message-box {
     margin-top: 10px;
 }
+
+.dashboard-img-container {
+    width: 70px;
+    height: 50px;
+}
+
+#level-info {
+    width: 55px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+    position: relative;
+    top: -10px;
+    left: 15px;
+    z-index: 1;
+}
+
+#points {
+    position: relative;
+    top: -10px;
+}
+
+.user-overview-helper {
+    position: absolute;
+    height: 40px;
+    width: 100px;
+    font-weight: lighter;
+    border-radius: 1px;
+    color: white;
+    background-color: rgba(33, 38, 45, 0.7);
+}

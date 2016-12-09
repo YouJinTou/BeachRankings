@@ -58,6 +58,10 @@
                 }
             });
         });
+
+        $('#user-overview').off('mouseenter mouseleave').on('mouseenter mouseleave', function () {
+            $('.user-overview-helper').toggle(200);
+        });
     }
 
     function setSettingsEvents() {

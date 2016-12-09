@@ -70,6 +70,10 @@
                 return;
             }
 
+            var items = $autocompleteBox.find('li');
+            insideSearchArea = 1;
+
+            items.removeClass('selected-item');
             $autocompleteBox.show();
         });
 
@@ -83,7 +87,7 @@
             getAutocompleteResults(url);
         });
 
-        $('.home-search-header').on('mouseenter mouseleave', function () {
+        $($mainSearchField).on('mouseenter mouseleave', function () {
             insideSearchArea ^= 1;
         });        
 
@@ -94,6 +98,12 @@
         });
 
         function isValidKeyAction(event) {
+            var noResults = $($autocompleteBox.find('li')).first().text() === 'No results found';
+
+            if (noResults) {
+                return false;
+            }
+
             var isKeyUp = (event.keyCode === 38);
             var isKeyDown = (event.keyCode === 40);
             var isEnter = (event.keyCode === 13);
@@ -135,12 +145,6 @@
         function traverseResults(isKeyUp) {
             var selectedClass = 'selected-item';
             var items = $autocompleteBox.find('li');
-            var noResults = $(items[0]).text() === 'No results found';
-
-            if (noResults) {
-                return;
-            }
-
             var selected = $autocompleteBox.find('.selected-item').first();
             var selectedIndex = $autocompleteBox.find('.selected-item').prevAll().length;
 
