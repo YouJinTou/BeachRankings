@@ -11,10 +11,10 @@
         <div class="aside-element">Area: <a href="/SecondaryDivisions/Beaches/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></div>
         <div class="aside-element">Sub-area: <a href="/TertiaryDivisions/Beaches/@Model.TertiaryDivisionId">@Model.TertiaryDivision</a></div>
         <div class="aside-element">Locality: <a href="/QuaternaryDivisions/Beaches/@Model.QuaternaryDivisionId">@Model.QuaternaryDivision</a></div>
-        <div class="aside-element">Coordinates: <a href="https://www.google.com/maps/place/@Model.Coordinates" target="_blank">@Model.Coordinates</a></div>
+        <div class="coordinates aside-element">Coordinates: <a href="https://www.google.com/maps/place/@Model.Coordinates" target="_blank">@Model.Coordinates</a></div>
     </aside>
 
-    <aside class="beach-aside custom-canvas text-left">
+    <aside class="bloggers-aside beach-aside custom-canvas text-left">
         <h4>What bloggers say</h4>
 
         <hr />
@@ -25,13 +25,15 @@
 
 <div class="beach-head custom-canvas col-xs-8">
     <div class="row">
-        <div class="text-left beach-name col-xs-5">
-            <h2>
-                <a href="/Beaches/Details/@Model.Id">@Model.Name</a> <i>@Html.PluralizeValue(@Model.Reviews.Count(), "review")</i>
-            </h2>
+        <div class="col-xs-1">
             <div class="beach-score-box beach-score-box-extended col-xs-4">
                 <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
             </div>
+        </div>
+        <div class="text-left beach-name col-xs-7">
+            <h2>
+                <a href="/Beaches/Details/@Model.Id">@Model.Name</a> <i>@Html.PluralizeValue(@Model.Reviews.Count(), "review")</i>
+            </h2>
             <h4>
                 <i>
                     <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
@@ -42,7 +44,7 @@
                 </i>
             </h4>
         </div>
-        <div class="text-right col-xs-6">
+        <div class="text-right col-xs-4">
             <span id="btn-beach-export-html" data-html-export-beach="@Model.Id" class="beach-export a-like-span glyphicon glyphicon-export" title="Export a summary of this beach to HTML"></span>
             @{
                 if (!Model.UserHasRated)
@@ -57,12 +59,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="slick-carousel col-xs-7">
+        <div class="beach-images slick-carousel col-xs-7">
             @Html.DisplayFor(model => model.Images)
         </div>
         <div class="col-xs-4">
             <div class="text-left">
-                @Html.Partial("~/Views/Beaches/_BeachCriteria.cshtml", Model.Criteria)
+                @Html.Partial("_CriteriaTablePartial", Model.Criteria)
             </div>
             <div class="row">
                 @{
@@ -70,12 +72,12 @@
                     {
                         <hr />
 
-                            <div class="col-xs-12">
-                                <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
-                                    <a class="a-like-span control glyphicon glyphicon-edit" title="Edit beach" href="/Beaches/Edit/@Model.Id"></a>
-                                    <span id="delete-beach-span" title="Delete beach" class="a-like-span control glyphicon glyphicon-remove"></span>
-                                </form>
-                            </div>
+                        <div class="col-xs-12">
+                            <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
+                                <a class="a-like-span control glyphicon glyphicon-edit" title="Edit beach" href="/Beaches/Edit/@Model.Id"></a>
+                                <span id="delete-beach-span" title="Delete beach" class="a-like-span control glyphicon glyphicon-remove"></span>
+                            </form>
+                        </div>
                     }
                 }
             </div>

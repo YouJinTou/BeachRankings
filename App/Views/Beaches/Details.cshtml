@@ -4,41 +4,21 @@
     ViewBag.Title = Model.Name;
 }
 
-<div id="beach-details-container" class="col-xs-12">
-    
+<div id="beach-details-container" data-beach-id="@Model.Id" class="col-xs-12">    
     @Html.Partial("_BeachHeadPartial", Model)
-
     <hr />
-
-    <div class="beach-reviews-container col-xs-offset-3 col-xs-8">
-        @Html.DisplayFor(m => m.Reviews)
-    </div>
+    @Html.Partial("BeachReviewsPartial", Model.Reviews)    
 </div>
 
+@section Scripts {
+    @Scripts.Render("~/Content/External/slick/slick.min.js")
+    @Scripts.Render("~/Scripts/Internal/infinite-scroller.js")
+    @Scripts.Render("~/Scripts/Internal/beach-details.js")
+}
 
-@{
-    if (!this.Request.IsAjaxRequest())
-    {
-        @section Scripts {
-            @Scripts.Render("~/Content/External/slick/slick.min.js")
-            @Scripts.Render("~/Scripts/Internal/beach-details.js")
-        }
-
-        @section BeachStyles{
-            @Styles.Render("~/Content/Internal/beach-details.css")
-            @Styles.Render("~/Content/Internal/reviews.css")
-            @Styles.Render("~/Content/External/slick/slick.css")
-            @Styles.Render("~/Content/External/slick/slick-theme.css")
-        }
-    }
-    else
-    {
-        @Styles.Render("~/Content/Internal/beach-details.css")
-        @Styles.Render("~/Content/Internal/reviews.css")
-        @Styles.Render("~/Content/External/slick/slick.css")
-        @Styles.Render("~/Content/External/slick/slick-theme.css")
-
-        @Scripts.Render("~/Content/External/slick/slick.min.js")
-        @Scripts.Render("~/Scripts/Internal/beach-details.js")
-    }
+@section BeachStyles{
+    @Styles.Render("~/Content/Internal/beach-details.css")
+    @Styles.Render("~/Content/Internal/reviews.css")
+    @Styles.Render("~/Content/External/slick/slick.css")
+    @Styles.Render("~/Content/External/slick/slick-theme.css")
 }

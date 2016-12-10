@@ -82,7 +82,7 @@
 
     public class PostReviewViewModel : CriteriaBaseModel
     {
-        public int BeachId { get; set; }
+        public DetailedBeachViewModel BeachHead { get; set; }
 
         [Required(ErrorMessage = "The review field is required.")]
         [MinLength(100, ErrorMessage = "100 characters should be doable.")]
@@ -95,26 +95,8 @@
         [Display(Name = "Blog article links")]
         [UrisValid(ErrorMessage = "We couldn't process the provided links.")]
         public string ArticleLinks { get; set; }
-
-        public string BeachName { get; set; }
-
-        public string BeachCountry { get; set; }
-
-        public int CountryId { get; set; }
-
-        public string BeachPrimaryDivision { get; set; }
-
-        public int? PrimaryDivisionId { get; set; }
-
-        public string BeachSecondaryDivision { get; set; }
-
-        public int? SecondaryDivisionId { get; set; }
-
-        public double? BeachTotalScore { get; set; }
-
+        
         public int BeachReviewsCount { get; set; }
-
-        public IEnumerable<BeachImageThumbnailViewModel> BeachImagePaths { get; set; }
 
         [ImagesValid(ErrorMessage = "Failed to upload images. Verify their total size and format.")]
         public IEnumerable<HttpPostedFileBase> Images { get; set; }
@@ -138,26 +120,8 @@
         [UrisValid(ErrorMessage = "We couldn't process the provided links.")]
         public string ArticleLinks { get; set; }
 
-        public int BeachId { get; set; }
-
-        public string BeachName { get; set; }
-
-        public string BeachCountry { get; set; }
-
-        public int CountryId { get; set; }
-
-        public string BeachPrimaryDivision { get; set; }
-
-        public int? PrimaryDivisionId { get; set; }
-
-        public string BeachSecondaryDivision { get; set; }
-
-        public int? SecondaryDivisionId { get; set; }
-
-        public double? BeachTotalScore { get; set; }
-
+        public DetailedBeachViewModel BeachHead { get; set; }
+        
         public int BeachReviewsCount { get; set; }
-
-        public IEnumerable<BeachImageThumbnailViewModel> BeachImagePaths { get; set; }                
     }
 }

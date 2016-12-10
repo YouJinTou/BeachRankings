@@ -168,7 +168,30 @@ img {
     margin-right: 5px;
 }
 
-/* MODAL POPUP */
+.slick-slide {
+   max-height: 350px;
+}
+
+.slick-slide img {
+   max-height: 350px;
+}
+
+/* POPUPS */
+.custom-popup {
+    position: absolute;
+    font-style: italic;
+    top: -30px;
+    left: 40px;
+    z-index: 9999;
+    width: 200px;
+    padding: 5px;
+    background-color: white;
+    -webkit-box-shadow: -1px -1px 5px 0px rgba(148,148,148,1);
+    -moz-box-shadow: -1px -1px 5px 0px rgba(148,148,148,1);
+    box-shadow: -1px -1px 5px 0px rgba(148,148,148,1);
+    text-align: justify;
+}
+
 .custom-modal-popup {
     z-index: 9999;
     width: 100%;
@@ -276,6 +299,7 @@ img {
 }
 
 .info-icon {
+    cursor: pointer;
     font-size: 20px;
 }
 

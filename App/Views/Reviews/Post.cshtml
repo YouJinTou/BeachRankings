@@ -1,38 +1,12 @@
 ﻿@model PostReviewViewModel
 
 @{
-    ViewBag.Title = "Rate " + Model.BeachName;
+    ViewBag.Title = "Rate " + Model.BeachHead.Name;
 }
 
-<div class="review-container custom-canvas col-xs-10 col-xs-offset-1">
-    <div class="row">
-        <div class="slick-carousel col-xs-4 col-xs-offset-3">
-            @Html.DisplayFor(model => model.BeachImagePaths)
-        </div>
-        <div class="col-xs-4">
-            <div class="row">
-                <div class="col-xs-3 text-left">
-                    <div class="beach-score-box beach-score-box-big">
-                        <div class="vertical-center">@Html.ParseNullableValue(Model.BeachTotalScore, "-")</div>
-                    </div>
-                    <span class="display-block">@Html.PluralizeValue(Model.BeachReviewsCount, "review")</span>
-                </div>
-                <div class="review-header-info col-xs-8 text-left">
-                    <h2><a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a></h2>
-                    <h5>
-                        <i>
-                            <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
-                            @Html.ParseNullString(
-                                @Html.GetBeachAnchorTagDivisionAddress(Model.BeachPrimaryDivision, Model.BeachSecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId) + ", ",
-                                null)
-                            <a href="/Countries/Beaches/@Model.CountryId">@Model.BeachCountry</a>
-                        </i>
-                    </h5>
-                </div>
-            </div>
-        </div>
-    </div>
+@Html.Partial("_BeachHeadPartial", Model.BeachHead)
 
+<div class="review-container custom-canvas col-xs-offset-3 col-xs-8">    
     <div class="row">
         @using (Html.BeginForm("Post", "Reviews", FormMethod.Post, new { id = "submit-review-form", enctype = "multipart/form-data" }))
         {
@@ -85,11 +59,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if the sand is light in color and pleasant to hold and walk on
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if the sand is light in color and pleasant to hold and walk on
-                    </div>
+                    </div>                    
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -100,10 +74,10 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if the beach is kept clean, without litter
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if the beach is kept clean, without litter
                     </div>
                 </div>
                 <div class="form-group">
@@ -115,11 +89,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if the beach and its surroundings leave a sense of awe and admiration
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if the beach and its surroundings leave a sense of awe and admiration
-                    </div>
+                    </div>                   
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.CrowdFree, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -130,11 +104,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if the beach is a quiet place with few people
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if the beach is a quiet place with few people
-                    </div>
+                    </div>                   
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -145,11 +119,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if facilities (e.g. bathrooms, accommodations, bars, markets) are present
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if facilities (e.g. bathrooms, accommodations, bars, markets) are present
-                    </div>
+                    </div>                   
                 </div>
                 <!--End Beach-->
                 <!--Sea-->
@@ -162,21 +136,21 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Vertically and/or horizontally <i>roughly over</i>: <br />
+                            25 m (82 ft.) - 10 <br />
+                            20 m (65 ft.) - 9 <br />
+                            15 m (49 ft.) - 8 <br />
+                            10 m (33 ft.) - 7 <br />
+                            8 m (26 ft.) - 6 <br />
+                            6 m (20 ft.) - 5 <br />
+                            4 m (13 ft.) - 4 <br />
+                            3 m (10 ft.) - 3 <br />
+                            2 m (7 ft.) - 2 <br />
+                            1 m (3 ft.) - 1 <br />
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Vertically and/or horizontally <i>roughly over</i>: <br />
-                        25 m (82 ft.) - 10 <br />
-                        20 m (65 ft.) - 9 <br />
-                        15 m (49 ft.) - 8 <br />
-                        10 m (33 ft.) - 7 <br />
-                        8 m (26 ft.) - 6 <br />
-                        6 m (20 ft.) - 5 <br />
-                        4 m (13 ft.) - 4 <br />
-                        3 m (10 ft.) - 3 <br />
-                        2 m (7 ft.) - 2 <br />
-                        1 m (3 ft.) - 1 <br />
-                    </div>
+                    </div>                    
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.LitterFree, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -187,11 +161,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if both water and seabed are clean, without litter
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if both water and seabed are clean, without litter
-                    </div>
+                    </div>                   
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.FeetFriendlyBottom, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -202,11 +176,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if one can enter (part of) the shallow end without worry of rocks or corals hurting the feet
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if one can enter (part of) the shallow end without worry of rocks or corals hurting the feet
-                    </div>
+                    </div>                  
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -217,11 +191,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if it fees like a giant aquarium underwater
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if it fees like a giant aquarium underwater
-                    </div>
+                    </div>                    
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.CoralReef, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -232,11 +206,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if there is an impressive coral reef underwater
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if there is an impressive coral reef underwater
-                    </div>
+                    </div>                    
                 </div>
                 <!--End Sea-->
                 <!--Activities-->
@@ -249,11 +223,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if the surface is calm, there is good water visibility, rich sea life, and a beautiful coral reef
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if the surface is calm, there is good water visibility, rich sea life, and a beautiful coral reef
-                    </div>
+                    </div>                   
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Kayaking, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -264,11 +238,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if the surface is calm and the surroundings are beautiful and suitable for kayaking
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if the surface is calm and the surroundings are beautiful and suitable for kayaking
-                    </div>
+                    </div>                   
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -279,11 +253,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            Rate high if walking along the beachline or a nearby promenade is a pleasant experience
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        Rate high if walking along the beachline or a nearby promenade is a pleasant experience
-                    </div>
+                    </div>                    
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -294,11 +268,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            A beach suitable for camping scores high in as many of the above criteria as possible
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        A beach suitable for camping scores high in as many of the above criteria as possible
-                    </div>
+                    </div>                   
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.LongTermStay, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -309,11 +283,11 @@
                     </div>
                     <div class="col-md-4 text-left">
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                        <div class="custom-popup" style="display: none;">
+                            A beach suitable for long-term stay scores high in as many of the above criteria as possible and has the infrastructure to support it
+                        </div>
                         <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        A beach suitable for long-term stay scores high in as many of the above criteria as possible and has the infrastructure to support it
-                    </div>
+                    </div>                   
                 </div>
                 <!--End Activities-->
 
@@ -332,7 +306,7 @@
                 </div>
             </div>
 
-            @Html.HiddenFor(model => model.BeachId)
+                    @Html.HiddenFor(model => model.BeachHead.Id)
                     @Html.HiddenFor(model => model.ArticleLinks, new { id = "hdn-article-links" })
                     @Html.HiddenFor(model => model.SandQuality, new { id = "hdn-sand-quality" })
                     @Html.HiddenFor(model => model.BeachCleanliness, new { id = "hdn-beach-cleanliness" })
@@ -366,5 +340,6 @@
     @Styles.Render("~/Content/External/dragdealer.css")
     @Styles.Render("~/Content/External/slick/slick.css")
     @Styles.Render("~/Content/External/slick/slick-theme.css")
+    @Styles.Render("~/Content/Internal/beach-details.css")
     @Styles.Render("~/Content/Internal/reviews.css")
 }

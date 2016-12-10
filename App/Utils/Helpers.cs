@@ -251,7 +251,7 @@
             }
         }
 
-        public static void EraseImageLocally(string beachName, string imageName)
+        public static void EraseBeachImageLocally(string beachName, string imageName)
         {
             var relativeBeachImagesDir = BeachHelper.GetBeachImagesRelativeDir(beachName);
             var beachDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeBeachImagesDir);

@@ -5,6 +5,7 @@
     using BeachRankings.Models.Interfaces;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Services.Search.Models;
+    using System;
     using System.Linq;
 
     public static class MapperConfig
@@ -27,7 +28,6 @@
                 cfg.CreateMap<EditBeachViewModel, Beach>();
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
                 cfg.CreateMap<BeachImage, DashboardBeachImageThumbnailViewModel>();
-                cfg.CreateMap<PostReviewViewModel, Review>();
                 cfg.CreateMap<BlogArticle, BlogArticleViewModel>();
                 cfg.CreateMap<TableRowViewModel, BeachRowViewModel>();
                 cfg.CreateMap<TableRowViewModel, ReviewRowViewModel>();
@@ -56,17 +56,8 @@
                     .ForMember(vm => vm.WaterBody, model => model.MapFrom(m => m.WaterBody.Name))
                     .ForMember(vm => vm.Criteria, model => model.MapFrom(m => m));
                 cfg.CreateMap<Beach, PostReviewViewModel>()
-                    .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Id))
-                    .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))
-                    .ForMember(vm => vm.BeachCountry, model => model.MapFrom(m => m.Country.Name))
-                    .ForMember(vm => vm.CountryId, model => model.MapFrom(m => m.CountryId))
-                    .ForMember(vm => vm.BeachPrimaryDivision, model => model.MapFrom(m => m.PrimaryDivision.Name))
-                    .ForMember(vm => vm.PrimaryDivisionId, model => model.MapFrom(m => m.PrimaryDivisionId))
-                    .ForMember(vm => vm.BeachSecondaryDivision, model => model.MapFrom(m => m.SecondaryDivision.Name))
-                    .ForMember(vm => vm.SecondaryDivisionId, model => model.MapFrom(m => m.SecondaryDivisionId))
-                    .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.TotalScore))
+                    .ForMember(vm => vm.BeachHead, model => model.MapFrom(m => m))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Reviews.Count(r => r.TotalScore != null)))
-                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Images))
                     .ForMember(vm => vm.Images, model => model.Ignore())
                     .ForMember(vm => vm.SandQuality, model => model.Ignore())
                     .ForMember(vm => vm.BeachCleanliness, model => model.Ignore())
@@ -106,18 +97,13 @@
                    .ForMember(vm => vm.BlogUrl, model => model.MapFrom(m => m.Author.Blog.Url))
                    .ForMember(vm => vm.BlogArticles, model => model.MapFrom(m => m.BlogArticles))
                    .ForMember(vm => vm.BeachHead, model => model.MapFrom(m => m.Beach));
+                cfg.CreateMap<PostReviewViewModel, Review>()
+                    .BeforeMap((vm, m) => m.PostedOn = DateTime.Now)
+                    .ForMember(model => model.BeachId, vm => vm.MapFrom(m => m.BeachHead.Id))
+                    .AfterMap((vm, m) => m.UpdateScores());
                 cfg.CreateMap<Review, EditReviewViewModel>()
-                    .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Beach.Id))
-                    .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Beach.Name))
-                    .ForMember(vm => vm.BeachCountry, model => model.MapFrom(m => m.Beach.Country.Name))
-                    .ForMember(vm => vm.CountryId, model => model.MapFrom(m => m.Beach.CountryId))
-                    .ForMember(vm => vm.BeachPrimaryDivision, model => model.MapFrom(m => m.Beach.PrimaryDivision.Name))
-                    .ForMember(vm => vm.PrimaryDivisionId, model => model.MapFrom(m => m.Beach.PrimaryDivisionId))
-                    .ForMember(vm => vm.BeachSecondaryDivision, model => model.MapFrom(m => m.Beach.SecondaryDivision.Name))
-                    .ForMember(vm => vm.SecondaryDivisionId, model => model.MapFrom(m => m.Beach.SecondaryDivisionId))
-                    .ForMember(vm => vm.BeachTotalScore, model => model.MapFrom(m => m.Beach.TotalScore))
+                    .ForMember(vm => vm.BeachHead, model => model.MapFrom(m => m.Beach))
                     .ForMember(vm => vm.BeachReviewsCount, model => model.MapFrom(m => m.Beach.Reviews.Count(r => r.TotalScore != null)))
-                    .ForMember(vm => vm.BeachImagePaths, model => model.MapFrom(m => m.Beach.Images))
                     .ForMember(vm => vm.ArticleLinks, model => model.MapFrom(m => string.Join("@", m.BlogArticles.Where(ba => ba.ReviewId == m.Id).Select(ba => ba.Url))));
                 cfg.CreateMap<Review, ReviewRowViewModel>()
                     .ForMember(vm => vm.ReviewId, model => model.MapFrom(m => m.Id))

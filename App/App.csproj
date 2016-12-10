@@ -298,6 +298,7 @@
     <Content Include="Content\Internal\admin.css" />
     <Content Include="Content\Internal\beach-add-edit.css" />
     <Content Include="Content\Internal\beach-details.css" />
+    <Content Include="Content\Internal\contributors.css" />
     <Content Include="Content\Internal\images.css" />
     <Content Include="Content\Internal\dashboard.css" />
     <Content Include="Content\Internal\account.css" />
@@ -439,13 +440,12 @@
     <Content Include="Views\Admin\Restructure.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ReviewRowViewModel.cshtml" />
     <Content Include="Views\Shared\_BeachHeadPartial.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\CriteriaViewModel.cshtml" />
-    <Content Include="Views\Beaches\_BeachCriteria.cshtml" />
-    <Content Include="Views\Reviews\_ReviewCriteria.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DashboardBeachImageThumbnailViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteContinentViewModel.cshtml" />
     <Content Include="Views\Shared\_UserStatisticsPartial.cshtml" />
     <Content Include="Views\Shared\_UserOverviewPartial.cshtml" />
+    <Content Include="Views\Beaches\BeachReviewsPartial.cshtml" />
+    <Content Include="Views\Shared\_CriteriaTablePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />

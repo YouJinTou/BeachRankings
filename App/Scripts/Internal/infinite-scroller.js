@@ -1,10 +1,14 @@
-﻿var InfiniteScroller = function (containerId, type) {
+﻿var InfiniteScroller = function (containerId, type, pageSize) {
     var page = 1;
+    var pageSize = (typeof pageSize === 'undefined') ? 10 : pageSize;
     var containerSelector = '#' + containerId;
     var $resultsContainer = $(containerSelector);
     var footer = $('#main-footer');
     var inProgress = false;
     var allResultsShown = false;
+    var isBeach = (type === 'beach');
+    var isLocation = (type === 'locaiton');
+    var isImages = (type === 'images');
 
     genericHelper.setScoreBoxesBackgroundColor();
 
@@ -39,12 +43,11 @@
 
                     $resultsContainer.append(appendee);
 
-                    genericHelper.setScoreBoxesBackgroundColor($resultsContainer);
+                    setTypeSpecificSettings();
 
                     page++;
                 },
                 complete: function () {
-
                     inProgress = false;
                 }
             });
@@ -55,22 +58,32 @@
         var parameters = {};
 
         switch (type) {
+            case 'beach': {
+                parameters.url = '/Beaches/Reviews';
+                parameters.data = {
+                    beachId: $('[data-beach-id]').data('beach-id'),
+                    page: page,
+                    pageSize: pageSize
+                }
+
+                return parameters;
+            }
             case 'location': {
                 var captureGroups = /.+(\/Countries|\/\w+Divisions|\/WaterBodies)(.+\/)(\d+)/i.exec(window.location.href);
                 parameters.url = (captureGroups[1] + captureGroups[2]);
                 parameters.data = {
                     id: captureGroups[3],
                     page: page,
-                    pageSize: 10
+                    pageSize: pageSize
                 };
 
                 return parameters;
             }
             case 'images': {
-                parameters.url = '/User/Images/';
+                parameters.url = '/User/Images';
                 parameters.data = {
                     page: page,
-                    pageSize: 10
+                    pageSize: pageSize
                 };
 
                 return parameters;
@@ -85,6 +98,16 @@
         var $appendee = $dummyDiv.append(originalResult).find(containerSelector);
 
         return ($appendee.length > 0) ? $appendee.html() : originalResult;
+    }
+
+    function setTypeSpecificSettings() {
+        if (isBeach) {
+            genericHelper.setScoreBoxesBackgroundColor();
+            reviewsHelper.setReviewVotingVariables();
+            reviewsHelper.truncateReviews();
+        } else if (isLocation) {
+            genericHelper.setScoreBoxesBackgroundColor();
+        }
     }
 
     return {

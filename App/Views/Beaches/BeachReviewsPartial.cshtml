@@ -1,11 +1,9 @@
-﻿@model IEnumerable<DashboardImageViewModel>
+﻿@model IEnumerable<ConciseReviewViewModel>
 
 @{
     if (!this.Request.IsAjaxRequest())
     {
-        @Styles.Render("~/Content/Internal/images.css")
-
-        <div id="user-images-container" class="custom-canvas col-xs-8 col-xs-offset-2">
+        <div id="beach-details-reviews-container" class="beach-reviews-container col-xs-offset-3 col-xs-8">
             @Html.DisplayForModel()
         </div>
     }

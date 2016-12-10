@@ -8,6 +8,7 @@
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -73,12 +74,12 @@
                 this.TempData["PostReviewModelStateErrors"] = base.GetModelStateErrors();
                 this.TempData["PostReviewViewModel"] = bindingModel;
 
-                return this.RedirectToAction("Post", new { id = bindingModel.BeachId });
+                return this.RedirectToAction("Post", new { id = bindingModel.BeachHead.Id });
             }
 
-            if (!this.UserProfile.CanRateBeach(bindingModel.BeachId))
+            if (!this.UserProfile.CanRateBeach(bindingModel.BeachHead.Id))
             {
-                return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachId });
+                return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachHead.Id });
             }
 
             var review = Mapper.Map<PostReviewViewModel, Review>(bindingModel);
@@ -111,7 +112,7 @@
                 }
             }
 
-            return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachId });
+            return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachHead.Id });
         }
 
         [Authorize]
@@ -192,7 +193,7 @@
         [Authorize]
         public ActionResult Delete(int id)
         {
-            var review = this.Data.Reviews.Find(id);
+            var review = this.Data.Reviews.All().Include(r => r.Beach).FirstOrDefault(r => r.Id == id);
 
             if (!this.User.Identity.CanEditReview(this.UserProfile.Id))
             {
@@ -201,17 +202,24 @@
 
             var existingArticles = this.Data.BlogArticles.All().Where(ba => ba.ReviewId == review.Id);
             var author = this.Data.Users.Find(review.AuthorId); // It's possible that a moderator is deleting the review
+            var beach = this.Data.Beaches.Find(review.BeachId);
 
-            this.Data.BlogArticles.RemoveMany(existingArticles);
-            this.Data.BlogArticles.SaveChanges();
+            if (existingArticles.Count() > 0)
+            {
+                this.Data.BlogArticles.RemoveMany(existingArticles);
+                this.Data.BlogArticles.SaveChanges();
+            }
 
             this.Data.Reviews.Remove(review);
             this.Data.Reviews.SaveChanges();
 
+            beach.UpdateScores();
+            this.Data.Beaches.SaveChanges();            
+
             author.RecalculateLevel();
             this.Data.Users.SaveChanges();
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId });
         }
 
         [Authorize]
@@ -236,7 +244,7 @@
             this.Data.Reviews.SaveChanges();
             this.Data.Users.SaveChanges();
 
-            return new EmptyResult();
+            return new HttpStatusCodeResult(200);
         }
 
         [Authorize]
@@ -261,7 +269,7 @@
             this.Data.Reviews.SaveChanges();
             this.Data.Users.SaveChanges();
 
-            return new EmptyResult();
+            return new HttpStatusCodeResult(200);
         }
 
         public JsonResult ExportHtml(int id)

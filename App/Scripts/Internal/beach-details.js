@@ -1,10 +1,12 @@
 ﻿(function ($) {
+    var infiniteScroller = new InfiniteScroller('beach-details-reviews-container', 'beach');
     var expansionInProgress = false;
 
-    hideEmptyAsideElements();
+    beachesHelper.hideEmptyAsideElements();
     genericHelper.setScoreBoxesBackgroundColor();
     reviewsHelper.setReviewVotingVariables();
     reviewsHelper.truncateReviews();
+    infiniteScroller.setInifiniteScroll();
 
     $('.slick-carousel').slick({
         slidesToShow: 1,
@@ -34,17 +36,7 @@
         }
     });
 
-    function hideEmptyAsideElements() {
-        var $container = $('.beach-aside');
-
-        $container.find('.aside-element').each(function () {
-            var $this = $(this);
-            var captureGroups = /\w+:\s*(\w+)/.exec($this.text());            
-            var elementEmpty = (captureGroups === null);
-
-            if (elementEmpty) {
-                $this.hide();
-            }
-        });
-    }
+    $('#beach-details-container').on('click', '.delete-review-link', function () {
+        return confirm('Delete review?');
+    });
 })(jQuery);

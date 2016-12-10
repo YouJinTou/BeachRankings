@@ -34,8 +34,12 @@
             menuVisible = false;
         });
 
-        $('#user-overview').on('mouseenter mouseleave', function () {
-            $('.user-overview-helper').toggle(200);
+        $('#user-overview').on('mouseenter', function () {
+            $('.user-overview-helper').show(200);
+        });
+
+        $('#user-overview').on('mouseleave', function () {
+            $('.user-overview-helper').hide(200);
         });
     }
 
@@ -64,8 +68,12 @@
                 var form = $('#avatar-form');
 
                 $("#delete-avatar-link").off('click').on('click', function () {
-                    form.attr('action', '/User/DeleteAvatar');
-                    form.submit();
+                    var toDelete = confirm('Your avatar will be deleted and set to the default one. Proceed?');
+
+                    if (toDelete) {
+                        form.attr('action', '/User/DeleteAvatar');
+                        form.submit();
+                    }                   
                 });
 
                 $("#save-avatar-btn").off('click').on('click', function () {
@@ -163,32 +171,35 @@
         $('#results-container').on('click', '[data-remove-image]', function () {
             var toDelete = confirm('Are you sure you want to delete this image?');
 
-            if (toDelete) {
-                var $this = $(this);
+            if (!toDelete) {
+                return;
+            }
 
-                $.ajax({
-                    url: '/User/DeleteBeachImage',
-                    data: {
-                        id: $(this).data('remove-image')
-                    },
-                    type: 'POST',
-                    success: function () {
-                        var $imageRow = $this.closest('.image-row');
+            var $this = $(this);
 
-                        $this.closest('.dashboard-image-wrapper').remove();
+            $.ajax({
+                url: '/User/DeleteBeachImage',
+                data: {
+                    id: $(this).data('remove-image')
+                },
+                type: 'POST',
+                success: function () {
+                    var $imageRow = $this.closest('.image-row');
 
-                        var imagesLeft = $imageRow.find('.dashboard-image-wrapper').length;
+                    $this.next('.dashboard-image-wrapper').remove();
+                    $this.remove();
 
-                        if (imagesLeft === 0) {
-                            $imageRow.next('hr').remove();
-                            $imageRow.remove();
-                        }
-                    },
-                    error: function (data) {
-                        console.log(data);
+                    var imagesLeft = $imageRow.find('.dashboard-image-wrapper').length;
+
+                    if (imagesLeft === 0) {
+                        $imageRow.next('hr').remove();
+                        $imageRow.remove();
                     }
-                });
-            }            
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
         });
     }
 })(jQuery);

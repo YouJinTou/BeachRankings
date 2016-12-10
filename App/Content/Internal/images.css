@@ -2,8 +2,13 @@
     margin-top: 20px;
 }
 
+hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .image-row {
-    padding-top: 15px;
+    margin-top: 5px;
 }
 
 .images-container {
@@ -11,6 +16,19 @@
     text-align: left;
 }
 
-.images-container .img-container {
-    display: inline-block;
+    .images-container .dashboard-image-wrapper {
+        height: 60px;
+        width: 90px;
+        display: inline-block;
+    }
+
+.remove-image {
+    position: relative;
+    top: -40px;
+    left: 90px;
+    color: #281c1c;
 }
+
+    .remove-image:hover {
+        color: black;
+    }

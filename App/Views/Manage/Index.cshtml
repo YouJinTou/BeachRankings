@@ -21,17 +21,25 @@
                 {
                     @Html.AntiForgeryToken();
 
-                    @Html.CheckBoxFor(m => m.IsBlogger, new { id = "settings-checkbox-blogger" })
-                    <div><span class="info-icon glyphicon glyphicon-info-sign"></span></div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        We will put a link to your blog in every review you leave.
-                    </div>
-                    <div id="settings-blog" class="form-group display-none">
-                        <div class="col-md-12">
-                            @Html.TextBoxFor(m => m.BlogUrl, new { id = "txt-settings-blog-url", @class = "form-control form-control-extended custom-focus-black", @placeholder = "For example, http://www.myblog.com/" })
+                    <div class="row">
+                        <div class="col-xs-1">
+                            @Html.CheckBoxFor(m => m.IsBlogger, new { id = "settings-checkbox-blogger" })
+                        </div>
+                        <div class="col-xs-11">
+                            <span class="info-icon glyphicon glyphicon-info-sign"></span>
+                            <div class="custom-popup" style="display: none;">
+                                We will put a link to your blog in every review you leave as well as any articles you refer to.
+                            </div>
                         </div>
                     </div>
-                    <button id="btn-save-blog" class="btn btn-cta display-none">Save</button>
+                    <div class="row">
+                        <div id="settings-blog" class="col-xs-12 form-group display-none">
+                            @Html.TextBoxFor(m => m.BlogUrl, new { id = "txt-settings-blog-url", @class = "form-control form-control-extended custom-focus-black", @placeholder = "For example, http://www.myblog.com/" })
+                        </div>
+                        <div class="col-xs-12">
+                            <button id="btn-save-blog" class="btn btn-cta display-none">Save</button>
+                        </div>
+                    </div>                    
                 }
             </dd>
         </dl>

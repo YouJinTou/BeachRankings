@@ -3,7 +3,9 @@
 
     dragdealersManager.initializeMeters($('.review-container'));
     genericHelper.setScoreBoxesBackgroundColor();
+    beachesHelper.hideEmptyAsideElements();
     reviewsHelper.setReviewVotingVariables();
+
     $('.slick-carousel').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -22,5 +24,9 @@
 
     $('.review-export').on('click', function () {
         reviewsHelper.exportReviewToHtml($(this));
+    });
+
+    $('.delete-review-link').on('click', function () {
+        return confirm('Delete review?');
     });
 })();

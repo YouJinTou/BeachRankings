@@ -1,6 +1,5 @@
 ﻿#beach-details-container {
     margin: 0 auto;
-    margin-top: 20px;
 }
 
 .beach-aside {
@@ -10,29 +9,31 @@
     border: none;
 }
 
+.bloggers-aside {
+    word-break: break-all;
+}
+
+.coordinates {
+    word-break: break-all;
+}
+
 .beach-head {
     padding: 15px;
-    margin-left: 15px;
 }
 
-.beach-name {
-    margin-left: 20px;
-    padding-left: 0px;
+.beach-name h2 {
+    margin: 0;
+    display: inline-block;
 }
 
-    .beach-name h2 {
-        margin: 0;
-        display: inline-block;
-    }
-
-        .beach-name h2 i {
-            font-size: 15px;
-        }
-
-    .beach-name h4 {
-        font-weight: lighter;
+    .beach-name h2 i {
         font-size: 15px;
     }
+
+.beach-name h4 {
+    font-weight: lighter;
+    font-size: 15px;
+}
 
 .beach-score-box-extended {
     width: 50px;
@@ -51,4 +52,8 @@
 .beach-export {
     font-size: 25px;
     margin-right: 30px;
+}
+
+.blog-article {
+    word-break: break-all;
 }

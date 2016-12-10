@@ -6,58 +6,68 @@
 
 <div id="best-beaches-container" class="custom-canvas col-xs-10 col-xs-offset-1">
     <div class="row">
-        <a class="display-block" href="/Beaches/Top?continentId=@Model.EuropeId">Top 25 in Europe</a>
-        <a class="display-block" href="/Beaches/Top?continentId=@Model.EuropeId&criterionId=@Model.SnorkelingId">Top 25 in Europe for Snorkeling</a>
-        <a class="display-block" href="/Beaches/Top?continentId=@Model.EuropeId&criterionId=@Model.CampingId">Top 25 in Europe for Camping</a>
-        <a class="display-block" href="/Beaches/Top?continentId=@Model.EuropeId&criterionId=@Model.LongStayId">Top 25 in Europe for Long-term Stay</a>
-    </div>    
-    <hr />
-    <div class="row">
-        <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.MediterraneanId">Top 25 in the Mediterranean</a>
-        <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.MediterraneanId&criterionId=@Model.SnorkelingId">Top 25 in the Mediterranean for Snorkeling</a>
-        <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.MediterraneanId&criterionId=@Model.CampingId">Top 25 in the Mediterranean for Camping</a>
-        <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.MediterraneanId&criterionId=@Model.LongStayId">Top 25 in the Mediterranean for Long-term Stay</a>
+        <div class="col-xs-4">
+            <h4>Europe</h4>
+            <a class="display-block" href="/Beaches/Top?continentId=@Model.EuropeId">Top 25</a>
+            <a class="display-block" href="/Beaches/Top?continentId=@Model.EuropeId&criterionId=@Model.SnorkelingId">Top 25 Snorkeling</a>
+            <a class="display-block" href="/Beaches/Top?continentId=@Model.EuropeId&criterionId=@Model.CampingId">Top 25 Camping</a>
+            <a class="display-block" href="/Beaches/Top?continentId=@Model.EuropeId&criterionId=@Model.LongStayId">Top 25 Long-term Stay</a>
+        </div>
+        <div class="col-xs-4">
+            <h4>Mediterranean</h4>
+            <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.MediterraneanId">Top 25</a>
+            <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.MediterraneanId&criterionId=@Model.SnorkelingId">Top 25 Snorkeling</a>
+            <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.MediterraneanId&criterionId=@Model.CampingId">Top 25 Camping</a>
+            <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.MediterraneanId&criterionId=@Model.LongStayId">Top 25 Long-term Stay</a>
+        </div>
+        <div class="col-xs-4">
+            <h4>Caribbean</h4>
+            <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.CaribbeanId">Top 25</a>
+            <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.CaribbeanId&criterionId=@Model.SnorkelingId">Top 25 Snorkeling</a>
+            <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.CaribbeanId&criterionId=@Model.CampingId">Top 25 Camping</a>
+            <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.CaribbeanId&criterionId=@Model.LongStayId">Top 25 Long-term Stay</a>
+        </div>
     </div>
     <hr />
     <div class="row">
-        <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.CaribbeanId">Top 25 in the Caribbean</a>
-        <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.CaribbeanId&criterionId=@Model.SnorkelingId">Top 25 in the Caribbean for Snorkeling</a>
-        <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.CaribbeanId&criterionId=@Model.CampingId">Top 25 in the Caribbean for Camping</a>
-        <a class="display-block" href="/Beaches/Top?waterBodyId=@Model.CaribbeanId&criterionId=@Model.LongStayId">Top 25 in the Caribbean for Long-term Stay</a>
+        <div class="col-xs-4">
+            <h4>Greece</h4>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.GreeceId">Top 25</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.GreeceId&criterionId=@Model.SnorkelingId">Top 25 Snorkeling</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.GreeceId&criterionId=@Model.CampingId">Top 25 Camping</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.GreeceId&criterionId=@Model.LongStayId">Top 25 Long-term Stay</a>
+        </div>
+        <div class="col-xs-4">
+            <h4>Turkey</h4>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.TurkeyId">Top 25 </a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.TurkeyId&criterionId=@Model.SnorkelingId">Top 25 Snorkeling</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.TurkeyId&criterionId=@Model.CampingId">Top 25 Camping</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.TurkeyId&criterionId=@Model.LongStayId">Top 25 Long-term Stay</a>
+        </div>
+        <div class="col-xs-4">
+            <h4>Spain</h4>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.SpainId">Top 25</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.SpainId&criterionId=@Model.SnorkelingId">Top 25 Snorkeling</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.SpainId&criterionId=@Model.CampingId">Top 25 Camping</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.SpainId&criterionId=@Model.LongStayId">Top 25 Long-term Stay</a>
+        </div>
     </div>
     <hr />
     <div class="row">
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.GreeceId">Top 25 in Greece</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.GreeceId&criterionId=@Model.SnorkelingId">Top 25 in Greece for Snorkeling</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.GreeceId&criterionId=@Model.CampingId">Top 25 in Greece for Camping</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.GreeceId&criterionId=@Model.LongStayId">Top 25 in Greece for Long-term Stay</a>
+        <div class="col-xs-4">
+            <h4>Italy</h4>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.ItalyId">Top 25</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.ItalyId&criterionId=@Model.SnorkelingId">Top 25 Snorkeling</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.ItalyId&criterionId=@Model.CampingId">Top 25 Camping</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.ItalyId&criterionId=@Model.LongStayId">Top 25 Long-term Stay</a>
+        </div>
+        <div class="col-xs-4">
+            <h4>France</h4>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.FranceId">Top 25</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.FranceId&criterionId=@Model.SnorkelingId">Top 25 Snorkeling</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.FranceId&criterionId=@Model.CampingId">Top 25 Camping</a>
+            <a class="display-block" href="/Beaches/Top?countryId=@Model.FranceId&criterionId=@Model.LongStayId">Top 25 Long-term Stay</a>
+        </div>
     </div>
     <hr />
-    <div class="row">
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.TurkeyId">Top 25 in Turkey</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.TurkeyId&criterionId=@Model.SnorkelingId">Top 25 in Turkey for Snorkeling</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.TurkeyId&criterionId=@Model.CampingId">Top 25 in Turkey for Camping</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.TurkeyId&criterionId=@Model.LongStayId">Top 25 in Turkey for Long-term Stay</a>
-    </div>
-    <hr />
-    <div class="row">
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.SpainId">Top 25 in Spain</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.SpainId&criterionId=@Model.SnorkelingId">Top 25 in Spain for Snorkeling</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.SpainId&criterionId=@Model.CampingId">Top 25 in Spain for Camping</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.SpainId&criterionId=@Model.LongStayId">Top 25 in Spain for Long-term Stay</a>
-    </div>
-    <hr />
-    <div class="row">
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.ItalyId">Top 25 in Italy</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.ItalyId&criterionId=@Model.SnorkelingId">Top 25 in Italy for Snorkeling</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.ItalyId&criterionId=@Model.CampingId">Top 25 in Italy for Camping</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.ItalyId&criterionId=@Model.LongStayId">Top 25 in Italy for Long-term Stay</a>
-    </div>    
-    <hr />
-    <div class="row">
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.FranceId">Top 25 in France</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.FranceId&criterionId=@Model.SnorkelingId">Top 25 in France for Snorkeling</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.FranceId&criterionId=@Model.CampingId">Top 25 in France for Camping</a>
-        <a class="display-block" href="/Beaches/Top?countryId=@Model.FranceId&criterionId=@Model.LongStayId">Top 25 in France for Long-term Stay</a>
-    </div>    
 </div>

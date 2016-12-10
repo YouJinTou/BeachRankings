@@ -78,6 +78,13 @@
         });
 
         $('body').on('click', '.autocomplete-item a', function (event) {
+            var url = $(this).attr('href');
+            var isBeach = (url.indexOf('/Beaches/') > -1);
+
+            if (isBeach) {
+                return;
+            }
+
             event.preventDefault();
 
             $autocompleteBox.hide();
@@ -117,7 +124,15 @@
             if (isEnter) {
                 $autocompleteBox.hide();
 
-                var url = $autocompleteBox.find('.selected-item a').first().attr('href');
+                var selectedItem = $autocompleteBox.find('.selected-item a').first();
+                var url = selectedItem.attr('href');
+                var isBeach = (url.indexOf('/Beaches/') > -1);
+
+                if (isBeach) {
+                    window.location.href = url;
+
+                    return;
+                }
 
                 getAutocompleteResults(url);
 

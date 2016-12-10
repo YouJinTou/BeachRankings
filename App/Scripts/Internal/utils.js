@@ -179,7 +179,7 @@ var ReviewsHelper = function () {
             }
 
             $this.html(
-                reviewText.slice(0, maxLength) + '<span> ...<span> <br /><a href="#" class="more">Read more</a>' +
+                reviewText.slice(0, maxLength) + '<span> ...<span> <br /><a href="#" class="more"><b>Read more</b></a>' +
                 '<span style="display:none;">' + reviewText.slice(maxLength, reviewText.length) + ' <br /><a href="#" class="less">Less</a></span>'
                 );
 
@@ -231,7 +231,20 @@ var BeachesHelper = function () {
         });
     }
 
+    function hideEmptyAsideElements() {
+        $('.beach-aside').find('.aside-element').each(function () {
+            var $this = $(this);
+            var captureGroups = /\w+:\s*(\w+)/.exec($this.text());
+            var elementEmpty = (captureGroups === null);
+
+            if (elementEmpty) {
+                $this.hide();
+            }
+        });
+    }
+
     return {
+        hideEmptyAsideElements: hideEmptyAsideElements,
         exportBeachToHtml: exportBeachToHtml
     }
 };

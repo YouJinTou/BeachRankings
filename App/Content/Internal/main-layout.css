@@ -59,6 +59,10 @@ ul.nav.navbar-nav .dropdown.open .dropdown-toggle{
 	right: 15px;
 }
 
+#user-overview {
+    height: 50px;
+}
+
 #results-container {
     margin-top: 20px;
 }

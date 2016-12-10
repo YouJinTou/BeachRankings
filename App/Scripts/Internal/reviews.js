@@ -3,7 +3,7 @@
 
     dragdealersManager.initializeDragdealers();
     genericHelper.setScoreBoxesBackgroundColor();
-
+    beachesHelper.hideEmptyAsideElements();
     tryLoadExistingArticleLinks();
 
     $('.add-more').on('click', function () {

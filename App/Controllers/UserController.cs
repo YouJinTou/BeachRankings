@@ -106,7 +106,7 @@
                 return new HttpStatusCodeResult(401);
             }
 
-            ImageHelper.EraseImageLocally(image.Beach.Name, image.Name);
+            ImageHelper.EraseBeachImageLocally(image.Beach.Name, image.Name);
             this.Data.BeachImages.Remove(image);
             this.Data.BeachImages.SaveChanges();
 

@@ -13,7 +13,7 @@
         protected Review()
         {
         }
-        
+
         public Review(
             int beachId,
             string content,
@@ -73,7 +73,7 @@
         public virtual Beach Beach { get; protected set; }
 
         [Required]
-        public DateTime PostedOn { get; private set; }
+        public DateTime PostedOn { get; set; }
 
         [Required(ErrorMessage = "The review field is required.")]
         [MinLength(100, ErrorMessage = "100 characters should be doable.")]

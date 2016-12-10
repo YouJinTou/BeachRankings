@@ -1,5 +1,5 @@
 ﻿(function ($) {
-    $('#results-container').on('mouseenter mouseleave', '.info-icon', function () {
-        $(this).parent().siblings('.custom-popup').toggle();
+    $('#results-container').on('click', '.info-icon', function () {
+        $(this).siblings('.custom-popup').toggle();
     });
 })(jQuery);

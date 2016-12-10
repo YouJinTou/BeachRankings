@@ -5,6 +5,7 @@
     using BeachRankings.Data.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.App.Models;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using BeachRankings.App.Utils.Extensions;
@@ -69,7 +70,7 @@
                 .Include(b => b.BlogArticles)
                 .FirstOrDefault(b => b.Id == id);
             var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);
-            model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn).ToList();
+            model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn).Take(10).ToList();
 
             if (this.User.Identity.IsAuthenticated)
             {
@@ -79,6 +80,16 @@
             }
 
             return this.View(model);
+        }
+
+        public PartialViewResult Reviews(int beachId, int page = 0, int pageSize = 10)
+        {
+            var beach = this.Data.Beaches.All().Include(b => b.Reviews).FirstOrDefault(b => b.Id == beachId);
+            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<ConciseReviewViewModel>>
+                (beach.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn));
+            model = model.Skip(page * pageSize).Take(pageSize).ToList();
+
+            return this.PartialView("BeachReviewsPartial", model);
         }
 
         [Authorize]
