@@ -219,13 +219,13 @@ img {
     background: #fff;
 }
 
-.modal-html-case {
+.modal-export-case {
     width: 100%;
     height: 80%;
     display: block;
 }
 
-.modal-html-case textarea {
+.modal-export-case textarea {
     overflow: auto;
     width: 80%;
     height: 80%;

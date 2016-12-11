@@ -15,17 +15,17 @@
         }
     }
 
-    function openModalPopup(html, value) {
+    function openModalPopup(isHtml, value) {
         var $mainPopup = $('[data-popup="main"');
-        var $htmlCase = $mainPopup.find('[data-html-case]');
-        var $nonHtmlCase = $mainPopup.find('[data-non-html-case]');
+        var $exportCase = $mainPopup.find('[data-export-case]');
+        var $nonExportCase = $mainPopup.find('[data-non-export-case]');
 
-        if (!html) {
-            $htmlCase.remove();
+        if (!isHtml) {
+            $exportCase.remove();
         } else {
-            $nonHtmlCase.remove();
+            $nonExportCase.remove();
 
-            $htmlCase.find('textarea').on('click', function () {
+            $exportCase.find('textarea').on('click', function () {
                 $(this).select();
             });
         }
@@ -64,7 +64,6 @@
         openModalPopup: openModalPopup
     }
 };
-
 var ReviewsHelper = function () {
     var votingInProgress = false;
     var exportInProgress = false;
@@ -205,7 +204,6 @@ var ReviewsHelper = function () {
         truncateReviews: truncateReviews
     }
 };
-
 var BeachesHelper = function () {
     var exportInProgress = false;
 
