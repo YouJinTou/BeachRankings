@@ -29,3 +29,16 @@
 .selected-item {
     background-color: lightgray;
 }
+
+/* MEDIA QUERIES */
+@media (max-width: 480px) {
+    #main-search-field {
+        width: 70%;
+    }
+}
+
+@media (max-width: 320px) {
+    #main-search-field {
+        width: 100%;
+    }
+}

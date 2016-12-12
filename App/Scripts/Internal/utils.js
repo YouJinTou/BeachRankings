@@ -1,4 +1,10 @@
 ﻿var GenericHelper = function () {
+    function getViewportWidth() {
+        var viewportHeight = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
+        return viewportHeight;
+    }
+
     function setScoreBoxesBackgroundColor(html) {
         if (!html) {
             $('.beach-score-box .vertical-center').each(function () {
@@ -60,6 +66,7 @@
     }
 
     return {
+        getViewportWidth: getViewportWidth,
         setScoreBoxesBackgroundColor: setScoreBoxesBackgroundColor,
         openModalPopup: openModalPopup
     }

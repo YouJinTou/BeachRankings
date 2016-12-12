@@ -6,41 +6,49 @@
     setImagesEvents();
 
     function setDashboardMenuEvents() {
-        var menuVisible = false;
+        var viewportWidth = genericHelper.getViewportWidth();
 
-        $('#dashboard-dropdown-trigger').on('mouseenter', function () {
-            $('#dashboard-dropdown').show();
+        $('#dashboard-dropdown-trigger').on('click', function () {
+            $('#dashboard-dropdown').toggle(200);
         });
 
-        $('#dashboard-dropdown-trigger').on('mouseleave', function () {
-            setTimeout(hideMenu, 300);
+        if (viewportWidth >= 768) {
+            var menuVisible = false;
 
-            function hideMenu() {
-                if (!menuVisible) {
-                    $('#dashboard-dropdown').hide();
+            $('#dashboard-dropdown-trigger').on('mouseenter', function () {
+                $('#dashboard-dropdown').show();
+            });
+
+            $('#dashboard-dropdown-trigger').on('mouseleave', function () {
+                setTimeout(hideMenu, 300);
+
+                function hideMenu() {
+                    if (!menuVisible) {
+                        $('#dashboard-dropdown').hide();
+                    }
                 }
-            }
-        });
+            });
 
-        $('#dashboard-dropdown').on('mouseenter', function () {
-            $(this).show();
+            $('#dashboard-dropdown').on('mouseenter', function () {
+                $(this).show();
 
-            menuVisible = true;
-        });
+                menuVisible = true;
+            });
 
-        $('#dashboard-dropdown').on('mouseleave', function () {
-            $(this).hide();
+            $('#dashboard-dropdown').on('mouseleave', function () {
+                $(this).hide();
 
-            menuVisible = false;
-        });
+                menuVisible = false;
+            });
 
-        $('#user-overview').on('mouseenter', function () {
-            $('.user-overview-helper').show(200);
-        });
+            $('#user-overview').on('mouseenter', function () {
+                $('.user-overview-helper').show(200);
+            });
 
-        $('#user-overview').on('mouseleave', function () {
-            $('.user-overview-helper').hide(200);
-        });
+            $('#user-overview').on('mouseleave', function () {
+                $('.user-overview-helper').hide(200);
+            });
+        }
     }
 
     function setSettingsEvents() {
