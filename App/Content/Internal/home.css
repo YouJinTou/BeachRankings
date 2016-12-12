@@ -35,10 +35,19 @@
     #main-search-field {
         width: 70%;
     }
+
+    .home-autocomplete-box {
+        width: 70%;
+    }
 }
 
 @media (max-width: 320px) {
     #main-search-field {
         width: 100%;
+    }
+
+    .home-autocomplete-box {
+        width: 100%;
+        font-size: 10px;
     }
 }
