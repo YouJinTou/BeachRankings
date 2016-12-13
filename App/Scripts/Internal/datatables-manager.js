@@ -104,7 +104,7 @@
                { 'width': '60px', 'targets': [0, 1, 2, 3, 4, 5, 6] },
                { 'width': '20px', 'targets': [7] }
             ];
-        } else if (viewportWidth >= 200) {
+        } else if (viewportWidth >= 320) {
             options.fixedColumns = {
                 leftColumns: 1
             };

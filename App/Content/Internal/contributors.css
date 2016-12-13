@@ -1,5 +1,9 @@
-﻿.contributor {
-    margin-top: 10px;
+﻿#contributors-container {
+    padding: 10px;   
+}
+
+.contributor {
+    margin-bottom: 5px;
 }
 
 .user-rank {

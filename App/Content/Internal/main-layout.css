@@ -89,6 +89,10 @@ ul.nav.navbar-nav .dropdown.open .dropdown-toggle {
     .DTFC_LeftHeadWrapper .column-filter {
         max-width: 75%;
     }
+
+    #best-beaches-container h4 {
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -120,5 +124,18 @@ ul.nav.navbar-nav .dropdown.open .dropdown-toggle {
 
     .column-filter {
         max-width: 16%;
+    }
+
+    #best-beaches-container h4 {
+        word-wrap: break-word;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        -o-hyphens: auto;
+        hyphens: auto;
+    }
+
+    #best-beaches-container a {
+        font-size: 10px;
     }
 }
