@@ -3,18 +3,10 @@
 }
 
 .concise-beach {
-    overflow: hidden;
     margin: 0 auto;
     margin-bottom: 5px;
     padding: 5px;
-    height: 150px;
-    width: 70%;
     background: rgba(161, 247, 255, 0.25);
-}
-
-.concise-beach-desc {
-    padding: 15px;
-    text-align: left !important;
 }
 
 .score-container {
@@ -22,10 +14,23 @@
     text-align: right;
 }
 
-.score-reviews-count {
+.beach-thumbnail {
+    max-height: 250px;
+    width: 100%;
 }
 
-.beach-thumbnail {
-    width: 100%;
-    height: 100%;
+    .beach-thumbnail a img {
+        max-height: 250px;
+        width: 100%;
+    }
+
+/* MEDIA QUERIES */
+@media (max-width: 768px) {
+    .btn-cta {
+        width: 100%;
+    }
+
+    .already-rated-holder {
+        text-align: center;
+    }
 }
