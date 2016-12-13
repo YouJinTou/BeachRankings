@@ -259,6 +259,10 @@ img {
         text-decoration: none;
     }
 
+.criteria-table {
+    font-size: 17px;
+}
+
 /* DATATABLES */
 #table-result_wrapper {
     margin-top: 20px;

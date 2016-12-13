@@ -1,6 +1,6 @@
 ﻿@model DetailedBeachViewModel
 
-<div class="col-xs-offset-1 col-xs-2 text-left">
+<div class="beach-aside-box col-lg-2 col-lg-offset-1 col-sm-2 col-xs-12 text-left">
     <aside class="beach-aside custom-canvas text-left">
         <h4>Beach info</h4>
 
@@ -14,73 +14,75 @@
         <div class="coordinates aside-element">Coordinates: <a href="https://www.google.com/maps/place/@Model.Coordinates" target="_blank">@Model.Coordinates</a></div>
     </aside>
 
-    <aside class="bloggers-aside beach-aside custom-canvas text-left">
-        <h4>What bloggers say</h4>
+    <aside class="beach-aside custom-canvas text-left">
+        <h4 class="bloggers-aside-header">What bloggers say</h4>
 
         <hr />
 
-        @Html.DisplayFor(model => model.BlogArticles)
+        <div class="bloggers-aside-links">
+            @Html.DisplayFor(model => model.BlogArticles)
+        </div>
     </aside>
 </div>
 
-<div class="beach-head custom-canvas col-xs-8">
-    <div class="row">
-        <div class="col-xs-1">
-            <div class="beach-score-box beach-score-box-extended col-xs-4">
-                <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
+<div class="beach-head custom-canvas col-lg-8 col-sm-10 col-xs-12">
+        <div class="row">
+            <div class="col-sm-1">
+                <div class="beach-score-box beach-score-box-extended">
+                    <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
+                </div>
             </div>
-        </div>
-        <div class="text-left beach-name col-xs-7">
-            <h2>
-                <a href="/Beaches/Details/@Model.Id">@Model.Name</a> <i>@Html.PluralizeValue(@Model.Reviews.Count(), "review")</i>
-            </h2>
-            <h4>
-                <i>
-                    <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
-                    @Html.ParseNullString(
+            <div class="text-left beach-name col-sm-7">
+                <h2>
+                    <a href="/Beaches/Details/@Model.Id">@Model.Name</a> <i>@Html.PluralizeValue(@Model.Reviews.Count(), "review")</i>
+                </h2>
+                <h4>
+                    <i>
+                        <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
+                        @Html.ParseNullString(
                         @Html.GetBeachAnchorTagDivisionAddress(Model.PrimaryDivision, Model.SecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId) + ", ",
                         null)
-                    <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a>
-                </i>
-            </h4>
-        </div>
-        <div class="text-right col-xs-4">
-            <span id="btn-beach-export-html" data-html-export-beach="@Model.Id" class="beach-export a-like-span glyphicon glyphicon-export" title="Export a summary of this beach to HTML"></span>
-            @{
-                if (!Model.UserHasRated)
-                {
-                    @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-cta" })
-                }
-                else
-                {
-                    <span class="already-rated pull-right glyphicon glyphicon-ok-circle" title="Already rated"></span>
-                }
-            }
-        </div>
-    </div>
-    <div class="row">
-        <div class="beach-images slick-carousel col-xs-7">
-            @Html.DisplayFor(model => model.Images)
-        </div>
-        <div class="col-xs-4">
-            <div class="text-left">
-                @Html.Partial("_CriteriaTablePartial", Model.Criteria)
+                        <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a>
+                    </i>
+                </h4>
             </div>
-            <div class="row">
+            <div class="main-beach-controls text-right col-sm-4">
+                <span id="btn-beach-export-html" data-html-export-beach="@Model.Id" class="beach-export a-like-span glyphicon glyphicon-export" title="Export a summary of this beach to HTML"></span>
                 @{
-                    if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
+                    if (!Model.UserHasRated)
                     {
-                        <hr />
-
-                        <div class="col-xs-12">
-                            <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
-                                <a class="a-like-span control glyphicon glyphicon-edit" title="Edit beach" href="/Beaches/Edit/@Model.Id"></a>
-                                <span id="delete-beach-span" title="Delete beach" class="a-like-span control glyphicon glyphicon-remove"></span>
-                            </form>
-                        </div>
+                        @Html.ActionLink("Rate this beach", "Post", "Reviews", new { id = Model.Id }, new { @class = "btn btn-cta" })
+                    }
+                    else
+                    {
+                        <span class="already-rated pull-right glyphicon glyphicon-ok-circle" title="Already rated"></span>
                     }
                 }
             </div>
         </div>
-    </div>
-</div>
+        <div class="row">
+            <div class="beach-images slick-carousel col-sm-6 col-xs-12">
+                @Html.DisplayFor(model => model.Images)
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="text-left">
+                    @Html.Partial("_CriteriaTablePartial", Model.Criteria)
+                </div>
+                <div class="row">
+                    @{
+                        if (User.Identity.CanEditBeach(Model.CreatorId, Model.Reviews.Count()))
+                        {
+                            <hr />
+
+                            <div class="col-xs-12">
+                                <form id="delete-beach-form" method="post" action="/Beaches/Delete/@Model.Id">
+                                    <a class="a-like-span control glyphicon glyphicon-edit" title="Edit beach" href="/Beaches/Edit/@Model.Id"></a>
+                                    <span id="delete-beach-span" title="Delete beach" class="a-like-span control glyphicon glyphicon-remove"></span>
+                                </form>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+</div>  
