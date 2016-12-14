@@ -64,21 +64,21 @@
                 @{
                     if (User.Identity.CanVoteForReview(Model.AuthorId))
                     {
-                        <div>
+                        <div class="col-xs-1">
                             <span data-review-id="@Model.Id" data-already-upvoted="@Model.AlreadyUpvoted" class="icon-upvote a-like-span control glyphicon glyphicon-thumbs-up" title="Give thanks"></span>
                         </div>
                     }
                 }
-                <div>
+                <div class="col-xs-1">
                     <a data-html-export-review="@Model.Id" class="review-export control a-like-span glyphicon glyphicon-export" title="Export a summary of this review to HTML"></a>
                 </div>
                 @{
                     if (User.Identity.CanEditReview(Model.AuthorId))
                     {
-                        <div>
+                        <div class="col-xs-1">
                             <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
                         </div>
-                        <div>
+                        <div class="col-xs-1">
                             <a class="delete-review-link control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
                         </div>
                     }

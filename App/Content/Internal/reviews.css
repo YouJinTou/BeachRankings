@@ -67,7 +67,7 @@
 
 #detailed-review-container {
     margin-left: 0px;
-    margin-right: -30px;
+    margin-right: 0px;
     padding: 10px;
 }
 
@@ -130,6 +130,7 @@
 
 .review-content {
     padding: 10px;
+    padding-left: 0px;
     word-wrap: break-word;
     white-space: normal;
     text-align: justify;
@@ -137,6 +138,8 @@
 
 .blogger-review-part {
     padding: 10px;
+    padding-left: 0px;
+    margin-bottom: 10px;
 }
 
 .concise-review table {
@@ -147,4 +150,29 @@
 
 .form-group .info-icon {
     margin-right: 10px;
+}
+
+/* MEDIA QERIES */
+@media (max-width: 990px) {
+    #results-container {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .review-container {
+        margin-top: 15px;
+        padding: 5px;
+    }
+
+    .dragbar-controls {
+        margin-top: 15px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .beach-score-box {
+        float: left;
+    }
 }

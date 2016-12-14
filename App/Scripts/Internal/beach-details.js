@@ -2,7 +2,7 @@
     var infiniteScroller = new InfiniteScroller('beach-details-reviews-container', 'beach');
     var expansionInProgress = false;
 
-    setElementsResponsive();
+    beachesHelper.setElementsResponsive();
     beachesHelper.hideEmptyAsideElements();
     genericHelper.setScoreBoxesBackgroundColor();
     reviewsHelper.setReviewVotingVariables();
@@ -40,12 +40,4 @@
     $('#beach-details-container').on('click', '.delete-review-link', function () {
         return confirm('Delete review?');
     });
-
-    function setElementsResponsive() {
-        var viewportWidth = genericHelper.getViewportWidth();
-
-        if (viewportWidth <= 768) {
-            var aside = $('.beach-aside-box').insertAfter('.beach-head');
-        }
-    }
 })(jQuery);

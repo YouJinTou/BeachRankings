@@ -128,6 +128,7 @@
 
             var model = Mapper.Map<Review, EditReviewViewModel>(review);
             model.IsBlogger = this.UserProfile.IsBlogger;
+            model.BeachHead.UserHasRated = this.UserProfile.Reviews.Any(r => r.BeachId == review.BeachId);
             var isError = (this.TempData["EditReviewViewModel"] != null);
 
             if (isError)

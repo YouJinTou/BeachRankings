@@ -248,9 +248,18 @@ var BeachesHelper = function () {
         });
     }
 
+    function setElementsResponsive() {
+        var viewportWidth = genericHelper.getViewportWidth();
+
+        if (viewportWidth <= 768) {
+            var aside = $('.beach-aside-box').insertAfter('.beach-head');
+        }
+    }
+
     return {
         hideEmptyAsideElements: hideEmptyAsideElements,
-        exportBeachToHtml: exportBeachToHtml
+        exportBeachToHtml: exportBeachToHtml,
+        setElementsResponsive: setElementsResponsive
     }
 };
 

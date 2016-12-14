@@ -2,6 +2,7 @@
     var dragdealersManager = new DragdealersManager();
 
     dragdealersManager.initializeDragdealers();
+    beachesHelper.setElementsResponsive();
     genericHelper.setScoreBoxesBackgroundColor();
     beachesHelper.hideEmptyAsideElements();
     tryLoadExistingArticleLinks();
