@@ -9,16 +9,16 @@ hr {
 
 .image-row {
     margin-top: 5px;
+    max-height: 100%;
 }
 
 .images-container {
-    max-height: 60px;
     text-align: left;
 }
 
     .images-container .dashboard-image-wrapper {
         height: 60px;
-        width: 90px;
+        max-width: 90px;
         display: inline-block;
     }
 

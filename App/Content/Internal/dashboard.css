@@ -52,3 +52,11 @@
     color: white;
     background-color: rgba(33, 38, 45, 0.7);
 }
+
+/* MEDIA QUERIES */
+@media (max-width: 768px) {
+    .settings-container dt {
+        float: left;
+        margin-right: 5px;
+    }
+}

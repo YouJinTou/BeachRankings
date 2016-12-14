@@ -1,8 +1,10 @@
 ﻿@model DashboardBeachImageThumbnailViewModel
 
-<span data-remove-image="@Model.Id" class="remove-image a-like-span glyphicon glyphicon-floppy-remove"></span>
-<div class="dashboard-image-wrapper">
-    <a href="@Model.Path" data-lightbox="beach-images">
-        <img class="img-responsive" src="@Model.Path" alt="Image" />
-    </a>
+<div class="display-inline-block">
+    <span data-remove-image="@Model.Id" class="remove-image a-like-span glyphicon glyphicon-floppy-remove"></span>
+    <div class="dashboard-image-wrapper">
+        <a href="@Model.Path" data-lightbox="beach-images">
+            <img class="img-responsive" src="@Model.Path" alt="Image" />
+        </a>
+    </div>
 </div>
