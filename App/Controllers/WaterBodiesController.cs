@@ -20,7 +20,7 @@
         {
             var waterBody = this.Data.WaterBodies.Find(id);
             var model = Mapper.Map<WaterBody, PlaceBeachesViewModel>(waterBody);
-            model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
+            model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
@@ -30,7 +30,7 @@
         public PartialViewResult Statistics(int id)
         {
             var waterBody = this.Data.WaterBodies.All().Include(wb => wb.Beaches).FirstOrDefault(wb => wb.Id == id);
-            var beaches = waterBody.Beaches.Where(b => b.TotalScore != null);
+            var beaches = waterBody.Beaches.Where(b => b.TotalScore != null).OrderByDescending(b => b.TotalScore);
             var model = new StatisticsViewModel()
             {
                 Id = id,

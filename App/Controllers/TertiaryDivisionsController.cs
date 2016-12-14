@@ -23,7 +23,7 @@
         {
             var tertiaryDivision = this.Data.TertiaryDivisions.Find(id);
             var model = Mapper.Map<TertiaryDivision, PlaceBeachesViewModel>(tertiaryDivision);
-            model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
+            model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
@@ -37,7 +37,7 @@
                  .Include(td => td.QuaternaryDivisions)
                  .Include(td => td.Beaches)
                  .FirstOrDefault(td => td.Id == id);
-            var beaches = tertiaryDivision.Beaches.Where(b => b.TotalScore != null);
+            var beaches = tertiaryDivision.Beaches.Where(b => b.TotalScore != null).OrderByDescending(b => b.TotalScore);
             var model = new StatisticsViewModel()
             {
                 Id = id,

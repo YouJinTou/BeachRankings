@@ -23,7 +23,7 @@
         {
             var primaryDivision = this.Data.PrimaryDivisions.Find(id);
             var model = Mapper.Map<PrimaryDivision, PlaceBeachesViewModel>(primaryDivision);
-            model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
+            model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
@@ -39,7 +39,7 @@
                 .Include(pd => pd.QuaternaryDivisions)
                 .Include(pd => pd.Beaches)
                 .FirstOrDefault(pd => pd.Id == id);
-            var beaches = primaryDivision.Beaches.Where(b => b.TotalScore != null);
+            var beaches = primaryDivision.Beaches.Where(b => b.TotalScore != null).OrderByDescending(b => b.TotalScore);
             var model = new StatisticsViewModel()
             {
                 Id = id,

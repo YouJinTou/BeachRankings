@@ -71,6 +71,7 @@
     }
 
     function setReponsiveDependentOptions() {
+        var totalScoreCol = 7;
         var options = {
             scrollX: true,
             scrollY: 300,
@@ -83,7 +84,8 @@
                     columns: [':nth-last-child(-n+15)'],
                     text: 'Change criteria'
                 }
-            ]
+            ],
+            order: [[totalScoreCol, 'desc']]
         };
         var viewportWidth = genericHelper.getViewportWidth();
 

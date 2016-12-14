@@ -23,7 +23,7 @@
         {
             var country = this.Data.Countries.Find(id);
             var model = Mapper.Map<Country, PlaceBeachesViewModel>(country);
-            model.Beaches = model.Beaches.Skip(page * pageSize).Take(pageSize);
+            model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
 
@@ -39,7 +39,7 @@
                 .Include(c => c.QuaternaryDivisions)
                 .Include(c => c.Beaches)
                 .FirstOrDefault(c => c.Id == id);
-            var beaches = country.Beaches.Where(b => b.TotalScore != null);
+            var beaches = country.Beaches.Where(b => b.TotalScore != null).OrderByDescending(b => b.TotalScore);
             var model = new StatisticsViewModel()
             {
                 Id = id,

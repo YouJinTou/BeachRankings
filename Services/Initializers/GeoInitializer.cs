@@ -1,19 +1,19 @@
 ﻿namespace BeachRankings.Services.Initializers
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.Concurrent;
     using System.IO;
 
     public static class GeoInitializer
     {
-        private static Lazy<Dictionary<int, string>> continents
-             = new Lazy<Dictionary<int, string>>(() => LoadContinents());
-        private static Lazy<Dictionary<int, string>> countries
-             = new Lazy<Dictionary<int, string>>(() => LoadCountries());
-        private static Lazy<Dictionary<int, string>> waterBodies
-             = new Lazy<Dictionary<int, string>>(() => LoadWaterBodies());
+        private static Lazy<ConcurrentDictionary<int, string>> continents
+             = new Lazy<ConcurrentDictionary<int, string>>(() => LoadContinents());
+        private static Lazy<ConcurrentDictionary<int, string>> countries
+             = new Lazy<ConcurrentDictionary<int, string>>(() => LoadCountries());
+        private static Lazy<ConcurrentDictionary<int, string>> waterBodies
+             = new Lazy<ConcurrentDictionary<int, string>>(() => LoadWaterBodies());
 
-        public static Dictionary<int, string> Continents
+        public static ConcurrentDictionary<int, string> Continents
         {
             get
             {
@@ -21,7 +21,7 @@
             }
         }
 
-        public static Dictionary<int, string> Countries
+        public static ConcurrentDictionary<int, string> Countries
         {
             get
             {
@@ -29,7 +29,7 @@
             }
         }
 
-        public static Dictionary<int, string> WaterBodies
+        public static ConcurrentDictionary<int, string> WaterBodies
         {
             get
             {
@@ -37,9 +37,9 @@
             }
         }
 
-        private static Dictionary<int, string> LoadContinents()
+        private static ConcurrentDictionary<int, string> LoadContinents()
         {
-            var continents = new Dictionary<int, string>();
+            var continents = new ConcurrentDictionary<int, string>();
             var continentsPath = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), "Continents.txt");
 
             using (var sr = new StreamReader(continentsPath))
@@ -49,7 +49,7 @@
 
                 while ((continent = sr.ReadLine()) != null)
                 {
-                    continents.Add(id, continent);
+                    continents.TryAdd(id, continent);
 
                     id++;
                 }
@@ -58,9 +58,9 @@
             return continents;
         }
 
-        private static Dictionary<int, string> LoadCountries()
+        private static ConcurrentDictionary<int, string> LoadCountries()
         {
-            var countries = new Dictionary<int, string>();
+            var countries = new ConcurrentDictionary<int, string>();
             var countriesPath = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), "Countries.txt");
 
             using (var sr = new StreamReader(countriesPath))
@@ -70,7 +70,7 @@
 
                 while ((country = sr.ReadLine()) != null)
                 {
-                    countries.Add(id, country);
+                    countries.TryAdd(id, country);
 
                     id++;
                 }
@@ -79,9 +79,9 @@
             return countries;
         }
 
-        private static Dictionary<int, string> LoadWaterBodies()
+        private static ConcurrentDictionary<int, string> LoadWaterBodies()
         {
-            var waterBodies = new Dictionary<int, string>();
+            var waterBodies = new ConcurrentDictionary<int, string>();
             var waterBodiesPath = Path.Combine(AppDomain.CurrentDomain.GetData("DataDirectory").ToString(), "WaterBodies.txt");
 
             using (var sr = new StreamReader(waterBodiesPath))
@@ -91,7 +91,7 @@
 
                 while ((waterBody = sr.ReadLine()) != null)
                 {
-                    waterBodies.Add(id, waterBody);
+                    waterBodies.TryAdd(id, waterBody);
 
                     id++;
                 }
