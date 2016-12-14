@@ -4,7 +4,7 @@
     function setAutocompleteEvents() {
         var $mainSearchField = $('#main-search-field');
         var $autocompleteBox = $('.home-autocomplete-box');
-        var insideSearchArea = 0; // bool
+        var isInsideSearchArea = 0; // bool
         var resultsCache = {};
         
         $mainSearchField.on('keyup', function (event) {            
@@ -71,7 +71,7 @@
             }
 
             var items = $autocompleteBox.find('li');
-            insideSearchArea = 1;
+            isInsideSearchArea = 1;
 
             items.removeClass('selected-item');
             $autocompleteBox.show();
@@ -95,11 +95,11 @@
         });
 
         $($mainSearchField).on('mouseenter mouseleave', function () {
-            insideSearchArea ^= 1;
+            isInsideSearchArea ^= 1;
         });        
 
         $(document).on('click', function () {
-            if (!insideSearchArea) {
+            if (!isInsideSearchArea) {
                 $autocompleteBox.hide();
             }
         });
@@ -191,8 +191,10 @@
         }
 
         function getAutocompleteResults(url) {
+            var $resultsContainer = $('#results-container');
             var $loadingImage = $('#loading-main-results-image');
 
+            $resultsContainer.html($loadingImage);
             $loadingImage.show();
 
             $.ajax({
@@ -201,7 +203,8 @@
                 success: function (result) {
                     var dataTablesManager = new DataTablesManager();
 
-                    $('#results-container').html(result);
+                    $resultsContainer.html(result);
+                    $resultsContainer.prepend($loadingImage);
                     
                     dataTablesManager.initializeDataTable();                 
                 },

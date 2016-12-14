@@ -4,7 +4,7 @@
     ViewBag.Title = "Restructure";
 }
 
-<div id="restructure-container" class="custom-canvas col-xs-12">
+<div id="restructure-container" class="custom-canvas">
     @using (Html.BeginForm("Restructure", "Admin", FormMethod.Post, new { id = "restructure-form" }))
     {
         @Html.AntiForgeryToken()
