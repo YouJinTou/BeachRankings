@@ -1,5 +1,5 @@
 ﻿#restructure-container {
-    margin-top: 20px;
+    margin: 10px 5px 0px 5px;
     padding: 10px;
 }
 
@@ -59,4 +59,25 @@
 
 #beach-filter {
 	margin-top: 10px;
+}
+
+.btn {
+    margin: 3px;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 1200px) {
+    #restructure-container label {
+        font-size: 0.85em;
+    }
+
+    #restructure-container .btn {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    #restructure-container .btn {
+        font-size: 0.8em;
+    }
 }
