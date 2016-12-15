@@ -475,5 +475,6 @@
 		"Mykines Island",
 		"Skúvoy Island",
 		"Hestur Island"
-	]
+	],
+	"Africa%Atlantic Ocean!Saint Helena Island": null
 }

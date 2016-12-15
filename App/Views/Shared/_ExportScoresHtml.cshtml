@@ -19,13 +19,7 @@
                                     <div>
                                         <sub>
                                             <i>
-                                                @Html.ParseNullString(
-                                                    @Html.GetBeachAnchorTagDivisionAddress(
-                                                        Model.PrimaryDivision,
-                                                        Model.SecondaryDivision,
-                                                        Model.PrimaryDivisionId,
-                                                        Model.SecondaryDivisionId) + ", ",
-                                                    null)
+                                                @Html.GetBeachAnchorTagDivisionAddress(Model.PrimaryDivision, Model.SecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId)
                                                 <a href="https://beachesDb.com/Countries/Beaches/@Model.CountryId">@Model.Country</a>
                                             </i>
                                         </sub>

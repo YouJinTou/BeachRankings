@@ -3,6 +3,7 @@
     using BeachRankings.Models;
     using BeachRankings.Models.Enums;
     using BeachRankings.Services.Initializers;
+    using BeachRankings.Services.Crawlers;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -185,6 +186,7 @@
 
             var urls = SplitArticleUrls(articleLinks);
             var blogArticles = new HashSet<BlogArticle>();
+            var articleCrawler = new ArticleCrawler();
             var processedLinks = new HashSet<string>();
 
             foreach (var url in urls)
@@ -194,7 +196,7 @@
                     continue;
                 }
 
-                blogArticles.Add(new BlogArticle() { Url = url });
+                blogArticles.Add(new BlogArticle() { Url = url, Title = articleCrawler.GetArticleTitle(url) });
 
                 processedLinks.Add(url);
             }

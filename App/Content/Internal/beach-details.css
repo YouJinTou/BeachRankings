@@ -9,10 +9,6 @@
     border: none;
 }
 
-.bloggers-aside-links {
-    word-break: break-all;
-}
-
 .bloggers-aside-header {
     word-break: break-word;
 }
@@ -59,7 +55,9 @@
 }
 
 .blog-article {
-    word-break: break-all;
+    word-break: break-word;
+    margin-bottom: 5px;
+    font-size: 0.85em;
 }
 
 /* MEDIA QUERIES */

@@ -16,7 +16,7 @@
 
             var divisions = string.IsNullOrEmpty(secondaryDivision) ? "PrimaryDivisions" : "SecondaryDivisions";
             var divisionId = (divisions == "PrimaryDivisions") ? primaryDivisionId : secondaryDivisionId;
-            var htmlString = "<a href=\"/" + divisions + "/Beaches/" + divisionId + "\">" + GenericHtmlExtensions.ParseNullString(helper, secondaryDivision, primaryDivision) + "</a>";
+            var htmlString = "<a href=\"/" + divisions + "/Beaches/" + divisionId + "\">" + GenericHtmlExtensions.ParseNullString(helper, secondaryDivision, primaryDivision) + "</a>, ";
 
             return new HtmlString(htmlString);
         }

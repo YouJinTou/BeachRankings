@@ -38,10 +38,7 @@
                 </h2>
                 <h4>
                     <i>
-                        <!-- We call ParseNullString in case the country has no primary divisions. Otherwise we would display something like ', Saint Helena' -->
-                        @Html.ParseNullString(
-                        @Html.GetBeachAnchorTagDivisionAddress(Model.PrimaryDivision, Model.SecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId) + ", ",
-                        null)
+                        @Html.GetBeachAnchorTagDivisionAddress(Model.PrimaryDivision, Model.SecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId)
                         <a href="/Countries/Beaches/@Model.CountryId">@Model.Country</a>
                     </i>
                 </h4>

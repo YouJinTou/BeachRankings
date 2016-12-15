@@ -185,8 +185,8 @@ var ReviewsHelper = function () {
             }
 
             $this.html(
-                reviewText.slice(0, maxLength) + '<span> ...<span> <br /><a href="#" class="more"><b>Read more</b></a>' +
-                '<span style="display:none;">' + reviewText.slice(maxLength, reviewText.length) + ' <br /><a href="#" class="less">Less</a></span>'
+                reviewText.slice(0, maxLength) + '<div class="disable-block-inline">... </div><a href="#" class="more"><b>More</b></a>' +
+                '<span style="display:none;">' + reviewText.slice(maxLength, reviewText.length) + '<a href="#" class="less">Less</a></span>'
                 );
 
             $('#beach-details-container').on('click', '.more', function (event) {

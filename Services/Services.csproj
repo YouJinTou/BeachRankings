@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crawlers\ArticleCrawler.cs" />
     <Compile Include="Initializers\GeoInitializer.cs" />
     <Compile Include="Initializers\LetterInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
