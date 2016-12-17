@@ -30,7 +30,7 @@ Bering Sea
 Bismarck Sea
 Black Sea
 Bohai Sea
-Bohol Sea / Mindanao Sea
+Mindanao Sea (Bohol Sea) 
 Bothnian Sea
 Buzzards Bay
 Camotes Sea
@@ -65,7 +65,7 @@ Great Australian Bight
 Greenland Sea
 Gulf of Aden
 Gulf of Alaska
-Gulf of California / Sea of Cortés
+Gulf of California (Sea of Cortés)
 Gulf of Carpentaria
 Gulf of Darién
 Gulf of Gonâve (Haiti)
@@ -124,7 +124,7 @@ Red Sea
 Riiser-Larsen Sea
 Ross Sea
 Salish Sea
-Sargasso Sea - North Atlantic Gyre
+Sargasso Sea (North Atlantic Gyre)
 Savu Sea
 Scotia Sea
 Sea of Åland

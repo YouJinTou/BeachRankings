@@ -266,6 +266,7 @@
   <ItemGroup>
     <Content Include="App_Data\Countries.txt" />
     <Content Include="App_Data\Continents.txt" />
+    <Content Include="App_Data\Seed - Copy.txt" />
     <Content Include="App_Data\Seed.txt" />
     <Content Include="App_Data\NestedWaterBodies.txt" />
     <Content Include="App_Data\WaterBodies.txt" />

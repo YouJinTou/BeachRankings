@@ -366,20 +366,28 @@ namespace BeachRankings.Data.Migrations
             var waterBodies = this.data.WaterBodies.Include(wb => wb.Beaches);
 
             var searchService = new LuceneSearch(Index.BeachIndex);
+            searchService.ClearIndex();
             searchService.AddUpdateIndexEntries(beaches);
             searchService.Index = Index.ContinentIndex;
+            searchService.ClearIndex();
             searchService.AddUpdateIndexEntries(continents);
             searchService.Index = Index.CountryIndex;
+            searchService.ClearIndex();
             searchService.AddUpdateIndexEntries(countries);
             searchService.Index = Index.PrimaryDivisionIndex;
+            searchService.ClearIndex();
             searchService.AddUpdateIndexEntries(primaryDivisions);
             searchService.Index = Index.SecondaryDivisionIndex;
+            searchService.ClearIndex();
             searchService.AddUpdateIndexEntries(secondaryDivisions);
             searchService.Index = Index.TertiaryDivisionIndex;
+            searchService.ClearIndex();
             searchService.AddUpdateIndexEntries(tertiaryDivisions);
             searchService.Index = Index.QuaternaryDivisionIndex;
+            searchService.ClearIndex();
             searchService.AddUpdateIndexEntries(quaternaryDivisions);
             searchService.Index = Index.WaterBodyIndex;
+            searchService.ClearIndex();
             searchService.AddUpdateIndexEntries(waterBodies);
         }
 

@@ -41,6 +41,7 @@
         public virtual PrimaryDivision PrimaryDivision { get; protected set; }
 
         [Required]
+        [Index("IX_CountryTertiary", IsUnique = true, Order = 3)]
         public int SecondaryDivisionId { get; set; }
 
         public virtual SecondaryDivision SecondaryDivision { get; protected set; }
