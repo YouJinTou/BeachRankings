@@ -4785,7 +4785,7 @@
 		"North Sea!Zeeland",
 		"North Sea!Friesland",
 		{
-			"Caribbean Netherlands": [
+			"Caribbean Sea!Caribbean Netherlands": [
 				"Bonaire",
 				"Sint Eustatius",
 				"Saba"
