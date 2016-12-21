@@ -1,13 +1,14 @@
-﻿using App.App_Start;
-using BeachRankings.Data;
-using BeachRankings.Data.Migrations;
-using System.Data.Entity;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-
-namespace App
+﻿namespace App
 {
+    using App.App_Start;
+    using BeachRankings.Data;
+    using BeachRankings.Data.Migrations;
+    using System;
+    using System.Data.Entity;
+    using System.Web.Mvc;
+    using System.Web.Optimization;
+    using System.Web.Routing;
+
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()

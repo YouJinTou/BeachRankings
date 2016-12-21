@@ -52,6 +52,10 @@
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -225,6 +229,7 @@
     <Compile Include="Controllers\BeachesController.cs" />
     <Compile Include="Controllers\ContinentsController.cs" />
     <Compile Include="Controllers\Enums\ActionMessage.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\QuaternaryDivisionsController.cs" />
     <Compile Include="Controllers\TertiaryDivisionsController.cs" />
     <Compile Include="Controllers\SecondaryDivisionsController.cs" />
@@ -266,10 +271,10 @@
   <ItemGroup>
     <Content Include="App_Data\Countries.txt" />
     <Content Include="App_Data\Continents.txt" />
-    <Content Include="App_Data\Seed - Copy.txt" />
     <Content Include="App_Data\Seed.txt" />
     <Content Include="App_Data\NestedWaterBodies.txt" />
     <Content Include="App_Data\WaterBodies.txt" />
+    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -447,6 +452,7 @@
     <Content Include="Views\Shared\_UserOverviewPartial.cshtml" />
     <Content Include="Views\Beaches\BeachReviewsPartial.cshtml" />
     <Content Include="Views\Shared\_CriteriaTablePartial.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />
