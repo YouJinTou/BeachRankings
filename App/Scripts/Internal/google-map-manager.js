@@ -3,11 +3,12 @@
         geocoder,
         geocoderFilteredResults;
     var markers = [];
+    var currentCoords = { lat: -8.783195, long: -124.508523 }; // Middle of Pacific Ocean
 
     function initMap() {
-        var initialPosition = new google.maps.LatLng(-34.397, 150.644);
+        var initialPosition = new google.maps.LatLng(currentCoords.lat, currentCoords.long);
         var mapOptions = {
-            zoom: 8,
+            zoom: 1,
             center: initialPosition,
             mapTypeId: 'hybrid'
         };
@@ -52,7 +53,7 @@
     function shiftMapByAddress(address) {
         geocoder.geocode({ address: address }, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);//center the map over the result                
+                map.setCenter(results[0].geometry.location);             
             }
         });
     }

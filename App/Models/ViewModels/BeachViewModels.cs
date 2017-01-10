@@ -11,7 +11,7 @@
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be in written in the English alphabet.")]
+        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be written in the English alphabet.")]
         string Name { get; set; }
 
         [Required(ErrorMessage = "The country field is required.")]
@@ -62,7 +62,7 @@
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be in written in the English alphabet.")]
+        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be written in the English alphabet.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "The country field is required.")]
@@ -105,7 +105,7 @@
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be in written in the English alphabet.")]
+        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be written in the English alphabet.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "The country field is required.")]
