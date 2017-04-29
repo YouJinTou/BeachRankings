@@ -8,6 +8,8 @@
 
     public interface IAddEditBeachModel
     {
+        int Id { get; set; }
+
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
@@ -30,6 +32,8 @@
 
         [Display(Name = "Locality")]
         int? QuaternaryDivisionId { get; set; }
+
+        string ArticleLinks { get; set; }
     }
 
     public class BestBeachesViewModel
@@ -59,6 +63,8 @@
 
     public class AddBeachViewModel : IAddEditBeachModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
@@ -92,6 +98,10 @@
             @"[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)", 
             ErrorMessage = "Invalid coordinates.")]
         public string Coordinates { get; set; }
+
+        [Display(Name = "Blog article links")]
+        [UrisValid(ErrorMessage = "We couldn't process the provided links.")]
+        public string ArticleLinks { get; set; }
 
         [ImagesValid(ErrorMessage = "Failed to upload images. Verify their total size and format.")]
         public IEnumerable<HttpPostedFileBase> Images { get; set; }
@@ -135,6 +145,10 @@
             @"[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)",
             ErrorMessage = "Invalid coordinates.")]
         public string Coordinates { get; set; }
+
+        [Display(Name = "Blog article links")]
+        [UrisValid(ErrorMessage = "We couldn't process the provided links.")]
+        public string ArticleLinks { get; set; }
 
         public IEnumerable<SelectListItem> PrimaryDivisions { get; set; }
 

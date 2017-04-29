@@ -103,7 +103,7 @@
 
             if (this.UserProfile.IsBlogger)
             {
-                var articles = BlogHelper.GetBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
+                var articles = BlogHelper.GetUserBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
 
                 if (articles.Count > 0)
                 {
@@ -172,7 +172,7 @@
 
             if (this.UserProfile.IsBlogger)
             {
-                var newArticles = BlogHelper.GetBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
+                var newArticles = BlogHelper.GetUserBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
                 var existingArticles = this.Data.BlogArticles.All().Where(ba => ba.ReviewId == review.Id);
 
                 this.Data.BlogArticles.RemoveMany(existingArticles);

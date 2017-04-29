@@ -101,23 +101,10 @@
                 .HasRequired(r => r.Beach)
                 .WithMany(b => b.Reviews)
                 .WillCascadeOnDelete(false);
-            modelBuilder.Entity<Review>()
-                .HasMany(r => r.BlogArticles)
-                .WithRequired(ba => ba.Review)
-                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<BeachImage>()
                .HasRequired(bi => bi.Beach)
                .WithMany(b => b.Images)
-               .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<BlogArticle>()
-                .HasRequired(ba => ba.Blog)
-                .WithMany(b => b.BlogArticles)
-                .WillCascadeOnDelete(false);
-            modelBuilder.Entity<BlogArticle>()
-               .HasRequired(ba => ba.Beach)
-               .WithMany(b => b.BlogArticles)
                .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

@@ -138,7 +138,7 @@
             return url.Replace("@,", "@");
         }
 
-        public static ICollection<BlogArticle> GetBlogArticles(Blog blog, string articleLinks, int beachId, int reviewId)
+        public static ICollection<BlogArticle> GetUserBlogArticles(Blog blog, string articleLinks, int beachId, int reviewId)
         {
             if (blog == null || string.IsNullOrEmpty(articleLinks))
             {
@@ -152,13 +152,30 @@
             {
                 var articleHostName = GenericHelper.RemoveDomain(GenericHelper.GetUriHostName(blogArticle.Url));
                 var foundBlog = blogUrl.Equals(articleHostName);
-                
+
                 if (foundBlog)
                 {
                     blogArticle.BlogId = blog.Id;
                     blogArticle.ReviewId = reviewId;
                     blogArticle.BeachId = beachId;
                 }
+            }
+
+            return blogArticles;
+        }
+
+        public static ICollection<BlogArticle> GetAdminBlogArticles(string articleLinks, int beachId)
+        {
+            if (string.IsNullOrEmpty(articleLinks))
+            {
+                return new HashSet<BlogArticle>();
+            }
+
+            var blogArticles = CreateBlogArticles(articleLinks);
+
+            foreach (var blogArticle in blogArticles)
+            {
+                blogArticle.BeachId = beachId;
             }
 
             return blogArticles;
@@ -172,7 +189,7 @@
             }
 
             var articlesCount = SplitArticleUrls(articleLinks).Count;
-            var matchedArticlesCount = GetBlogArticles(blog, articleLinks, 0, 0).Count(a => !string.IsNullOrEmpty(a.BlogId));
+            var matchedArticlesCount = GetUserBlogArticles(blog, articleLinks, 0, 0).Count(a => !string.IsNullOrEmpty(a.BlogId));
 
             return (articlesCount == matchedArticlesCount);
         }

@@ -75,8 +75,6 @@
         [Required]
         public DateTime PostedOn { get; set; }
 
-        [Required(ErrorMessage = "The review field is required.")]
-        [MinLength(100, ErrorMessage = "100 characters should be doable.")]
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         [Display(Name = "Review")]
         public string Content { get; set; }
@@ -114,7 +112,7 @@
         [Display(Name = "Crowd-free")]
         public double? CrowdFree { get; private set; }
 
-        [Display(Name = "Environment-friendly infrastructure")]
+        [Display(Name = "Infrastructure")]
         public double? Infrastructure { get; private set; }
 
         #endregion

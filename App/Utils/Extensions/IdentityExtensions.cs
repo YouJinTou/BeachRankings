@@ -159,5 +159,26 @@
 
             return canDelete;
         }
+
+        public static bool IsAdmin(this IIdentity identity)
+        {
+            var claimsIdentity = (ClaimsIdentity)identity;
+
+            if (claimsIdentity == null)
+            {
+                return false;
+            }
+
+            var userRoleClaim = claimsIdentity.FindFirst(c => c.Type == ClaimTypes.Role);
+
+            if (userRoleClaim == null)
+            {
+                return false;
+            }
+
+            var userRole = userRoleClaim.Value;
+
+            return userRole == "Admin";
+        }
     }
 }

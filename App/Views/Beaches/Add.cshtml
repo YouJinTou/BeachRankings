@@ -5,7 +5,7 @@
 }
 
 <div id="beach-add-container" class="custom-canvas col-xs-10 col-xs-offset-1">
-    @using (Html.BeginForm("Add", "Beaches", FormMethod.Post, new { id = "addBeachForm", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Add", "Beaches", FormMethod.Post, new { id = "submit-beach-form", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -120,6 +120,22 @@
                         </div>
                     </div>
 
+                    @{
+                        if (this.User.Identity.IsAdmin())
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ArticleLinks, new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
+                                <div id="links-container" class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
+                                    <input type="text" class="blog-link form-control custom-focus-black" />
+                                </div>
+                                <div class="col-md-3 col-md-offset-0 col-sm-3 col-sm-offset-1 col-xs-1 col-xs-offset-1 text-left">
+                                    <span class="add-more-links glyphicon glyphicon-plus-sign" title="Add another link"></span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ArticleLinks, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                    }
+
                     <div class="form-group">
                         <label for="uploader" class="control-label col-md-3">Beach photos</label>
                         <div class="col-md-5">
@@ -133,7 +149,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Add beach" class="btn btn-cta" />
+                        <input type="submit" data-btn-submit-beach="" value="Add beach" class="btn btn-cta" />
                     </div>
                 </div>
             </div>
@@ -142,6 +158,8 @@
                 <div class="google-map" id="map"></div>
             </div>
         </div>
+
+        @Html.HiddenFor(model => model.ArticleLinks, new { id = "hdn-article-links" })
     }
 </div>
 
@@ -150,6 +168,7 @@
     @Scripts.Render("/Scripts/jquery-ui.js")
     @Scripts.Render("~/Scripts/Internal/google-map-manager.js")
     @Scripts.Render("~/Scripts/Internal/beaches.js")
+    @Scripts.Render("~/Scripts/Internal/blog.js")
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?language=en&libraries=places&key=AIzaSyC8j9vpJT7miOsV0jLllMmqZdXpSnCzs9c&callback=gMapManager.initMap">
     </script>

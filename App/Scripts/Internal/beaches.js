@@ -7,6 +7,8 @@
     var $textBoxName = $('[data-textbox-name]');
     var $beachNameContainer = $('[data-beach-name]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
+
+    blogHelper.tryLoadExistingArticleLinks();
     
     if (adding) {
         resetCountriesDropdown();
@@ -164,7 +166,15 @@
             var coordinates = $(this).val();
 
             gMapManager.setMapByCoord(coordinates);
-        });        
+        });
+
+        $('[data-btn-submit-beach]').on('click', function (event) {
+            event.preventDefault();
+
+            blogHelper.setBlogArticleLinks();
+
+            $('#submit-beach-form').submit();
+        });
     }
 
     function setEditEvents() {

@@ -262,7 +262,41 @@ var BeachesHelper = function () {
         setElementsResponsive: setElementsResponsive
     }
 };
+var BlogHelper = function () {
+    function tryLoadExistingArticleLinks() {
+        if ($('#hdn-article-links').val().length === 0) {
+            return;
+        }
+
+        $('#hdn-article-links').val().split('@').forEach(function (link) {
+            $('#links-container').children()
+                .first()
+                .clone()
+                .val(link)
+                .appendTo($('#links-container'));
+        });
+
+        $('#links-container').children().filter(function () {
+            return ($(this).val().length === 0);
+        }).remove();
+    }
+
+    function setBlogArticleLinks() {
+        var articleLinkSeparator = '@';
+        var blogLinks = $.map($('.blog-link'), function (link) {
+            return $(link).val() + articleLinkSeparator;
+        });
+
+        $('#hdn-article-links').val(blogLinks)
+    }
+
+    return {
+        tryLoadExistingArticleLinks: tryLoadExistingArticleLinks,
+        setBlogArticleLinks: setBlogArticleLinks
+    }
+};
 
 var genericHelper = new GenericHelper();
 var reviewsHelper = new ReviewsHelper();
 var beachesHelper = new BeachesHelper();
+var blogHelper = new BlogHelper();

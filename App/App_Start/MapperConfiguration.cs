@@ -24,7 +24,6 @@
                 cfg.CreateMap<QuaternaryDivisionSearchResultModel, AutocompleteQuaternaryViewModel>();
                 cfg.CreateMap<IPlaceSearchable, PlaceBeachesViewModel>();
                 cfg.CreateMap<Beach, Beach>();
-                cfg.CreateMap<Beach, EditBeachViewModel>();
                 cfg.CreateMap<EditBeachViewModel, Beach>();
                 cfg.CreateMap<BeachImage, BeachImageThumbnailViewModel>();
                 cfg.CreateMap<BeachImage, DashboardBeachImageThumbnailViewModel>();
@@ -74,6 +73,8 @@
                     .ForMember(vm => vm.Camping, model => model.Ignore())
                     .ForMember(vm => vm.Infrastructure, model => model.Ignore())
                     .ForMember(vm => vm.LongTermStay, model => model.Ignore());
+                cfg.CreateMap<Beach, EditBeachViewModel>()
+                    .ForMember(vm => vm.ArticleLinks, model => model.MapFrom(m => string.Join("@", m.BlogArticles.Select(ba => ba.Url))));
                 cfg.CreateMap<Beach, BeachRowViewModel>()
                    .ForMember(vm => vm.BeachId, model => model.MapFrom(m => m.Id))
                    .ForMember(vm => vm.BeachName, model => model.MapFrom(m => m.Name))

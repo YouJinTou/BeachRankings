@@ -84,8 +84,6 @@
     {
         public DetailedBeachViewModel BeachHead { get; set; }
 
-        [Required(ErrorMessage = "The review field is required.")]
-        [MinLength(100, ErrorMessage = "100 characters should be doable.")]
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         [Display(Name = "Review")]
         public string Content { get; set; }
@@ -108,8 +106,6 @@
 
         public string AuthorId { get; set; }
 
-        [Required(ErrorMessage = "The review field is required.")]
-        [MinLength(100, ErrorMessage = "100 characters should be doable.")]
         [MaxLength(3000, ErrorMessage = "We'll happily accept 3000 symbols and below.")]
         [Display(Name = "Review")]
         public string Content { get; set; }

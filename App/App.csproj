@@ -343,6 +343,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
+    <Content Include="Scripts\Internal\blog.js" />
     <Content Include="Scripts\Internal\admin.js" />
     <Content Include="Scripts\Internal\beach-details.js" />
     <Content Include="Scripts\Internal\account.js" />

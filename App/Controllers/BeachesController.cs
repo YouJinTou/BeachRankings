@@ -128,6 +128,10 @@
             this.Data.BeachImages.AddMany(images);
             this.Data.BeachImages.SaveChanges();
 
+            bindingModel.Id = beach.Id;
+
+            this.TryAddUpdateBlogArticles(bindingModel);
+
             return this.RedirectToAction("Post", "Reviews", new { id = beach.Id });
         }
 
@@ -246,10 +250,14 @@
 
         private bool AddEditModelValid(IAddEditBeachModel model)
         {
-            var beachNameUnique = !this.Data.Beaches.All().Any(
+            var isAdd = (model.Id == 0);
+            var sameBeachNamesCount = this.Data.Beaches.All().Where(
                 b => b.PrimaryDivisionId == model.PrimaryDivisionId &&
                 b.SecondaryDivisionId == model.SecondaryDivisionId &&
-                b.Name.ToLower() == model.Name.ToLower());
+                b.Name.ToLower() == model.Name.ToLower())
+                .ToList()
+                .Count;
+            var beachNameUnique = (isAdd && sameBeachNamesCount == 0) || (!isAdd && sameBeachNamesCount == 1);
             var englishAlphabetUsed = Regex.IsMatch(model.Name, @"^[A-Za-z0-9\s-]+$");
             var primaryDivision = this.Data.PrimaryDivisions.All()
                 .Include(pd => pd.SecondaryDivisions)
@@ -393,6 +401,23 @@
             this.Data.Beaches.SaveChanges();
 
             this.UpdateIndexEntries(beach, oldBeach);
+
+            this.TryAddUpdateBlogArticles(model);
+        }
+
+        private void TryAddUpdateBlogArticles(IAddEditBeachModel model)
+        {
+            if (!this.User.Identity.IsAdmin() || string.IsNullOrEmpty(model.ArticleLinks))
+            {
+                return;                
+            }
+
+            var newArticles = BlogHelper.GetAdminBlogArticles(model.ArticleLinks, model.Id);
+            var existingArticles = this.Data.BlogArticles.All().Where(ba => ba.BeachId == model.Id);
+
+            this.Data.BlogArticles.RemoveMany(existingArticles);
+            this.Data.BlogArticles.AddMany(newArticles);
+            this.Data.BlogArticles.SaveChanges();
         }
 
         private void UpdateIndexEntries(Beach beach, Beach oldBeach = null)
@@ -444,13 +469,16 @@
 
         private void RemoveChildReferences(Beach beach)
         {
+            var articles = beach.BlogArticles.ToList();
             var reviews = beach.Reviews.ToList();
             var images = beach.Images.ToList();
 
+            this.Data.BlogArticles.RemoveMany(articles);
             this.Data.Reviews.RemoveMany(reviews);
             this.Data.BeachImages.RemoveMany(images);
             ImageHelper.EraseImagesLocally(beach.Name);
 
+            this.Data.BlogArticles.SaveChanges();
             this.Data.Reviews.SaveChanges();
             this.Data.BeachImages.SaveChanges();
         }

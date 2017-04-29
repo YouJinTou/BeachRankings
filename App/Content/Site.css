@@ -37,11 +37,11 @@ img {
         color: #0642a3;
     }
 
-.add-more {
+.add-more-links {
     font-size: 30px;
 }
 
-    .add-more:hover {
+    .add-more-links:hover {
         cursor: pointer;
     }
 

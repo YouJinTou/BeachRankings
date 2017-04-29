@@ -5,28 +5,13 @@
     beachesHelper.setElementsResponsive();
     genericHelper.setScoreBoxesBackgroundColor();
     beachesHelper.hideEmptyAsideElements();
-    tryLoadExistingArticleLinks();
-
-    $('.add-more').on('click', function () {
-        var $linksContainer = $('#links-container');
-        var lastLinkFieldEmpty = ($linksContainer.find('input').last().val().length === 0);
-
-        if (lastLinkFieldEmpty) {
-            return;
-        }
-
-        $linksContainer.children().first().clone().val('').appendTo($linksContainer);
-    });
+    blogHelper.tryLoadExistingArticleLinks();
 
     $('[data-btn-submit-review]').on('click', function (event) {
         event.preventDefault();
 
-        var articleLinkSeparator = '@';
-        var blogLinks = $.map($('.blog-link'), function (link) {
-            return $(link).val() + articleLinkSeparator;
-        });
-
-        $('#hdn-article-links').val(blogLinks)
+        blogHelper.setBlogArticleLinks();
+        
         $('#hdn-sand-quality').val($('[data-sand-quality-handle]').text());
         $('#hdn-beach-cleanliness').val($('[data-beach-cleanliness-handle]').text());
         $('#hdn-beautiful-scenery').val($('[data-beautiful-scenery-handle]').text());
@@ -53,22 +38,4 @@
         arrows: false,
         mobileFirst: true
     });
-
-    function tryLoadExistingArticleLinks() {
-        if ($('#hdn-article-links').val().length === 0) {
-            return;
-        }
-
-        $('#hdn-article-links').val().split('@').forEach(function (link) {
-            $('#links-container').children()
-                .first()
-                .clone()
-                .val(link)
-                .appendTo($('#links-container'));
-        });
-
-        $('#links-container').children().filter(function () {
-            return ($(this).val().length === 0);
-        }).remove();
-    }
 })();
