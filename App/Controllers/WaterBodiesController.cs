@@ -27,7 +27,7 @@
             return this.View("_PlaceBeaches", model);
         }
 
-        public PartialViewResult Statistics(int id)
+        public ActionResult Statistics(int id)
         {
             var waterBody = this.Data.WaterBodies.All().Include(wb => wb.Beaches).FirstOrDefault(wb => wb.Id == id);
             var beaches = waterBody.Beaches.Where(b => b.TotalScore != null).OrderByDescending(b => b.TotalScore);
@@ -39,7 +39,7 @@
                 Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
             };
 
-            return this.PartialView("_StatisticsPartial", model);
+            return this.View("_StatisticsPartial", model);
         }
     }
 }

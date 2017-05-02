@@ -30,7 +30,7 @@
             return this.View("_PlaceBeaches", model);
         }
 
-        public PartialViewResult Statistics(int id)
+        public ActionResult Statistics(int id)
         {
             var tertiaryDivision = this.Data.TertiaryDivisions.All()
                  .Include(td => td.PrimaryDivision.WaterBody)
@@ -46,7 +46,7 @@
                 Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
             };
 
-            return this.PartialView("_StatisticsPartial", model);
+            return this.View("_StatisticsPartial", model);
         }
 
         public JsonResult QuaternaryDivisions(int id)

@@ -175,6 +175,10 @@ img {
    max-height: 350px;
 }
 
+.toggle-to-places {
+    color: orange;
+}
+
 /* POPUPS */
 .custom-popup {
     position: absolute;

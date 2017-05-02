@@ -14,7 +14,6 @@
     using System.Linq;
     using System.Web.Mvc;
 
-    [Authorize]
     public class UserController : BaseController
     {
         public UserController(IBeachRankingsData data)
@@ -22,6 +21,7 @@
         {
         }
 
+        [Authorize]
         public ActionResult Statistics()
         {
             var reviews = this.UserProfile.Reviews;
@@ -38,6 +38,7 @@
             return this.View(model);
         }
 
+        [Authorize]
         public ActionResult Images(int page = 0, int pageSize = 10)
         {
             var imageGroups = this.Data.BeachImages.All().Where(i => i.AuthorId == this.UserProfile.Id).GroupBy(i => i.Beach.Name);
@@ -57,6 +58,7 @@
             return this.View(model);
         }
 
+        [Authorize]
         [HttpGet]
         public PartialViewResult ChangeAvatar()
         {
@@ -65,6 +67,7 @@
             return this.PartialView(model);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeAvatar(ChangeAvatarViewModel bindingModel)
@@ -79,6 +82,7 @@
             return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.ChangeAvatarSuccess });
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteAvatar()
@@ -91,6 +95,7 @@
             return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.DeleteAvatarSuccess });
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult DeleteBeachImage(int id)
         {

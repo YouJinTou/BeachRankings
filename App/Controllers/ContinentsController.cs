@@ -27,7 +27,7 @@
             return this.View("_PlaceBeaches", model);
         }
 
-        public PartialViewResult Statistics(int id)
+        public ActionResult Statistics(int id)
         {
             var continent = this.Data.Continents.All()
                 .Include(c => c.Countries)
@@ -46,7 +46,7 @@
                 Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
             };
 
-            return this.PartialView("_StatisticsPartial", model);
+            return this.View("_StatisticsPartial", model);
         }
     }
 }
