@@ -1,1 +1,3 @@
 # BeachRankings
+
+Yelp for beaches
