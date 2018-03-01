@@ -11,6 +11,10 @@
     <AssemblyName>Data</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,12 +50,12 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -62,7 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeachRankingsDbContext.cs" />
-    <Compile Include="Extensions\ModelLinqExtensions.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ContinentRepository.cs" />
@@ -73,12 +76,14 @@
     <Compile Include="Repositories\Interfaces\ITertiaryDivisionRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISecondaryDivisionRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPrimaryDivisionRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IUpvotedReviewsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWaterBodyRepository.cs" />
     <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\QuaternaryDivisionRepository.cs" />
     <Compile Include="Repositories\TertiaryDivisionRepository.cs" />
     <Compile Include="Repositories\SecondaryDivisionRepository.cs" />
     <Compile Include="Repositories\PrimaryDivisionRepository.cs" />
+    <Compile Include="Repositories\UpvotedReviewsRepository.cs" />
     <Compile Include="Repositories\WaterBodyRepository.cs" />
     <Compile Include="Repositories\BeachRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
@@ -89,6 +94,10 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{552159f7-d413-4605-8d68-59487484a748}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{ba3c77a3-6cfe-4682-b470-30959db5ee20}</Project>
       <Name>Models</Name>
@@ -102,7 +111,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

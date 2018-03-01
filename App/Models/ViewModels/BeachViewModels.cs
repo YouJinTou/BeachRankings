@@ -6,6 +6,7 @@
     using System.Web.Mvc;
     using BeachRankings.App.CustomAttributes;
 
+    [BeachValid]
     public interface IAddEditBeachModel
     {
         int Id { get; set; }
@@ -13,7 +14,7 @@
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be written in the English alphabet.")]
+        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "Use only letters in the English alphabet.")]
         string Name { get; set; }
 
         [Required(ErrorMessage = "The country field is required.")]
@@ -36,31 +37,6 @@
         string ArticleLinks { get; set; }
     }
 
-    public class BestBeachesViewModel
-    {
-        public int CaribbeanId { get; set; }
-
-        public int EuropeId { get; set; }
-
-        public int FranceId { get; set; }
-
-        public int GreeceId { get; set; }
-
-        public int ItalyId { get; set; }
-
-        public int MediterraneanId { get; set; }
-
-        public int SpainId { get; set; }
-
-        public int TurkeyId { get; set; }
-
-        public int CampingId { get; set; }
-
-        public int LongStayId { get; set; }
-
-        public int SnorkelingId { get; set; }
-    }
-
     public class AddBeachViewModel : IAddEditBeachModel
     {
         public int Id { get; set; }
@@ -68,7 +44,7 @@
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be written in the English alphabet.")]
+        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "Use only letters in the English alphabet.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "The country field is required.")]
@@ -115,7 +91,7 @@
         [Required(ErrorMessage = "The name field is required.")]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
-        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "The name must be written in the English alphabet.")]
+        [RegularExpression(@"^[A-Za-z0-9\s-]+$", ErrorMessage = "Use only letters in the English alphabet.")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "The country field is required.")]
@@ -149,6 +125,9 @@
         [Display(Name = "Blog article links")]
         [UrisValid(ErrorMessage = "We couldn't process the provided links.")]
         public string ArticleLinks { get; set; }
+
+        [ImagesValid(ErrorMessage = "Failed to upload images. Verify their total size and format.")]
+        public IEnumerable<HttpPostedFileBase> Images { get; set; }
 
         public IEnumerable<SelectListItem> PrimaryDivisions { get; set; }
 
@@ -212,25 +191,27 @@
 
         public double? TotalScore { get; set; }
 
-        public string Description { get; set; }
-
-        public string ImagePath { get; set; }
-
         public string CreatorId { get; set; }
 
         public bool UserHasRated { get; set; }
+
+        public int WaterBodyId { get; set; }
 
         public string WaterBody { get; set; }
 
         public string Coordinates { get; set; }
 
-        public IEnumerable<BeachImageThumbnailViewModel> Images { get; set; }
+        public int ImageCount { get; set; }
+
+        public ICollection<BeachImageThumbnailViewModel> Images { get; set; }
 
         public IEnumerable<BlogArticleViewModel> BlogArticles { get; set; }
 
         public IEnumerable<ConciseReviewViewModel> Reviews { get; set; }
 
-        public CriteriaViewModel Criteria { get; set; }
+        public HorizontalCriteriaViewModel Criteria { get; set; }
+
+        public CrossTableViewModel CrossTable { get; set; }
     }
 
     public class AutocompleteBeachViewModel : AutocompleteBaseViewModel
@@ -240,5 +221,20 @@
         public string PrimaryDivision { get; set; }
 
         public string SecondaryDivision { get; set; }
+    }
+
+    public class CrossTableViewModel
+    {
+        public string World => "World";
+
+        public string Continent { get; set; }
+
+        public string Country { get; set; }
+
+        public string Area { get; set; }
+
+        public string WaterBody { get; set; }
+
+        public IEnumerable<CrossTableRowViewModel> Rows { get; set; }
     }
 }

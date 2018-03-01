@@ -1,6 +1,7 @@
 namespace BeachRankings.Data.Migrations
 {
     using BeachRankings.Models;
+    using BeachRankings.Models.Enums;
     using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;
     using BeachRankings.Services.Search.Enums;
@@ -8,6 +9,7 @@ namespace BeachRankings.Data.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.IO;
@@ -18,6 +20,7 @@ namespace BeachRankings.Data.Migrations
         private static readonly string dolorSitAmet =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus egestas ante a neque congue, " +
             "id eleifend felis laoreet. Pellentesque eget dui id libero rhoncus vestibulum. Nam bibendum rutrum sem...";
+
         private BeachRankingsDbContext data;
         private static int? currentContinentId;
         private static int currentCountryId = 1;
@@ -45,15 +48,21 @@ namespace BeachRankings.Data.Migrations
 
             this.data = data;
 
-            this.SeedRoles();
-            this.SeedUsers();
-            this.SeedWaterBodies();
-            this.SeedContinents();
-            this.SeedAdministrativeUnits();
-            this.SeedBeaches();
-            this.SeedIndexEntries();
-            this.SeedBeachImages();
-            this.SeedReviews();
+            //this.SeedRoles();
+            //this.SeedUsers();
+            //this.SeedWaterBodies();
+            //this.SeedContinents();
+            //this.SeedAdministrativeUnits();
+            //this.SeedScoreWeights();
+            //this.SeedBeaches();
+
+            if (bool.Parse(ConfigurationManager.AppSettings["SeedIndices"]))
+            {
+                this.SeedIndexEntries();
+            }
+
+            //this.SeedBeachImages();
+            //this.SeedReviews();
         }
 
         private void SeedRoles()
@@ -79,35 +88,40 @@ namespace BeachRankings.Data.Migrations
 
         private void SeedUsers()
         {
-            if (!this.data.Users.Any(u => u.UserName == "admin"))
+            if (!this.data.Users.Any(u => u.UserName == "Andro"))
             {
                 var userStore = new UserStore<User>(this.data);
                 var userManager = new UserManager<User>(userStore);
-                var user = new User { UserName = "admin", Email = "dandreevd@gmail.com", AvatarPath = "/Content/Images/unknown_profile.jpg" };
+                var user = new User {
+                    UserName = "Andro",
+                    Email = "andreimarkov77@gmail.com",
+                    AvatarPath = ConfigurationManager.AppSettings["DefaultUserImagePath"],
+                    Badge = UserBadge.CertificateOfQualityRankings
+                };
 
                 userManager.Create(user, "123456");
                 userManager.AddToRole(user.Id, "Admin");
             }
 
-            if (!this.data.Users.Any(u => u.UserName == "user"))
-            {
-                var userStore = new UserStore<User>(this.data);
-                var userManager = new UserManager<User>(userStore);
-                var user = new User { UserName = "user", Email = "some@email.com", AvatarPath = "/Content/Images/unknown_profile.jpg" };
+            //if (!this.data.Users.Any(u => u.UserName == "user"))
+            //{
+            //    var userStore = new UserStore<User>(this.data);
+            //    var userManager = new UserManager<User>(userStore);
+            //    var user = new User { UserName = "user", Email = "some@email.com", AvatarPath = ConfigurationManager.AppSettings["DefaultUserImagePath"] };
 
-                userManager.Create(user, "123456");
-                userManager.AddToRole(user.Id, "User");
-            }
+            //    userManager.Create(user, "123456");
+            //    userManager.AddToRole(user.Id, "User");
+            //}
 
-            if (!this.data.Users.Any(u => u.UserName == "user2"))
-            {
-                var userStore = new UserStore<User>(this.data);
-                var userManager = new UserManager<User>(userStore);
-                var user = new User { UserName = "user2", Email = "some2@email.com", AvatarPath = "/Content/Images/unknown_profile.jpg" };
+            //if (!this.data.Users.Any(u => u.UserName == "user2"))
+            //{
+            //    var userStore = new UserStore<User>(this.data);
+            //    var userManager = new UserManager<User>(userStore);
+            //    var user = new User { UserName = "user2", Email = "some2@email.com", AvatarPath = ConfigurationManager.AppSettings["DefaultUserImagePath"] };
 
-                userManager.Create(user, "123456");
-                userManager.AddToRole(user.Id, "User");
-            }
+            //    userManager.Create(user, "123456");
+            //    userManager.AddToRole(user.Id, "User");
+            //}
         }
 
         private void SeedWaterBodies()
@@ -206,6 +220,30 @@ namespace BeachRankings.Data.Migrations
             this.data.Configuration.AutoDetectChangesEnabled = true;
             this.data.Configuration.ValidateOnSaveEnabled = true;
         }
+
+        private void SeedScoreWeights()
+        {
+            if (this.data.ScoreWeights.Any())
+            {
+                return;
+            }
+
+            var scoreWeights = new List<ScoreWeight>
+            {
+                new ScoreWeight { Name = "Country", Value = 5.0 },
+                new ScoreWeight { Name = "Beach", Value = 1.0 },
+                new ScoreWeight { Name = "Thanked", Value = 5.0 },
+                new ScoreWeight { Name = "BlogPost", Value = 5.0 },
+                new ScoreWeight { Name = "CRQ", Value = 2.0 }
+            };
+
+            foreach (var weight in scoreWeights)
+            {
+                this.data.ScoreWeights.Add(weight);
+            }
+
+            this.data.SaveChanges();
+        }
         
         private void SeedBeaches()
         {
@@ -216,9 +254,7 @@ namespace BeachRankings.Data.Migrations
 
             var creatorIds = new string[]
             {
-                this.data.Users.FirstOrDefault(u => u.UserName == "admin").Id,
-                this.data.Users.FirstOrDefault(u => u.UserName == "user").Id,
-                this.data.Users.FirstOrDefault(u => u.UserName == "user2").Id
+                this.data.Users.FirstOrDefault(u => u.UserName == "Andro").Id,
             };
             var continentsCount = this.data.Continents.Count();
             var countriesCount = this.data.Countries.Count();
@@ -236,7 +272,7 @@ namespace BeachRankings.Data.Migrations
             var blackSeaWaterBodyId = this.data.WaterBodies.FirstOrDefault(l => l.Name == "Black Sea").Id;
             var beaches = new List<Beach>();
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 12; i++)
             {
                 var continentId = randomContinentId.Next(1, continentsCount + 1);
                 var firstCountry = this.data.Countries.FirstOrDefault(c => c.ContinentId == continentId);
@@ -269,7 +305,7 @@ namespace BeachRankings.Data.Migrations
                 beaches.Add(new Beach()
                 {
                     Name = "Beach " + i,
-                    CreatorId = creatorIds[randomCreatorId.Next(0, 3)],
+                    CreatorId = creatorIds[randomCreatorId.Next(0, creatorIds.Length)],
                     ContinentId = continentId,
                     CountryId = countryId,
                     PrimaryDivisionId = primaryId,
@@ -281,77 +317,79 @@ namespace BeachRankings.Data.Migrations
                 });
             }
 
-            beaches.AddRange(new List<Beach>()
-            {
-                new Beach()
-                {
-                    Name = "Kamchia Beach",
-                    CreatorId = creatorIds[0],
-                    ContinentId = europeContinentId,
-                    CountryId = bulgariaCountryId,
-                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
-                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
-                    WaterBodyId = blackSeaWaterBodyId,
-                    Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
-                    Coordinates = "43.204666,27.910543"
-                },
-                new Beach()
-                {
-                    Name = "Bolata Beach",
-                    CreatorId = creatorIds[1],
-                    ContinentId = europeContinentId,
-                    CountryId = bulgariaCountryId,
-                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Dobrich").Id,
-                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Kavarna").Id,
-                    WaterBodyId = blackSeaWaterBodyId,
-                    Description = "Situated north of Albena, Bolata is an ungainly sight.",
-                    Coordinates = "43.204666,27.910543"
-                },
-                new Beach()
-                {
-                    Name = "Sunny Day Beach",
-                    CreatorId = creatorIds[1],
-                    ContinentId = europeContinentId,
-                    CountryId = bulgariaCountryId,
-                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
-                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
-                    WaterBodyId = blackSeaWaterBodyId,
-                    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
-                    Coordinates = "43.204666,27.910543",
-                },
-                new Beach()
-                {
-                    Name = "Albanian Beach",
-                    CreatorId = creatorIds[1],
-                    ContinentId = europeContinentId,
-                    CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Albania").Id,
-                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Durrës").Id,
-                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Krujë").Id,
-                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Ionian Sea").Id,
-                    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
-                    Coordinates = "43.204666,27.910543",
-                },
-                new Beach()
-                {
-                    Name = "Skiathos First Beach",
-                    CreatorId = creatorIds[2],
-                    CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Greece").Id,
-                    PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Thessaly").Id,
-                    SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Sporades").Id,
-                    TertiaryDivisionId = this.data.TertiaryDivisions.FirstOrDefault(r => r.Name == "Skiathos").Id,
-                    WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Mediterranean Sea").Id,
-                    Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
-                    Coordinates = "43.204666,27.910543",
-                }
-            });
+            //beaches.AddRange(new List<Beach>()
+            //{
+            //    new Beach()
+            //    {
+            //        Name = "Kamchia Beach",
+            //        CreatorId = creatorIds[randomCreatorId.Next(0, creatorIds.Length)],
+            //        ContinentId = europeContinentId,
+            //        CountryId = bulgariaCountryId,
+            //        PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
+            //        SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
+            //        WaterBodyId = blackSeaWaterBodyId,
+            //        Description = "Kamchia beach is situated where the muddy Kamchia flows into the Black Sea.",
+            //        Coordinates = "43.204666,27.910543"
+            //    },
+            //    new Beach()
+            //    {
+            //        Name = "Bolata Beach",
+            //        CreatorId = creatorIds[randomCreatorId.Next(0, creatorIds.Length)],
+            //        ContinentId = europeContinentId,
+            //        CountryId = bulgariaCountryId,
+            //        PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Dobrich").Id,
+            //        SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Kavarna").Id,
+            //        WaterBodyId = blackSeaWaterBodyId,
+            //        Description = "Situated north of Albena, Bolata is an ungainly sight.",
+            //        Coordinates = "43.204666,27.910543"
+            //    },
+            //    new Beach()
+            //    {
+            //        Name = "Sunny Day Beach",
+            //        CreatorId = creatorIds[randomCreatorId.Next(0, creatorIds.Length)],
+            //        ContinentId = europeContinentId,
+            //        CountryId = bulgariaCountryId,
+            //        PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
+            //        SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Varna").Id,
+            //        WaterBodyId = blackSeaWaterBodyId,
+            //        Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
+            //        Coordinates = "43.204666,27.910543",
+            //    },
+            //    new Beach()
+            //    {
+            //        Name = "Albanian Beach",
+            //        CreatorId = creatorIds[randomCreatorId.Next(0, creatorIds.Length)],
+            //        ContinentId = europeContinentId,
+            //        CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Albania").Id,
+            //        PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Durrës").Id,
+            //        SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Krujë").Id,
+            //        WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Ionian Sea").Id,
+            //        Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
+            //        Coordinates = "43.204666,27.910543",
+            //    },
+            //    new Beach()
+            //    {
+            //        Name = "Skiathos First Beach",
+            //        CreatorId = creatorIds[randomCreatorId.Next(0, creatorIds.Length)],
+            //        CountryId = this.data.Countries.FirstOrDefault(c => c.Name == "Greece").Id,
+            //        PrimaryDivisionId = this.data.PrimaryDivisions.FirstOrDefault(r => r.Name == "Thessaly").Id,
+            //        SecondaryDivisionId = this.data.SecondaryDivisions.FirstOrDefault(r => r.Name == "Sporades").Id,
+            //        TertiaryDivisionId = this.data.TertiaryDivisions.FirstOrDefault(r => r.Name == "Skiathos").Id,
+            //        WaterBodyId = this.data.WaterBodies.FirstOrDefault(wb => wb.Name == "Mediterranean Sea").Id,
+            //        Description = "Gracefully surrounded by concrete buildings, this is where you don't want to be.",
+            //        Coordinates = "43.204666,27.910543",
+            //    }
+            //});
 
             foreach (var beach in beaches)
             {
                 this.data.Beaches.Add(beach);
-                beach.SetBeachData();
 
                 this.data.SaveChanges();
+                beach.SetBeachData();
             }
+
+            this.data.SaveChanges();
         }
 
         private void SeedIndexEntries()
@@ -406,10 +444,7 @@ namespace BeachRankings.Data.Migrations
             };
             var imagePaths = new string[]
             {
-                "/Content/Images/kamchia_river.jpg",
-                "/Content/Images/bolata.jpg",
-                "/Content/Images/sunny_day.jpg",
-                "/Content/Images/mamaia_beach.jpg"
+                ConfigurationManager.AppSettings["DefaultBeachImagePath"],
             };
             var randomCreatorId = new Random();
             var randomImagePath = new Random();
@@ -477,10 +512,11 @@ namespace BeachRankings.Data.Migrations
                 this.data.Users.Find(authorIds[1]),
                 this.data.Users.Find(authorIds[2])
             };
+            var scoreWeights = this.data.ScoreWeights.ToList();
 
             for (int i = 0; i < authors.Length; i++)
             {
-                authors[i].RecalculateLevel();
+                authors[i].RecalculateLevel(scoreWeights);
             }
 
             this.data.SaveChanges();

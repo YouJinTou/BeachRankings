@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity;
     using System.Linq;
 
     public class Beach : IBeachSearchable
@@ -12,6 +13,7 @@
         private ICollection<Review> reviews;
         private ICollection<BeachImage> images;
         private ICollection<BlogArticle> blogArticles;
+        private ICollection<Watchlist> watchlists;
 
         public Beach()
         {
@@ -22,9 +24,9 @@
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The name field is required.")]
-        [Index("IX_PrimaryBeach", IsUnique = true, Order = 0)]
         [MinLength(2, ErrorMessage = "The name should be at least 2 characters long.")]
         [MaxLength(100, ErrorMessage = "The name cannot be longer than 100 characters.")]
+        [Index("IX_BeachUnique", IsUnique = true, Order = 0)]
         public string Name { get; set; }
 
         [Required]
@@ -33,7 +35,7 @@
         public virtual User Creator { get; set; }
 
         [Required]
-        public DateTime AddedOn { get; private set; }
+        public DateTime AddedOn { get; set; }
 
         public int? ContinentId { get; set; }
 
@@ -44,19 +46,22 @@
 
         public virtual Country Country { get; set; }
 
-        [Index("IX_PrimaryBeach", IsUnique = true, Order = 1)]
+        [Index("IX_BeachUnique", IsUnique = true, Order = 1)]
         public int? PrimaryDivisionId { get; set; }
 
         public virtual PrimaryDivision PrimaryDivision { get; protected set; }
 
+        [Index("IX_BeachUnique", IsUnique = true, Order = 2)]
         public int? SecondaryDivisionId { get; set; }
 
         public virtual SecondaryDivision SecondaryDivision { get; protected set; }
 
+        [Index("IX_BeachUnique", IsUnique = true, Order = 3)]
         public int? TertiaryDivisionId { get; set; }
 
         public virtual TertiaryDivision TertiaryDivision { get; protected set; }
-        
+
+        [Index("IX_BeachUnique", IsUnique = true, Order = 4)]
         public int? QuaternaryDivisionId { get; set; }
 
         public virtual QuaternaryDivision QuaternaryDivision { get; protected set; }
@@ -109,63 +114,75 @@
             }
         }
 
+        public virtual ICollection<Watchlist> Watchlists
+        {
+            get
+            {
+                return this.watchlists ?? (this.watchlists = new HashSet<Watchlist>());
+            }
+            protected set
+            {
+                this.watchlists = value;
+            }
+        }
+
         [Range(0, 10)]
-        public double? TotalScore { get; private set; }
+        public double? TotalScore { get; set; }
 
         #region Beachline
 
         [Display(Name = "Sand quality")]
-        public double? SandQuality { get; private set; }
+        public double? SandQuality { get; set; }
 
         [Display(Name = "Beach cleanliness")]
-        public double? BeachCleanliness { get; private set; }
+        public double? BeachCleanliness { get; set; }
 
         [Display(Name = "Beautiful scenery")]
-        public double? BeautifulScenery { get; private set; }
+        public double? BeautifulScenery { get; set; }
 
         [Display(Name = "Crowd-free")]
-        public double? CrowdFree { get; private set; }
+        public double? CrowdFree { get; set; }
 
         [Display(Name = "Infrastructure")]
-        public double? Infrastructure { get; private set; }
+        public double? Infrastructure { get; set; }
 
         #endregion
 
         #region Water
 
         [Display(Name = "Water visibility")]
-        public double? WaterVisibility { get; private set; }
+        public double? WaterVisibility { get; set; }
 
         [Display(Name = "Litter-free water")]
-        public double? LitterFree { get; private set; }
+        public double? LitterFree { get; set; }
 
         [Display(Name = "Feet-friendly bottom")]
-        public double? FeetFriendlyBottom { get; private set; }
+        public double? FeetFriendlyBottom { get; set; }
 
         [Display(Name = "Sea life diversity")]
-        public double? SeaLifeDiversity { get; private set; }
+        public double? SeaLifeDiversity { get; set; }
 
         [Display(Name = "Coral reef wow factor")]
-        public double? CoralReef { get; private set; }
+        public double? CoralReef { get; set; }
 
         #endregion
 
         #region Activities
 
         [Display(Name = "Snorkeling")]
-        public double? Snorkeling { get; private set; }
+        public double? Snorkeling { get; set; }
 
         [Display(Name = "Kayaking")]
-        public double? Kayaking { get; private set; }
+        public double? Kayaking { get; set; }
 
         [Display(Name = "Taking a walk")]
-        public double? Walking { get; private set; }
+        public double? Walking { get; set; }
 
         [Display(Name = "Camping")]
-        public double? Camping { get; private set; }
+        public double? Camping { get; set; }
 
         [Display(Name = "Long-term stay")]
-        public double? LongTermStay { get; private set; }
+        public double? LongTermStay { get; set; }
 
         #endregion
 
@@ -189,35 +206,73 @@
 
         public void UpdateScores()
         {
-            this.SandQuality = this.RoundScore(this.Reviews.Average(r => r.SandQuality));
-            this.BeachCleanliness = this.RoundScore(this.Reviews.Average(r => r.BeachCleanliness));
-            this.BeautifulScenery = this.RoundScore(this.Reviews.Average(r => r.BeautifulScenery));
-            this.CrowdFree = this.RoundScore(this.Reviews.Average(r => r.CrowdFree));
-            this.Infrastructure = this.RoundScore(this.Reviews.Average(r => r.Infrastructure));
+            var reviews = this.Reviews.AsQueryable().Include(r => r.Author).ToList();
+            var scores = reviews.Select(r => new AuthorScore
+            {
+                Level = r.Author.Level,
+                Score = new Score
+                {
+                    SandQuality = r.SandQuality * r.Author.Level,
+                    BeachCleanliness = r.BeachCleanliness * r.Author.Level,
+                    BeautifulScenery = r.BeautifulScenery * r.Author.Level,
+                    CrowdFree = r.CrowdFree * r.Author.Level,
+                    Infrastructure = r.Infrastructure * r.Author.Level,
+                    WaterVisibility = r.WaterVisibility * r.Author.Level,
+                    LitterFree = r.LitterFree * r.Author.Level,
+                    FeetFriendlyBottom = r.FeetFriendlyBottom * r.Author.Level,
+                    SeaLifeDiversity = r.SeaLifeDiversity * r.Author.Level,
+                    CoralReef = r.CoralReef * r.Author.Level,
+                    Snorkeling = r.Snorkeling * r.Author.Level,
+                    Kayaking = r.Kayaking * r.Author.Level,
+                    Walking = r.Walking * r.Author.Level,
+                    Camping = r.Camping * r.Author.Level,
+                    LongTermStay = r.LongTermStay * r.Author.Level,
+                    TotalScore = r.TotalScore * r.Author.Level
+                }
+            }).ToList();
 
-            this.WaterVisibility = this.RoundScore(this.Reviews.Average(r => r.WaterVisibility));
-            this.LitterFree = this.RoundScore(this.Reviews.Average(r => r.LitterFree));
-            this.FeetFriendlyBottom = this.RoundScore(this.Reviews.Average(r => r.FeetFriendlyBottom));
-            this.SeaLifeDiversity = this.RoundScore(this.Reviews.Average(r => r.SeaLifeDiversity));
-            this.CoralReef = this.RoundScore(this.Reviews.Average(r => r.CoralReef));
+            this.SandQuality = this.GetWeightedScore(scores, s => s.SandQuality);
+            this.BeachCleanliness = this.GetWeightedScore(scores, s => s.BeachCleanliness);
+            this.BeautifulScenery = this.GetWeightedScore(scores, s => s.BeautifulScenery);
+            this.CrowdFree = this.GetWeightedScore(scores, s => s.CrowdFree);
+            this.Infrastructure = this.GetWeightedScore(scores, s => s.Infrastructure);
 
-            this.Snorkeling = this.RoundScore(this.Reviews.Average(r => r.Snorkeling));
-            this.Kayaking = this.RoundScore(this.Reviews.Average(r => r.Kayaking));
-            this.Walking = this.RoundScore(this.Reviews.Average(r => r.Walking));
-            this.Camping = this.RoundScore(this.Reviews.Average(r => r.Camping));
-            this.LongTermStay = this.RoundScore(this.Reviews.Average(r => r.LongTermStay));
+            this.WaterVisibility = this.GetWeightedScore(scores, s => s.WaterVisibility);
+            this.LitterFree = this.GetWeightedScore(scores, s => s.LitterFree);
+            this.FeetFriendlyBottom = this.GetWeightedScore(scores, s => s.FeetFriendlyBottom);
+            this.SeaLifeDiversity = this.GetWeightedScore(scores, s => s.SeaLifeDiversity);
+            this.CoralReef = this.GetWeightedScore(scores, s => s.CoralReef);
 
-            this.TotalScore = this.RoundScore(this.Reviews.Average(r => r.TotalScore));
+            this.Snorkeling = this.GetWeightedScore(scores, s => (s.Snorkeling));
+            this.Kayaking = this.GetWeightedScore(scores, s => s.Kayaking);
+            this.Walking = this.GetWeightedScore(scores, s => s.Walking);
+            this.Camping = this.GetWeightedScore(scores, s => s.Camping);
+            this.LongTermStay = this.GetWeightedScore(scores, s => s.LongTermStay);
+
+            this.TotalScore = this.GetWeightedScore(scores, s => s.TotalScore);
         }
 
-        private double? RoundScore(double? score)
+        private double? GetWeightedScore(IEnumerable<AuthorScore> scores, Func<Score, double?> summable)
         {
-            if (!score.HasValue)
+            var cumulativeWeights = scores.Select(s => summable(s.Score) == null ? 0 : s.Level).Sum();
+
+            if (cumulativeWeights == 0)
             {
                 return null;
             }
 
-            return Math.Round(score.Value, 1);
+            var scoresSum = scores.Select(s => summable(s.Score)).Sum(s => s ?? null);
+
+            return scoresSum.HasValue ?
+                Math.Round(scoresSum.Value / cumulativeWeights, 1) :
+                (double?)null;
+        }
+
+        private struct AuthorScore
+        {
+            public int Level { get; set; }
+
+            public Score Score { get; set; }
         }
     }
 }

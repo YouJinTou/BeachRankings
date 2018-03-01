@@ -1,5 +1,7 @@
 ﻿(function ($) {
-    var dataTablesManager = new DataTablesManager();
-
-    dataTablesManager.initializeDataTable();
+    if (document.getElementById('table-result')) {
+        dataTablesManager.initializeDataTable();
+    } else if (document.getElementById('contributors-table')) {
+        dataTablesManager.initializeContributorsDataTable();
+    }
 })(jQuery);

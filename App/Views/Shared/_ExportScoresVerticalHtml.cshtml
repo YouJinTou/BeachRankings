@@ -1,0 +1,121 @@
+﻿@model ExportScoresAsHtmlViewModel
+
+<table id="exportable-table-vertical" style="border-collapse: collapse;
+	border-radius: 1px;
+	box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);">
+    <thead style="background-color: #ddd;">
+        <tr>
+            <td colspan="3">
+                <table style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div style="text-align: left;">
+                                    <div style="font-size: 25px;">
+                                        <a href="@ConfigurationManager.AppSettings["FullWebAddress"]Beaches/Details/@Model.Id">@Model.Name</a>
+                                    </div>
+                                    <div>
+                                        <sub>
+                                            <i>
+                                                @Html.GetBeachAnchorTagDivisionAddress(Model.PrimaryDivision, Model.SecondaryDivision, Model.PrimaryDivisionId, Model.SecondaryDivisionId)
+                                                <a href="@ConfigurationManager.AppSettings["FullWebAddress"]Countries/Beaches/@Model.CountryId">@Model.Country</a>
+                                            </i>
+                                        </sub>
+                                    </div>
+                                </div>
+                            </th>
+                            <th style="text-align: right;">
+                                <div style="display: inline-block;
+                                     width: 50px;
+                                     height: 50px;
+                                     text-align: center;
+                                     background-color: green;
+                                     color: white;
+                                     font-size: 20px;
+                                     font-weight: 600;">
+                                    <div style="position: relative; top: 50%; transform: translateY(-50%);">
+                                        @Html.ParseNullableValue(@Model.TotalScore, "-")
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </td>
+        </tr>
+        <tr style="text-align: left;">
+            <th colspan="2" style="padding-left: 5px;">@ConfigurationManager.AppSettings["Trademark"] criteria</th>
+            <th style="text-align: right; padding-right: 5px;">Score</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr style="background-color: #f9d054;">
+            <td rowspan="5" style="text-align: center; padding: 0px 5px 0 5px; border-right: 2px solid #ddd;"><b>Beach</b></td>
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.SandQuality.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.SandQuality, "-")</td>
+        </tr>
+        <tr style="background-color: #f9d054;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.BeachCleanliness.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.BeachCleanliness, "-")</td>
+        </tr>
+        <tr style="background-color: #f9d054;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.BeautifulScenery.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.BeautifulScenery, "-")</td>
+        </tr>
+        <tr style="background-color: #f9d054;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.CrowdFree.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.CrowdFree, "-")</td>
+        </tr>
+        <tr style="background-color: #f9d054">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.Infrastructure.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Infrastructure, "-")</td>
+        </tr>
+
+        <tr style="background-color: #5dbcf7;">
+            <td rowspan="5" style="text-align: center; border-right: 2px solid #ddd;"><b>Water</b></td>
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.WaterVisibility.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.WaterVisibility, "-")</td>
+        </tr>
+        <tr style="background-color: #5dbcf7;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.LitterFreeWater.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.LitterFree, "-")</td>
+        </tr>
+        <tr style="background-color: #5dbcf7;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.FeetFriendlyBottom.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.FeetFriendlyBottom, "-")</td>
+        </tr>
+        <tr style="background-color: #5dbcf7;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.SeaLifeDiversity.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.SeaLifeDiversity, "-")</td>
+        </tr>
+        <tr style="background-color: #5dbcf7;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.CoralReef.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.CoralReef, "-")</td>
+        </tr>
+
+        <tr style="background-color: #6bff6b;">
+            <td rowspan="5" style="text-align: center; border-right: 2px solid #ddd;"><b>Activities</b></td>
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.Snorkeling.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Snorkeling, "-")</td>
+        </tr>
+        <tr style="background-color: #6bff6b;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.Kayaking.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Kayaking, "-")</td>
+        </tr>
+        <tr style="background-color: #6bff6b;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.Walking.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Walking, "-")</td>
+        </tr>
+        <tr style="background-color: #6bff6b;">
+            <td style="border-bottom: 2px solid #ddd; padding-left: 5px;">@Criterion.Camping.GetDescription()</td>
+            <td style="border-bottom: 2px solid #ddd; text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.Camping, "-")</td>
+        </tr>
+        <tr style="background-color: #6bff6b">
+            <td style="padding-left: 5px;">@Criterion.LongTermStay.GetDescription()</td>
+            <td style="text-align: right; padding-right: 5px;">@Html.ParseNullableValue(Model.LongTermStay, "-")</td>
+        </tr>
+    </tbody>
+</table>

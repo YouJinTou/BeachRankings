@@ -1,5 +1,7 @@
 ﻿namespace App.Controllers
 {
+    using App.Code.Blogs;
+    using App.Code.Web;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using BeachRankings.Data;
@@ -17,9 +19,17 @@
     [Authorize]
     public class AccountController : BaseController
     {
-        public AccountController(IBeachRankingsData data)
+        private IBlogValidator blogValidator;
+        private IWebNameParser webParser;
+
+        public AccountController(
+            IBeachRankingsData data, 
+            IBlogValidator blogValidator,
+            IWebNameParser webParser)
             : base(data)
         {
+            this.blogValidator = blogValidator;
+            this.webParser = webParser;
         }
 
         [AllowAnonymous]
@@ -39,15 +49,31 @@
                 return this.View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UsernameEmail, model.Password, model.RememberMe, shouldLockout: false);
+            var user = this.Data.Users.All()
+                .FirstOrDefault(u => u.Email == model.UsernameEmail || u.UserName == model.UsernameEmail);
+
+            if (user != null && !await this.UserManager.IsEmailConfirmedAsync(user.Id))
+            {
+                var callbackUrl = await this.SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+                this.ViewBag.Message = "You have to confirm your email before signing in. "
+                              + "We've resent the confirmation token to your email. " +
+                              "It might take a few minutes for it to arrive.";
+
+                return this.View("Info");
+            }
+
+            var result = await SignInManager.PasswordSignInAsync(
+                user?.UserName ?? string.Empty, model.Password, model.RememberMe, shouldLockout: true);
+
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return this.View("Lockout");
+                    this.ViewBag.Message = $"Your account has been locked out and " +
+                        $"will be unlocked in {SignInManager.UserManager.DefaultAccountLockoutTimeSpan.Minutes} minutes.";
+
+                    return this.View("Info");
                 case SignInStatus.RequiresVerification:
                     return this.RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
@@ -107,36 +133,36 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            this.ValidateBlogger(model);
-
+            this.AddModelStateErrors(this.blogValidator.ValidateBlogger(model.IsBlogger, model.BlogUrl));
+            
             if (this.ModelState.IsValid)
             {
-                var beachesDbContext = new BeachRankingsDbContext();
-                var user = new User { UserName = model.UserName, Email = model.Email, IsBlogger = model.IsBlogger, AvatarPath = UserHelper.GetUserDefaultAvatarPath() };
+                var user = new User
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    IsBlogger = model.IsBlogger,
+                    AvatarPath = UserHelper.GetUserDefaultAvatarPath()
+                };
                 var result = await this.UserManager.CreateAsync(user, model.Password);
-                var userStore = new UserStore<User>(beachesDbContext);
-                var userManager = new UserManager<User>(userStore);
 
                 if (result.Succeeded)
                 {
-                    userManager.AddToRole(user.Id, "User");
+                    await this.UserManager.AddToRoleAsync(user.Id, "User");
 
                     if (model.IsBlogger)
                     {
-                        var blog = new Blog() { Id = user.Id, Url = GenericHelper.GetUriHostName(model.BlogUrl) };
-                        
-                        beachesDbContext.Blogs.Add(blog);
-                        beachesDbContext.SaveChanges();
+                        var blog = new Blog() { Id = user.Id, Url = this.webParser.GetUriHostName(model.BlogUrl) };
+
+                        this.Data.Blogs.Add(blog);
+                        this.Data.Blogs.SaveChanges();
                     }
 
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    var callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+                    ViewBag.Message = $"We've sent a verification link to {model.Email}. " +
+                        $"It might take a few minutes for it to arrive. You must click it before signing in.";
 
-                    //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = this.Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-
-                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return this.RedirectToAction("Index", "Home");
+                    return this.View("Info");
                 }
 
                 this.AddErrors(result);
@@ -171,22 +197,24 @@
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
+
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
                     return this.View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return this.RedirectToAction("ForgotPasswordConfirmation", "Account");
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action(
+                    "ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+                await UserManager.SendEmailAsync(
+                    user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>. " +
+                    "<br /><br />If you didn't request this, you can ignore it.");
+
+                return this.RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
-            // If we got this far, something failed, redisplay form
             return this.View(model);
         }
 
@@ -211,18 +239,23 @@
             {
                 return this.View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+
+            var user = await UserManager.FindByEmailAsync(model.Email);
+
             if (user == null)
             {
-                // Don't reveal that the user does not exist
                 return this.RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+
             if (result.Succeeded)
             {
                 return this.RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             AddErrors(result);
+
             return this.View();
         }
 
@@ -310,26 +343,48 @@
                 return this.RedirectToAction("Index", "Manage");
             }
 
+            this.AddModelStateErrors(this.blogValidator.ValidateBlogger(model.IsBlogger, model.BlogUrl));
+
             if (ModelState.IsValid)
             {
-                // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+
                 if (info == null)
                 {
                     return this.View("ExternalLoginFailure");
                 }
-                var user = new User { UserName = model.Email, Email = model.Email };
+
+                var user = new User {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    IsBlogger = model.IsBlogger,
+                    AvatarPath = UserHelper.GetUserDefaultAvatarPath()
+                };
                 var result = await UserManager.CreateAsync(user);
+
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
+
+                    await UserManager.AddToRoleAsync(user.Id, "User");
+
+                    if (model.IsBlogger)
+                    {
+                        var blog = new Blog() { Id = user.Id, Url = this.webParser.GetUriHostName(model.BlogUrl) };
+
+                        this.Data.Blogs.Add(blog);
+                        this.Data.SaveChanges();
+                    }
+
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+
+                        return this.RedirectToLocal(returnUrl);
                     }
                 }
-                AddErrors(result);
+
+                this.AddErrors(result);
             }
 
             ViewBag.ReturnUrl = returnUrl;
@@ -431,14 +486,15 @@
             }
         }
 
-        private void ValidateBlogger(RegisterViewModel model)
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
         {
-            var bloggerWithoutSite = (model.IsBlogger && string.IsNullOrEmpty(model.BlogUrl));
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account",
+               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>.");
 
-            if (bloggerWithoutSite)
-            {
-                this.ModelState.AddModelError(string.Empty, "A blog URL is required.");
-            }
+            return callbackUrl;
         }
 
         #endregion

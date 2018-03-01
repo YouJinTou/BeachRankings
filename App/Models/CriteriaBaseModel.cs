@@ -18,7 +18,7 @@
         [Display(Name = "Crowd-free")]
         public double? CrowdFree { get; set; }
 
-        [Display(Name = "Environment-friendly infrastructure")]
+        [Display(Name = "Infrastructure")]
         public double? Infrastructure { get; set; }
 
         #endregion

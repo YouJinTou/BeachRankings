@@ -1,10 +1,12 @@
 ﻿namespace App.Controllers
 {
+    using App.Code.WaterBodies;
     using AutoMapper;
     using BeachRankings.App.CustomAttributes;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.Services.Aggregation;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -14,15 +16,25 @@
 
     public class SecondaryDivisionsController : BasePlacesController
     {
-        public SecondaryDivisionsController(IBeachRankingsData data)
-            : base(data)
+        private IWaterBodyAllocator waterBodyAllocator;
+        private IWaterBodyPermissionChecker waterBodyPermissionChecker;
+
+        public SecondaryDivisionsController(
+            IBeachRankingsData data,
+            IWaterBodyAllocator waterBodyAllocator,
+            IWaterBodyPermissionChecker waterBodyPermissionChecker,
+            IDataAggregationService aggregationService)
+            : base(data, aggregationService)
         {
+            this.waterBodyAllocator = waterBodyAllocator;
+            this.waterBodyPermissionChecker = waterBodyPermissionChecker;
         }
 
         public ActionResult Beaches(int id, int page = 0, int pageSize = 10)
         {
             var secondaryDivision = this.Data.SecondaryDivisions.Find(id);
             var model = Mapper.Map<SecondaryDivision, PlaceBeachesViewModel>(secondaryDivision);
+            model.Controller = "SecondaryDivisions";
             model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
@@ -44,7 +56,8 @@
                 Id = id,
                 Controller = "SecondaryDivisions",
                 Name = secondaryDivisions.Name,
-                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches),
+                TotalBeachesCount = beaches.Count(),
             };
 
             return this.View("_StatisticsPartial", model);
@@ -83,7 +96,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
             SecondaryDivision secondaryDivision = null;
@@ -100,12 +113,13 @@
                     WaterBodyId = bindingModel.WaterBodyId
                 };
 
-                if (!this.CanAddEditWaterBody(secondaryDivision, true))
+                if (!this.waterBodyPermissionChecker.CanAddEditWaterBody(secondaryDivision, true))
                 {
                     throw new InvalidOperationException("Cannnot assign a water body; the water body is assigned at a different level.");
                 }
 
-                var missingWaterBody = (bindingModel.WaterBodyId == null && !this.TryAddWaterBody(secondaryDivision));
+                var missingWaterBody = (bindingModel.WaterBodyId == null && 
+                    !this.waterBodyAllocator.TryAddWaterBody(secondaryDivision));
 
                 if (missingWaterBody)
                 {
@@ -136,7 +150,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
             SecondaryDivision secondaryDivision = null;
@@ -153,7 +167,7 @@
 
                 if (waterBodyIdIsNew)
                 {
-                    if (!this.CanAddEditWaterBody(secondaryDivision, false))
+                    if (!this.waterBodyPermissionChecker.CanAddEditWaterBody(secondaryDivision, false))
                     {
                         throw new InvalidOperationException("Cannnot assign a water body; the water body is assigned at a different level.");
                     }
@@ -163,7 +177,7 @@
 
                     secondaryDivision.WaterBodyId = bindingModel.WaterBodyId;
 
-                    this.AssignChildrenWaterBodyIds(secondaryDivision);
+                    this.waterBodyAllocator.AssignChildrenWaterBodyIds(secondaryDivision);
 
                     this.Data.Beaches.SaveChanges();
 
@@ -194,7 +208,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Delete(RestructureViewModel bindingModel)
         {
             SecondaryDivision secondaryDivision = null;
@@ -237,51 +251,5 @@
 
             return this.Json(waterBodyId, JsonRequestBehavior.AllowGet);
         }
-
-        #region Helpers
-
-        private bool CanAddEditWaterBody(SecondaryDivision secondaryDivision, bool adding)
-        {
-            var country = adding ? this.Data.Countries.Find(secondaryDivision.CountryId) : secondaryDivision.Country;
-            var primaryDivision = adding ? this.Data.PrimaryDivisions.Find(secondaryDivision.PrimaryDivisionId) : secondaryDivision.PrimaryDivision;
-            var waterBodyAssignedAtHigherLevel = (country.WaterBodyId != null || primaryDivision.WaterBodyId != null);
-
-            if (adding)
-            {
-                var overriding = (secondaryDivision.WaterBodyId != null);
-
-                return waterBodyAssignedAtHigherLevel ? 
-                    overriding ? false : true :
-                    true;
-            }
-
-            return waterBodyAssignedAtHigherLevel ? false : true;
-        }
-
-        private bool TryAddWaterBody(SecondaryDivision secondaryDivision)
-        {
-            var country = this.Data.Countries.Find(secondaryDivision.CountryId);
-            var primaryDivision = this.Data.PrimaryDivisions.Find(secondaryDivision.PrimaryDivisionId);
-            var waterBodyId = (country.WaterBodyId != null) ? country.WaterBodyId : primaryDivision.WaterBodyId;
-
-            if (waterBodyId == null)
-            {
-                return false;
-            }
-
-            secondaryDivision.WaterBodyId = waterBodyId;
-
-            return true;
-        }
-
-        private void AssignChildrenWaterBodyIds(SecondaryDivision secondaryDivision)
-        {
-            foreach (var beach in secondaryDivision.Beaches)
-            {
-                beach.WaterBodyId = (int)secondaryDivision.WaterBodyId;
-            }
-        }
-
-        #endregion
     }
 }

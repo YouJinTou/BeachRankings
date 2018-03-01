@@ -25,6 +25,11 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -89,9 +94,35 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.1.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.1.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.1.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.1.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
@@ -186,33 +217,6 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Facebook">
-      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Cookies">
-      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.OAuth">
-      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Google">
-      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Twitter">
-      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
-      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -222,11 +226,16 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Code\Blogs\BlogValidator.cs" />
+    <Compile Include="Code\Blogs\IBlogValidator.cs" />
+    <Compile Include="Code\Web\ISitemapGenerator.cs" />
+    <Compile Include="Code\Web\SitemapGenerator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BasePlacesController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BeachesController.cs" />
+    <Compile Include="Controllers\WorldController.cs" />
     <Compile Include="Controllers\ContinentsController.cs" />
     <Compile Include="Controllers\Enums\ActionMessage.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -235,18 +244,41 @@
     <Compile Include="Controllers\SecondaryDivisionsController.cs" />
     <Compile Include="Controllers\ContributorsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WatchlistsController.cs" />
     <Compile Include="Controllers\WaterBodiesController.cs" />
     <Compile Include="Controllers\PrimaryDivisionsController.cs" />
     <Compile Include="Controllers\CountriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
-    <Compile Include="CustomAttributes\RestructureAuthorizeAttribute.cs" />
+    <Compile Include="CustomAttributes\ArticleLinksValidAttribute.cs" />
+    <Compile Include="CustomAttributes\RestructureAuthorizedAttribute.cs" />
+    <Compile Include="CustomAttributes\BeachValidAttribute.cs" />
     <Compile Include="CustomAttributes\UrisValidAttribute.cs" />
     <Compile Include="CustomAttributes\UserAvatarValidAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Code\Beaches\BeachUpdater.cs" />
+    <Compile Include="Code\Beaches\BeachDisplayManager.cs" />
+    <Compile Include="Code\Beaches\BeachQueryManager.cs" />
+    <Compile Include="Code\Blogs\BlogArticleUpdater.cs" />
+    <Compile Include="Code\Blogs\BlogQueryManager.cs" />
+    <Compile Include="Code\Beaches\IBeachUpdater.cs" />
+    <Compile Include="Code\Beaches\IBeachDisplayManager.cs" />
+    <Compile Include="Code\Beaches\IBeachQueryManager.cs" />
+    <Compile Include="Code\Blogs\IBlogArticleUpdater.cs" />
+    <Compile Include="Code\Blogs\IBlogQueryManager.cs" />
+    <Compile Include="Code\Images\IImageManager.cs" />
+    <Compile Include="Code\Images\ImageManager.cs" />
+    <Compile Include="Code\Users\IUserLevelCalculator.cs" />
+    <Compile Include="Code\WaterBodies\IWaterBodyAllocator.cs" />
+    <Compile Include="Code\WaterBodies\IWaterBodyPermissionChecker.cs" />
+    <Compile Include="Code\Users\UserLevelCalculator.cs" />
+    <Compile Include="Code\WaterBodies\WaterBodyAllocator.cs" />
+    <Compile Include="Code\WaterBodies\WaterBodyPermissionChecker.cs" />
+    <Compile Include="Models\ViewModels\WatchlistViewModels.cs" />
+    <Compile Include="Code\Web\IWebNameParser.cs" />
     <Compile Include="Models\CriteriaBaseModel.cs" />
     <Compile Include="Models\ViewModels\AdminViewModels.cs" />
     <Compile Include="Models\ViewModels\PlaceViewModels.cs" />
@@ -254,9 +286,6 @@
     <Compile Include="Models\ViewModels\ImageViewModels.cs" />
     <Compile Include="Models\ViewModels\BlogViewModels.cs" />
     <Compile Include="Models\ViewModels\UserViewModels.cs" />
-    <Compile Include="Utils\Extensions\ViewExtensions.cs" />
-    <Compile Include="Utils\Extensions\SpecificHtmlExtensions.cs" />
-    <Compile Include="Utils\Extensions\IdentityExtensions.cs" />
     <Compile Include="Utils\Helpers.cs" />
     <Compile Include="CustomAttributes\ImagesValidAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -266,7 +295,7 @@
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Utils\Extensions\GenericHtmlExtensions.cs" />
+    <Compile Include="Code\Web\WebNameParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Countries.txt" />
@@ -293,6 +322,21 @@
     <Content Include="Content\External\lightbox\images\next.png" />
     <Content Include="Content\External\lightbox\images\prev.png" />
     <Content Include="Content\External\lightbox\js\lightbox.js" />
+    <Content Include="Content\External\lightGallery\css\lg-fb-comment-box.css" />
+    <Content Include="Content\External\lightGallery\css\lg-fb-comment-box.min.css" />
+    <Content Include="Content\External\lightGallery\css\lg-transitions.css" />
+    <Content Include="Content\External\lightGallery\css\lg-transitions.min.css" />
+    <Content Include="Content\External\lightGallery\css\lightgallery.css" />
+    <Content Include="Content\External\lightGallery\css\lightgallery.min.css" />
+    <Content Include="Content\External\lightGallery\fonts\lg.svg" />
+    <Content Include="Content\External\lightGallery\img\loading.gif" />
+    <Content Include="Content\External\lightGallery\img\video-play.png" />
+    <Content Include="Content\External\lightGallery\img\vimeo-play.png" />
+    <Content Include="Content\External\lightGallery\img\youtube-play.png" />
+    <Content Include="Content\External\lightGallery\js\lightgallery-all.js" />
+    <Content Include="Content\External\lightGallery\js\lightgallery-all.min.js" />
+    <Content Include="Content\External\lightGallery\js\lightgallery.js" />
+    <Content Include="Content\External\lightGallery\js\lightgallery.min.js" />
     <Content Include="Content\External\slick\ajax-loader.gif" />
     <Content Include="Content\External\slick\fonts\slick.svg" />
     <Content Include="Content\External\slick\slick-theme.css" />
@@ -300,21 +344,42 @@
     <Content Include="Content\External\slick\slick.js" />
     <Content Include="Content\External\slick\slick.min.js" />
     <Content Include="Content\Images\ajax-loader.gif" />
+    <Content Include="Content\Images\Bloggers\add-beach.png" />
+    <Content Include="Content\Images\Bloggers\beach-details-blog-link.png" />
+    <Content Include="Content\Images\Bloggers\beach-details-clarifications.png" />
+    <Content Include="Content\Images\Bloggers\beach-details-watchlist-example.png" />
+    <Content Include="Content\Images\Bloggers\contributor-blog.png" />
+    <Content Include="Content\Images\Bloggers\criteria-table-watchlist-example.png" />
+    <Content Include="Content\Images\Bloggers\main-criteria-table.png" />
+    <Content Include="Content\Images\Bloggers\rate-beach.png" />
+    <Content Include="Content\Images\Bloggers\watchlist-criteria-table.png" />
+    <Content Include="Content\Images\Bloggers\watchlist-toggle.png" />
+    <Content Include="Content\Images\criteria-example-1.png" />
+    <Content Include="Content\Images\criteria-example-2.png" />
+    <Content Include="Content\Images\default-beach.png" />
+    <Content Include="Content\Images\default-user.png" />
     <Content Include="Content\Images\export-example.PNG" />
+    <Content Include="Content\Images\facebook_login.png" />
+    <Content Include="Content\Images\main-background.jpg" />
+    <Content Include="Content\Images\search-example-table.JPG" />
+    <Content Include="Content\Images\social-beach-export.jpg" />
+    <Content Include="Content\Internal\criteria-tables.css" />
+    <Content Include="Content\Internal\work-with-us.css" />
+    <Content Include="Content\Internal\how-to.css" />
+    <Content Include="Content\Internal\criteria.css" />
+    <Content Include="Content\Internal\index.css" />
     <Content Include="Content\Internal\admin.css" />
     <Content Include="Content\Internal\beach-add-edit.css" />
     <Content Include="Content\Internal\beach-details.css" />
     <Content Include="Content\Internal\contributors.css" />
+    <Content Include="Content\Internal\datatables-custom.css" />
     <Content Include="Content\Internal\images.css" />
     <Content Include="Content\Internal\dashboard.css" />
     <Content Include="Content\Internal\account.css" />
     <Content Include="Content\Internal\place.css" />
     <Content Include="Content\Internal\main-layout.css" />
+    <Content Include="Content\Internal\watchlists.css" />
     <Content Include="Content\jquery-ui.css" />
-    <Content Include="Content\Images\bolata.jpg" />
-    <Content Include="Content\Images\kamchia_river.jpg" />
-    <Content Include="Content\Images\sunny_day.jpg" />
-    <Content Include="Content\Images\unknown_profile.jpg" />
     <Content Include="Content\Internal\reviews.css" />
     <Content Include="Content\Internal\home.css" />
     <Content Include="favicon.ico" />
@@ -336,18 +401,28 @@
     <Content Include="Content\External\slick\fonts\slick.eot" />
     <Content Include="Content\External\slick\fonts\slick.ttf" />
     <Content Include="Content\External\slick\fonts\slick.woff" />
+    <Content Include="Content\External\lightGallery\fonts\lg.eot" />
+    <Content Include="Content\External\lightGallery\fonts\lg.ttf" />
+    <Content Include="Content\External\lightGallery\fonts\lg.woff" />
+    <None Include="Properties\PublishProfiles\BeachRankings - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\ai.1.0.3-build05630.js" />
     <Content Include="Scripts\ai.1.0.3-build05630.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\External\dragdealer.min.js" />
     <Content Include="Scripts\External\dragdealer.js" />
+    <Content Include="Scripts\External\facebook.js" />
+    <Content Include="Scripts\External\html2canvas.min.js" />
     <Content Include="Scripts\External\rainbowvis.js" />
+    <Content Include="Scripts\Internal\watchlists.js" />
     <Content Include="Scripts\Internal\blog.js" />
     <Content Include="Scripts\Internal\admin.js" />
     <Content Include="Scripts\Internal\beach-details.js" />
     <Content Include="Scripts\Internal\account.js" />
     <Content Include="Scripts\Internal\datatables-manager.js" />
+    <Content Include="Scripts\Internal\reviews.js" />
     <Content Include="Scripts\Internal\site.js" />
     <Content Include="Scripts\Internal\infinite-scroller.js" />
     <Content Include="Scripts\Internal\contributors.js" />
@@ -376,7 +451,6 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\Internal\reviews.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -439,21 +513,50 @@
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\User\ChangeAvatar.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BlogArticleViewModel.cshtml" />
-    <Content Include="Views\Shared\_ExportScoresHtml.cshtml" />
+    <Content Include="Views\Shared\_ExportScoresVerticalHtml.cshtml" />
     <Content Include="Views\Contributors\Top.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\ContributorViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ContributorRowViewModel.cshtml" />
     <Content Include="Views\Beaches\Best.cshtml" />
     <Content Include="Views\User\Statistics.cshtml" />
     <Content Include="Views\Admin\Restructure.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\ReviewRowViewModel.cshtml" />
     <Content Include="Views\Shared\_BeachHeadPartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DashboardBeachImageThumbnailViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\AutocompleteContinentViewModel.cshtml" />
-    <Content Include="Views\Shared\_UserStatisticsPartial.cshtml" />
     <Content Include="Views\Shared\_UserOverviewPartial.cshtml" />
     <Content Include="Views\Beaches\BeachReviewsPartial.cshtml" />
-    <Content Include="Views\Shared\_CriteriaTablePartial.cshtml" />
+    <Content Include="Views\Shared\_CriteriaTableVerticalPartial.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Shared\_TableStatisticsPartial.cshtml" />
+    <Content Include="Views\Shared\_CriteriaTableHorizontalPartial.cshtml" />
+    <Content Include="Views\Shared\_PlaceStatisticsHead.cshtml" />
+    <Content Include="Views\Shared\_ReviewHeadPartial.cshtml" />
+    <Content Include="Views\Shared\_ReviewUserPartial.cshtml" />
+    <Content Include="Views\Home\Criteria.cshtml" />
+    <Content Include="Views\Home\HowTo.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Shared\_RankCrossTablePartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CrossTableRowViewModel.cshtml" />
+    <Content Include="Views\Shared\_BeachExportPopupPartial.cshtml" />
+    <Content Include="Views\Shared\_ConciseWatchlistsPartial.cshtml" />
+    <Content Include="Views\Watchlists\UserWatchlists.cshtml" />
+    <Content Include="Views\Watchlists\_WatchlistsPartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\UserWatchlistViewModel.cshtml" />
+    <Content Include="Views\Shared\_AddWatchlistPartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BeachWatchlistViewModel.cshtml" />
+    <Content Include="Views\Shared\_PredefinedFiltersPartial.cshtml" />
+    <Content Include="Views\Shared\_ReviewCriteriaPartial.cshtml" />
+    <None Include="Views\Home\Bloggers.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ContributorVerticalViewModel.cshtml" />
+    <Content Include="Views\Admin\Weights.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\WeightViewModel.cshtml" />
+    <Content Include="Views\Admin\ControlPanel.cshtml" />
+    <Content Include="Views\Account\Info.cshtml" />
+    <Content Include="Views\Shared\_AnalyticsPartial.cshtml" />
+    <Content Include="Views\Watchlists\WatchlistCriteriaTables.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\HorizontalCriteriaViewModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ExportScoresAsHtmlViewModel.cshtml" />
+    <Content Include="Views\Shared\_ExportScoresHorizontalHtml.cshtml" />
+    <Content Include="Views\Shared\_AnalyticsBottomPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\Images\Beaches\" />
@@ -469,6 +572,10 @@
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{bae55dee-b1dd-4476-b72e-63ade2e3ff02}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{552159F7-D413-4605-8D68-59487484A748}</Project>
+      <Name>Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{ba3c77a3-6cfe-4682-b470-30959db5ee20}</Project>

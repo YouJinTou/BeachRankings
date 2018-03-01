@@ -16,7 +16,7 @@
     using System.IO;
     using System.Linq;
 
-    public class LuceneSearch
+    public class LuceneSearch : ISearchService
     {
         private readonly string AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 
@@ -200,7 +200,7 @@
 
             var parser = new MultiFieldQueryParser(Version.LUCENE_30, (string[])this.SearchFields, new KeywordAnalyzer())
             {
-                DefaultOperator = QueryParser.Operator.OR
+                DefaultOperator = QueryParser.Operator.AND
             };
             var formatter = new NameFormatter();
             var formattedPrefix = formatter.GetFormattedPlaceName(prefix);
@@ -225,6 +225,31 @@
 
                 return results;
             }
+        }
+
+        public IBeachAggregatable SearchByBeachId(int beachId)
+        {
+            return this.GetBeachesById(beachId, "Id").FirstOrDefault();
+        }
+
+        public ICollection<IBeachAggregatable> SearchByContinentId(int continentId)
+        {
+            return this.GetBeachesById(continentId, "ContinentId");
+        }
+
+        public ICollection<IBeachAggregatable> SearchByCountryId(int countryId)
+        {
+            return this.GetBeachesById(countryId, "CountryId");
+        }
+
+        public ICollection<IBeachAggregatable> SearchByPrimaryDivisionId(int primaryDivisionId)
+        {
+            return this.GetBeachesById(primaryDivisionId, "PrimaryDivisionId");
+        }
+
+        public ICollection<IBeachAggregatable> SearchByWaterBodyId(int waterBodyId)
+        {
+            return this.GetBeachesById(waterBodyId, "WaterBodyId");
         }
 
         public void AddUpdateIndexEntry(ISearchable searchable)
@@ -301,6 +326,29 @@
             }
         }
 
+        private ICollection<IBeachAggregatable> GetBeachesById(int id, string fieldName)
+        {
+            if (this.modelType != ModelType.Beach)
+            {
+                throw new InvalidOperationException(
+                    $"Must be in Beach index instead of {this.modelType.ToString()}");
+            }
+
+            var parser = new MultiFieldQueryParser(Version.LUCENE_30, new string[] { fieldName }, new KeywordAnalyzer())
+            {
+                DefaultOperator = QueryParser.Operator.AND
+            };
+            var query = this.ParseQuery(id.ToString(), parser);
+
+            using (var searcher = new IndexSearcher(this.IndexDir, true))
+            {
+                ScoreDoc[] hits = searcher.Search(query, int.MaxValue).ScoreDocs;
+                var beaches = this.MapDocsToAggregationModels(hits, searcher);
+
+                return beaches.ToList();
+            }
+        }
+
         private Query ParseQuery(string searchQuery, QueryParser parser)
         {
             Query query;
@@ -354,6 +402,13 @@
             return modelFactory.MapDocToModel(doc);
         }
 
+        private IBeachAggregatable MapDocToAggregationModel(Document doc)
+        {
+            var modelFactory = new LuceneAggregationModelFactory();
+
+            return modelFactory.MapDocToBeachAggregate(doc);
+        }
+
         private IEnumerable<ISearchable> MapDocsToModels(IEnumerable<Document> docs)
         {
             return docs.Select(this.MapDocToModel).Distinct().ToList();
@@ -362,6 +417,11 @@
         private IEnumerable<ISearchable> MapDocsToModels(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
         {
             return hits.Select(hit => this.MapDocToModel(searcher.Doc(hit.Doc))).Distinct().ToList();
+        }
+
+        private IEnumerable<IBeachAggregatable> MapDocsToAggregationModels(IEnumerable<ScoreDoc> hits, IndexSearcher searcher)
+        {
+            return hits.Select(hit => this.MapDocToAggregationModel(searcher.Doc(hit.Doc))).Distinct().ToList();
         }
 
         private void CreateIndexDirectories()

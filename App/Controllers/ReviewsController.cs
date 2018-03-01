@@ -1,12 +1,16 @@
 ﻿namespace App.Controllers
 {
+    using App.Code.Beaches;
+    using App.Code.Blogs;
+    using App.Code.Web;
     using AutoMapper;
     using BeachRankings.App.Models;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
-    using BeachRankings.App.Utils.Extensions;
+    using BeachRankings.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.Services.Aggregation;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
@@ -14,9 +18,23 @@
 
     public class ReviewsController : BaseController
     {
-        public ReviewsController(IBeachRankingsData data)
+        private IBlogQueryManager blogQueryManager;
+        private IWebNameParser webParser;
+        private IBeachUpdater beachUpdater;
+        private IDataAggregationService aggregationService;
+
+        public ReviewsController(
+            IBeachRankingsData data, 
+            IBlogQueryManager blogQueryManager, 
+            IWebNameParser webParser,
+            IBeachUpdater beachUpdater,
+            IDataAggregationService aggregationService)
             : base(data)
         {
+            this.blogQueryManager = blogQueryManager;
+            this.webParser = webParser;
+            this.beachUpdater = beachUpdater;
+            this.aggregationService = aggregationService;
         }
 
         [HttpGet]
@@ -24,12 +42,14 @@
         {
             var review = this.Data.Reviews.Find(id);
             var model = Mapper.Map<Review, DetailedReviewViewModel>(review);
+            model.BeachHead.CrossTable.Rows = Mapper.Map<ICollection<RankContainer>, IEnumerable<CrossTableRowViewModel>>(
+                this.aggregationService.CalculateBeachRanks(review.BeachId));
 
             if (this.User.Identity.IsAuthenticated)
             {
-                var upvotedReviewIds = this.UserProfile.UpvotedReviews.Select(r => r.Id).ToList();
-                model.UserHasRated = this.UserProfile.Reviews.Any(r => r.BeachId == review.BeachId);
-                model.AlreadyUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, upvotedReviewIds);
+                var upvotedReviewIds = this.Data.UpvotedReviews.All().Select(r => r.AssociatedReviewId).ToList();
+                model.ReviewHead.AlreadyUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, upvotedReviewIds);
+                model.BeachHead.UserHasRated = this.UserProfile.Reviews.Any(r => r.BeachId == review.BeachId);
             }          
 
             return this.View(model);
@@ -47,13 +67,15 @@
             var beach = this.Data.Beaches.Find(id);
             var model = Mapper.Map<Beach, PostReviewViewModel>(beach);
             model.IsBlogger = this.UserProfile.IsBlogger;
+            model.BeachHead.CrossTable.Rows = Mapper.Map<ICollection<RankContainer>, IEnumerable<CrossTableRowViewModel>>(
+                this.aggregationService.CalculateBeachRanks(beach.Id));
             var isError = (this.TempData["PostReviewViewModel"] != null);
 
             if (isError)
             {
                 var bindingmodel = (PostReviewViewModel)this.TempData["PostReviewViewModel"];
                 model.Content = bindingmodel.Content;
-                model.ArticleLinks = BlogHelper.TrimArticleUrl(bindingmodel.ArticleLinks);
+                model.ArticleLinks = this.blogQueryManager.GetTrimmedArticleUrl(bindingmodel.ArticleLinks);
 
                 this.OnErrorSetCriteriaData(model, bindingmodel);
                 base.AddModelStateErrors((ICollection<string>)this.TempData["PostReviewModelStateErrors"]);
@@ -67,8 +89,6 @@
         [ValidateAntiForgeryToken]
         public ActionResult Post(PostReviewViewModel bindingModel)
         {
-            this.ValidateArticleLinks(bindingModel.ArticleLinks);
-
             if (!this.ModelState.IsValid)
             {
                 this.TempData["PostReviewModelStateErrors"] = base.GetModelStateErrors();
@@ -88,22 +108,10 @@
             this.Data.Reviews.Add(review);
             this.Data.Reviews.SaveChanges();
 
-            this.UserProfile.RecalculateLevel();
-            this.Data.Users.SaveChanges();
-
-            var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
-
-            reviewedBeach.UpdateScores();
-            this.Data.Beaches.SaveChanges();
-
-            var images = ImageHelper.PersistBeachImages(reviewedBeach, bindingModel.Images, this.UserProfile.Id);
-
-            this.Data.BeachImages.AddMany(images);
-            this.Data.BeachImages.SaveChanges();
-
             if (this.UserProfile.IsBlogger)
             {
-                var articles = BlogHelper.GetUserBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
+                var articles = this.blogQueryManager.GetUserBlogArticles(
+                    this.webParser, this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
 
                 if (articles.Count > 0)
                 {
@@ -111,6 +119,21 @@
                     this.Data.BlogArticles.SaveChanges();
                 }
             }
+
+            this.UserProfile.RecalculateLevel(this.Data.ScoreWeights.All().ToList());
+            this.Data.Users.SaveChanges();
+
+            var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
+
+            reviewedBeach.UpdateScores();
+            this.Data.Beaches.SaveChanges();
+
+            this.beachUpdater.UpdateBeachIndexEntry(reviewedBeach);
+
+            var images = ImageHelper.PersistBeachImages(reviewedBeach, bindingModel.Images, this.UserProfile.Id);
+
+            this.Data.BeachImages.AddMany(images);
+            this.Data.BeachImages.SaveChanges();
 
             return this.RedirectToAction("Details", "Beaches", new { id = bindingModel.BeachHead.Id });
         }
@@ -129,13 +152,15 @@
             var model = Mapper.Map<Review, EditReviewViewModel>(review);
             model.IsBlogger = this.UserProfile.IsBlogger;
             model.BeachHead.UserHasRated = this.UserProfile.Reviews.Any(r => r.BeachId == review.BeachId);
+            model.BeachHead.CrossTable.Rows = Mapper.Map<ICollection<RankContainer>, IEnumerable<CrossTableRowViewModel>>(
+                this.aggregationService.CalculateBeachRanks(review.BeachId));
             var isError = (this.TempData["EditReviewViewModel"] != null);
 
             if (isError)
             {
                 var bindingmodel = (EditReviewViewModel)this.TempData["EditReviewViewModel"];
                 model.Content = bindingmodel.Content;
-                model.ArticleLinks = BlogHelper.TrimArticleUrl(bindingmodel.ArticleLinks);
+                model.ArticleLinks = this.blogQueryManager.GetTrimmedArticleUrl(bindingmodel.ArticleLinks);
 
                 this.OnErrorSetCriteriaData(model, bindingmodel);
                 base.AddModelStateErrors((ICollection<string>)this.TempData["EditReviewModelStateErrors"]);
@@ -149,8 +174,6 @@
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditReviewViewModel bindingModel)
         {
-            this.ValidateArticleLinks(bindingModel.ArticleLinks);
-
             if (!this.ModelState.IsValid)
             {
                 this.TempData["EditReviewModelStateErrors"] = base.GetModelStateErrors();
@@ -172,7 +195,8 @@
 
             if (this.UserProfile.IsBlogger)
             {
-                var newArticles = BlogHelper.GetUserBlogArticles(this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
+                var newArticles = this.blogQueryManager.GetUserBlogArticles(
+                    this.webParser, this.UserProfile.Blog, bindingModel.ArticleLinks, review.BeachId, review.Id);
                 var existingArticles = this.Data.BlogArticles.All().Where(ba => ba.ReviewId == review.Id);
 
                 this.Data.BlogArticles.RemoveMany(existingArticles);
@@ -180,13 +204,15 @@
                 this.Data.BlogArticles.SaveChanges();
             }
 
+            this.UserProfile.RecalculateLevel(this.Data.ScoreWeights.All().ToList());
+            this.Data.Users.SaveChanges();
+
             var reviewedBeach = this.Data.Beaches.Find(review.BeachId);
 
             reviewedBeach.UpdateScores();
             this.Data.Beaches.SaveChanges();
 
-            this.UserProfile.RecalculateLevel();
-            this.Data.Users.SaveChanges();
+            this.beachUpdater.UpdateBeachIndexEntry(reviewedBeach);
 
             return this.RedirectToAction("Details", "Beaches", new { id = reviewedBeach.Id });
         }
@@ -214,11 +240,13 @@
             this.Data.Reviews.Remove(review);
             this.Data.Reviews.SaveChanges();
 
-            beach.UpdateScores();
-            this.Data.Beaches.SaveChanges();            
-
-            author.RecalculateLevel();
+            author.RecalculateLevel(this.Data.ScoreWeights.All().ToList());
             this.Data.Users.SaveChanges();
+
+            beach.UpdateScores();
+            this.Data.Beaches.SaveChanges();
+
+            this.beachUpdater.UpdateBeachIndexEntry(beach);
 
             return this.RedirectToAction("Details", "Beaches", new { id = review.BeachId });
         }
@@ -228,9 +256,8 @@
         public ActionResult Upvote(int id)
         {
             var review = this.Data.Reviews.Find(id);
-            var upvotedReviewIds = this.UserProfile.UpvotedReviews.Select(r => r.Id).ToList();
             var canVote = this.User.Identity.CanVoteForReview(review.AuthorId);
-            var alreadyUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, upvotedReviewIds);
+            var alreadyUpvoted = this.Data.UpvotedReviews.UserHasVotedForReview(this.UserProfile.Id, id);
 
             if (!canVote || (canVote && alreadyUpvoted))
             {
@@ -239,8 +266,16 @@
 
             review.Upvotes += 1;
             review.Author.ThanksReceived += 1;
+            var upvotedReview = new UpvotedReview
+            {
+                AssociatedReviewId = id,
+                VoteReceiverId = review.AuthorId,
+                UpvotingUserId = this.UserProfile.Id
+            };
 
-            this.UserProfile.UpvotedReviews.Add(review);
+            this.Data.UpvotedReviews.Add(upvotedReview);
+
+            review.Author.RecalculateLevel(this.Data.ScoreWeights.All().ToList());
 
             this.Data.Reviews.SaveChanges();
             this.Data.Users.SaveChanges();
@@ -253,9 +288,8 @@
         public ActionResult Downvote(int id)
         {
             var review = this.Data.Reviews.Find(id);
-            var upvotedReviewIds = this.UserProfile.UpvotedReviews.Select(r => r.Id).ToList();
             var canVote = this.User.Identity.CanVoteForReview(review.AuthorId);
-            var hasUpvoted = this.User.Identity.ReviewAlreadyUpvoted(id, upvotedReviewIds);
+            var hasUpvoted = this.Data.UpvotedReviews.UserHasVotedForReview(this.UserProfile.Id, id);
 
             if (!canVote || (canVote && !hasUpvoted))
             {
@@ -265,7 +299,8 @@
             review.Upvotes -= 1;
             review.Author.ThanksReceived -= 1;
 
-            this.UserProfile.UpvotedReviews.Remove(review);
+            this.Data.UpvotedReviews.Remove(this.Data.UpvotedReviews.GetReviewForUser(this.UserProfile.Id, id));
+            review.Author.RecalculateLevel(this.Data.ScoreWeights.All().ToList());
 
             this.Data.Reviews.SaveChanges();
             this.Data.Users.SaveChanges();
@@ -277,7 +312,12 @@
         {
             var review = this.Data.Reviews.Find(id);
             var model = Mapper.Map<Review, ExportScoresAsHtmlViewModel>(review);
-            var htmlResult = this.PartialView(@"~\Views\Shared\_ExportScoresHtml.cshtml", model).RenderPartialViewAsString();
+            var horizontalHtmlResult = this.PartialView(
+                @"~\Views\Shared\_ExportScoresHorizontalHtml.cshtml", 
+                new List<ExportScoresAsHtmlViewModel> { model }).RenderPartialViewAsString();
+            var verticalHtmlResult = this.PartialView(
+                @"~\Views\Shared\_ExportScoresVerticalHtml.cshtml", model).RenderPartialViewAsString();
+            var htmlResult = horizontalHtmlResult + "@@@" + verticalHtmlResult;
 
             return this.Json(htmlResult, JsonRequestBehavior.AllowGet);
         }
@@ -302,20 +342,7 @@
             viewModel.Camping = bindingModel.Camping;
             viewModel.LongTermStay = bindingModel.LongTermStay;
         }
-
-        private void ValidateArticleLinks(string articleLinks)
-        {
-            if (!this.UserProfile.IsBlogger)
-            {
-                return;
-            }
-
-            if (!BlogHelper.AllArticleUrlsMatched(this.UserProfile.Blog, articleLinks))
-            {
-                this.ModelState.AddModelError(string.Empty, "The links provided are either invalid, do not belong to your blog, or are duplicates.");
-            }
-        }
-
+        
         #endregion
     }
 }

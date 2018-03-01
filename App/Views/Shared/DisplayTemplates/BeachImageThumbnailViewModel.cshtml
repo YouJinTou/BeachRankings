@@ -1,7 +1,5 @@
 ﻿@model BeachImageThumbnailViewModel
 
-<div class="img-container">
-    <a href="@Model.Path" data-lightbox="beach-images">
-        <img class="img-responsive" src="@Model.Path" alt="Image" />
-    </a>
-</div>
+<a href="@Model.Path">
+    <img src="@Model.Path" alt="Image" />
+</a>

@@ -3,13 +3,24 @@
 
 namespace App.App_Start
 {
-    using BeachRankings.Data.UnitOfWork;
+    using App.Code.Beaches;
+    using App.Code.Blogs;
+    using App.Code.Images;
+    using App.Code.Users;
+    using App.Code.WaterBodies;
+    using App.Code.Web;
     using BeachRankings.Data;
+    using BeachRankings.Data.UnitOfWork;
+    using BeachRankings.Services.Aggregation;
+    using BeachRankings.Services.Crawlers;
+    using BeachRankings.Services.Search;
+    using BeachRankings.Services.Search.Enums;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
+    using Services.Notifications;
     using System;
-    using System.Web;    
+    using System.Web;
 
     public static class NinjectWebCommon 
     {
@@ -62,6 +73,22 @@ namespace App.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<IBeachRankingsData>().To<BeachRankingsData>().WithConstructorArgument("dbContext", new BeachRankingsDbContext());
+            kernel.Bind<IBeachUpdater>().To<BeachUpdater>();
+            kernel.Bind<IBeachQueryManager>().To<BeachQueryManager>();
+            kernel.Bind<IBeachDisplayManager>().To<BeachDisplayManager>();
+            kernel.Bind<IBlogValidator>().To<BlogValidator>();
+            kernel.Bind<IBlogArticleUpdater>().To<BlogArticleUpdater>();
+            kernel.Bind<IBlogQueryManager>().To<BlogQueryManager>();
+            kernel.Bind<IImageManager>().To<ImageManager>();
+            kernel.Bind<IUserLevelCalculator>().To<UserLevelCalculator>();
+            kernel.Bind<IWebNameParser>().To<WebNameParser>();
+            kernel.Bind<IArticleCrawler>().To<ArticleCrawler>();
+            kernel.Bind<IWaterBodyAllocator>().To<WaterBodyAllocator>();
+            kernel.Bind<IWaterBodyPermissionChecker>().To<WaterBodyPermissionChecker>();
+            kernel.Bind<ISearchService>().To<LuceneSearch>().WithConstructorArgument("index", Index.BeachIndex);
+            kernel.Bind<IDataAggregationService>().To<DataAggregationService>();
+            kernel.Bind<IMailService>().To<MailService>();
+            kernel.Bind<ISitemapGenerator>().To<SitemapGenerator>();
         }        
     }
 }

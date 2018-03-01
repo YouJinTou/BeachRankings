@@ -1,0 +1,87 @@
+﻿@model ContributorRowViewModel
+
+<tr class="contributor-table-row">
+    <td>
+        <div class="contributor-row-avatar-box">
+            <img class="" src="@Model.AvatarPath" alt="No profile photo" />
+        </div>
+    </td>
+
+    <td>
+        <div class="inside-td-wrapper">
+            <span>
+                <a href="/User/Reviews?authorId=@Model.Id" target="_blank" title="View reviews">@Model.UserName</a>
+            </span>
+        </div>
+    </td>
+
+    <td>
+        <div class="inside-td-center-wrapper">
+            @{
+                if (Model.Badge != UserBadge.None)
+                {
+                    <span title="@Model.Badge.GetDescription()" class="crq-user-badge glyphicon glyphicon-certificate"></span>
+                }
+            }
+        </div>
+    </td>
+
+    <td>
+        <div class="inside-td-center-wrapper">
+            <span>
+                @Model.Level
+            </span>
+        </div>
+    </td>
+
+    <td>
+        <div class="inside-td-center-wrapper">
+            <span>
+                @Model.CountriesVisited
+            </span>
+        </div>
+    </td>
+
+    <td>
+        <div class="inside-td-center-wrapper">
+            <span>
+                @Model.ReviewsCount
+            </span>
+        </div>
+    </td>
+
+    <td class="dispensable-col">
+        <div class="inside-td-center-wrapper">
+            <span>
+                @Model.ThanksReceived
+            </span>
+        </div>
+    </td>
+
+    <td class="dispensable-col">
+        <div class="inside-td-center-wrapper">
+            <span>
+                @Model.BlogPostsCount
+            </span>
+        </div>
+    </td>
+
+    <td>
+        <div class="inside-td-wrapper">
+            @Html.ToUnorderedList(Model.BeachesByCountry.Select(bbc => $"{bbc.Key} {bbc.Value}"), "contributors-bbc")
+        </div>
+    </td>
+
+    <td>
+        <div class="inside-td-wrapper">
+            <span>
+                @{
+                    if (Model.IsBlogger)
+                    {
+                        <a href="@Html.AttachSchemeToDomain(@Model.BlogUrl)" target="_blank">Here</a>
+                    }
+                }
+            </span>
+        </div>
+    </td>
+</tr>

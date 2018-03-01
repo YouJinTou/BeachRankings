@@ -6,7 +6,7 @@
 
 @Html.Partial("_BeachHeadPartial", Model.BeachHead)
 
-<div class="review-container custom-canvas col-lg-8 col-lg-offset-3 col-sm-10 col-sm-offset-2 col-xs-12">  
+<div class="review-container custom-canvas col-lg-8 col-lg-offset-3 col-sm-10 col-sm-offset-2 col-xs-12">
     <div class="row">
         @using (Html.BeginForm("Edit", "Reviews", FormMethod.Post, new { id = "submit-review-form" }))
         {
@@ -19,14 +19,14 @@
                     @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
                     <div class="col-md-6 col-md-offset-0 col-sm-9 col-sm-offset-1 col-xs-10 col-xs-offset-1">
                         @Html.TextAreaFor(model => model.Content,
-                            new
-                            {
-                                data_review_content = "",
-                                @class = "form-control review-textarea custom-focus-black",
-                                @rows = 5,
-                                @cols = 40,
-                                @placeholder = "Share your impressions of this beach"
-                            })
+                                                                    new
+                                                                    {
+                                                                        data_review_content = "",
+                                                                        @class = "form-control review-textarea custom-focus-black",
+                                                                        @rows = 5,
+                                                                        @cols = 40,
+                                                                        @placeholder = "Share your impressions of this beach"
+                                                                    })
                         @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
                         <span class="pull-right"><sub>A maximum of 3000 symbols</sub></span>
                     </div>
@@ -48,247 +48,8 @@
                     }
                 }
 
-                <!--Beach-->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SandQuality, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="sand-quality-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-sand-quality-handle="@Model.SandQuality"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if the sand is light in color and pleasant to hold and walk on
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BeachCleanliness, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="beach-cleanliness-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-beach-cleanliness-handle="@Model.BeachCleanliness"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if the beach is kept clean, without litter
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BeautifulScenery, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="beautiful-scenery-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-beautiful-scenery-handle="@Model.BeautifulScenery"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if the beach and its surroundings leave a sense of awe and admiration
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                  
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CrowdFree, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="crowd-free-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-crowd-free-handle="@Model.CrowdFree"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if the beach is a quiet place with few people
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Infrastructure, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="infrastructure-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-infrastructure-handle="@Model.Infrastructure"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if facilities (e.g. bathrooms, accommodations, bars, markets) are present
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <!--End Beach-->
-                <!--Sea-->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.WaterVisibility, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="water-visibility-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-water-visibility-handle="@Model.WaterVisibility"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Vertically and/or horizontally <i>roughly over</i>: <br />
-                            25 m (82 ft.) - 10 <br />
-                            20 m (65 ft.) - 9 <br />
-                            15 m (49 ft.) - 8 <br />
-                            10 m (33 ft.) - 7 <br />
-                            8 m (26 ft.) - 6 <br />
-                            6 m (20 ft.) - 5 <br />
-                            4 m (13 ft.) - 4 <br />
-                            3 m (10 ft.) - 3 <br />
-                            2 m (7 ft.) - 2 <br />
-                            1 m (3 ft.) - 1 <br />
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LitterFree, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="litter-free-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-litter-free-handle="@Model.LitterFree"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if both water and seabed are clean, without litter
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.FeetFriendlyBottom, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="feet-friendly-bottom-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-feet-friendly-bottom-handle="@Model.FeetFriendlyBottom"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if one can enter (part of) the shallow end without worry of rocks or corals hurting the feet
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.SeaLifeDiversity, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="sea-life-diversity-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-sea-life-diversity-handle="@Model.SeaLifeDiversity"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if it fees like a giant aquarium underwater
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CoralReef, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="coral-reef-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-coral-reef-handle="@Model.CoralReef"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if there is an impressive coral reef underwater
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                   
-                </div>
-                <!--End Sea-->
-                <!--Activities-->
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Snorkeling, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="snorkeling-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-snorkeling-handle="@Model.Snorkeling"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if waves are small, there is good water visibility, rich sea life, and a beautiful coral reef
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                   
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Kayaking, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="kayaking-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-kayaking-handle="@Model.Kayaking"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if the surface is calm and the surroundings are beautiful and suitable for kayaking
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Walking, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="walking-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-walking-handle="@Model.Walking"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            Rate high if walking along the beachline or a nearby promenade is a pleasant experience
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                   
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Camping, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="camping-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-camping-handle="@Model.Camping"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            A beach suitable for camping scores high in as many of the above criteria as possible
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                   
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LongTermStay, htmlAttributes: new { @class = "control-label col-md-3 col-sm-11 col-xs-12" })
-                    <div class="col-md-5 col-md-offset-0 col-sm-9 col-xs-10 col-xs-offset-1">
-                        <div id="long-term-stay-dragdealer" class="dragdealer">
-                            <div class="handle oval" data-long-term-stay-handle="@Model.LongTermStay"></div>
-                        </div>
-                    </div>
-                    <div class="dragbar-controls col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 text-left">
-                        <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                        <div class="custom-popup" style="display: none;">
-                            A beach suitable for long-term stay scores high in as many of the above criteria as possible and has the infrastructure to support it
-                        </div>
-                        <button class="btn btn-reset" style="display: none;">Ignore</button>
-                    </div>                    
-                </div>
-                <!--End Activities-->
+                @Html.Partial("_ReviewCriteriaPartial", Model.Criteria)
+
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input data-btn-submit-review="" type="submit" value="Save" class="btn btn-cta" />
@@ -319,18 +80,14 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/External/dragdealer.js")
-    @Scripts.Render("~/Scripts/External/rainbowvis.js")
-    @Scripts.Render("~/Content/External/slick/slick.min.js")
-    @Scripts.Render("~/Scripts/Internal/dragdealers-manager.js")
-    @Scripts.Render("~/Scripts/Internal/reviews.js")
-    @Scripts.Render("~/Scripts/Internal/blog.js")
+    @Scripts.Render("~/bundles/review-post")
 }
 @section ReviewsStyles {
     @Styles.Render("~/Content/External/dragdealer.css")
     @Styles.Render("~/Content/External/slick/slick.css")
     @Styles.Render("~/Content/External/slick/slick-theme.css")
+    @Styles.Render("~/Content/External/lightGallery/css/lightgallery.min.css")
     @Styles.Render("~/Content/Internal/beach-details.css")
     @Styles.Render("~/Content/Internal/reviews.css")
+    @Styles.Render("~/Content/Internal/criteria-tables.css")
 }

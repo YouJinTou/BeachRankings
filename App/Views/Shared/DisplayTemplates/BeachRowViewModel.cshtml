@@ -1,7 +1,27 @@
 ﻿@model BeachRowViewModel
 
 <tr>
-    <td class="text-left"><a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a></td>
+    <td class="text-left">
+        <a href="/Beaches/Details/@Model.BeachId">@Model.BeachName</a>
+
+        @if (Model.ReviewId != null)
+        {
+            <a href="/Reviews/Details/@Model.ReviewId"
+               class="user-review-view-icon a-like-span glyphicon glyphicon-eye-open"
+               title="Go to review page"
+               target="_blank">
+            </a>
+        }
+
+        @{
+            if (this.User.Identity.IsAuthenticated)
+            {
+                <span data-watchlist-trigger="@Model.BeachId" class="watchlist-trigger a-like-span control glyphicon glyphicon-star"
+                      title="Add to watchlist"></span>
+                <div class="watchlist-overview"></div>
+            }
+        }
+    </td>
     <td class="text-left"><a href="/Countries/Statistics/@Model.CountryId">@Model.Country</a></td>
     <td class="text-left"><a href="/PrimaryDivisions/Statistics/@Model.PrimaryDivisionId">@Model.PrimaryDivision</a></td>
     <td class="text-left"><a href="/SecondaryDivisions/Statistics/@Model.SecondaryDivisionId">@Model.SecondaryDivision</a></td>

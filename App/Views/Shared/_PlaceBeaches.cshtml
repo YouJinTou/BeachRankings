@@ -4,13 +4,11 @@
     if (!this.Request.IsAjaxRequest())
     {
         @Styles.Render("~/Content/Internal/place.css")
-
-        <h2>@Model.Name</h2>
-
-        <hr />
+        
+        @Html.Partial("_PlaceStatisticsHead", Model)
 
         <div id="location-beaches-container" class="custom-canvas col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
-            @Html.DisplayFor(model => model.Beaches)            
+            @Html.DisplayFor(model => model.Beaches)
         </div>
 
         @section Scripts {

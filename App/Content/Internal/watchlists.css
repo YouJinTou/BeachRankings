@@ -1,0 +1,102 @@
+﻿.watchlist-overview, .movable-watchlist {
+    position: relative;
+    display: inline-block;
+}
+
+.watchlist-overview-container {
+    position: absolute;
+    padding: 10px;
+    width: 260px;
+    left: -150px;
+    z-index: 500;
+}
+
+    .watchlist-overview-container h3 {
+        text-align: left;
+        margin: 0px;
+    }
+
+.concise-watchlist {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.concise-watchlist-name {
+    padding-left: 5px;
+}
+
+.concise-watchlist-new {
+    font-size: 20px;
+    text-align: left;
+}
+
+.concise-watchlist-update {
+    padding: 10px;
+    text-align: right;
+    color: #95ef2e;
+}
+
+#watchlist-table {
+    padding: 10px;
+}
+
+#watchlist-table .new-btn-container {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#watchlist-table .contributor .col-sm-2 {
+    width: 150px;
+}
+
+#watchlist-table .contributor .text-left {
+    margin: 5px;
+}
+
+#watchlist-table .contributor h5, h6 {
+    margin: 5px;
+}
+
+.new-watchlist-form {
+    text-align: left;
+    margin-top: 10px;
+}
+
+    .new-watchlist-form input {
+        margin: 5px;
+    }
+
+    .new-watchlist-form .btn-cta {
+        height: 30px;
+        width: 60px;
+    }
+
+.watchlist-edit-controls input[type=text] {
+    margin-left: 20px;
+}
+
+.watchlist-edit-controls input[type=button] {
+    width: 65px;
+    height: 30px;
+    margin-left: 20px;
+}
+
+.watchlist-edit-buttons-holder {
+    margin-top: 5px;
+    text-align: left;
+}
+
+.watchlist-row .a-like-span {
+    color: darkorange;
+    margin-left: 10px;
+}
+
+td .watchlist-trigger {
+    font-size: 13px;
+}
+
+@media (max-width: 768px) {
+    .watchlist-overview .watchlist-overview-container {
+        left: 0px;
+    }
+}

@@ -10,13 +10,29 @@
     using Microsoft.Owin.Security;
     using BeachRankings.Models;
     using BeachRankings.Data;
+    using Services.Notifications;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Web.Mvc;
 
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        private IMailService mailService;
+
+        public EmailService(IMailService mailService)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            this.mailService = mailService;
+        }
+
+        public async Task SendAsync(IdentityMessage message)
+        {
+#if !DEBUG
+            var to = new List<string> { message.Destination };
+            var from = $"{ConfigurationManager.AppSettings["Brandname"]} " +
+                $"<{ConfigurationManager.AppSettings["MailNoReply"]}>";
+
+            await this.mailService.SendMailAsync(to, from, message.Subject, message.Body);
+#endif
         }
     }
 
@@ -50,11 +66,11 @@
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
+                RequiredLength = 8,
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
-                RequireLowercase = false,
-                RequireUppercase = false,
+                RequireLowercase = true,
+                RequireUppercase = false
             };
 
             // Configure user lockout defaults
@@ -73,7 +89,7 @@
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
             });
-            manager.EmailService = new EmailService();
+            manager.EmailService = new EmailService(DependencyResolver.Current.GetService<IMailService>());
             manager.SmsService = new SmsService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)

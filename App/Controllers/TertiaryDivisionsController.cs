@@ -5,6 +5,7 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.Services.Aggregation;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -14,8 +15,8 @@
 
     public class TertiaryDivisionsController : BasePlacesController
     {
-        public TertiaryDivisionsController(IBeachRankingsData data)
-            : base(data)
+        public TertiaryDivisionsController(IBeachRankingsData data, IDataAggregationService aggregationService)
+            : base(data, aggregationService)
         {
         }
 
@@ -23,6 +24,7 @@
         {
             var tertiaryDivision = this.Data.TertiaryDivisions.Find(id);
             var model = Mapper.Map<TertiaryDivision, PlaceBeachesViewModel>(tertiaryDivision);
+            model.Controller = "TertiaryDivisions";
             model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
@@ -43,7 +45,8 @@
                 Id = id,
                 Controller = "TertiaryDivisions",
                 Name = tertiaryDivision.Name,
-                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches),
+                TotalBeachesCount = beaches.Count(),
             };
 
             return this.View("_StatisticsPartial", model);
@@ -82,7 +85,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
             TertiaryDivision tertiaryDivision = null;
@@ -117,7 +120,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
             TertiaryDivision tertiaryDivision = null;
@@ -144,7 +147,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Delete(RestructureViewModel bindingModel)
         {
             TertiaryDivision tertiaryDivision = null;

@@ -2,10 +2,10 @@
 {
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -22,12 +22,6 @@
         protected BaseController(IBeachRankingsData data)
         {
             this.Data = data;
-        }
-
-        protected BaseController(IBeachRankingsData data, User userProfile)
-            : this(data)
-        {
-            this.UserProfile = userProfile;
         }
 
         protected BaseController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -68,9 +62,8 @@
         {
             if (requestContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                var userName = requestContext.HttpContext.User.Identity.Name;
-                var user = this.Data.Users.All().FirstOrDefault(u => u.UserName == userName);
-                this.UserProfile = user;
+                var userId = requestContext.HttpContext.User.Identity.GetUserId();
+                this.UserProfile = this.Data.Users.Find(userId);
             }
 
             return base.BeginExecute(requestContext, callback, state);

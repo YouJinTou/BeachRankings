@@ -1,0 +1,16 @@
+﻿.custom-canvas h2, h4 {
+    text-align: left;
+}
+
+.custom-canvas ol li {
+    text-align: left;
+}
+
+#water-visibility-desc {
+    margin-top: 5px;
+}
+
+.snorkeling-list {
+    list-style-type: disc;
+    margin-bottom: 5px;
+}

@@ -31,9 +31,15 @@
 
         public IDbSet<Review> Reviews { get; set; }
 
+        public IDbSet<UpvotedReview> UpvotedReviews { get; set; }
+
         public IDbSet<Blog> Blogs { get; set; }
 
         public IDbSet<BlogArticle> BlogArticles { get; set; }
+
+        public IDbSet<Watchlist> Watchlists { get; set; }
+
+        public IDbSet<ScoreWeight> ScoreWeights { get; set; }
 
         public static BeachRankingsDbContext Create()
         {
@@ -106,6 +112,26 @@
                .HasRequired(bi => bi.Beach)
                .WithMany(b => b.Images)
                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UpvotedReview>()
+                .HasRequired(ur => ur.UpvotingUser)
+                .WithMany(u => u.UpvotedReviews)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Watchlist>()
+                .HasRequired(w => w.Owner)
+                .WithMany(b => b.Watchlists)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Watchlist>()
+                .HasMany(w => w.Beaches)
+                .WithMany(b => b.Watchlists)
+                .Map(m =>
+                {
+                    m.MapLeftKey("WatchlistId");
+                    m.MapRightKey("BeachId");
+                    m.ToTable("WatchlistBeaches");
+                });
 
             base.OnModelCreating(modelBuilder);
         }

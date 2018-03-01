@@ -3,11 +3,11 @@
 @Styles.Render("~/Content/Internal/account.css")
 
 @{
-    ViewBag.Title = "BeachesDb Signup";
+    ViewBag.Title = $"{ConfigurationManager.AppSettings["BrandName"]} Signup";
 }
 
 <div id="register-container" class="custom-canvas col-xs-6 col-xs-offset-3">
-    <h3>Create a BeachesDb account</h3>
+    <h3>Create a @ConfigurationManager.AppSettings["BrandName"] account</h3>
     <hr />
 
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "register-form", @class = "form-horizontal", role = "form" }))
@@ -41,10 +41,12 @@
                         @Html.CheckBoxFor(m => m.IsBlogger, new { id = "checkbox-blogger" })
                         @Html.LabelFor(m => m.IsBlogger)
                         <span class="info-icon glyphicon glyphicon-info-sign"></span>
-                    </div>
-                    <div class="custom-popup custom-canvas" style="display: none;">
-                        We will put a link to your blog in every review you leave.
-                    </div>  
+                        <div class="custom-popup-container" style="display: none;">
+                            <div class="custom-popup custom-canvas">
+                                We will put a link to your blog in every review you leave.
+                            </div>
+                        </div>                        
+                    </div>                      
                 </div>
             </div>
             <div id="register-blog" class="form-group display-none">
@@ -62,6 +64,5 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/Internal/account.js")
 }

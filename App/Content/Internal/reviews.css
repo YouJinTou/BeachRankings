@@ -35,6 +35,11 @@
     border-radius: 1px;
 }
 
+.review-section-heading {
+    font-weight: bold;
+    font-size: 20px;
+}
+
 /* CONCISE */
 .review-avatar-box {
     height: 100px;
@@ -45,11 +50,10 @@
 }
 
 .review-controls-box {
-    padding-top: 30px;
+    padding-top: 0px;
 }
-
     .review-controls-box a {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
 .concise-review {
@@ -58,10 +62,22 @@
     padding: 10px;
 }
 
+.concise-review-beach-name {
+    text-align: left;
+}
+
+.concise-review-beach-name h3 {
+    margin-top: 0px;
+}
+
     .concise-review p {
         margin-top: 5px;
         text-justify: auto;
     }
+
+.review-date {
+    margin-left: 0px;
+}
 
 /* DETAILS */
 
@@ -78,10 +94,15 @@
 .review-upvotes h4 {
     margin-top: 0px;
     margin-bottom: 0px;
+    vertical-align: central;
 }
 
-.review-upvotes i {
-    color: #42f656;
+.review-upvotes .no-upvotes-info {
+    color: #a4a9ad;
+}
+
+.review-upvotes .upvotes-info {
+    color: #01a1f0;
 }
 
 .criterion-score-box {
@@ -143,8 +164,6 @@
 }
 
 .concise-review table {
-    float: right;
-    margin-left: 10px;
     font-size: 10px;
 }
 

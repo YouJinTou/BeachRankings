@@ -11,6 +11,10 @@
     <AssemblyName>Models</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,9 +61,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Score.cs" />
+    <Compile Include="ScoreWeight.cs" />
+    <Compile Include="Enums\UserBadge.cs" />
     <Compile Include="BlogArticle.cs" />
     <Compile Include="Country.cs" />
+    <Compile Include="Enums\BeachFilterType.cs" />
     <Compile Include="Enums\Criterion.cs" />
+    <Compile Include="Interfaces\IBeachAggregatable.cs" />
     <Compile Include="Interfaces\IPlaceSearchable.cs" />
     <Compile Include="Continent.cs" />
     <Compile Include="PrimaryDivision.cs" />
@@ -67,6 +76,8 @@
     <Compile Include="SecondaryDivision.cs" />
     <Compile Include="TertiaryDivision.cs" />
     <Compile Include="Blog.cs" />
+    <Compile Include="UpvotedReview.cs" />
+    <Compile Include="Watchlist.cs" />
     <Compile Include="WaterBody.cs" />
     <Compile Include="Beach.cs" />
     <Compile Include="Interfaces\IBeachSearchable.cs" />

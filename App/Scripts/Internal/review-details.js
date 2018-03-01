@@ -6,6 +6,8 @@
     beachesHelper.hideEmptyAsideElements();
     reviewsHelper.setReviewVotingVariables();
 
+    $(".light-gallery").lightGallery(); 
+
     $('.slick-carousel').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -19,11 +21,11 @@
     });
 
     $('#btn-beach-export-html').on('click', function () {
-        beachesHelper.exportBeachToHtml($(this));
+        genericHelper.exportToHtml('Beaches', 'ExportHtml', $(this).data('html-export-beach'));
     });
 
     $('.review-export').on('click', function () {
-        reviewsHelper.exportReviewToHtml($(this));
+        genericHelper.exportToHtml('Reviews', 'ExportHtml', $(this).data('html-export-review'));
     });
 
     $('.delete-review-link').on('click', function () {

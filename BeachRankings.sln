@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{BA3C77A3-6CFE-4682-B470-30959DB5EE20}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{9A171F1B-32B7-41F8-AE8A-B59C2F15D3F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{8B27BAEF-FA17-4AA9-A559-EB79CE95F0CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{552159F7-D413-4605-8D68-59487484A748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{C88F452D-8B0A-4C79-8E02-C0EBF7A9877A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +37,43 @@ Global
 		{8B27BAEF-FA17-4AA9-A559-EB79CE95F0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B27BAEF-FA17-4AA9-A559-EB79CE95F0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B27BAEF-FA17-4AA9-A559-EB79CE95F0CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{552159F7-D413-4605-8D68-59487484A748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{552159F7-D413-4605-8D68-59487484A748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{552159F7-D413-4605-8D68-59487484A748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{552159F7-D413-4605-8D68-59487484A748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C88F452D-8B0A-4C79-8E02-C0EBF7A9877A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88F452D-8B0A-4C79-8E02-C0EBF7A9877A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C88F452D-8B0A-4C79-8E02-C0EBF7A9877A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C88F452D-8B0A-4C79-8E02-C0EBF7A9877A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61E54BFF-656C-4E9C-A9E2-F40E9DB9AF34}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://blackseaasd.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = App\\App.csproj
+		SccProjectName1 = App
+		SccLocalPath1 = App
+		SccProjectUniqueName2 = Data\\Data.csproj
+		SccProjectName2 = Data
+		SccLocalPath2 = Data
+		SccProjectUniqueName3 = Models\\Models.csproj
+		SccProjectName3 = Models
+		SccLocalPath3 = Models
+		SccProjectUniqueName4 = Services\\Services.csproj
+		SccProjectName4 = Services
+		SccLocalPath4 = Services
+		SccProjectUniqueName5 = Extensions\\Extensions.csproj
+		SccProjectName5 = Extensions
+		SccLocalPath5 = Extensions
+		SccProjectUniqueName6 = Tests\\Tests.csproj
+		SccProjectName6 = Tests
+		SccLocalPath6 = Tests
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
 ﻿namespace BeachRankings.Data.Repositories
 {
-    using BeachRankings.Data.Extensions;
+    using global::Extensions;
     using BeachRankings.Models;
     using BeachRankings.Models.Interfaces;
     using BeachRankings.Services.Search;

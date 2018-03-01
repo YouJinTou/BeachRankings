@@ -4,6 +4,8 @@
     setStatistics();
     setInfiniteScrolling();
     setImagesEvents();
+    setWatchlistsEvents();
+    setDataTablesEvents();
 
     function setDashboardMenuEvents() {
         var viewportWidth = genericHelper.getViewportWidth();
@@ -42,11 +44,11 @@
             });
 
             $('#user-overview').on('mouseenter', function () {
-                $('.user-overview-helper').show(200);
+                $('.user-overview-helper').show();
             });
 
             $('#user-overview').on('mouseleave', function () {
-                $('.user-overview-helper').hide(200);
+                $('.user-overview-helper').hide();
             });
         }
     }
@@ -56,9 +58,7 @@
 
         $('#results-container').on('click', '[data-settings-index]', function () {
             var $this = $(this);
-            var actionType = $this.data('settings-index');
-            var url = (actionType === 'avatar') ? '/User/ChangeAvatar/' : '/Manage/ChangePassword/';
-            var changingAvatar = (actionType === 'avatar');
+            var url = $this.data('settings-index');
 
             $.ajax({
                 url: url,
@@ -66,7 +66,7 @@
                 success: function (result) {
                     $('#results-container').html(result);
 
-                    if (changingAvatar) {
+                    if (url.indexOf('ChangeAvatar') > -1) {
                         setAvatarOnSubmitEvents();
                     }
                 }
@@ -156,11 +156,12 @@
     }
 
     function setStatistics() {
-        var isStatisticsModule = (window.location.href.indexOf('Statistics') > -1);
+        var isDataTablesModule =
+            (window.location.href.indexOf('Statistics') > -1) ||
+            (window.location.href.indexOf('Watchlist') > -1) ||
+            (window.location.href.indexOf('Beaches/Best') > -1);
 
-        if (isStatisticsModule) {
-            var dataTablesManager = new DataTablesManager();
-
+        if (isDataTablesModule) {
             dataTablesManager.initializeDataTable();
         }
     }
@@ -208,6 +209,25 @@
                     console.log(data);
                 }
             });
+        });
+    }
+
+    function setWatchlistsEvents() {
+        watchlistsHelper.registerWatchlistEvents();
+    }
+
+    function setDataTablesEvents() {
+        $('#results-container').on('click', '.predefined-filter', function () {
+            var $this = $(this);
+            var $form = $this.closest('form');
+            var controller = $form.find('[data-controller-name]').val();
+            var action = 'FilteredStatistics';
+            var placeId = $this.closest('form').find('[data-place-id]').val();
+            var filterType = $this.data('predefined-filter-type');
+            var url = '/' + controller + '/' + action + '?' + 'id=' + placeId + '&filterType=' + filterType;
+
+            $form.attr('action', url);
+            $form.submit();
         });
     }
 })(jQuery);

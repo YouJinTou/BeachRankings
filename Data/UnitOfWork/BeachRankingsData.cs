@@ -23,8 +23,11 @@
         private IBeachRepository beaches;
         private IGenericRepository<BeachImage> beachImages;
         private IGenericRepository<Review> reviews;
+        private IUpvotedReviewsRepository upvotedReviews;
         private IGenericRepository<Blog> blogs;
         private IGenericRepository<BlogArticle> blogArticles;
+        private IGenericRepository<Watchlist> watchlists;
+        private IGenericRepository<ScoreWeight> scoreWeights;
 
         public BeachRankingsData()
             : this(new BeachRankingsDbContext())
@@ -192,6 +195,19 @@
             }
         }
 
+        public IUpvotedReviewsRepository UpvotedReviews
+        {
+            get
+            {
+                if (this.upvotedReviews == null)
+                {
+                    this.upvotedReviews = new UpvotedReviewsRepository(this.dbContext);
+                }
+
+                return this.upvotedReviews;
+            }
+        }
+
         public IGenericRepository<Blog> Blogs
         {
             get
@@ -215,6 +231,32 @@
                 }
 
                 return this.blogArticles;
+            }
+        }
+
+        public IGenericRepository<Watchlist> Watchlists
+        {
+            get
+            {
+                if (this.watchlists == null)
+                {
+                    this.watchlists = new GenericRepository<Watchlist>(this.dbContext);
+                }
+
+                return this.watchlists;
+            }
+        }
+
+        public IGenericRepository<ScoreWeight> ScoreWeights
+        {
+            get
+            {
+                if (this.scoreWeights == null)
+                {
+                    this.scoreWeights = new GenericRepository<ScoreWeight>(this.dbContext);
+                }
+
+                return this.scoreWeights;
             }
         }
 

@@ -4,16 +4,14 @@
     ViewBag.Title = Model.Name;
 }
 
-<div id="beach-details-container" data-beach-id="@Model.Id" class="col-xs-12">    
+<div id="beach-details-container" data-beach-id="@Model.Id" class="col-xs-12">
     @Html.Partial("_BeachHeadPartial", Model)
-    <hr />
-    @Html.Partial("BeachReviewsPartial", Model.Reviews)    
+
+    @Html.Partial("BeachReviewsPartial", Model.Reviews)
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/Content/External/slick/slick.min.js")
-    @Scripts.Render("~/Scripts/Internal/infinite-scroller.js")
-    @Scripts.Render("~/Scripts/Internal/beach-details.js")
+    @Scripts.Render("~/bundles/beach-details")
 }
 
 @section BeachStyles{
@@ -21,4 +19,6 @@
     @Styles.Render("~/Content/Internal/reviews.css")
     @Styles.Render("~/Content/External/slick/slick.css")
     @Styles.Render("~/Content/External/slick/slick-theme.css")
+    @Styles.Render("~/Content/External/lightGallery/css/lightgallery.min.css")
+    @Styles.Render("~/Content/Internal/criteria-tables.css")
 }

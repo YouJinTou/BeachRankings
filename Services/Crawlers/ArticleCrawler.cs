@@ -5,7 +5,7 @@
     using System.Text;
     using System.Text.RegularExpressions;
 
-    public class ArticleCrawler
+    public class ArticleCrawler : IArticleCrawler
     {
         public string GetArticleTitle(string url)
         {

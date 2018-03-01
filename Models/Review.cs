@@ -68,7 +68,7 @@
         public string AuthorId { get; set; }
 
         [Required]
-        public int BeachId { get; private set; }
+        public int BeachId { get; protected set; }
 
         public virtual Beach Beach { get; protected set; }
 
@@ -96,62 +96,62 @@
         }
 
         [Range(0, 10)]
-        public double? TotalScore { get; private set; }
+        public double? TotalScore { get; protected set; }
 
         #region Beachline
 
         [Display(Name = "Sand quality")]
-        public double? SandQuality { get; private set; }
+        public double? SandQuality { get; protected set; }
 
         [Display(Name = "Beach cleanliness")]
-        public double? BeachCleanliness { get; private set; }
+        public double? BeachCleanliness { get; protected set; }
 
         [Display(Name = "Beautiful scenery")]
-        public double? BeautifulScenery { get; private set; }
+        public double? BeautifulScenery { get; protected set; }
 
         [Display(Name = "Crowd-free")]
-        public double? CrowdFree { get; private set; }
+        public double? CrowdFree { get; protected set; }
 
         [Display(Name = "Infrastructure")]
-        public double? Infrastructure { get; private set; }
+        public double? Infrastructure { get; protected set; }
 
         #endregion
 
         #region Water
 
         [Display(Name = "Underwater visibility")]
-        public double? WaterVisibility { get; private set; }
+        public double? WaterVisibility { get; protected set; }
 
         [Display(Name = "Litter-free water")]
-        public double? LitterFree { get; private set; }
+        public double? LitterFree { get; protected set; }
 
         [Display(Name = "Feet-friendly bottom")]
-        public double? FeetFriendlyBottom { get; private set; }
+        public double? FeetFriendlyBottom { get; protected set; }
 
         [Display(Name = "Sea life diversity")]
-        public double? SeaLifeDiversity { get; private set; }
+        public double? SeaLifeDiversity { get; protected set; }
 
         [Display(Name = "Coral reef wow factor")]
-        public double? CoralReef { get; private set; }
+        public double? CoralReef { get; protected set; }
 
         #endregion
 
         #region Activities
 
         [Display(Name = "Snorkeling")]
-        public double? Snorkeling { get; private set; }
+        public double? Snorkeling { get; protected set; }
 
         [Display(Name = "Kayaking")]
-        public double? Kayaking { get; private set; }
+        public double? Kayaking { get; protected set; }
 
         [Display(Name = "Taking a walk")]
-        public double? Walking { get; private set; }
+        public double? Walking { get; protected set; }
 
         [Display(Name = "Camping")]
-        public double? Camping { get; private set; }
+        public double? Camping { get; protected set; }
 
         [Display(Name = "Long-term stay")]
-        public double? LongTermStay { get; private set; }
+        public double? LongTermStay { get; protected set; }
 
         #endregion
 

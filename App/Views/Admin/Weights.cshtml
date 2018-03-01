@@ -1,0 +1,29 @@
+﻿@model ICollection<WeightViewModel>
+
+@{
+    ViewBag.Title = "Weights";
+}
+
+<div id="weights-container" class="custom-canvas col-sm-6 col-sm-offset-3 col-xs-12">
+    <h2>Score Weights</h2>
+
+    <div class="row">
+        @using (Html.BeginForm("Weights", "Admin", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal col-xs-12">
+                @Html.DisplayForModel()
+
+                <div class="row">
+                    <input type="submit" class="btn btn-cta" value="Change Weights"
+                           onclick="confirm('This will take a long time. Are you sure?')" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section AdminStyles{
+    @Styles.Render("~/Content/Internal/admin.css")
+}

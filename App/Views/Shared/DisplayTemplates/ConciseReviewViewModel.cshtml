@@ -1,89 +1,34 @@
 ﻿@model ConciseReviewViewModel
-
 <div data-expanded="false" data-already-loaded="false" class="review concise-review row custom-canvas">
-    <div class="col-md-2">
-        <div class="review-avatar-box text-left">
-            <img class="avatar-img img-responsive" src="@Model.AvatarPath" alt="No profile photo" />
-        </div>
-        <div class="text-left"><h4><a href="/User/Reviews?authorId=@Model.AuthorId">@Model.UserName</a></h4></div>
-        @{ 
-            if (Model.IsBlogger)
-            {
-                <div class="text-left"><a href="@Html.AttachSchemeToDomain(@Model.BlogUrl)" target="_blank">My blog</a></div>
-            }
-        }
-        <div class="text-left">
-            <h5>
-                @Html.PluralizeValue(@Model.CountriesVisited, "country"), @Html.ActionLink(
-                    linkText: Html.PluralizeValue(Model.ReviewsCount, "beach").ToString(), 
-                    actionName: "Reviews", 
-                    controllerName: "User", 
-                    routeValues: new { authorId = Model.AuthorId },
-                    htmlAttributes: null)
-            </h5>
-        </div>
-        <div class="text-left">Level @Model.Level traveller</div>
-        <div class="text-left">
-            <h6>@Model.PostedOn.ToString("MMM d, yyyy")</h6>
-        </div>
-    </div>
-    <div class="col-md-10">
+    <div class="col-xs-12">
+        @Html.Partial("_ReviewHeadPartial", Model.ReviewHead)
+
+        <hr class="hr-delimiter" />
+
         <div class="row">
-            <div class="col-xs-3">
-                <div class="review-upvotes">
-                    <h4 class="text-left">
-                        <i>+ @Model.Upvotes</i>
-                    </h4>
-                </div>                
-            </div>   
-            <div class="beach-score-box beach-score-box-extended pull-right col-xs-9">
-                <div class="vertical-center">@Html.ParseNullableValue(Model.TotalScore, "-")</div>
-            </div>      
-        </div>
-        <div class="row">
-            <div class="col-xs-11"> 
+            @Html.Partial("_ReviewUserPartial", Model.ReviewUser)
+
+            <div class="col-md-10">
                 <div class="row">
-                    <div class="col-xs-12">
-                        @Html.Partial("_CriteriaTablePartial", Model.Criteria)
-                        <p class="review-content">@Model.Content</p>
-                        @{
-                            if (Model.IsBlogger && Model.BlogArticles.Count() > 0)
-                            {
-                                <div class="blogger-review-part">
-                                    <div class="text-left"><i>Read more about it on my blog</i>:</div>
-                                    <div class="text-left">
-                                        @Html.DisplayFor(model => model.BlogArticles)
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @Html.Partial("_CriteriaTableHorizontalPartial", new List<HorizontalCriteriaViewModel> { Model.Criteria })
+                            <p class="review-content">@Model.Content</p>
+                            @{
+                                if (Model.IsBlogger && Model.BlogArticles.Count() > 0)
+                                {
+                                    <div class="blogger-review-part">
+                                        <div class="text-left"><i>Read more about it on my blog</i>:</div>
+                                        <div class="text-left">
+                                            @Html.DisplayFor(model => model.BlogArticles)
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             }
-                        }
-                    </div> 
-                </div>                            
-            </div>  
-            <div class="review-controls-box col-sm-1">
-                @{
-                    if (User.Identity.CanVoteForReview(Model.AuthorId))
-                    {
-                        <div class="col-xs-1">
-                            <span data-review-id="@Model.Id" data-already-upvoted="@Model.AlreadyUpvoted" class="icon-upvote a-like-span control glyphicon glyphicon-thumbs-up" title="Give thanks"></span>
                         </div>
-                    }
-                }
-                <div class="col-xs-1">
-                    <a data-html-export-review="@Model.Id" class="review-export control a-like-span glyphicon glyphicon-export" title="Export a summary of this review to HTML"></a>
+                    </div>
                 </div>
-                @{
-                    if (User.Identity.CanEditReview(Model.AuthorId))
-                    {
-                        <div class="col-xs-1">
-                            <a class="control a-like-span glyphicon glyphicon-edit" title="Edit review" href="/Reviews/Edit/@Model.Id"></a>
-                        </div>
-                        <div class="col-xs-1">
-                            <a class="delete-review-link control a-like-span glyphicon glyphicon-remove" title="Delete review" href="/Reviews/Delete/@Model.Id"></a>
-                        </div>
-                    }
-                }               
-            </div>            
-        </div>   
+            </div>
+        </div>
     </div>
 </div>

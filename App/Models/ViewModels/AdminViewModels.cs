@@ -47,4 +47,16 @@
 
         public string BeachIdsToMove { get; set; }
     }
+
+    public class WeightViewModel
+    {
+        public int Id { get; set; }
+
+        [Display()]
+        public string Name { get; set; }
+
+        [Required]
+        [Range(0.0, double.MaxValue, ErrorMessage = "Invalid range.")]
+        public double Value { get; set; }
+    }
 }

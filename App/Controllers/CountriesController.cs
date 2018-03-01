@@ -1,10 +1,14 @@
 ﻿namespace App.Controllers
 {
+    using App.Code.WaterBodies;
     using AutoMapper;
     using BeachRankings.App.CustomAttributes;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.Models.Enums;
+    using BeachRankings.Services.Aggregation;
+    using BeachRankings.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -14,15 +18,25 @@
 
     public class CountriesController : BasePlacesController
     {
-        public CountriesController(IBeachRankingsData data)
-            : base(data)
+        private IWaterBodyAllocator waterBodyAllocator;
+        private IWaterBodyPermissionChecker waterBodyPermissionChecker;
+
+        public CountriesController(
+            IBeachRankingsData data, 
+            IWaterBodyAllocator waterBodyAllocator, 
+            IWaterBodyPermissionChecker waterBodyPermissionChecker,
+            IDataAggregationService aggregationService)
+            : base(data, aggregationService)
         {
+            this.waterBodyAllocator = waterBodyAllocator;
+            this.waterBodyPermissionChecker = waterBodyPermissionChecker;
         }
 
         public ActionResult Beaches(int id, int page = 0, int pageSize = 10)
         {
             var country = this.Data.Countries.Find(id);
             var model = Mapper.Map<Country, PlaceBeachesViewModel>(country);
+            model.Controller = "Countries";
             model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
@@ -45,8 +59,38 @@
                 Id = id,
                 Controller = "Countries",
                 Name = country.Name,
-                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches),
+                TotalBeachesCount = beaches.Count(),
             };
+
+            return this.View("_StatisticsPartial", model);
+        }
+
+        public ActionResult FilteredStatistics(int id, string filterType)
+        {
+            var country = this.Data.Countries.All()
+                .Include(c => c.PrimaryDivisions.Select(pd => pd.WaterBody))
+                .Include(c => c.SecondaryDivisions)
+                .Include(c => c.TertiaryDivisions)
+                .Include(c => c.QuaternaryDivisions)
+                .Include(c => c.Beaches)
+                .FirstOrDefault(c => c.Id == id);
+            var beaches = country.Beaches.Where(b => b.TotalScore != null).OrderByDescending(b => b.TotalScore);
+            var model = new StatisticsViewModel()
+            {
+                Id = id,
+                Controller = "Countries",
+                Name = ((BeachFilterType)Enum.Parse(typeof(BeachFilterType), filterType)).GetDescription() + " " + country.Name,
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches),
+                TotalBeachesCount = beaches.Count(),
+                FilterType = filterType
+            };
+
+            if (this.Request.IsAjaxRequest())
+            {
+                return this.Json(this.PartialView("_StatisticsPartial", model)
+                    .RenderPartialViewAsString(), JsonRequestBehavior.AllowGet);
+            }
 
             return this.View("_StatisticsPartial", model);
         }
@@ -84,7 +128,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
             var country = new Country()
@@ -111,7 +155,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
             Country country = null;
@@ -129,9 +173,10 @@
 
                 if (waterBodyIdIsNew)
                 {
-                    if (!this.CanEditWaterBody(country))
+                    if (!this.waterBodyPermissionChecker.CanEditWaterBody(country))
                     {
-                        throw new InvalidOperationException("Cannnot assign a water body; the water body is assigned at a different level.");
+                        throw new InvalidOperationException(
+                            "Cannnot assign a water body; the water body is assigned at a different level.");
                     }
 
                     var oldWaterBody = this.Data.WaterBodies.Find(country.WaterBodyId);
@@ -139,7 +184,7 @@
 
                     country.WaterBodyId = bindingModel.WaterBodyId;
 
-                    this.AssignChildrenWaterBodyIds(country);
+                    this.waterBodyAllocator.AssignChildrenWaterBodyIds(country);
 
                     this.Data.WaterBodies.AddUpdateIndexEntry(oldWaterBody);
                     this.Data.WaterBodies.AddUpdateIndexEntry(newWaterBody);
@@ -152,7 +197,7 @@
 
                     country.ContinentId = bindingModel.ContinentId;
 
-                    this.AssignChildrenContinentIds(country);
+                    this.waterBodyAllocator.AssignChildrenContinentIds(country);
 
                     this.Data.Continents.AddUpdateIndexEntry(oldContinent);
                     this.Data.Continents.AddUpdateIndexEntry(newContinent);
@@ -178,7 +223,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Delete(RestructureViewModel bindingModel)
         {
             Country country = null;
@@ -215,7 +260,7 @@
         }
 
         [HttpGet]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public JsonResult Continent(int id)
         {
             var continentId = this.Data.Countries.Find(id).ContinentId;
@@ -224,84 +269,12 @@
         }
 
         [HttpGet]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public JsonResult WaterBody(int id)
         {
             var waterBodyId = this.Data.Countries.Find(id).WaterBodyId;
 
             return this.Json(waterBodyId, JsonRequestBehavior.AllowGet);
         }
-
-        #region Helpers
-
-        private bool CanEditWaterBody(Country country)
-        {
-            var noChildren = (country.PrimaryDivisions.Count == 0);
-
-            if (noChildren)
-            {
-                return true;
-            }
-
-            var firstWaterBodyId = country.WaterBodyId;
-            var waterBodyAssignedAtPrimaryLevel = country.PrimaryDivisions.Any(pd => pd.WaterBodyId != firstWaterBodyId);
-
-            if (waterBodyAssignedAtPrimaryLevel)
-            {
-                return false;
-            }
-
-            var waterBodyAssignedAtSecondaryLevel = country.SecondaryDivisions.Any(pd => pd.WaterBodyId != firstWaterBodyId);
-
-            return waterBodyAssignedAtSecondaryLevel ? false : true;
-        }
-
-        private void AssignChildrenWaterBodyIds(Country country)
-        {
-            foreach (var beach in country.Beaches)
-            {
-                beach.WaterBodyId = (int)country.WaterBodyId;
-            }
-
-            foreach (var primaryDivision in country.PrimaryDivisions)
-            {
-                primaryDivision.WaterBodyId = country.WaterBodyId;
-            }
-
-            foreach (var secondaryDivision in country.SecondaryDivisions)
-            {
-                secondaryDivision.WaterBodyId = country.WaterBodyId;
-            }
-        }
-
-        private void AssignChildrenContinentIds(Country country)
-        {
-            foreach (var beach in country.Beaches)
-            {
-                beach.ContinentId = (int)country.ContinentId;
-            }
-
-            foreach (var primaryDivision in country.PrimaryDivisions)
-            {
-                primaryDivision.ContinentId = country.ContinentId;
-            }
-
-            foreach (var secondaryDivision in country.SecondaryDivisions)
-            {
-                secondaryDivision.ContinentId = country.ContinentId;
-            }
-
-            foreach (var tertiaryDivision in country.TertiaryDivisions)
-            {
-                tertiaryDivision.ContinentId = country.ContinentId;
-            }
-
-            foreach (var quaternaryDivision in country.QuaternaryDivisions)
-            {
-                quaternaryDivision.ContinentId = country.ContinentId;
-            }
-        }
-
-        #endregion
     }
 }

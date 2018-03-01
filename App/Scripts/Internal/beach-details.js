@@ -9,8 +9,11 @@
     reviewsHelper.truncateReviews();
     infiniteScroller.setInifiniteScroll();
 
+    $(".light-gallery").lightGallery(); 
+
     $('.slick-carousel').slick({
         slidesToShow: 1,
+        adaptiveHeight: true,
         slidesToScroll: 1,
         autoplay: true,
         arrows: false,
@@ -22,11 +25,11 @@
     });
 
     $('#btn-beach-export-html').on('click', function () {
-        beachesHelper.exportBeachToHtml($(this));
+        genericHelper.exportToHtml('Beaches', 'ExportHtml', $(this).data('html-export-beach'));
     });
 
     $('#beach-details-container').on('click', '.review-export', function () {
-        reviewsHelper.exportReviewToHtml($(this));
+        genericHelper.exportToHtml('Reviews', 'ExportHtml', $(this).data('html-export-review'));
     });
 
     $('#delete-beach-span').on('click', function () {

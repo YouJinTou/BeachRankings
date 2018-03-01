@@ -27,9 +27,15 @@
 
         IGenericRepository<Review> Reviews { get; }
 
+        IUpvotedReviewsRepository UpvotedReviews { get; }
+
         IGenericRepository<Blog> Blogs { get; }
 
         IGenericRepository<BlogArticle> BlogArticles { get; }
+
+        IGenericRepository<Watchlist> Watchlists { get; }
+
+        IGenericRepository<ScoreWeight> ScoreWeights { get; }
 
         void SaveChanges();
     }

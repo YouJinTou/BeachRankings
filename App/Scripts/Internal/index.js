@@ -44,6 +44,9 @@
                 data: {
                     prefix: prefix
                 },
+                beforeSend: function () {
+                    siteManager.showSpinner();
+                },
                 success: function (result) {
                     var noResults = ((result.indexOf('li') <= 0) && (prefix.length >= 1));
 
@@ -56,7 +59,12 @@
 
                     $autocompleteBox.show();
                 },
+                complete: function () {
+                    siteManager.hideSpinner();
+                },
                 error: function (data) {
+                    siteManager.hideSpinner();
+
                     result = '<ul><li><i>Something went wrong, for which we apologize</i></li></ul>';
 
                     $autocompleteBox.html(result);
@@ -192,27 +200,23 @@
 
         function getAutocompleteResults(url) {
             var $resultsContainer = $('#results-container');
-            var $loadingImage = $('#loading-main-results-image');
-
-            $resultsContainer.html($loadingImage);
-            $loadingImage.show();
 
             $.ajax({
                 url: url,
                 type: 'GET',
+                beforeSend: function () {
+                    siteManager.showSpinner();
+                },
                 success: function (result) {
-                    var dataTablesManager = new DataTablesManager();
-
                     $resultsContainer.html(result);
-                    $resultsContainer.prepend($loadingImage);
                     
                     dataTablesManager.initializeDataTable();                 
                 },
                 complete: function () {
-                    $loadingImage.hide();
+                    siteManager.hideSpinner();
                 },
                 error: function (data) {
-                    $loadingImage.hide();
+                    siteManager.hideSpinner();
                 }
             });
         }       

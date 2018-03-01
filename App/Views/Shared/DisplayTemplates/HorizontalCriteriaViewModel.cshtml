@@ -1,0 +1,25 @@
+﻿@model HorizontalCriteriaViewModel
+
+<tr>
+    <td class="cv-beach-name cv-beach"><div><span>@Html.GetReviewBeachName(Model.BeachName, Model.PrimaryDivisionName, null)</span></div></td>
+
+    <td class="cv-beach"><div><span>@Html.ParseNullableValue(Model.SandQuality, "-")</span></div></td>
+    <td class="cv-beach"><div><span>@Html.ParseNullableValue(Model.BeachCleanliness, "-")</span></div></td>
+    <td class="cv-beach"><div><span>@Html.ParseNullableValue(Model.BeautifulScenery, "-")</span></div></td>
+    <td class="cv-beach"><div><span>@Html.ParseNullableValue(Model.CrowdFree, "-")</span></div></td>
+    <td class="cv-beach"><div><span>@Html.ParseNullableValue(Model.Infrastructure, "-")</span></div></td>
+
+    <td class="cv-water"><div><span>@Html.ParseNullableValue(Model.WaterVisibility, "-")</span></div></td>
+    <td class="cv-water"><div><span>@Html.ParseNullableValue(Model.LitterFree, "-")</span></div></td>
+    <td class="cv-water"><div><span>@Html.ParseNullableValue(Model.FeetFriendlyBottom, "-")</span></div></td>
+    <td class="cv-water"><div><span>@Html.ParseNullableValue(Model.SeaLifeDiversity, "-")</span></div></td>
+    <td class="cv-water"><div><span>@Html.ParseNullableValue(Model.CoralReef, "-")</span></div></td>
+
+    <td class="cv-activities"><div><span>@Html.ParseNullableValue(Model.Snorkeling, "-")</span></div></td>
+    <td class="cv-activities"><div><span>@Html.ParseNullableValue(Model.Kayaking, "-")</span></div></td>
+    <td class="cv-activities"><div><span>@Html.ParseNullableValue(Model.Walking, "-")</span></div></td>
+    <td class="cv-activities"><div><span>@Html.ParseNullableValue(Model.Camping, "-")</span></div></td>
+    <td class="cv-activities"><div><span>@Html.ParseNullableValue(Model.LongTermStay, "-")</span></div></td>
+
+    <td class="cv-score"><div><span><strong>@Html.ParseNullableValue(Model.TotalScore, "-")</strong></span></div></td>
+</tr>

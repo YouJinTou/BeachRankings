@@ -1,15 +1,25 @@
 ﻿@model TableUserReviewsViewModel
 
-@{ 
-    this.ViewBag.Title = Model.AuthorName + " Reviews";
+@{
+    this.ViewBag.Title = Model.Contributor.UserName + "'s Reviews";
 }
 
-<h4>@Model.AuthorName's reviews</h4>
+<div class="row">
+    <div class="contributor-reviews-profile col-xs-12">
+        <div class="row">
+            <div class="col-md-2"></div>
 
-<hr />
+            <div class="col-md-10">
+                @Html.DisplayFor(m => m.Contributor)
+            </div>
+        </div>
+    </div>
+</div>
 
-@Html.Partial("_UserStatisticsPartial", @Model.Reviews)
+@Html.Partial("_TableStatisticsPartial", new StatisticsViewModel { Rows = Model.Reviews })
 
 @section Scripts {
     @Scripts.Render("~/Scripts/Internal/contributors.js")
 }
+
+@Styles.Render("~/Content/Internal/contributors.css")

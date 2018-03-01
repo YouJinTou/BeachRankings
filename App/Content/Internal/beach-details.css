@@ -21,18 +21,13 @@
     padding: 15px;
 }
 
-.beach-name h2 {
+.beach-name h3 {
     margin: 0;
     display: inline-block;
 }
 
-    .beach-name h2 i {
-        font-size: 15px;
-    }
-
 .beach-name h4 {
-    font-weight: lighter;
-    font-size: 15px;
+    margin-top: 5px;
 }
 
 .beach-score-box-extended {
@@ -60,24 +55,86 @@
     font-size: 0.85em;
 }
 
+.delete-beach-wrapper {
+    display: inline;
+}
+
+.main-wrapper-section {
+    height: 190px;
+    margin-bottom: 5px;
+}
+
+.beach-images {
+    background-color: #fcfcfc;
+}
+
+    .beach-images img {
+        height: 260px;
+    }
+
+.beach-images-count {
+    color: #5dbcf7;
+}
+
+/* CROSSTABLE */
+.crosstable-wrapper {
+}
+
+.crosstable {
+    width: 99%;
+    background-color: #CCFF66;
+    border-collapse: collapse;
+    border-radius: 1px;
+    box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+}
+
+    .crosstable th {
+        font-size: 15px;
+        background-color: #95ef2e
+    }
+
+    .crosstable th, td {
+        padding: 3px;
+        border: 2px solid #ddd;
+    }
+
+.crosstable-rank-by {
+    text-align: left;
+}
+
+.crosstable-place-rank {
+    text-align: center;
+}
+
+.crosstable .popup-container {
+    display: inline-block;
+    position: relative;
+}
+
 /* MEDIA QUERIES */
-@media (max-width: 1200px){
+@media (max-width: 1200px) {
     .beach-aside-box {
         padding-left: 0px;
     }
 }
 
-@media (max-width: 990px){
+@media (max-width: 990px) {
     .beach-aside-box {
         font-size: 0.8em;
     }
 
-    .beach-aside-box h4 {
-        font-size: 15px;
-    }
+        .beach-aside-box h4 {
+            font-size: 15px;
+        }
 }
 
 @media (max-width: 768px) {
+    #beach-details-container {
+        margin-top: 0px;
+    }
+    
     .beach-head {
         padding: 2px;
     }
@@ -88,20 +145,16 @@
         padding: 0px;
     }
 
-    .beach-aside-box h4 {
-        font-size: 20px;
-    }
+        .beach-aside-box h4 {
+            font-size: 20px;
+        }
 
     .beach-aside {
         margin-bottom: 5px;
     }
 
-    .beach-name h2 a {
+    .beach-name h3 a {
         font-size: 25px;
-    }
-
-    .beach-name h2 i {
-        display: block;
     }
 
     .criteria-table {
@@ -116,5 +169,9 @@
 
     #btn-beach-export-html {
         display: none;
+    }
+
+    .beach-images-count {
+        text-align: left;
     }
 }

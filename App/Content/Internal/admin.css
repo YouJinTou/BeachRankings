@@ -1,4 +1,9 @@
-﻿#restructure-container {
+﻿.custom-canvas {
+    padding-bottom: 10px;
+}
+
+/* RESTRUCTURE */
+#restructure-container {
     margin: 10px 5px 0px 5px;
     padding: 10px;
 }
@@ -80,4 +85,9 @@
     #restructure-container .btn {
         font-size: 0.8em;
     }
+}
+
+/* WEIGHTS */
+#weights-container {
+    padding: 5px;
 }

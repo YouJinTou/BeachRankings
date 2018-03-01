@@ -7,9 +7,11 @@
     var $textBoxName = $('[data-textbox-name]');
     var $beachNameContainer = $('[data-beach-name]');
     var $textBoxCoordinates = $('[data-textbox-coordinates]');
+    var exemptBeachName = '';
+    var existingBeachLabels = new Set();
 
     blogHelper.tryLoadExistingArticleLinks();
-    
+
     if (adding) {
         resetCountriesDropdown();
     } else {
@@ -17,7 +19,9 @@
     }
 
     setBindings();
+
     setGeneralEvents();
+
     setEditEvents();
 
     function resetCountriesDropdown() {
@@ -42,19 +46,19 @@
         $textBoxName.bind('paste', function (event) {
             event.preventDefault();
         });
-    }    
+    }
 
     function setGeneralEvents() {
         $ddlDivisions.on('change', function () {
-            var $this = $(this);            
+            var $this = $(this);
             var nextDivision = $this.data('next-division');
             var url = $this.data('ddl-division') + $this.val();
-            var currentAddress = getCurrentAddress();            
+            var currentAddress = getCurrentAddress();
 
             $beachNameContainer.hide();
 
             if (!nextDivision) {
-                setAutocomplete();
+                setAutocomplete($this.val(), url);
 
                 $beachNameContainer.show();
 
@@ -76,13 +80,13 @@
                 } else {
                     setDivisionDropdownsVisibility(false);
 
-                    setAutocomplete();
+                    setAutocomplete($this.val(), url);
 
                     $beachNameContainer.show();
                 }
 
                 gMapManager.setMapByAddress(currentAddress);
-                
+
                 $(result).each(function () {
                     $(document.createElement('option'))
                         .attr('value', this.Value)
@@ -108,29 +112,11 @@
                 }
             }
 
-            function setAutocomplete() {
-                var secondSlashIndex = url.indexOf('/', 1);
-                var controller = url.substr(0, secondSlashIndex);
-
-                $textBoxName.autocomplete({
-                    source: function (request, response) {
-                        $.get(controller + '/BeachNames/', {
-                            id: $this.val(),
-                            term: request.term
-                        }, function (data) {
-                            response(data);
-                        });
-                    }
-                }).data("ui-autocomplete")._renderItem = function (ul, item) {
-                    return $('<li class="ui-state-disabled">' + item.label + '</li>').appendTo(ul);
-                }
-            }
-
             function createInitialOption(jQueryAppendee, text) {
                 $(document.createElement('option'))
-                            .attr('value', "")
-                            .text(text)
-                            .appendTo(jQueryAppendee);
+                    .attr('value', "")
+                    .text(text)
+                    .appendTo(jQueryAppendee);
             }
 
             function getCurrentAddress() {
@@ -175,6 +161,26 @@
 
             $('#submit-beach-form').submit();
         });
+
+        $textBoxName.on('keyup', function (event) {
+            var formattedName = formatBeachName($(this).val());
+
+            if (formattedName !== exemptBeachName && existingBeachLabels.has(formattedName)) {
+                $('[data-btn-submit-beach]').prop('disabled', true);
+            } else {
+                $('[data-btn-submit-beach]').prop('disabled', false);
+            }
+        });
+
+        function coordinatesValid() {
+            var pattern = /^[+]?([18]?\d(\.\d+)?|90(\.0+)?),\s*[+]?(180(\.0+)?|((1[07]\d)|([19]?\d))(\.\d+)?)$/;
+
+            if (!pattern.test($textBoxCoordinates.val())) {
+                return false;
+            }
+
+            return true;
+        }
     }
 
     function setEditEvents() {
@@ -182,7 +188,17 @@
             return;
         }
 
+        setEditAutocomplete();
+
         //setImages();
+
+        function setEditAutocomplete() {
+            var $lastVisibleDivision = $('[data-ddl-division]:visible').last();
+            var url = $lastVisibleDivision.data('ddl-division') + $lastVisibleDivision.val();
+            exemptBeachName = formatBeachName($textBoxName.val());
+
+            setAutocomplete($lastVisibleDivision.val(), url);
+        }
 
         function setImages() {
             var $hdnImagePaths = $('[data-hdn-image-paths]');
@@ -222,6 +238,32 @@
                     $hdnImagePaths.val(currentVal.replace($this.val(), ''));
                 })
             }
-        }        
+        }
+    }
+
+    function setAutocomplete(divisionId, url) {
+        var secondSlashIndex = url.indexOf('/', 1);
+        var controller = url.substr(0, secondSlashIndex);
+
+        $textBoxName.autocomplete({
+            source: function (request, response) {
+                $.get(controller + '/BeachNames/', {
+                    id: divisionId,
+                    term: request.term
+                }, function (data) {
+                    response(data);
+                });
+            }
+        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+            var formattedLabel = formatBeachName(item.label);
+
+            existingBeachLabels.add(formattedLabel);
+
+            return $('<li class="ui-state-disabled">' + item.label + '</li>').appendTo(ul);
+        }
+    }
+
+    function formatBeachName(name) {
+        return name.toLowerCase().trim().replace(/\s/g, '');
     }
 })(jQuery);

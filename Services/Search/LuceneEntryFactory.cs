@@ -57,6 +57,26 @@
             var descriptionField = new Field("Description", searchable.Description ?? string.Empty, Field.Store.YES, Field.Index.NOT_ANALYZED);
             var addressField = new Field("Address", searchable.Address ?? string.Empty, Field.Store.YES, Field.Index.NOT_ANALYZED);
             var coordinatesField = new Field("Coordinates", searchable.Coordinates ?? string.Empty, Field.Store.YES, Field.Index.ANALYZED);
+            var continentField = new Field("ContinentId", this.ParseNullableNumber(searchable.ContinentId), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var countryField = new Field("CountryId", searchable.CountryId.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var primaryDivisionField = new Field("PrimaryDivisionId", this.ParseNullableNumber(searchable.PrimaryDivisionId), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var waterBodyField = new Field("WaterBodyId", searchable.WaterBodyId.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var totalScoreField = new Field("TotalScore", this.ParseNullableNumber(searchable.TotalScore), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var sandQualityField = new Field("SandQuality", this.ParseNullableNumber(searchable.SandQuality), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var beachCleanlinessField = new Field("BeachCleanliness", this.ParseNullableNumber(searchable.BeachCleanliness), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var beautifulSceneryField = new Field("BeautifulScenery", this.ParseNullableNumber(searchable.BeautifulScenery), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var crowdFreeField = new Field("CrowdFree", this.ParseNullableNumber(searchable.CrowdFree), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var infrastructureField = new Field("Infrastructure", this.ParseNullableNumber(searchable.Infrastructure), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var waterVisibilityField = new Field("WaterVisibility", this.ParseNullableNumber(searchable.WaterVisibility), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var litterFreeField = new Field("LitterFree", this.ParseNullableNumber(searchable.LitterFree), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var feetFriendlyBottomField = new Field("FeetFriendlyBottom", this.ParseNullableNumber(searchable.FeetFriendlyBottom), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var seaLifeDiversity = new Field("SeaLifeDiversity", this.ParseNullableNumber(searchable.SeaLifeDiversity), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var coralReefField = new Field("CoralReef", this.ParseNullableNumber(searchable.CoralReef), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var snorkelingField = new Field("Snorkeling", this.ParseNullableNumber(searchable.Snorkeling), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var kayakingField = new Field("Kayaking", this.ParseNullableNumber(searchable.Kayaking), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var walkingField = new Field("Walking", this.ParseNullableNumber(searchable.Walking), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var campingField = new Field("Camping", this.ParseNullableNumber(searchable.Camping), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            var longTermStayField = new Field("LongTermStay", this.ParseNullableNumber(searchable.LongTermStay), Field.Store.YES, Field.Index.NOT_ANALYZED);
 
             nameField.Boost = 3.0f;
 
@@ -66,6 +86,26 @@
             newDoc.Add(descriptionField);
             newDoc.Add(addressField);
             newDoc.Add(coordinatesField);
+            newDoc.Add(continentField);
+            newDoc.Add(countryField);
+            newDoc.Add(primaryDivisionField);
+            newDoc.Add(waterBodyField);
+            newDoc.Add(totalScoreField);
+            newDoc.Add(sandQualityField);
+            newDoc.Add(beachCleanlinessField);
+            newDoc.Add(beautifulSceneryField);
+            newDoc.Add(crowdFreeField);
+            newDoc.Add(infrastructureField);
+            newDoc.Add(waterVisibilityField);
+            newDoc.Add(litterFreeField);
+            newDoc.Add(feetFriendlyBottomField);
+            newDoc.Add(seaLifeDiversity);
+            newDoc.Add(coralReefField);
+            newDoc.Add(snorkelingField);
+            newDoc.Add(kayakingField);
+            newDoc.Add(walkingField);
+            newDoc.Add(campingField);
+            newDoc.Add(longTermStayField);
 
             this.writer.AddDocument(newDoc);
         }
@@ -81,7 +121,7 @@
             var idField = new Field("Id", searchable.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED_NO_NORMS);
             var nameField = new Field("Name", formatter.GetFormattedPlaceName(searchable.Name), Field.Store.YES, Field.Index.ANALYZED);
             var originalNameField = new Field("OriginalName", formatter.GetOutboundName(searchable.Name), Field.Store.YES, Field.Index.NOT_ANALYZED);
-            var beachCountField = new NumericField("BeachCount", Field.Store.YES, false).SetIntValue(searchable.Beaches.Count);
+            var beachCountField = new NumericField("BeachCount", Field.Store.YES, true).SetIntValue(searchable.Beaches.Count);
 
             nameField.Boost = 3.0f;
 
@@ -185,6 +225,11 @@
             doc.Add(primaryField);
             doc.Add(secondaryField);
             doc.Add(tertiaryField);
+        }
+
+        private string ParseNullableNumber(double? value)
+        {
+            return value == null ? "-1" : value.ToString();
         }
     }
 }

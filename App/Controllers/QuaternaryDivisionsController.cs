@@ -5,6 +5,7 @@
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.Services.Aggregation;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -14,8 +15,8 @@
 
     public class QuaternaryDivisionsController : BasePlacesController
     {
-        public QuaternaryDivisionsController(IBeachRankingsData data)
-            : base(data)
+        public QuaternaryDivisionsController(IBeachRankingsData data, IDataAggregationService aggregationService)
+            : base(data, aggregationService)
         {
         }
 
@@ -23,6 +24,7 @@
         {
             var quaternaryDivision = this.Data.QuaternaryDivisions.Find(id);
             var model = Mapper.Map<QuaternaryDivision, PlaceBeachesViewModel>(quaternaryDivision);
+            model.Controller = "QuaternaryDivisions";
             model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
@@ -42,7 +44,8 @@
                 Id = id,
                 Controller = "QuaternaryDivisions",
                 Name = quaternaryDivision.Name,
-                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches),
+                TotalBeachesCount = beaches.Count(),
             };
 
             return this.View("_StatisticsPartial", model);
@@ -70,7 +73,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
             QuaternaryDivision quaternaryDivision = null;
@@ -106,7 +109,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
             QuaternaryDivision quaternaryDivision = null;
@@ -133,7 +136,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Delete(RestructureViewModel bindingModel)
         {
             QuaternaryDivision quaternaryDivision = null;

@@ -7,7 +7,7 @@
     var inProgress = false;
     var allResultsShown = false;
     var isBeach = (type === 'beach');
-    var isLocation = (type === 'locaiton');
+    var isLocation = (type === 'location');
     var isImages = (type === 'images');
 
     genericHelper.setScoreBoxesBackgroundColor();
@@ -18,18 +18,21 @@
             var viewEnd = ($(window).height() + $(window).scrollTop());
             var distanceToEnd = (resultsEnd - viewEnd);
             var shouldLoad = (distanceToEnd < 200);
+            var parameters = getParameters(type);
+            var userNavigatedAway =
+                parameters.url === '/Beaches/Reviews' &&
+                parameters.data.beachId === undefined;
 
-            if (!shouldLoad || inProgress || allResultsShown) {
+            if (!shouldLoad || inProgress || allResultsShown || userNavigatedAway) {
                 return;
             }
-
-            var parameters = getParameters(type);
 
             $.ajax({
                 url: parameters.url,
                 type: 'GET',
                 data: parameters.data,
                 beforeSend: function () {
+                    siteManager.showSpinner();
                     inProgress = true;
                 },
                 success: function (result) {
@@ -47,7 +50,11 @@
 
                     page++;
                 },
+                error: function () {
+                    siteManager.hideSpinner();
+                },
                 complete: function () {
+                    siteManager.hideSpinner();
                     inProgress = false;
                 }
             });
@@ -69,7 +76,7 @@
                 return parameters;
             }
             case 'location': {
-                var captureGroups = /.+(\/Countries|\/\w+Divisions|\/WaterBodies)(.+\/)(\d+)/i.exec(window.location.href);
+                var captureGroups = /.+(\/Countries|\/\w+Divisions|\/WaterBodies|\/Continents|\/World)(\/\w+)\/?(\d+)?/i.exec(window.location.href);
                 parameters.url = (captureGroups[1] + captureGroups[2]);
                 parameters.data = {
                     id: captureGroups[3],

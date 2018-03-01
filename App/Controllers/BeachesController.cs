@@ -1,49 +1,48 @@
 ﻿namespace App.Controllers
 {
+    using App.Code.Beaches;
+    using App.Code.Blogs;
+    using App.Code.Images;
     using AutoMapper;
     using BeachRankings.App.CustomAttributes;
-    using BeachRankings.Data.Extensions;
-    using BeachRankings.Data.UnitOfWork;
-    using BeachRankings.Models;
-    using BeachRankings.App.Models;
     using BeachRankings.App.Models.ViewModels;
-    using BeachRankings.App.Utils;
-    using BeachRankings.App.Utils.Extensions;
+    using BeachRankings.Data.UnitOfWork;
+    using BeachRankings.Extensions;
+    using BeachRankings.Models;
+    using BeachRankings.Services.Aggregation;
+    using Extensions;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Web.Mvc;
 
     public class BeachesController : BasePlacesController
     {
-        public BeachesController(IBeachRankingsData data)
-            : base(data)
+        private IBeachUpdater beachUpdater;
+        private IBeachQueryManager beachQueryManager;
+        private IBeachDisplayManager beachDisplayManager;
+        private IImageManager imageManager;
+        private IBlogArticleUpdater blogArticleUpdater;
+
+        public BeachesController(
+            IBeachRankingsData data, 
+            IBeachUpdater beachUpdater, 
+            IBeachQueryManager beachQueryManager, 
+            IBeachDisplayManager beachDisplayManager,
+            IImageManager imageManager,
+            IBlogArticleUpdater blogArticleUpdater,
+            IDataAggregationService aggregationService)
+            : base(data, aggregationService)
         {
+            this.beachUpdater = beachUpdater;
+            this.beachQueryManager = beachQueryManager;
+            this.beachDisplayManager = beachDisplayManager;
+            this.imageManager = imageManager;
+            this.blogArticleUpdater = blogArticleUpdater;
         }
 
-        public ActionResult Best()
-        {
-            var model = new BestBeachesViewModel()
-            {
-                CaribbeanId = 40,
-                EuropeId = 4,
-                FranceId = 53,
-                GreeceId = 61,
-                ItalyId = 78,
-                MediterraneanId = 108,
-                SpainId = 147,
-                TurkeyId = 160,
-                CampingId = 13,
-                LongStayId = 15,
-                SnorkelingId = 11
-            };
-
-            return this.View(model);
-        }
-
-        public ActionResult Top(int continentId = 0, int countryId = 0, int waterBodyId = 0, int criterionId = 0)
+        public ActionResult Statistics(int continentId = 0, int countryId = 0, int waterBodyId = 0, int criterionId = 0)
         {
             var beaches = this.Data.Beaches
                  .FilterByContinent(continentId)
@@ -53,13 +52,16 @@
                  .OrderByCriterion(criterionId)
                  .Take(25)
                  .ToList();
-            var beachesModel = Mapper.Map<IEnumerable<Beach>, IEnumerable<ConciseBeachViewModel>>(beaches);
-            var title = BeachHelper.GetFilteredBeachesTitle(continentId, countryId, waterBodyId, criterionId);
-            var model = new PlaceBeachesViewModel() { Name = title, Beaches = beachesModel };
+            var model = new StatisticsViewModel()
+            {
+                Id = this.beachDisplayManager.GetPlaceId(continentId, countryId, waterBodyId),
+                Controller = this.beachDisplayManager.GetControllerNameFromId(continentId, countryId, waterBodyId),
+                Name = this.beachDisplayManager.GetFilteredBeachesTitle(continentId, countryId, waterBodyId, criterionId),
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches),
+                SortingCriterion = criterionId
+            };
 
-            model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
-
-            return this.View("_PlaceBeaches", model);
+            return this.View("_StatisticsPartial", model);
         }
 
         public ActionResult Details(int id)
@@ -70,13 +72,20 @@
                 .Include(b => b.BlogArticles)
                 .FirstOrDefault(b => b.Id == id);
             var model = Mapper.Map<Beach, DetailedBeachViewModel>(beach);
-            model.Reviews = model.Reviews.OrderByDescending(r => r.Upvotes).ThenByDescending(r => r.PostedOn).Take(10).ToList();
+            model.Reviews = model.Reviews
+                .OrderByDescending(r => r.ReviewUser.Badge)
+                .ThenByDescending(r => r.Upvotes)
+                .ThenByDescending(r => r.PostedOn)
+                .Take(10)
+                .ToList();
+            model.CrossTable.Rows = Mapper.Map<ICollection<RankContainer>, IEnumerable<CrossTableRowViewModel>>(
+                this.aggregationService.CalculateBeachRanks(id));
 
             if (this.User.Identity.IsAuthenticated)
             {
-                Func<ConciseReviewViewModel, bool> userUpvoted = (r => (this.UserProfile.UpvotedReviews.Any(ur => ur.Id == r.Id)));
+                Func<ConciseReviewViewModel, bool> userUpvoted = (r => (this.Data.UpvotedReviews.UserHasVotedForReview(this.UserProfile.Id, r.Id)));
                 model.UserHasRated = this.UserProfile.Reviews.Any(r => r.BeachId == id);
-                model.Reviews.Select(r => { r.AlreadyUpvoted = userUpvoted(r); return r; }).ToList();
+                model.Reviews.Select(r => { r.ReviewHead.AlreadyUpvoted = userUpvoted(r); return r; }).ToList();
             }
 
             return this.View(model);
@@ -111,7 +120,7 @@
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddBeachViewModel bindingModel)
         {
-            if (!this.AddEditModelValid(bindingModel))
+            if (!this.ModelState.IsValid)
             {
                 bindingModel.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
                 {
@@ -122,15 +131,13 @@
                 return this.View(bindingModel);
             }
 
-            var beach = this.SaveBeach(bindingModel);
-            var images = ImageHelper.PersistBeachImages(beach, bindingModel.Images, this.UserProfile.Id);
+            var beach = this.beachUpdater.SaveBeach(bindingModel, this.UserProfile.Id);
 
-            this.Data.BeachImages.AddMany(images);
-            this.Data.BeachImages.SaveChanges();
+            this.imageManager.PersistBeachImages(beach, beach.Name, bindingModel.Images, this.UserProfile.Id);
 
             bindingModel.Id = beach.Id;
 
-            this.TryAddUpdateBlogArticles(bindingModel);
+            this.blogArticleUpdater.TryAddUpdateBlogArticles(this.User.Identity.IsAdmin(), bindingModel);
 
             return this.RedirectToAction("Post", "Reviews", new { id = beach.Id });
         }
@@ -146,7 +153,7 @@
                 return this.RedirectToAction("Details", new { id = id });
             }
 
-            var model = this.GetEditBeachViewModel(beach);
+            var model = this.beachDisplayManager.GetEditBeachViewModel(beach);
 
             return this.View("Edit", model);
         }
@@ -158,22 +165,28 @@
         {
             var beach = this.Data.Beaches.Find(bindingModel.Id);
 
-            if (this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
+            if (!this.User.Identity.CanEditBeach(beach.CreatorId, beach.Reviews.Count))
             {
-                if (!this.AddEditModelValid(bindingModel))
-                {
-                    var model = this.GetEditBeachViewModel(beach);
-                    bindingModel.Countries = model.Countries;
-                    bindingModel.PrimaryDivisions = model.PrimaryDivisions;
-                    bindingModel.SecondaryDivisions = model.SecondaryDivisions;
-                    bindingModel.TertiaryDivisions = model.TertiaryDivisions;
-                    bindingModel.QuaternaryDivisions = model.QuaternaryDivisions;
-
-                    return this.View(bindingModel);
-                }
-
-                this.UpdateBeach(beach, bindingModel);
+                return this.RedirectToAction("Details", new { id = beach.Id });
             }
+
+            if (!this.ModelState.IsValid)
+            {
+                var model = this.beachDisplayManager.GetEditBeachViewModel(beach);
+                bindingModel.Countries = model.Countries;
+                bindingModel.PrimaryDivisions = model.PrimaryDivisions;
+                bindingModel.SecondaryDivisions = model.SecondaryDivisions;
+                bindingModel.TertiaryDivisions = model.TertiaryDivisions;
+                bindingModel.QuaternaryDivisions = model.QuaternaryDivisions;
+
+                return this.View(bindingModel);
+            }
+
+            var oldName = beach.Name;
+
+            this.beachUpdater.UpdateBeach(beach, bindingModel, this.User.Identity.IsAdmin());
+
+            this.imageManager.PersistBeachImages(beach, oldName, bindingModel.Images, this.UserProfile.Id);
 
             return this.RedirectToAction("Details", new { id = beach.Id });
         }
@@ -193,10 +206,10 @@
 
             Mapper.Map(beach, oldBeach);
 
-            this.RemoveChildReferences(beach);
+            this.beachUpdater.RemoveChildReferences(beach);
             this.Data.Beaches.Remove(beach);
             this.Data.Beaches.SaveChanges();
-            this.UpdateIndexEntries(oldBeach);
+            this.beachUpdater.UpdateIndexEntries(oldBeach);
             this.Data.Beaches.DeleteIndexEntry(oldBeach);
 
             return this.RedirectToAction("Index", "Home");
@@ -206,13 +219,18 @@
         {
             var beach = this.Data.Beaches.Find(id);
             var model = Mapper.Map<Beach, ExportScoresAsHtmlViewModel>(beach);
-            var htmlResult = this.PartialView(@"~\Views\Shared\_ExportScoresHtml.cshtml", model).RenderPartialViewAsString();
+            var horizontalHtmlResult = this.PartialView(
+                @"~\Views\Shared\_ExportScoresHorizontalHtml.cshtml", 
+                new List<ExportScoresAsHtmlViewModel> { model }).RenderPartialViewAsString();
+            var verticalHtmlResult = this.PartialView(
+                @"~\Views\Shared\_ExportScoresVerticalHtml.cshtml", model).RenderPartialViewAsString();
+            var htmlResult = horizontalHtmlResult + "@@@" + verticalHtmlResult;
 
             return this.Json(htmlResult, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult MoveBeaches(RestructureViewModel bindingModel)
         {
             var beachIds = bindingModel.BeachIdsToMove.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -230,7 +248,8 @@
                 beach.SecondaryDivisionId = bindingModel.SecondaryDivisionId;
                 beach.TertiaryDivisionId = bindingModel.TertiaryDivisionId;
                 beach.QuaternaryDivisionId = bindingModel.QuaternaryDivisionId;
-                beach.WaterBodyId = this.GetWaterBodyId((int)bindingModel.CountryId, bindingModel.PrimaryDivisionId, bindingModel.SecondaryDivisionId);
+                beach.WaterBodyId = this.beachQueryManager
+                    .GetBeachWaterBodyId((int)bindingModel.CountryId, bindingModel.PrimaryDivisionId, bindingModel.SecondaryDivisionId);
 
                 this.Data.Beaches.SaveChanges();
 
@@ -238,253 +257,10 @@
 
                 this.Data.Beaches.SaveChanges();
 
-                this.UpdateIndexEntries(beach, oldBeach);
+                this.beachUpdater.UpdateIndexEntries(beach, oldBeach);
             }
 
             return this.RedirectToAction("Restructure", "Admin");
         }
-
-        #region Action Helpers
-
-        #region Common
-
-        private bool AddEditModelValid(IAddEditBeachModel model)
-        {
-            var isAdd = (model.Id == 0);
-            var sameBeachNamesCount = this.Data.Beaches.All().Where(
-                b => b.PrimaryDivisionId == model.PrimaryDivisionId &&
-                b.SecondaryDivisionId == model.SecondaryDivisionId &&
-                b.Name.ToLower() == model.Name.ToLower())
-                .ToList()
-                .Count;
-            var beachNameUnique = (isAdd && sameBeachNamesCount == 0) || (!isAdd && sameBeachNamesCount == 1);
-            var englishAlphabetUsed = Regex.IsMatch(model.Name, @"^[A-Za-z0-9\s-]+$");
-            var primaryDivision = this.Data.PrimaryDivisions.All()
-                .Include(pd => pd.SecondaryDivisions)
-                .Include(pd => pd.TertiaryDivisions)
-                .Include(pd => pd.QuaternaryDivisions)
-                .FirstOrDefault(pd => pd.Id == model.PrimaryDivisionId);
-            var secondaryDivisionsExist = (primaryDivision.SecondaryDivisions.Count > 0);
-            var tertiaryDivisionsExist = (primaryDivision.TertiaryDivisions.Count > 0);
-            var quaternaryDivisionsExist = (primaryDivision.QuaternaryDivisions.Count > 0);
-            var secondaryIdMissing = (secondaryDivisionsExist && model.SecondaryDivisionId == null);
-            var tertiaryIdMissing = (tertiaryDivisionsExist && model.TertiaryDivisionId == null);
-            var quaternaryIdMissing = (quaternaryDivisionsExist && model.QuaternaryDivisionId == null);
-
-            if (secondaryIdMissing || tertiaryIdMissing || quaternaryIdMissing)
-            {
-                this.ModelState.AddModelError(string.Empty, "All location fields are required.");
-
-                return false;
-            }
-
-            if (!beachNameUnique)
-            {
-                this.ModelState.AddModelError(string.Empty, "A beach with this name already exists.");
-
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion
-
-        #region Add        
-
-        private Beach SaveBeach(AddBeachViewModel model)
-        {
-            this.Data.Countries.All()
-                .Include(c => c.PrimaryDivisions)
-                .Include(c => c.SecondaryDivisions)
-                .FirstOrDefault(c => c.Id == model.CountryId);
-
-            var beach = Mapper.Map<AddBeachViewModel, Beach>(model);
-            beach.CreatorId = this.UserProfile.Id;
-            beach.WaterBodyId = this.GetWaterBodyId(model.CountryId, model.PrimaryDivisionId, model.SecondaryDivisionId);
-
-            this.Data.Beaches.Add(beach);
-            beach.SetBeachData();
-            this.Data.Beaches.SaveChanges();
-
-            this.UpdateIndexEntries(beach);
-
-            return beach;
-        }
-
-        private int GetWaterBodyId(int countryId, int? primaryDivisionid, int? secondaryDivisionId)
-        {
-            var secondaryDivision = this.Data.SecondaryDivisions.All().Include(sd => sd.WaterBody).FirstOrDefault(sd => sd.Id == secondaryDivisionId);
-            var secondaryDivisionHasWaterBody = (secondaryDivision != null && secondaryDivision.WaterBodyId != null);
-
-            if (secondaryDivisionHasWaterBody)
-            {
-                return (int)secondaryDivision.WaterBodyId;
-            }
-
-            var primaryDivision = this.Data.PrimaryDivisions.All().Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == primaryDivisionid);
-            var primaryDivisionHasWaterBody = (primaryDivision != null && primaryDivision.WaterBodyId != null);
-
-            if (primaryDivisionHasWaterBody)
-            {
-                return (int)primaryDivision.WaterBodyId;
-            }
-
-            var waterBodyId = this.Data.Countries.All().Include(c => c.WaterBody).FirstOrDefault(c => c.Id == countryId).WaterBodyId;
-
-            return (int)waterBodyId;
-        }
-
-        #endregion
-
-        #region Edit
-
-        private EditBeachViewModel GetEditBeachViewModel(Beach beach)
-        {
-            var model = Mapper.Map<Beach, EditBeachViewModel>(beach);
-            model.Countries = this.Data.Countries.All().Select(c => new SelectListItem()
-            {
-                Text = c.Name,
-                Value = c.Id.ToString(),
-                Selected = (c.Id == model.CountryId)
-            });
-            model.PrimaryDivisions = this.Data.PrimaryDivisions.All()
-                .Where(pd => pd.CountryId == beach.CountryId)
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                    Selected = (c.Id == model.PrimaryDivisionId)
-                });
-            model.SecondaryDivisions = this.Data.SecondaryDivisions.All()
-                .Where(sd => sd.PrimaryDivisionId == beach.PrimaryDivisionId)
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                    Selected = (c.Id == model.SecondaryDivisionId)
-                });
-            model.TertiaryDivisions = this.Data.TertiaryDivisions.All()
-                .Where(td => td.SecondaryDivisionId == beach.SecondaryDivisionId)
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                    Selected = (c.Id == model.TertiaryDivisionId)
-                });
-            model.QuaternaryDivisions = this.Data.QuaternaryDivisions.All()
-                .Where(qd => qd.TertiaryDivisionId == beach.TertiaryDivisionId)
-                .Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                    Selected = (c.Id == model.QuaternaryDivisionId)
-                });
-
-            return model;
-        }
-
-        private void UpdateBeach(Beach beach, EditBeachViewModel model)
-        {
-            var oldBeach = new Beach();
-
-            Mapper.Map(beach, oldBeach);
-            Mapper.Map(model, beach);
-
-            var primaryDivision = this.Data.PrimaryDivisions.All().Include(pd => pd.WaterBody).FirstOrDefault(pd => pd.Id == model.PrimaryDivisionId);
-            beach.WaterBodyId = this.GetWaterBodyId(model.CountryId, model.PrimaryDivisionId, model.SecondaryDivisionId);
-
-            this.Data.Beaches.SaveChanges();
-
-            beach.SetBeachData();
-
-            this.Data.Beaches.SaveChanges();
-
-            this.UpdateIndexEntries(beach, oldBeach);
-
-            this.TryAddUpdateBlogArticles(model);
-        }
-
-        private void TryAddUpdateBlogArticles(IAddEditBeachModel model)
-        {
-            if (!this.User.Identity.IsAdmin() || string.IsNullOrEmpty(model.ArticleLinks))
-            {
-                return;                
-            }
-
-            var newArticles = BlogHelper.GetAdminBlogArticles(model.ArticleLinks, model.Id);
-            var existingArticles = this.Data.BlogArticles.All().Where(ba => ba.BeachId == model.Id);
-
-            this.Data.BlogArticles.RemoveMany(existingArticles);
-            this.Data.BlogArticles.AddMany(newArticles);
-            this.Data.BlogArticles.SaveChanges();
-        }
-
-        private void UpdateIndexEntries(Beach beach, Beach oldBeach = null)
-        {
-            if (oldBeach != null)
-            {
-                var oldContinent = this.Data.Continents.Find(oldBeach.ContinentId);
-                var oldCountry = this.Data.Countries.Find(oldBeach.CountryId);
-                var oldPrimary = this.Data.PrimaryDivisions.Find(oldBeach.PrimaryDivisionId);
-                var oldSecondary = this.Data.SecondaryDivisions.Find(oldBeach.SecondaryDivisionId);
-                var oldTertiary = (oldBeach.TertiaryDivisionId == null) ? null : this.Data.TertiaryDivisions.Find(oldBeach.TertiaryDivisionId);
-                var oldQuaternary = (oldBeach.QuaternaryDivisionId == null) ? null : this.Data.QuaternaryDivisions.Find(oldBeach.QuaternaryDivisionId);
-                var oldWaterBody = this.Data.WaterBodies.Find(oldBeach.WaterBodyId);
-
-                this.Data.Beaches.AddUpdateIndexEntry(oldBeach);
-                this.Data.Continents.AddUpdateIndexEntry(oldContinent);
-                this.Data.Countries.AddUpdateIndexEntry(oldCountry);
-                this.Data.PrimaryDivisions.AddUpdateIndexEntry(oldPrimary);
-                this.Data.SecondaryDivisions.AddUpdateIndexEntry(oldSecondary);
-                this.Data.TertiaryDivisions.AddUpdateIndexEntry(oldTertiary);
-                this.Data.QuaternaryDivisions.AddUpdateIndexEntry(oldQuaternary);
-                this.Data.WaterBodies.AddUpdateIndexEntry(oldWaterBody);
-            }
-
-            var continent = this.Data.Continents.Find(beach.ContinentId);
-            var country = this.Data.Countries.Find(beach.CountryId);
-            var primary = this.Data.PrimaryDivisions.Find(beach.PrimaryDivisionId);
-            var secondary = this.Data.SecondaryDivisions.Find(beach.SecondaryDivisionId);
-            var tertiary = (beach.TertiaryDivisionId == null) ? null : this.Data.TertiaryDivisions.Find(beach.TertiaryDivisionId);
-            var quaternary = (beach.QuaternaryDivisionId == null) ? null : this.Data.QuaternaryDivisions.Find(beach.QuaternaryDivisionId);
-            var waterBodyId = (secondary == null) ?
-                (primary == null) ? country.WaterBodyId : primary.WaterBodyId
-                : secondary.WaterBodyId;
-            var waterBody = this.Data.WaterBodies.Find(waterBodyId);
-
-            this.Data.Beaches.AddUpdateIndexEntry(beach);
-            this.Data.Continents.AddUpdateIndexEntry(continent);
-            this.Data.Countries.AddUpdateIndexEntry(country);
-            this.Data.PrimaryDivisions.AddUpdateIndexEntry(primary);
-            this.Data.SecondaryDivisions.AddUpdateIndexEntry(secondary);
-            this.Data.TertiaryDivisions.AddUpdateIndexEntry(tertiary);
-            this.Data.QuaternaryDivisions.AddUpdateIndexEntry(quaternary);
-            this.Data.WaterBodies.AddUpdateIndexEntry(waterBody);
-        }
-
-        #endregion
-
-        #region Delete
-
-        private void RemoveChildReferences(Beach beach)
-        {
-            var articles = beach.BlogArticles.ToList();
-            var reviews = beach.Reviews.ToList();
-            var images = beach.Images.ToList();
-
-            this.Data.BlogArticles.RemoveMany(articles);
-            this.Data.Reviews.RemoveMany(reviews);
-            this.Data.BeachImages.RemoveMany(images);
-            ImageHelper.EraseImagesLocally(beach.Name);
-
-            this.Data.BlogArticles.SaveChanges();
-            this.Data.Reviews.SaveChanges();
-            this.Data.BeachImages.SaveChanges();
-        }
-
-        #endregion
-
-        #endregion
     }
 }

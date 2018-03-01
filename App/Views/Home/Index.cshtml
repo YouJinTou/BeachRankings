@@ -1,1 +1,37 @@
-﻿
+﻿<div class="custom-canvas col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="home-h2">
+                Crowd-sourced database of beaches around the world. 
+                <br />
+                Here, numbers speak more than words.
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>Find your beaches...</h3>
+            <h3>Rate your beaches...</h3>
+            <h3>Compare your beaches...</h3>
+            <h3>Share your beaches...</h3>
+            <h3>Add your beaches...</h3>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <h2 class="home-h2">@ConfigurationManager.AppSettings["BrandName"] is:</h2>
+
+        <ol>
+            <li>A system for precise evaluation of any beach using @Enum.GetNames(typeof(Criterion)).Length criteria;</li>
+            <li>A database with detailed information on beaches worldwide;</li>
+            <li>An engine for effectively filtering beaches by location and criteria.</li>
+        </ol>
+
+        <h4>Our goal at @ConfigurationManager.AppSettings["BrandName"] is to get you to the right beach in just a few clicks.</h4>
+    </div>
+</div>
+
+@Styles.Render("~/Content/Internal/index.css")

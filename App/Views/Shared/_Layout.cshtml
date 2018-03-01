@@ -1,23 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    @if (!Html.IsDebug())
+    {
+        @Html.Partial("_AnalyticsPartial");
+    }
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="~/Content/Images/social-beach-export.jpg" />
 
-    <title>@Html.ParseNullString((string)ViewBag.Title, "BeachesDb")</title>
+    <title>@Html.ParseNullString((string)ViewBag.Title, ConfigurationManager.AppSettings["BrandName"])</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Internal/main-layout.css")
-    @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/Internal/home.css")
     @Styles.Render("~/Content/External/DataTables/datatables.min.css")
+    @Styles.Render("~/Content/Internal/datatables-custom.css")
     @Styles.Render("~/Content/External/lightbox/css/lightbox.css")
     @Styles.Render("~/Content/Internal/dashboard.css")
+    @Styles.Render("~/Content/Internal/watchlists.css")
     @RenderSection("ReviewsStyles", required: false)
     @RenderSection("BeachStyles", required: false)
     @RenderSection("UserStyles", required: false)
     @RenderSection("AdminStyles", required: false)
 </head>
+
 <body>
+    <div id="fb-root"></div>
+
+    <div class="loading">
+        <div class="loader"></div>
+    </div>
+
     <div class="header-wrapper">
         <div class="navbar navbar-inverse">
             <div class="container">
@@ -32,65 +46,68 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink(ConfigurationManager.AppSettings["BrandName"] + " Criteria", "Criteria", "Home")</li>
+                        <li>@Html.ActionLink("How to Search", "HowTo", "Home")</li>
                         <li>@Html.ActionLink("Add Beach", "Add", "Beaches")</li>
-                        <li>@Html.ActionLink("Best Beaches", "Best", "Beaches")</li>
                         <li>@Html.ActionLink("Top Contributors", "Top", "Contributors")</li>
+                        <li>@Html.ActionLink("Best Beaches", "Statistics", "World")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("For Bloggers", "Bloggers", "Home")</li>
+                        <li>@Html.Partial("_LoginPartial")</li>
                     </ul>
-                    @Html.Partial("_LoginPartial")
                 </div>
             </div>
         </div>
         <div class="home-search-header">
+            <div class="search-header-description-wrapper">
+                <div class="search-header-description-inner">
+                    <span class="desc-brand">@ConfigurationManager.AppSettings["BrandName"]</span>
+                    <span class="desc-engine display-block">Find Your Beach</span>
+                </div>
+            </div>
+
             <input id="main-search-field" class="custom-focus-black" name="main-search-field" type="text" autocomplete="off" placeholder="Search by land or sea" />
-            @*<input type="submit" value="Go" />*@
+
             <div class="autocomplete-box home-autocomplete-box" style="display: none;"></div>
         </div>
     </div>
 
     <div class="container body-content">
         <div id="results-container" class="row">
-            <div class="loading-image-container col-xs-12">
-                <img id="loading-main-results-image" src="~/Content/Images/ajax-loader.gif" alt="Loading" style="display: none;" />
-            </div>
             @RenderBody()
         </div>
 
-        <hr />
-
         <footer id="main-footer">
-            <p>&copy; @DateTime.Now.Year - BeachesDb.com</p>
-
-            <div class="custom-modal-popup" data-popup="main">
-                <div class="custom-modal-popup-inner">
-                    <div class="modal-export-case row" data-export-case="">
-                        <p class="col-xs-12"><b>Paste this HTML in your website for a summary like the one in the example below.</b></p>
-                        <div class="img-container col-xs-5">
-                            <a href="~/Content/Images/export-example.PNG" data-lightbox="export-result">
-                                <img class="img-responsive" data-img-export="" src="~/Content/Images/export-example.PNG" alt="Export example" />
-                            </a>
-                        </div>
-                        <textarea class="col-xs-7" readonly="readonly" data-custom-modal-text=""></textarea>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="fb-like" data-href="https://www.beachrankings.info/" data-layout="button_count"
+                         data-action="like" data-size="small" data-show-faces="false" data-share="false">
                     </div>
-                    <div class="modal-non-export-case" data-non-export-case="">
-                        <p data-non-export-text-field="" data-custom-modal-text=""></p>
-                    </div>
-
-                    <a class="popup-close" data-popup-close="" href="#">x</a>
                 </div>
+            </div>
+
+            <div class="footer-copyright row">
+                <div class="col-xs-12">
+                    <p>&copy; @DateTime.Now.Year - @ConfigurationManager.AppSettings["DomainName"]</p>
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.Partial("_BeachExportPopupPartial")
+
+                <div data-html-renderable="" class="invisible-floater"></div>
             </div>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/Scripts/Internal/site.js")
-    @Scripts.Render("~/Scripts/Internal/utils.js")
-    @Scripts.Render("~/Scripts/Internal/index.js")
-    @Scripts.Render("~/Scripts/Internal/infinite-scroller.js")
-    @Scripts.Render("~/Content/External/DataTables/datatables.min.js")
-    @Scripts.Render("~/Scripts/Internal/datatables-manager.js")
-    @Scripts.Render("~/Content/External/lightbox/js/lightbox.js")
-    @Scripts.Render("~/Scripts/Internal/dashboard.js")
+    @Scripts.Render("~/bundles/js")
     @RenderSection("scripts", required: false)
+
+    @if (!Html.IsDebug())
+    {
+        Html.RenderPartial("_AnalyticsBottomPartial");
+
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a75ca7eadb0ec10"></script>
+    }
 </body>
 </html>

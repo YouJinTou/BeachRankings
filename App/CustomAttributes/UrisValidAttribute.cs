@@ -1,11 +1,19 @@
 ﻿namespace BeachRankings.App.CustomAttributes
 {
-    using BeachRankings.App.Utils;
+    using global::App.Code.Blogs;
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
 
     public class UrisValidAttribute : ValidationAttribute
     {
+        private IBlogQueryManager blogQueryManager;
+
+        public UrisValidAttribute()
+        {
+            this.blogQueryManager = DependencyResolver.Current.GetService<IBlogQueryManager>();
+        }
+
         public override bool IsValid(object value)
         {
             if (value == null)
@@ -13,9 +21,7 @@
                 return true;
             }
 
-            var tokens = BlogHelper.SplitArticleUrls(value.ToString());
-
-            foreach (var token in tokens)
+            foreach (var token in this.blogQueryManager.GetSplitArticleUrls(value.ToString()))
             {
                 var startsCorrectly = token.StartsWith("http://") || token.StartsWith("https://");
                 var isSingleWord = !token.Contains(".");

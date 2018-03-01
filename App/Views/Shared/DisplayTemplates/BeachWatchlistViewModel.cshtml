@@ -1,0 +1,9 @@
+﻿@model BeachWatchlistViewModel
+
+<div class="concise-watchlist col-xs-12">
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.BeachId, new { data_beach_id = Model.BeachId })
+    @Html.CheckBoxFor(x => Model.BeachPresentInWatchlist, new { @class = "cb-adjustable-watchlist" })
+    @Html.ActionLink(Model.Name, "GetWatchlist", "Watchlists", new { Id = Model.Id }, 
+        new { @class = "concise-watchlist-name", target = "_blank" })
+</div>

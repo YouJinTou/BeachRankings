@@ -4,7 +4,7 @@
     using AutoMapper;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
-    using BeachRankings.App.Utils.Extensions;
+    using BeachRankings.Extensions;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
     using System;
@@ -25,7 +25,7 @@
         public ActionResult Statistics()
         {
             var reviews = this.UserProfile.Reviews;
-            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<ReviewRowViewModel>>(reviews);
+            var model = Mapper.Map<IEnumerable<Review>, IEnumerable<BeachRowViewModel>>(reviews);
 
             return this.View(model);
         }
@@ -74,12 +74,14 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.UploadAvatarError });
+                return this.RedirectToAction("Index", "Manage", 
+                    new { Message = ActionMessage.UploadAvatarError.GetDescription() });
             }
 
             this.SaveUserAvatar(bindingModel);
 
-            return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.ChangeAvatarSuccess });
+            return this.RedirectToAction("Index", "Manage", 
+                new { Message = ActionMessage.ChangeAvatarSuccess.GetDescription() });
         }
 
         [Authorize]
@@ -92,7 +94,7 @@
                 this.SetDefaultAvatar();
             }
 
-            return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.DeleteAvatarSuccess });
+            return this.RedirectToAction("Index", "Manage", new { Message = ActionMessage.DeleteAvatarSuccess.GetDescription() });
         }
 
         [Authorize]
@@ -131,6 +133,9 @@
 
             var relativeAvatarsDir = UserHelper.GetUserAvatarsRelativeDir();
             var avatarsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeAvatarsDir);
+
+            Directory.CreateDirectory(avatarsDir);
+
             var uniqueName = Guid.NewGuid().ToString() + Path.GetFileName(bindingModel.Avatar.FileName);
             var avatarPath = Path.Combine(avatarsDir, uniqueName);
             var relativeAvatarPath = Path.Combine("\\", relativeAvatarsDir, uniqueName);

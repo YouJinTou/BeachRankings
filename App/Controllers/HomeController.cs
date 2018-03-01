@@ -20,13 +20,33 @@
             return this.View();
         }
 
+        public ActionResult Criteria()
+        {
+            return this.View();
+        }
+
+        public ActionResult HowTo()
+        {
+            return this.View();
+        }
+
+        public ActionResult Contact()
+        {
+            return this.View();
+        }
+
+        public ActionResult Bloggers()
+        {
+            return this.View();
+        }
+
         public PartialViewResult UserOverview()
         {
             var model = new UserOverviewViewModel()
             {
                 AvatarPath = this.UserProfile.AvatarPath,
                 Level = this.UserProfile.Level,
-                PointsToNextLevel = this.UserProfile.PointsToNextLevel
+                PointsToNextLevel = $"{this.UserProfile.Points}/{this.UserProfile.CurrentLevelThreshold}"
             };
 
             return this.PartialView("_UserOverviewPartial", model);
@@ -64,6 +84,12 @@
             };
 
             return this.PartialView("_Autocomplete", model);
+        }
+
+        [HttpGet]
+        public ActionResult KeepAlive()
+        {
+            return new HttpStatusCodeResult(200);
         }
     }
 }

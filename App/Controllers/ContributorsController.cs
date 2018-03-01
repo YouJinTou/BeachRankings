@@ -17,13 +17,8 @@
 
         public ActionResult Top()
         {
-            var topUsers = this.Data.Users.All().OrderByDescending(u => u.Reviews.Count).Take(20);
-            var model = Mapper.Map<IEnumerable<User>, IEnumerable<ContributorViewModel>>(topUsers).ToList();
-
-            for (int i = 0; i < model.Count; i++)
-            {
-                model[i].Rank = i + 1;
-            }
+            var topUsers = this.Data.Users.All().OrderByDescending(u => u.Points).ToList();
+            var model = Mapper.Map<IEnumerable<User>, IEnumerable<ContributorRowViewModel>>(topUsers).ToList();
 
             return this.View(model);
         }

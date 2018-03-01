@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ReviewRowViewModel>
+﻿@model IEnumerable<BeachRowViewModel>
 
 <h4>My reviews</h4>
 
-<hr />
+<hr class="hr-delimiter" />
 
-@Html.Partial("_UserStatisticsPartial", Model)
+@Html.Partial("_TableStatisticsPartial", new StatisticsViewModel { Rows = Model })

@@ -1,5 +1,6 @@
 ﻿namespace BeachRankings.Models
 {
+    using BeachRankings.Models.Enums;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System.Collections.Generic;
@@ -9,27 +10,33 @@
 
     public class User : IdentityUser
     {
-        private readonly int[] LevelThresholds = new int[] { 130, 320, 720, 1600, 3400 };
+        private const int MaxLevel = 7;
+        private readonly int[] LevelThresholds = 
+            new int[MaxLevel] { 300, 700, 1200, 1800, 2500, 3300, 4200 };
 
         private ICollection<Review> reviews;
-        private ICollection<Review> upvotedReviews;
+        private ICollection<UpvotedReview> upvotedReviews;
         private ICollection<BeachImage> images;
+        private ICollection<Watchlist> watchlists;
         private ClaimsIdentity identity;
 
         public User()
         {
             this.Level = 1;
+            this.Badge = UserBadge.None;
         }
 
         public string AvatarPath { get; set; }
 
         public int Points { get; set; }
 
-        public int Level { get; private set; }
+        public int Level { get; protected set; }
 
         public int ThanksReceived { get; set; }
 
         public bool IsBlogger { get; set; }
+
+        public UserBadge Badge { get; set; }
 
         public virtual ICollection<Review> Reviews
         {
@@ -43,11 +50,11 @@
             }
         }
 
-        public virtual ICollection<Review> UpvotedReviews
+        public virtual ICollection<UpvotedReview> UpvotedReviews
         {
             get
             {
-                return this.upvotedReviews ?? (this.upvotedReviews = new HashSet<Review>());
+                return this.upvotedReviews ?? (this.upvotedReviews = new HashSet<UpvotedReview>());
             }
             protected set
             {
@@ -67,25 +74,21 @@
             }
         }
 
-        public virtual Blog Blog { get; set; }
-
-        public string PointsToNextLevel
+        public virtual ICollection<Watchlist> Watchlists
         {
             get
             {
-                var isAtMaxLevel = (this.Level == 6);
-
-                if (isAtMaxLevel)
-                {
-                    return string.Empty;
-                }
-
-                var index = (this.Level - 1);
-                var pointsToGo = (this.Points + "/" + this.LevelThresholds[index]);
-
-                return pointsToGo;
+                return this.watchlists ?? (this.watchlists = new HashSet<Watchlist>());
+            }
+            protected set
+            {
+                this.watchlists = value;
             }
         }
+
+        public virtual Blog Blog { get; set; }
+
+        public int CurrentLevelThreshold => this.LevelThresholds[this.Level - 1];
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -108,13 +111,29 @@
             return countriesVisited;
         }
 
-        public void RecalculateLevel()
+        public IDictionary<string, int> GetTopBeachesByCountry(int top)
         {
-            var reviewsCount = this.Reviews.Count;
-            var reviewsPoints = this.Reviews.Sum(r => r.Points);
-            var totalPoints = (reviewsCount + reviewsPoints);
-            var maxLevelIndex = 4;
-            this.Points = (totalPoints > this.LevelThresholds[maxLevelIndex]) ? this.LevelThresholds[maxLevelIndex] : totalPoints;
+            var beachesByCountry = this.Reviews
+                .GroupBy(r => r.Beach.Country.Name)
+                .Select(g => new { Country = g.Key, BeachCount = g.Count() })
+                .OrderByDescending(g => g.BeachCount)
+                .Take(top)
+                .ToDictionary(kvp => kvp.Country, kvp => kvp.BeachCount);
+
+            return beachesByCountry;
+        }
+
+        public void RecalculateLevel(ICollection<ScoreWeight> weights)
+        {
+            var countryPoints = this.GetVisitedCountriesCount() * weights.First(w => w.Name == "Country").Value;
+            var beachPoints = this.Reviews.Count * weights.First(w => w.Name == "Beach").Value;
+            var thankedPoints = this.ThanksReceived * weights.First(w => w.Name == "Thanked").Value;
+            var blogPostPoints = (this.Blog == null) ? 0.0 : 
+                this.Blog.BlogArticles.Count * weights.First(w => w.Name == "BlogPost").Value;
+            var crqMultiplierValue = weights.First(w => w.Name == "CRQ").Value;
+            var crqMultiplier = (this.Badge == UserBadge.None || crqMultiplierValue == 0.0) ? 1.0 : crqMultiplierValue;
+            var totalPoints = (int)((countryPoints + beachPoints + thankedPoints + blogPostPoints) * crqMultiplier);
+            this.Points = totalPoints;
 
             for (int index = this.LevelThresholds.Length - 1; index >= 0; index--)
             {                
@@ -125,6 +144,8 @@
                     return;
                 }
             }
+
+            this.Level = 1;
         }
     }
 }

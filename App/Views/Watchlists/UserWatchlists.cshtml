@@ -1,0 +1,22 @@
+﻿@model WatchlistsTableViewModel
+
+<div id="watchlist-table" class="custom-canvas col-sm-6 col-sm-offset-3 col-xs-12">
+    <div class="row contributor-wrapper">
+        <div class="col-xs-4 col-xs-offset-4">
+            @Html.DisplayFor(m => m.Contributor)
+        </div>
+    </div>
+
+    @{
+        if (this.User.Identity.CanEditWatchlist(Model.AuthorId))
+        {
+            @Html.Partial("_AddWatchlistPartial")
+        }
+    }
+
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.Partial("_WatchlistsPartial", Model.Watchlists)
+        </div>
+    </div>
+</div>

@@ -6,9 +6,22 @@
 
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "The username field is required.")]
+        [StringLength(16, ErrorMessage = "Your username must be between {2} and {1} characters long.", MinimumLength = 3)]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = "The email field is required.")]
+        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        
+        [Display(Name = "I blog about beaches")]
+        public bool IsBlogger { get; set; }
+
+        [Display(Name = "My blog")]
+        [UrisValid(ErrorMessage = "We couldn't process the link provided.")]
+        public string BlogUrl { get; set; }
     }
 
     public class ExternalLoginListViewModel
@@ -65,7 +78,7 @@
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "The username field is required.")]
-        [StringLength(16, ErrorMessage = "Your username must be between {1} and {2} characters long.", MinimumLength = 3)]
+        [StringLength(16, ErrorMessage = "Your username must be between {2} and {1} characters long.", MinimumLength = 3)]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
@@ -75,7 +88,7 @@
         public string Email { get; set; }
 
         [Required(ErrorMessage = "The password field is required.")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -101,7 +114,7 @@
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

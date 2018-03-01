@@ -1,0 +1,158 @@
+﻿<div class="custom-canvas col-sm-6 col-sm-offset-3 col-xs-12">
+
+    <ol>
+        <content>
+            <h2>Beach</h2>
+        </content>
+
+        <li>
+            <h4>@Criterion.SandQuality.GetDescription()</h4>
+            <p>
+                Sand deserving of a perfect 10 score is fine, with a good, natural structure,
+                no impurities, pebbles, shells or any other hard particles.
+                The eye should rejoice in its color. It feels great to the touch, and it’s a pleasure to walk or run on.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.BeachCleanliness.GetDescription()</h4>
+            <p>
+                Maintaining a beach and its sand clean is a never-ending process. Such beaches rate high.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.BeautifulScenery.GetDescription()</h4>
+            <p>
+                When the marvelous view makes us pause in wonder.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.CrowdFree.GetDescription()</h4>
+            <p>
+                A deserted or sparsely populated beach would rate closer to 10, and a beach full of people – closer to 0.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.Infrastructure.GetDescription()</h4>
+            <p>
+                A high score would indicate the presence of roads, accommodations, shops,
+                restaurants and all seemingly indispensable comforts of modern society.
+            </p>
+        </li>
+
+        <content>
+            <h2>Sea</h2>
+        </content>
+
+        <li>
+            <h4>@Criterion.WaterVisibility.GetDescription()</h4>
+            <div>
+                <h5>Water visibility scale</h5>
+                <div><strong>1</strong> – 1+ m (3+ ft.)</div>
+                <div><strong>2</strong> – 2+ m (7+ ft.)</div>
+                <div><strong>3</strong> – 3+ m (10+ ft.)</div>
+                <div><strong>4</strong> – 4+ m (13+ ft.)</div>
+                <div><strong>5</strong> – 6+ m (20+ ft.)</div>
+                <div><strong>6</strong> – 8+ m (26+ ft.)</div>
+                <div><strong>7</strong> – 10+ m (33+ ft.)</div>
+                <div><strong>8</strong> – 15+ m (49+ ft.)</div>
+                <div><strong>9</strong> – 20+ m (65+ ft.)</div>
+                <div><strong>10</strong> – 25+ m (82+ ft.)</div>
+                <p id="water-visibility-desc">
+                    Crystal clear water means a visibility of at least 20 – 30 m (65 – 100 ft.).
+                    Anything else is simply money-hungry advertising.
+                </p>
+            </div>
+        </li>
+
+        <li>
+            <h4>@Criterion.LitterFreeWater.GetDescription()</h4>
+            <p>
+                Rate high if the water is free of man-made objects floating around. Rivers carrying impurities
+                into the water or the presence of various debris in it should decrease the score.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.FeetFriendlyBottom.GetDescription()</h4>
+            <p>
+                The ability to walk barefoot in at least some areas of the bottom. If there is nothing but sand on the bottom,
+                the score is 10. Conversely, an all-rocks bottom that is difficult to walk on is between 0 and 1.
+                If there are, however, coral reefs with clearly defined islands in-between them and there’s good visibility,
+                the score could go up to the 4 to 6 range.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.SeaLifeDiversity.GetDescription()</h4>
+            <p>
+                When you submerge, the feeling you get is that of being inside of a giant aquarium (a score of 10),
+                not a lifeless desert (a score of 0).
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.CoralReef.GetDescription()</h4>
+            <p>
+                A beach with a coral reef full of life is far higher up than any otherwise beautiful beach that lacks this treasure.
+                It's hard for someone who hasn't seen many coral reefs to be precise in his judgment, but if he tried to picture the
+                most memorable underwater landscapes he'd seen on TV – they would be a 10.
+            </p>
+        </li>
+
+        <content>
+            <h2>Area suitable for</h2>
+        </content>
+
+        <li>
+            <h4>@Criterion.Snorkeling.GetDescription()</h4>
+            <p>
+                If a beach is well suited to snorkeling, it most likely shines with all of these qualities as well:
+                
+                <ul class="snorkeling-list">
+                    <li>Clean and clear sea water;</li>
+                    <li>Varied sea life and probably an attractive coral reef;</li>
+                    <li>Calm waters.</li>
+                </ul>
+
+                Such a beach deserves a near-maximum score.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.Kayaking.GetDescription()</h4>
+            <p>
+                A beach suitable for kayaking has calm waters and a picturesque landscape.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.Walking.GetDescription()</h4>
+            <p>
+                Both walking and running on the sand of a beautiful beach or the promenade next to it is pure pleasure.
+                We tend to rate this important advantage with a high score.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.Camping.GetDescription()</h4>
+            <p>
+                Some of the best beaches around the world are often places where there are campsites and nature has been preserved.
+                If the beach is suitable for camping in the wild, then likely it’s away from the crowds, which makes it a hidden jewel.
+            </p>
+        </li>
+
+        <li>
+            <h4>@Criterion.LongTermStay.GetDescription()</h4>
+            <p>
+                Rate high if there’s fully functional infrastructure near the beach, such as roads, accommodations, shops,
+                markets, restaurants, entertainment, etc., which make it appropriate for staying longer or even living there.
+            </p>
+        </li>
+    </ol>
+</div>
+
+@Styles.Render("~/Content/Internal/criteria.css")

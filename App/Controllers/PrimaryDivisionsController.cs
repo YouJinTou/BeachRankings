@@ -1,10 +1,14 @@
 ﻿namespace App.Controllers
 {
+    using App.Code.WaterBodies;
     using AutoMapper;
     using BeachRankings.App.CustomAttributes;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.Data.UnitOfWork;
     using BeachRankings.Models;
+    using BeachRankings.Models.Enums;
+    using BeachRankings.Services.Aggregation;
+    using BeachRankings.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -14,15 +18,25 @@
 
     public class PrimaryDivisionsController : BasePlacesController
     {
-        public PrimaryDivisionsController(IBeachRankingsData data)
-            : base(data)
+        private IWaterBodyAllocator waterBodyAllocator;
+        private IWaterBodyPermissionChecker waterBodyPermissionChecker;
+
+        public PrimaryDivisionsController(
+            IBeachRankingsData data,
+            IWaterBodyAllocator waterBodyAllocator,
+            IWaterBodyPermissionChecker waterBodyPermissionChecker,
+            IDataAggregationService aggregationService)
+            : base(data, aggregationService)
         {
+            this.waterBodyAllocator = waterBodyAllocator;
+            this.waterBodyPermissionChecker = waterBodyPermissionChecker;
         }
 
         public ActionResult Beaches(int id, int page = 0, int pageSize = 10)
         {
             var primaryDivision = this.Data.PrimaryDivisions.Find(id);
             var model = Mapper.Map<PrimaryDivision, PlaceBeachesViewModel>(primaryDivision);
+            model.Controller = "PrimaryDivisions";
             model.Beaches = model.Beaches.OrderByDescending(b => b.TotalScore).Skip(page * pageSize).Take(pageSize);
 
             model.Beaches.Select(b => { b.UserHasRated = base.UserHasRated(b); return b; }).ToList();
@@ -45,8 +59,38 @@
                 Id = id,
                 Controller = "PrimaryDivisions",
                 Name = primaryDivision.Name,
-                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches)
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches),
+                TotalBeachesCount = beaches.Count(),
             };
+
+            return this.View("_StatisticsPartial", model);
+        }
+
+        public ActionResult FilteredStatistics(int id, string filterType)
+        {
+            var primaryDivision = this.Data.PrimaryDivisions.All()
+                .Include(pd => pd.WaterBody)
+                .Include(pd => pd.SecondaryDivisions)
+                .Include(pd => pd.TertiaryDivisions)
+                .Include(pd => pd.QuaternaryDivisions)
+                .Include(pd => pd.Beaches)
+                .FirstOrDefault(pd => pd.Id == id);
+            var beaches = primaryDivision.Beaches.Where(b => b.TotalScore != null).OrderByDescending(b => b.TotalScore);
+            var model = new StatisticsViewModel()
+            {
+                Id = id,
+                Controller = "PrimaryDivisions",
+                Name = ((BeachFilterType)Enum.Parse(typeof(BeachFilterType), filterType)).GetDescription() + " " + primaryDivision.Name,
+                Rows = Mapper.Map<IEnumerable<Beach>, IEnumerable<BeachRowViewModel>>(beaches),
+                TotalBeachesCount = beaches.Count(),
+                FilterType = filterType
+            };
+
+            if (this.Request.IsAjaxRequest())
+            {
+                return this.Json(this.PartialView("_StatisticsPartial", model)
+                    .RenderPartialViewAsString(), JsonRequestBehavior.AllowGet);
+            }
 
             return this.View("_StatisticsPartial", model);
         }
@@ -84,7 +128,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Add(RestructureViewModel bindingModel)
         {
             PrimaryDivision primaryDivision = null;
@@ -101,7 +145,7 @@
                 };
                 var waterBodyIdHasValue = (bindingModel.WaterBodyId != null);
 
-                if (waterBodyIdHasValue && !this.CanAddEditWaterBody(primaryDivision, true))
+                if (waterBodyIdHasValue && !this.waterBodyPermissionChecker.CanAddEditWaterBody(primaryDivision, true))
                 {
                     throw new InvalidOperationException("Cannnot assign a water body; the water body is assigned at a different level.");
                 }
@@ -135,7 +179,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Edit(RestructureViewModel bindingModel)
         {
             PrimaryDivision primaryDivision = null;
@@ -151,7 +195,7 @@
 
                 if (waterBodyIdIsNew)
                 {
-                    if (!this.CanAddEditWaterBody(primaryDivision, false))
+                    if (!this.waterBodyPermissionChecker.CanAddEditWaterBody(primaryDivision, false))
                     {
                         throw new InvalidOperationException("Cannnot assign a water body; the water body is assigned at a different level.");
                     }
@@ -161,7 +205,7 @@
 
                     primaryDivision.WaterBodyId = bindingModel.WaterBodyId;
 
-                    this.AssignChildrenWaterBodyIds(primaryDivision);
+                    this.waterBodyAllocator.AssignChildrenWaterBodyIds(primaryDivision);
 
                     this.Data.Beaches.SaveChanges();
                     this.Data.SecondaryDivisions.SaveChanges();
@@ -193,7 +237,7 @@
         }
 
         [HttpPost]
-        [RestructureAuthorize]
+        [RestructureAuthorized]
         public ActionResult Delete(RestructureViewModel bindingModel)
         {
             PrimaryDivision primaryDivision = null;
@@ -237,41 +281,5 @@
 
             return this.Json(waterBodyId, JsonRequestBehavior.AllowGet);
         }
-
-        #region Helpers
-
-        private bool CanAddEditWaterBody(PrimaryDivision primaryDivision, bool adding)
-        {
-            var country = adding ? this.Data.Countries.Find(primaryDivision.CountryId) : primaryDivision.Country;
-            var waterBodyAssignedAtCountryLevel = (country.WaterBodyId != null);
-
-            if (waterBodyAssignedAtCountryLevel)
-            {
-                return false;
-            }
-
-            var primaryDivisions = this.Data.PrimaryDivisions.All().Where(pd => pd.CountryId == country.Id).ToList();
-            var secondaryDivisions = this.Data.SecondaryDivisions.All().Where(pd => pd.CountryId == country.Id).ToList();
-            var justCreated = (primaryDivisions.All(pd => pd.WaterBodyId == null) && secondaryDivisions.All(sd => sd.WaterBodyId == null));
-            var waterBodyAssignedAtPrimaryLevel = justCreated ? true :
-                (secondaryDivisions.Count > 0) ? primaryDivisions.All(pd => pd.WaterBodyId != null) : false;
-
-            return waterBodyAssignedAtPrimaryLevel;
-        }
-
-        private void AssignChildrenWaterBodyIds(PrimaryDivision primaryDivision)
-        {
-            foreach (var beach in primaryDivision.Beaches)
-            {
-                beach.WaterBodyId = (int)primaryDivision.WaterBodyId;
-            }
-
-            foreach (var secondaryDivision in primaryDivision.SecondaryDivisions)
-            {
-                secondaryDivision.WaterBodyId = primaryDivision.WaterBodyId;
-            }
-        }
-
-        #endregion
     }
 }

@@ -10,6 +10,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Web;
+    using System.Configuration;
 
     public static class GenericHelper
     {
@@ -51,14 +52,14 @@
         }
 
         public static string GetFilteredBeachesTitle(int continentId, int countryId, int waterBodyId, int criterionId)
-        {            
+        {
             var intro = "Top 25 Beaches in ";
             var continent = (continentId == 0) ? string.Empty : GeoInitializer.Continents[continentId];
-            var country= (countryId == 0) ? string.Empty : GeoInitializer.Countries[countryId];
+            var country = (countryId == 0) ? string.Empty : GeoInitializer.Countries[countryId];
             var waterBody = (waterBodyId == 0) ? string.Empty : ("the " + GeoInitializer.WaterBodies[waterBodyId]);
             var place = TrimBeachesTitle((continent + ", " + country + waterBody));
             var criterionExist = (criterionId > 0 && criterionId <= 15);
-           
+
             if (!criterionExist)
             {
                 return intro + place;
@@ -110,9 +111,7 @@
 
         public static string GetUserDefaultAvatarPath()
         {
-            var defaultAvatarPath = Path.Combine("\\", "Content", "Images", "unknown_profile.jpg");
-
-            return defaultAvatarPath;
+            return ConfigurationManager.AppSettings["DefaultUserImagePath"];
         }
     }
 
@@ -293,5 +292,5 @@
                 imagesDir.Delete(true);
             }
         }
-    }    
+    }
 }

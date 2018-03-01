@@ -1,0 +1,80 @@
+﻿@model ICollection<ExportScoresAsHtmlViewModel>
+
+<table id="exportable-table-horizontal" cellpadding="0" style="
+        border-collapse: collapse;
+        border-radius: 1px;
+        box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);">
+    <thead>
+        <tr>
+            <th style="
+                            background-color: #f9d054;
+                            text-align: center;
+                            font-size: 13px;
+                            font-weight: bold;
+                            padding: 1px 0 1px 0;
+                            border-right: 2px solid #ddd;
+                            border-bottom: 2px solid #ddd;">
+                <div>
+                    <span style="padding: 2px;">
+                        <a href="@ConfigurationManager.AppSettings["FullWebAddress"]" target="_blank">@ConfigurationManager.AppSettings["Trademark"]</a>
+                    </span>
+                </div>
+            </th>
+            <th colspan="5" style="
+                            text-align: center;
+                            font-size: 13px;
+                            font-weight: bold;
+                            padding: 1px 0 1px 0;
+                            border-right: 2px solid #ddd;
+                            border-bottom: 2px solid #ddd;
+                            background-color: #f9d054;"><div><span style="padding: 2px;">Beach</span></div></th>
+            <th colspan="5" style="
+                            text-align: center;
+                            font-size: 13px;
+                            font-weight: bold;
+                            padding: 1px 0 1px 0;
+                            border-right: 2px solid #ddd;
+                            border-bottom: 2px solid #ddd;
+                            background-color: #5dbcf7;"><div><span style="padding: 2px;">Sea</span></div></th>
+            <th colspan="5" style="
+                            text-align: center;
+                            font-size: 13px;
+                            font-weight: bold;
+                            padding: 1px 0 1px 0;
+                            border-right: 2px solid #ddd;
+                            border-bottom: 2px solid #ddd;
+                            background-color: #6bff6b;"><div><span style="padding: 2px;">Suitable for</span></div></th>
+            <th style="background-color: #dcc120; border-right: 2px solid #ddd;"><div><span></span></div></th>
+        </tr>
+        <tr style="border-bottom: 2px solid #ddd;">
+            <th style="text-align: center; border-right: 2px solid #ddd; background-color: #f9d054;"><div><span><strong>Beach</strong></span></div></th>
+
+            <th style="border-right: 2px solid #ddd; background-color: #f9d054; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.SandQuality.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #f9d054; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.BeachCleanliness.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #f9d054; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.BeautifulScenery.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #f9d054; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.CrowdFree.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #f9d054; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.Infrastructure.GetDescription()</span></div></th>
+
+            <th style="border-right: 2px solid #ddd; background-color: #5dbcf7; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.WaterVisibility.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #5dbcf7; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.LitterFreeWater.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #5dbcf7; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.FeetFriendlyBottom.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #5dbcf7; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.SeaLifeDiversity.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #5dbcf7; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.CoralReef.GetDescription()</span></div></th>
+
+            <th style="border-right: 2px solid #ddd; background-color: #6bff6b; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.Snorkeling.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #6bff6b; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.Kayaking.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #6bff6b; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.Walking.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #6bff6b; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.Camping.GetDescription()</span></div></th>
+            <th style="border-right: 2px solid #ddd; background-color: #6bff6b; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;">@Criterion.LongTermStay.GetDescription()</span></div></th>
+
+            <th style="border-right: 2px solid #ddd; background-color: #dcc120; height: 155px; white-space: nowrap;"><div style="width: 30px; margin: 0 auto; font-size: 15px; transform: translate(0, 60px) rotate(270deg);"><span style="padding: 6px 5px;"><strong>Score</strong></span></div></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @Html.DisplayForModel()
+    </tbody>
+</table>
+

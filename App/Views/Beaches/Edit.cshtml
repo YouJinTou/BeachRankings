@@ -5,7 +5,7 @@
 }
 
 <div id="beach-add-container" class="custom-canvas col-xs-10 col-xs-offset-1">
-    @using (Html.BeginForm("Edit", "Beaches", FormMethod.Post, new { id = "submit-beach-form" }))
+    @using (Html.BeginForm("Edit", "Beaches", FormMethod.Post, new { id = "submit-beach-form", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Id)
@@ -21,7 +21,7 @@
                         @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-5">
                             @Html.DropDownListFor(model => model.CountryId, Model.Countries,
-                            new { @class = "form-control form-control-extended custom-focus-black", data_ddl_country_name = "", data_ddl_division = "/Countries/PrimaryDivisions/", data_next_division = "1" })
+                                           new { @class = "form-control form-control-extended custom-focus-black", data_ddl_country_name = "", data_ddl_division = "/Countries/PrimaryDivisions/", data_next_division = "1" })
                             @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                         @Html.LabelFor(model => model.PrimaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-5">
                             @Html.DropDownListFor(model => model.PrimaryDivisionId, Model.PrimaryDivisions,
-                            new { @class = "form-control form-control-extended custom-focus-black", data_ddl_primary_division_name = "", data_ddl_division = "/PrimaryDivisions/SecondaryDivisions/", data_next_division = "2" })
+                                           new { @class = "form-control form-control-extended custom-focus-black", data_ddl_primary_division_name = "", data_ddl_division = "/PrimaryDivisions/SecondaryDivisions/", data_next_division = "2" })
                             @Html.ValidationMessageFor(model => model.PrimaryDivisionId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                         @Html.LabelFor(model => model.SecondaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-5">
                             @Html.DropDownListFor(model => model.SecondaryDivisionId, Model.SecondaryDivisions,
-                            new { @class = "form-control form-control-extended custom-focus-black", data_ddl_secondary_division_name = "", data_ddl_division = "/SecondaryDivisions/TertiaryDivisions/", data_next_division = "3" })
+                                           new { @class = "form-control form-control-extended custom-focus-black", data_ddl_secondary_division_name = "", data_ddl_division = "/SecondaryDivisions/TertiaryDivisions/", data_next_division = "3" })
                             @Html.ValidationMessageFor(model => model.SecondaryDivisionId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         @Html.LabelFor(model => model.TertiaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-5">
                             @Html.DropDownListFor(model => model.TertiaryDivisionId, Model.TertiaryDivisions,
-                            new { @class = "form-control form-control-extended custom-focus-black", data_ddl_tertiary_division_name = "", data_ddl_division = "/TertiaryDivisions/QuaternaryDivisions/", data_next_division = "4" })
+                                           new { @class = "form-control form-control-extended custom-focus-black", data_ddl_tertiary_division_name = "", data_ddl_division = "/TertiaryDivisions/QuaternaryDivisions/", data_next_division = "4" })
                             @Html.ValidationMessageFor(model => model.TertiaryDivisionId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         @Html.LabelFor(model => model.QuaternaryDivisionId, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-5">
                             @Html.DropDownListFor(model => model.QuaternaryDivisionId, Model.QuaternaryDivisions,
-                            new { @class = "form-control form-control-extended custom-focus-black", data_ddl_quaternary_division_name = "", data_ddl_division = "/QuaternaryDivisions/", data_next_division = "" })
+                                           new { @class = "form-control form-control-extended custom-focus-black", data_ddl_quaternary_division_name = "", data_ddl_division = "/QuaternaryDivisions/", data_next_division = "" })
                             @Html.ValidationMessageFor(model => model.QuaternaryDivisionId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -104,6 +104,14 @@
                         }
                     }
 
+                    <div class="form-group">
+                        <label for="uploader" class="control-label col-md-3">Beach photos</label>
+                        <div class="col-md-5">
+                            <input id="uploader" type="file" name="images" class="upload" multiple />
+                        </div>
+                    </div>
+                    <sup>Up to 3.5 MB of JPG or PNG images</sup>
+
                     @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })
                 </div>
 
@@ -123,12 +131,9 @@
     }
 </div>
 
+
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("/Scripts/jquery-ui.js")
-    @Scripts.Render("~/Scripts/Internal/google-map-manager.js")
-    @Scripts.Render("~/Scripts/Internal/beaches.js")
-    @Scripts.Render("~/Scripts/Internal/blog.js")
+    @Scripts.Render("~/bundles/beach-edit")
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?language=en&libraries=places&key=AIzaSyC8j9vpJT7miOsV0jLllMmqZdXpSnCzs9c&callback=gMapManager.initMap">
     </script>

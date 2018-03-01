@@ -1,10 +1,12 @@
 ﻿namespace App.Controllers
 {
+    using App.Code.Blogs;
     using App.Controllers.Enums;
     using BeachRankings.App.Models.ViewModels;
     using BeachRankings.App.Utils;
     using BeachRankings.Data;
     using BeachRankings.Data.UnitOfWork;
+    using BeachRankings.Extensions;
     using BeachRankings.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
@@ -17,21 +19,17 @@
     [Authorize]
     public class ManageController : BaseController
     {
-        public ManageController(IBeachRankingsData data)
+        private IBlogValidator blogValidator;
+
+        public ManageController(IBeachRankingsData data, IBlogValidator blogValidator)
             : base(data)
         {
+            this.blogValidator = blogValidator;
         }
 
-        public async Task<ActionResult> Index(ActionMessage? message)
+        public async Task<ActionResult> Index(string message)
         {
-            this.ViewBag.StatusMessage =
-                message == ActionMessage.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ActionMessage.ChangeAvatarSuccess ? "Your avatar has been changed."
-                : message == ActionMessage.DeleteAvatarSuccess ? "Your avatar has been deleted."
-                : message == ActionMessage.UploadAvatarError ? "Failed to upload avatar. Verify its size, dimensions, and format."
-                : message == ActionMessage.BlogUrlInvalid ? "We couldn't process the blog URL provided."
-                : message == ActionMessage.Error ? "An error has occurred. Please try again."
-                : "";
+            this.ViewBag.StatusMessage = message;
 
             var beachesDbContext = new BeachRankingsDbContext();
             var userId = User.Identity.GetUserId();
@@ -54,11 +52,11 @@
         [ValidateAntiForgeryToken]
         public ActionResult Blog(ManageIndexViewModel model)
         {
-            this.ValidateBlogger(model);
+            this.AddModelStateErrors(this.blogValidator.ValidateBlogger(model.IsBlogger, model.BlogUrl));
 
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("Index", new { Message = ActionMessage.BlogUrlInvalid });
+                return this.RedirectToAction("Index", new { Message = string.Join(", ", this.GetModelStateErrors()) });
             }
 
             var blog = this.UserProfile.Blog;
@@ -95,7 +93,7 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
-            ActionMessage? message;
+            string message;
             var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
@@ -104,11 +102,11 @@
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                message = ActionMessage.RemoveLoginSuccess;
+                message = ActionMessage.RemoveLoginSuccess.GetDescription();
             }
             else
             {
-                message = ActionMessage.Error;
+                message = ActionMessage.Error.GetDescription();
             }
             return this.RedirectToAction("ManageLogins", new { Message = message });
         }
@@ -189,7 +187,7 @@
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return this.RedirectToAction("Index", new { Message = ActionMessage.AddPhoneSuccess });
+                return this.RedirectToAction("Index", new { Message = ActionMessage.AddPhoneSuccess.GetDescription() });
             }
 
             ModelState.AddModelError("", "Failed to verify phone");
@@ -202,14 +200,14 @@
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
-                return this.RedirectToAction("Index", new { Message = ActionMessage.Error });
+                return this.RedirectToAction("Index", new { Message = ActionMessage.Error.GetDescription() });
             }
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
-            return this.RedirectToAction("Index", new { Message = ActionMessage.RemovePhoneSuccess });
+            return this.RedirectToAction("Index", new { Message = ActionMessage.RemovePhoneSuccess.GetDescription() });
         }
 
         public ActionResult ChangePassword()
@@ -233,7 +231,7 @@
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return this.RedirectToAction("Index", new { Message = ActionMessage.ChangePasswordSuccess });
+                return this.RedirectToAction("Index", new { Message = ActionMessage.ChangePasswordSuccess.GetDescription() });
             }
             AddErrors(result);
             return this.View(model);
@@ -258,7 +256,7 @@
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
-                    return this.RedirectToAction("Index", new { Message = ActionMessage.SetPasswordSuccess });
+                    return this.RedirectToAction("Index", new { Message = ActionMessage.SetPasswordSuccess.GetDescription() });
                 }
                 AddErrors(result);
             }
@@ -300,10 +298,10 @@
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
-                return this.RedirectToAction("ManageLogins", new { Message = ActionMessage.Error });
+                return this.RedirectToAction("ManageLogins", new { Message = ActionMessage.Error.GetDescription() });
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ActionMessage.Error });
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ActionMessage.Error.GetDescription() });
         }
 
         protected override void Dispose(bool disposing)
@@ -356,16 +354,6 @@
                 return user.PhoneNumber != null;
             }
             return false;
-        }
-
-        private void ValidateBlogger(ManageIndexViewModel model)
-        {
-            var bloggerWithoutSite = (model.IsBlogger && string.IsNullOrEmpty(model.BlogUrl));
-
-            if (bloggerWithoutSite)
-            {
-                this.ModelState.AddModelError(string.Empty, "A blog URL is required.");
-            }
         }
 
         #endregion

@@ -1,40 +1,9 @@
 ﻿@model StatisticsViewModel
 
-<h2>@Model.Name <a href="/@Model.Controller/Beaches/@Model.Id" class="toggle-to-places glyphicon glyphicon-picture"></a></h2>
+<div id="fillable-table-holder">
+    @Html.Partial("_PlaceStatisticsHead", Model)
 
-<hr />
+    @Html.Partial("_PredefinedFiltersPartial", Model)
 
-<div class="col-xs-12 table-responsive">
-    <table id="table-result" class="display compact cell-border">
-        <thead>
-            <tr>
-                <th class="place-head"><input type="text" data-filter="beach" class="column-filter" placeholder="Filter" />Beach</th>
-                <th class="place-head"><input type="text" data-filter="country" class="column-filter" placeholder="Filter" />Country</th>
-                <th class="place-head"><input type="text" data-filter="region" class="column-filter" placeholder="Filter" />Region</th>
-                <th class="place-head">Area</th>
-                <th class="place-head">Sub-area</th>
-                <th class="place-head">Locality</th>
-                <th class="place-head">Waterbody</th>
-                <th class="text-center">Score</th>
-                <th><div class="criterion-head">Sand quality</div></th>
-                <th><div class="criterion-head">Beach cleanliness</div></th>
-                <th><div class="criterion-head">Beautiful scenery</div></th>
-                <th><div class="criterion-head">Crowd-free</div></th>
-                <th><div class="criterion-head">Infrastructure</div></th>
-                <th><div class="criterion-head">Water visibility</div></th>
-                <th><div class="criterion-head">Litter-free water</div></th>
-                <th><div class="criterion-head">Feet-friendly bottom</div></th>
-                <th><div class="criterion-head">Sea life diversity</div></th>
-                <th><div class="criterion-head">Coral reef</div></th>
-                <th><div class="criterion-head">Snorkeling</div></th>
-                <th><div class="criterion-head">Kayaking</div></th>
-                <th><div class="criterion-head">Walking</div></th>
-                <th><div class="criterion-head">Camping</div></th>
-                <th><div class="criterion-head">Long stay</div></th>
-            </tr>
-        </thead>
-        <tbody class="datatables-body">
-            @Html.DisplayFor(model => model.Rows)
-        </tbody>
-    </table>
+    @Html.Partial("_TableStatisticsPartial", Model)
 </div>
