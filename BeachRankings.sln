@@ -52,28 +52,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61E54BFF-656C-4E9C-A9E2-F40E9DB9AF34}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://blackseaasd.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = App\\App.csproj
-		SccProjectName1 = App
-		SccLocalPath1 = App
-		SccProjectUniqueName2 = Data\\Data.csproj
-		SccProjectName2 = Data
-		SccLocalPath2 = Data
-		SccProjectUniqueName3 = Models\\Models.csproj
-		SccProjectName3 = Models
-		SccLocalPath3 = Models
-		SccProjectUniqueName4 = Services\\Services.csproj
-		SccProjectName4 = Services
-		SccLocalPath4 = Services
-		SccProjectUniqueName5 = Extensions\\Extensions.csproj
-		SccProjectName5 = Extensions
-		SccLocalPath5 = Extensions
-		SccProjectUniqueName6 = Tests\\Tests.csproj
-		SccProjectName6 = Tests
-		SccLocalPath6 = Tests
-	EndGlobalSection
 EndGlobal
