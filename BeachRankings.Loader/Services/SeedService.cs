@@ -1,5 +1,4 @@
 ﻿using BeachRankings.Core.Abstractions;
-using BeachRankings.Core.DAL;
 using BeachRankings.Core.Models;
 using BeachRankings.Loader.Abstractions;
 using BeachRankings.Loader.Models;
@@ -82,7 +81,6 @@ namespace BeachRankings.Loader.Services
                 {
                     var tokens = line.Split('\t');
                     var beach = new Beach(
-                        BeachPartitionKey.Continent.ToString(),
                         this.GetToken(tokens[0]),
                         this.GetToken(tokens[1]),
                         this.GetToken(tokens[2]),
@@ -127,22 +125,15 @@ namespace BeachRankings.Loader.Services
 
         private IEnumerable<Beach> PermuteBeach(Beach beach)
         {
-            var locationTokens = beach.Location.Split('_')
-                .Where(t => t != beach.Continent && t != beach.Name).ToArray();
-            var keysByTokenCount = new Dictionary<int, BeachPartitionKey[]>
-            {
-                { 2, new BeachPartitionKey[] { BeachPartitionKey.Country, BeachPartitionKey.WaterBody } },
-                { 3, new BeachPartitionKey[] { BeachPartitionKey.Country, BeachPartitionKey.L1, BeachPartitionKey.WaterBody } },
-                { 4, new BeachPartitionKey[] { BeachPartitionKey.Country, BeachPartitionKey.L1, BeachPartitionKey.L2, BeachPartitionKey.WaterBody } },
-                { 5, new BeachPartitionKey[] { BeachPartitionKey.Country, BeachPartitionKey.L1, BeachPartitionKey.L2, BeachPartitionKey.L3, BeachPartitionKey.WaterBody } },
-                { 6, new BeachPartitionKey[] { BeachPartitionKey.Country, BeachPartitionKey.L1, BeachPartitionKey.L2, BeachPartitionKey.L3, BeachPartitionKey.L4, BeachPartitionKey.WaterBody } },
-            };
+            var locationTokens =
+                    beach.Location.Split('_')
+                    .Where(lt => lt != beach.Continent)
+                    .ToArray();
             var beaches = new List<Beach> { beach };
 
-            for (int i = 0; i < locationTokens.Length; i++)
+            foreach (var permutation in locationTokens)
             {
                 var permutedBeach = new Beach(
-                    keysByTokenCount[locationTokens.Length][i].ToString(),
                     beach.Name,
                     beach.Continent,
                     null,
@@ -152,7 +143,8 @@ namespace BeachRankings.Loader.Services
                     null,
                     beach.WaterBody,
                     null);
-                permutedBeach.Location = $"{locationTokens[i]}%{beach.Location}";
+                permutedBeach.Id = beach.Id;
+                permutedBeach.Location = permutation;
 
                 beaches.Add(permutedBeach);
             }
