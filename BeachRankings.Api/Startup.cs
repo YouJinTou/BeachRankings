@@ -23,11 +23,17 @@ namespace BeachRankings.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var assemblies = new Assembly[] 
+            {
+                typeof(InputValidator).Assembly,
+                typeof(BeachViewModel).Assembly
+            };
+
             services
                 .AddTransient<Settings>()
-                .AddByConvention(typeof(InputValidator).Assembly, typeof(BeachViewModel).Assembly)
+                .AddByConvention(assemblies)
+                .AddAutoMapper(assemblies)
                 .AddDb()
-                .AddAutoMapper(Assembly.GetExecutingAssembly())
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
