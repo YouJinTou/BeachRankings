@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace BeachRankings.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class BeachesController : ControllerBase
     {
         private readonly IBeachService beachService;
