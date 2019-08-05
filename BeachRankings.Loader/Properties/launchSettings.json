@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "BeachRankings.Loader": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AWS_PROFILE_NAME": "default",
+        "AWS_REGION": "eu-central-1",
+        "AWS_SECRET_ACCESS_KEY": "dUT6laiUmJFvTDqXK+V9d0dpXblnIwrp+/H5jaa4",
+        "AWS_ACCESS_KEY_ID": "AKIAZAR3PKVG72TSTLOR"
+      }
+    }
+  }
+}
