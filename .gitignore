@@ -354,4 +354,4 @@ MigrationBackup/
 /BeachRankings.Api/appsettings.Development.json
 /BeachRankings.Api/aws-lambda-tools-defaults.json
 /BeachRankings.Api/Readme.md
-/BeachRankings.Loader
+/BeachRankings.Loader/*
