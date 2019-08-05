@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.101.46" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.0" />
   </ItemGroup>
