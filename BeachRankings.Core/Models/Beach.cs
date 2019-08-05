@@ -2,17 +2,19 @@
 using BeachRankings.Core.Abstractions;
 using BeachRankings.Core.Tools;
 using System;
+using System.Text.RegularExpressions;
 
 namespace BeachRankings.Core.Models
 {
     [DynamoDBTable("Beaches", LowerCamelCaseProperties = false)]
-    public class Beach : Place, IDbModel
+    public class Beach : IDbModel
     {
         public Beach()
         {
         }
 
         public Beach(
+            string id,
             string name, 
             string continent,
             string country,
@@ -22,16 +24,23 @@ namespace BeachRankings.Core.Models
             string l4,
             string waterBody,
             string coordinates)
-            : base(continent, country, l1, l2, l3, l4, waterBody)
         {
+            this.Id = id;
             this.Name = InputValidator.ReturnOrThrowIfNullOrWhiteSpace(name);
             this.AddedOn = DateTime.UtcNow;
+            this.Continent = InputValidator.ReturnOrThrowIfNullOrWhiteSpace(continent);
+            this.Country = country;
+            this.L1 = l1;
+            this.L2 = l2;
+            this.L3 = l3;
+            this.L4 = l4;
+            this.WaterBody = InputValidator.ReturnOrThrowIfNullOrWhiteSpace(waterBody);
             this.Coordinates = coordinates;
-            this.Id = this.GetId();
-            this.Location = this.GetKey();
+            this.Location = this.GetLocation();
         }
 
         public Beach(
+            string id,
             string name,
             string continent,
             string country,
@@ -57,7 +66,7 @@ namespace BeachRankings.Core.Models
             double? walking,
             double? camping,
             double? longTermStay)
-            : this(name, continent, country, l1, l2, l3, l4, waterBody, coordinates)
+            : this(id, name, continent, country, l1, l2, l3, l4, waterBody, coordinates)
         {
             this.Score = score;
             this.SandQuality = sandQuality;
@@ -77,9 +86,26 @@ namespace BeachRankings.Core.Models
             this.LongTermStay = longTermStay;
         }
 
+        [DynamoDBHashKey]
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public DateTime AddedOn { get; set; }
+
+        public string Continent { get; set; }
+
+        public string Country { get; set; }
+
+        public string L1 { get; set; }
+
+        public string L2 { get; set; }
+
+        public string L3 { get; set; }
+
+        public string L4 { get; set; }
+
+        public string WaterBody { get; set; }
 
         [DynamoDBRangeKey]
         public string Location { get; set; }
@@ -118,14 +144,20 @@ namespace BeachRankings.Core.Models
 
         public double? LongTermStay { get; set; }
 
-        protected override string GetId()
+        private string GetLocation()
         {
-            return $"id_{this.GetKey()}";
-        }
+            var location =
+                $"{this.Continent}_" +
+                $"{this.Country}_" +
+                $"{this.L1}_" +
+                $"{this.L2}_" +
+                $"{this.L3}_" +
+                $"{this.L4}_" +
+                $"{this.WaterBody}_" +
+                $"{this.Name}";
+            location = Regex.Replace(location, "_+", "_").TrimEnd('_');
 
-        protected override string GetKey()
-        {
-            return base.GetKey() + $"_{this.Name}";
+            return location;
         }
     }
 }
