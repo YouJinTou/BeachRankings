@@ -50,6 +50,7 @@ namespace BeachRankings.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(p => p.AllowAnyOrigin());
             app.UseMvc();
         }
     }
