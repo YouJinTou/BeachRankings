@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using BeachRankings.Core.Abstractions;
+using BeachRankings.Core.DAL;
 using BeachRankings.Core.Tools;
 using System;
 using System.Text.RegularExpressions;
@@ -9,6 +10,8 @@ namespace BeachRankings.Core.Models
     [DynamoDBTable("Beaches", LowerCamelCaseProperties = false)]
     public class Beach : IDbModel
     {
+        public const BeachPartitionKey PartitionKeyType = BeachPartitionKey.Beach;
+
         public Beach()
         {
         }
@@ -147,14 +150,14 @@ namespace BeachRankings.Core.Models
         private string GetLocation()
         {
             var location =
+                $"{this.Name}_" +
                 $"{this.Continent}_" +
                 $"{this.Country}_" +
                 $"{this.L1}_" +
                 $"{this.L2}_" +
                 $"{this.L3}_" +
                 $"{this.L4}_" +
-                $"{this.WaterBody}_" +
-                $"{this.Name}";
+                $"{this.WaterBody}_";
             location = Regex.Replace(location, "_+", "_").TrimEnd('_');
 
             return location;

@@ -1,6 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using AutoMapper;
-using BeachRankings.Core.DAL;
 using BeachRankings.Core.Models;
 
 namespace BeachRankings.Core.Configuration.MapperProfiles
@@ -13,7 +12,7 @@ namespace BeachRankings.Core.Configuration.MapperProfiles
 
             map.ForMember(d => d.Id, opt => opt.MapFrom((s, d) =>
             {
-                if (s["Id"] == BeachPartitionKey.Continent.ToString())
+                if (s["Id"] == Beach.PartitionKeyType.ToString())
                 {
                     return (object)s["Location"];
                 }

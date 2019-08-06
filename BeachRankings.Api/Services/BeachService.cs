@@ -2,7 +2,6 @@
 using BeachRankings.Api.Abstractions;
 using BeachRankings.Api.Models.Beaches;
 using BeachRankings.Core.Abstractions;
-using BeachRankings.Core.DAL;
 using BeachRankings.Core.Factories;
 using BeachRankings.Core.Models;
 using BeachRankings.Core.Tools;
@@ -26,7 +25,7 @@ namespace BeachRankings.Api.Services
             InputValidator.ThrowIfNullOrWhiteSpace(id);
 
             var primaryKey = DalObjectsFactory.CreatePrimaryKey(
-                BeachPartitionKey.Continent.ToString(), id);
+                Beach.PartitionKeyType.ToString(), id);
             var beach = await this.beaches.GetAsync(primaryKey);
 
             return this.mapper.Map<BeachViewModel>(beach);
