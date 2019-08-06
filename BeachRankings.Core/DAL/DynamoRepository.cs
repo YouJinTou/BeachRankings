@@ -20,24 +20,31 @@ namespace BeachRankings.Core.DAL
 
         public async Task<T> GetAsync(object id)
         {
-            InputValidator.ThrowIfNull(id);
+            var primaryKey = id as PrimaryKey;
 
-            var partitionKey = id.ToString();
-            var sortKey = partitionKey.Replace(Constants.DynamoPartitionKeyPrefix, string.Empty);
-            var document = 
-                await this.table.GetItemAsync(new Primitive(partitionKey), new Primitive(sortKey));
+            InputValidator.ThrowIfNull(primaryKey);
+
+            var partitionKey = new Primitive(primaryKey.PartitionKey);
+            var sortKey = new Primitive(primaryKey.SortKey);
+            var document = await this.table.GetItemAsync(partitionKey, sortKey);
 
             return document.ConvertTo<T>();
         }
 
         public async Task AddAsync(T item)
         {
+            InputValidator.ThrowIfNull(item);
+
             await this.table.PutItemAsync(item.ToDynamoDbDocument());
         }
 
         public async Task AddManyAsync(
             IEnumerable<T> items, int batchSize = 100, int coolDown = 1000)
         {
+            InputValidator.ThrowIfNull(items);
+
+            InputValidator.ThrowIfAnyNotPositive(batchSize, coolDown);
+
             var page = 0;
 
             while (true)
