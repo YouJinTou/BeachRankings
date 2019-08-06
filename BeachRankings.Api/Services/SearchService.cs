@@ -32,6 +32,8 @@ namespace BeachRankings.Api.Services
                 await this.beachesRepository.GetManyAsync(BeachPartitionKey.L4, prefix);
             var waterBodies =
                 await this.beachesRepository.GetManyAsync(BeachPartitionKey.WaterBody, prefix);
+            var beaches =
+                await this.beachesRepository.GetManyAsync(BeachPartitionKey.Beach, prefix);
             var models = new List<BeachQueryModel>();
 
             models.AddRange(continents);
@@ -41,6 +43,7 @@ namespace BeachRankings.Api.Services
             models.AddRange(l3s);
             models.AddRange(l4s);
             models.AddRange(waterBodies);
+            models.AddRange(beaches);
 
             return models;
         }
