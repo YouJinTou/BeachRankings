@@ -13,9 +13,9 @@ namespace BeachRankings.Api.Services
     public class BeachService : IBeachService
     {
         private readonly IMapper mapper;
-        private readonly IRepository<Beach> beaches;
+        private readonly IBeachesRepository beaches;
 
-        public BeachService(IMapper mapper, IRepository<Beach> beaches)
+        public BeachService(IMapper mapper, IBeachesRepository beaches)
         {
             this.mapper = mapper;
             this.beaches = beaches;
