@@ -20,11 +20,29 @@ namespace BeachRankings.Core.Tools
             }
         }
 
-        public static string ReturnOrThrowIfNullOrWhiteSpace(string str)
+        public static string ReturnOrThrowIfNullOrWhiteSpace(string str, string message = null)
         {
-            ThrowIfNullOrWhiteSpace(str);
+            ThrowIfNullOrWhiteSpace(str, message);
 
             return str;
+        }
+
+        public static void ThrowIfNotPositive(int number, string message = null)
+        {
+            if (number <= 0)
+            {
+                throw new ArgumentException(message ?? nameof(number));
+            }
+        }
+
+        public static void ThrowIfAnyNotPositive(params int[] numbers)
+        {
+            ThrowIfNull(numbers);
+
+            foreach (var number in numbers)
+            {
+                ThrowIfNotPositive(number);
+            }
         }
     }
 }
