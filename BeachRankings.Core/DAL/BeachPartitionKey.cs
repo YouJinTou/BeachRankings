@@ -8,6 +8,7 @@
         L2,
         L3,
         L4,
-        WaterBody
+        WaterBody,
+        Beach
     }
 }
