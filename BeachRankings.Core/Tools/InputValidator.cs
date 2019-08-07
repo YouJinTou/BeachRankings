@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace BeachRankings.Core.Tools
 {
@@ -43,6 +44,11 @@ namespace BeachRankings.Core.Tools
             {
                 ThrowIfNotPositive(number);
             }
+        }
+
+        public static bool AllNullOrWhiteSpace(params string[] strings)
+        {
+            return strings?.All(s => string.IsNullOrWhiteSpace(s)) ?? true;
         }
     }
 }
