@@ -158,7 +158,7 @@ namespace BeachRankings.Core.Models
                 $"{this.L3}_" +
                 $"{this.L4}_" +
                 $"{this.WaterBody}_";
-            location = Regex.Replace(location, "_+", "_").TrimEnd('_');
+            location = Regex.Replace(location, "_+", "_").TrimEnd('_').ToLower();
 
             return location;
         }
