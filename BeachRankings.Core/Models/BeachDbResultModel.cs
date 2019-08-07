@@ -1,10 +1,14 @@
-﻿namespace BeachRankings.Core.Models
+﻿using System;
+
+namespace BeachRankings.Core.Models
 {
     public class BeachDbResultModel
     {
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime AddedOn { get; set; }
 
         public string Continent { get; set; }
 
