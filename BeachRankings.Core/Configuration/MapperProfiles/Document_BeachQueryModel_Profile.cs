@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using AutoMapper;
+using BeachRankings.Core.Extensions;
 using BeachRankings.Core.Models;
 
 namespace BeachRankings.Core.Configuration.MapperProfiles
@@ -10,15 +11,14 @@ namespace BeachRankings.Core.Configuration.MapperProfiles
         {
             var map = this.CreateMap<Document, BeachQueryModel>();
 
-            map.ForMember(d => d.Id, opt => opt.MapFrom((s, d) =>
+            map.ConstructUsing((s, ctx) =>
             {
-                if (s["Id"] == Beach.PartitionKeyType.ToString())
-                {
-                    return (object)s["Location"];
-                }
+                var model = s.ConvertTo<BeachQueryModel>();
+                model.Id = (s["Id"] == Beach.PartitionKeyType.ToString()) ?
+                    s["Location"].AsString() : s["Location"].AsString().Split("%")[1];
 
-                return s["Location"].AsString().Split("%")[1];
-            }));
+                return model;
+            });
         }
     }
 }
