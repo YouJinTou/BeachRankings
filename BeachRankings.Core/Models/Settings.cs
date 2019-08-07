@@ -9,9 +9,10 @@ namespace BeachRankings.Core.Models
         {
             get
             {
-                var region = Environment.GetEnvironmentVariable("AWS_REGION");
+                var region = Environment.GetEnvironmentVariable(Constants.Env.AwsRegion);
 
-                return InputValidator.ReturnOrThrowIfNullOrWhiteSpace(region);
+                return InputValidator.ReturnOrThrowIfNullOrWhiteSpace(
+                    region, Constants.Env.AwsRegion);
             }
         }
             
@@ -19,9 +20,10 @@ namespace BeachRankings.Core.Models
         {
             get
             {
-                var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_TOKEN");
+                var accessKey = Environment.GetEnvironmentVariable(Constants.Env.AwsAccessToken);
 
-                return InputValidator.ReturnOrThrowIfNullOrWhiteSpace(accessKey);
+                return InputValidator.ReturnOrThrowIfNullOrWhiteSpace(
+                    accessKey, Constants.Env.AwsAccessToken);
             }
         }
 
@@ -29,9 +31,10 @@ namespace BeachRankings.Core.Models
         {
             get
             {
-                var secret = Environment.GetEnvironmentVariable("AWS_SECRET");
+                var secret = Environment.GetEnvironmentVariable(Constants.Env.AwsSecret);
 
-                return InputValidator.ReturnOrThrowIfNullOrWhiteSpace(secret);
+                return InputValidator.ReturnOrThrowIfNullOrWhiteSpace(
+                    secret, Constants.Env.AwsSecret);
             }
         }
     }
