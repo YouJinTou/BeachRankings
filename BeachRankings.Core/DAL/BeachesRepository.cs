@@ -26,8 +26,9 @@ namespace BeachRankings.Core.DAL
             InputValidator.ThrowIfNull(model);
 
             var partitionKey = new Primitive(Beach.PrimaryPartitionKeyType.ToString());
+            var prefix = new QueryPrefix(model.PF);
             var filter = new QueryFilter()
-                .TryAddCondition(nameof(Beach.Location), QueryOperator.BeginsWith, model.PF)
+                .TryAddCondition(nameof(Beach.Location), QueryOperator.BeginsWith, prefix)
                 .TryAddCondition(nameof(Beach.Continent), QueryOperator.Equal, model.CT)
                 .TryAddCondition(nameof(Beach.Country), QueryOperator.Equal, model.CY)
                 .TryAddCondition(nameof(Beach.L1), QueryOperator.Equal, model.L1)
@@ -37,14 +38,13 @@ namespace BeachRankings.Core.DAL
                 .TryAddCondition(nameof(Beach.WaterBody), QueryOperator.Equal, model.WB);
             var searchQuery = this.table.Query(partitionKey, filter);
             var docs = await searchQuery.GetNextSetAsync();
-            var models = this.mapper.Map<IEnumerable<Beach>>(docs);
-            var orderDirection = model.OD.ToSortDirection();
+            var beaches = this.mapper.Map<IEnumerable<Beach>>(docs);
             var prop = typeof(Beach).TryGetProperty(model.OB, nameof(Beach.Score));
-            models = model.OD.ToSortDirection() == Constants.View.Descending ? 
-                models.OrderByDescending(m => prop.GetValue(m, null)) : 
-                models.OrderBy(m => prop.GetValue(m, null));
+            var orderedBeaches = (model.OD.ToSortDirection() == Constants.View.Descending) ? 
+                beaches.OrderByDescending(m => prop.GetValue(m, null)) : 
+                beaches.OrderBy(m => prop.GetValue(m, null));
 
-            return models;
+            return orderedBeaches;
         }
 
         public async Task<IEnumerable<Beach>> GetManyAsync(
@@ -55,13 +55,14 @@ namespace BeachRankings.Core.DAL
                 return new List<Beach>();
             }
 
+            prefix = new QueryPrefix(prefix);
             var partitionKey = new Primitive(key.ToString());
             var filter = new QueryFilter(nameof(Beach.Location), QueryOperator.BeginsWith, prefix);
             var searchQuery = this.table.Query(partitionKey, filter);
             var docs = await searchQuery.GetNextSetAsync();
-            var models = this.mapper.Map<IEnumerable<Beach>>(docs);
+            var beaches = this.mapper.Map<IEnumerable<Beach>>(docs);
 
-            return models;
+            return beaches;
         }
     }
 }

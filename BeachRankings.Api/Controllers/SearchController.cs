@@ -17,7 +17,6 @@ namespace BeachRankings.Api.Controllers
         }
 
         [HttpGet]
-        [Route("beaches")]
         public async Task<IActionResult> SearchAsync([FromQuery]BeachQueryModel model)
         {
             return Ok(await this.searchService.FindBeachesAsync(model));

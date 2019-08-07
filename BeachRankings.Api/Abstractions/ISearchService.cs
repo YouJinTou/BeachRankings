@@ -6,6 +6,8 @@ namespace BeachRankings.Api.Abstractions
 {
     public interface ISearchService
     {
+        Task<IEnumerable<BeachDbResultModel>> FindBeachesAsync(string prefix);
+
         Task<IEnumerable<BeachDbResultModel>> FindBeachesAsync(BeachQueryModel model);
     }
 }
