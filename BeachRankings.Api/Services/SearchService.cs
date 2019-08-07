@@ -1,6 +1,5 @@
 ﻿using BeachRankings.Api.Abstractions;
 using BeachRankings.Core.Abstractions;
-using BeachRankings.Core.DAL;
 using BeachRankings.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,24 +15,16 @@ namespace BeachRankings.Api.Services
             this.beachesRepository = beachesRepository;
         }
 
-        public async Task<IEnumerable<BeachDbResultModel>> FindBeachesAsync(string prefix, string continent)
+        public async Task<IEnumerable<BeachDbResultModel>> FindBeachesAsync(BeachQueryModel model)
         {
-            var continents = 
-                await this.beachesRepository.GetManyAsync(BeachPartitionKey.Continent, prefix, continent);
-            var countries =
-                await this.beachesRepository.GetManyAsync(BeachPartitionKey.Country, prefix, continent);
-            var l1s = 
-                await this.beachesRepository.GetManyAsync(BeachPartitionKey.L1, prefix, continent);
-            var l2s = 
-                await this.beachesRepository.GetManyAsync(BeachPartitionKey.L2, prefix, continent);
-            var l3s = 
-                await this.beachesRepository.GetManyAsync(BeachPartitionKey.L3, prefix, continent);
-            var l4s = 
-                await this.beachesRepository.GetManyAsync(BeachPartitionKey.L4, prefix, continent);
-            var waterBodies =
-                await this.beachesRepository.GetManyAsync(BeachPartitionKey.WaterBody, prefix, continent);
-            var beaches =
-                await this.beachesRepository.GetManyAsync(BeachPartitionKey.Beach, prefix, continent);
+            var continents = await this.beachesRepository.GetManyAsync(model);
+            var countries = await this.beachesRepository.GetManyAsync(model);
+            var l1s = await this.beachesRepository.GetManyAsync(model);
+            var l2s = await this.beachesRepository.GetManyAsync(model);
+            var l3s = await this.beachesRepository.GetManyAsync(model);
+            var l4s = await this.beachesRepository.GetManyAsync(model);
+            var waterBodies = await this.beachesRepository.GetManyAsync(model);
+            var beaches = await this.beachesRepository.GetManyAsync(model);
             var models = new List<BeachDbResultModel>();
 
             models.AddRange(continents);
