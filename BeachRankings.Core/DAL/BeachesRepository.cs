@@ -6,6 +6,7 @@ using BeachRankings.Core.Extensions;
 using BeachRankings.Core.Models;
 using BeachRankings.Core.Tools;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BeachRankings.Core.DAL
@@ -37,6 +38,11 @@ namespace BeachRankings.Core.DAL
             var searchQuery = this.table.Query(partitionKey, filter);
             var docs = await searchQuery.GetNextSetAsync();
             var models = this.mapper.Map<IEnumerable<BeachDbResultModel>>(docs);
+            var orderDirection = model.OD.ToSortDirection();
+            var prop = typeof(BeachDbResultModel).TryGetProperty(model.OB, nameof(Beach.Score));
+            models = model.OD.ToSortDirection() == Constants.View.Descending ? 
+                models.OrderByDescending(m => prop.GetValue(m, null)) : 
+                models.OrderBy(m => prop.GetValue(m, null));
 
             return models;
         }
