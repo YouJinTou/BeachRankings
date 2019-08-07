@@ -17,9 +17,17 @@ namespace BeachRankings.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchAsync([FromQuery]BeachQueryModel model)
+        [Route("places")]
+        public async Task<IActionResult> SearchPlacesAsync(string prefix)
         {
-            return Ok(await this.searchService.FindBeachesAsync(model));
+            return Ok(await this.searchService.SearchPlacesAsync(prefix));
+        }
+
+        [HttpGet]
+        [Route("beaches")]
+        public async Task<IActionResult> SearchBeachesAsync([FromQuery]BeachQueryModel model)
+        {
+            return Ok(await this.searchService.SearchBeachesAsync(model));
         }
     }
 }

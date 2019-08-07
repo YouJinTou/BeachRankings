@@ -1,4 +1,5 @@
-﻿using BeachRankings.Core.Models;
+﻿using BeachRankings.Api.Models.Beaches;
+using BeachRankings.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,8 +7,8 @@ namespace BeachRankings.Api.Abstractions
 {
     public interface ISearchService
     {
-        Task<IEnumerable<BeachDbResultModel>> FindBeachesAsync(string prefix);
+        Task<SearchViewModel> SearchPlacesAsync(string prefix);
 
-        Task<IEnumerable<BeachDbResultModel>> FindBeachesAsync(BeachQueryModel model);
+        Task<IEnumerable<BeachDbResultModel>> SearchBeachesAsync(BeachQueryModel model);
     }
 }
