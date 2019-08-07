@@ -5,15 +5,15 @@ using BeachRankings.Core.Models;
 
 namespace BeachRankings.Core.Configuration.MapperProfiles
 {
-    public class Document_BeachQueryModel_Profile : Profile
+    public class Document_BeachDbResultModel_Profile : Profile
     {
-        public Document_BeachQueryModel_Profile()
+        public Document_BeachDbResultModel_Profile()
         {
-            var map = this.CreateMap<Document, BeachQueryModel>();
+            var map = this.CreateMap<Document, BeachDbResultModel>();
 
             map.ConstructUsing((s, ctx) =>
             {
-                var model = s.ConvertTo<BeachQueryModel>();
+                var model = s.ConvertTo<BeachDbResultModel>();
                 model.Id = (s["Id"] == Beach.PrimaryPartitionKeyType.ToString()) ?
                     s["Location"].AsString() : s["Location"].AsString().Split("%")[1];
 

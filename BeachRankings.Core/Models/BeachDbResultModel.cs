@@ -1,6 +1,6 @@
 ﻿namespace BeachRankings.Core.Models
 {
-    public class BeachQueryModel
+    public class BeachDbResultModel
     {
         public string Id { get; set; }
 
