@@ -15,5 +15,15 @@ namespace BeachRankings.Core.Extensions
                     throw new InvalidOperationException();
             }
         }
+
+        public static string ToSortDirection(this string s)
+        {
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                return Constants.View.Descending;
+            }
+
+            return (s == Constants.View.Ascending) ? s : Constants.View.Descending;
+        }
     }
 }
