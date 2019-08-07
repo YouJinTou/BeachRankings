@@ -1,5 +1,4 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
-using BeachRankings.Core.Abstractions;
 using System;
 using System.Linq;
 
@@ -7,7 +6,7 @@ namespace BeachRankings.Core.Extensions
 {
     internal static class DynamoDbExtensions
     {
-        public static T ConvertTo<T>(this Document document) where T : IDbModel
+        public static T ConvertTo<T>(this Document document)
         {
             var type = typeof(T);
             var properties = type.GetProperties().Select(p => p).ToList();

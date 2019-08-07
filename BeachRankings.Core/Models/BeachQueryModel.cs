@@ -1,6 +1,4 @@
-﻿using BeachRankings.Core.Abstractions;
-
-namespace BeachRankings.Core.Models
+﻿namespace BeachRankings.Core.Models
 {
     public class BeachQueryModel
     {
