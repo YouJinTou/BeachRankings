@@ -25,7 +25,7 @@ namespace BeachRankings.Api.Services
             InputValidator.ThrowIfNullOrWhiteSpace(id);
 
             var primaryKey = DalObjectsFactory.CreatePrimaryKey(
-                Beach.PartitionKeyType.ToString(), id);
+                Beach.PrimaryPartitionKeyType.ToString(), id);
             var beach = await this.beaches.GetAsync(primaryKey);
 
             return this.mapper.Map<BeachViewModel>(beach);

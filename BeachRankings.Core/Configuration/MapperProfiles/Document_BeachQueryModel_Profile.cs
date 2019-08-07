@@ -14,7 +14,7 @@ namespace BeachRankings.Core.Configuration.MapperProfiles
             map.ConstructUsing((s, ctx) =>
             {
                 var model = s.ConvertTo<BeachQueryModel>();
-                model.Id = (s["Id"] == Beach.PartitionKeyType.ToString()) ?
+                model.Id = (s["Id"] == Beach.PrimaryPartitionKeyType.ToString()) ?
                     s["Location"].AsString() : s["Location"].AsString().Split("%")[1];
 
                 return model;

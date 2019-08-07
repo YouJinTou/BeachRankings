@@ -10,7 +10,7 @@ namespace BeachRankings.Core.Models
     [DynamoDBTable("Beaches", LowerCamelCaseProperties = false)]
     public class Beach : IDbModel
     {
-        public const BeachPartitionKey PartitionKeyType = BeachPartitionKey.Beach;
+        public const BeachPartitionKey PrimaryPartitionKeyType = BeachPartitionKey.Beach;
 
         public Beach()
         {
