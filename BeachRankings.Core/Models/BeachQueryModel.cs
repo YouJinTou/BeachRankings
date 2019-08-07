@@ -38,21 +38,5 @@ namespace BeachRankings.Core.Models
                 this.OB,
                 this.OD);
         }
-
-        public bool IsQueryByPrefixOnly()
-        {
-            return
-                !string.IsNullOrWhiteSpace(this.PF) &&
-                InputValidator.AllNullOrWhiteSpace(
-                    this.CT, 
-                    this.CY, 
-                    this.L1, 
-                    this.L2, 
-                    this.L3, 
-                    this.L4, 
-                    this.WB, 
-                    this.OB, 
-                    this.OD);
-        }
     }
 }
