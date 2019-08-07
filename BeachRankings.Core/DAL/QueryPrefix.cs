@@ -2,7 +2,7 @@
 
 namespace BeachRankings.Core.DAL
 {
-    internal class QueryPrefix
+    public class QueryPrefix
     {
         public QueryPrefix(string prefix)
         {
