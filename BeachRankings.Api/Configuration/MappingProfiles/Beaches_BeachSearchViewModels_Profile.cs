@@ -22,7 +22,7 @@ namespace BeachRankings.Api.Configuration.MappingProfiles
                         Name = b.Name,
                         Country = b.Country,
                         Id = b.Id,
-                        L = b.GetLastLevel()
+                        LastLevel = b.GetLastLevel()
                     });
 
                 return models;

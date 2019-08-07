@@ -8,6 +8,6 @@
 
         public string Country { get; set; }
 
-        public string L { get; set; }
+        public string LastLevel { get; set; }
     }
 }
