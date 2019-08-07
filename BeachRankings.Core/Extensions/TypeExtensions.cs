@@ -9,16 +9,16 @@ namespace BeachRankings.Core.Extensions
         public static PropertyInfo TryGetProperty(
             this Type type, string propertyName, string fallbackProperty)
         {
-            var property = type.GetProperty(propertyName);
-
-            if (property == null)
+            if (string.IsNullOrWhiteSpace(propertyName))
             {
                 InputValidator.ThrowIfNullOrWhiteSpace(fallbackProperty);
 
                 return type.GetProperty(fallbackProperty);
             }
 
-            return property;
+            var property = type.GetProperty(propertyName);
+
+            return property ?? throw new InvalidOperationException("Invalid property");
         }
     }
 }
