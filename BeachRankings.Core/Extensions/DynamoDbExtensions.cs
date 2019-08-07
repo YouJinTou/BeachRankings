@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
+using BeachRankings.Core.Tools;
 using System;
 using System.Linq;
 
@@ -41,6 +42,21 @@ namespace BeachRankings.Core.Extensions
             }
             
             return entry.AsString();
+        }
+
+        public static QueryFilter TryAddCondition(
+            this QueryFilter filter, string attributeName, QueryOperator op, string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return filter;
+            }
+
+            InputValidator.ThrowIfNullOrWhiteSpace(attributeName);
+
+            filter.AddCondition(attributeName, op, value);
+
+            return filter;
         }
     }
 }
