@@ -1,6 +1,7 @@
 ﻿using BeachRankings.Api.Abstractions;
 using BeachRankings.Core.Abstractions;
 using BeachRankings.Core.Models;
+using BeachRankings.Core.Tools;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace BeachRankings.Api.Services
 
         public async Task<IEnumerable<BeachDbResultModel>> FindBeachesAsync(BeachQueryModel model)
         {
+            InputValidator.ThrowIfNull(model);
+
             var continents = await this.beachesRepository.GetManyAsync(model);
             var countries = await this.beachesRepository.GetManyAsync(model);
             var l1s = await this.beachesRepository.GetManyAsync(model);
