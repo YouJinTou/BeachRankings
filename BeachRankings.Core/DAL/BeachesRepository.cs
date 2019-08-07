@@ -21,7 +21,7 @@ namespace BeachRankings.Core.DAL
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<BeachDbResultModel>> GetManyAsync(BeachQueryModel model)
+        public async Task<IEnumerable<Beach>> GetManyAsync(BeachQueryModel model)
         {
             InputValidator.ThrowIfNull(model);
 
@@ -37,12 +37,29 @@ namespace BeachRankings.Core.DAL
                 .TryAddCondition(nameof(Beach.WaterBody), QueryOperator.Equal, model.WB);
             var searchQuery = this.table.Query(partitionKey, filter);
             var docs = await searchQuery.GetNextSetAsync();
-            var models = this.mapper.Map<IEnumerable<BeachDbResultModel>>(docs);
+            var models = this.mapper.Map<IEnumerable<Beach>>(docs);
             var orderDirection = model.OD.ToSortDirection();
-            var prop = typeof(BeachDbResultModel).TryGetProperty(model.OB, nameof(Beach.Score));
+            var prop = typeof(Beach).TryGetProperty(model.OB, nameof(Beach.Score));
             models = model.OD.ToSortDirection() == Constants.View.Descending ? 
                 models.OrderByDescending(m => prop.GetValue(m, null)) : 
                 models.OrderBy(m => prop.GetValue(m, null));
+
+            return models;
+        }
+
+        public async Task<IEnumerable<Beach>> GetManyAsync(
+            BeachPartitionKey key, string prefix)
+        {
+            if (string.IsNullOrWhiteSpace(prefix))
+            {
+                return new List<Beach>();
+            }
+
+            var partitionKey = new Primitive(key.ToString());
+            var filter = new QueryFilter(nameof(Beach.Location), QueryOperator.BeginsWith, prefix);
+            var searchQuery = this.table.Query(partitionKey, filter);
+            var docs = await searchQuery.GetNextSetAsync();
+            var models = this.mapper.Map<IEnumerable<Beach>>(docs);
 
             return models;
         }
