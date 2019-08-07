@@ -3,6 +3,7 @@ using BeachRankings.Core.Abstractions;
 using BeachRankings.Core.DAL;
 using BeachRankings.Core.Tools;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BeachRankings.Core.Models
@@ -146,6 +147,19 @@ namespace BeachRankings.Core.Models
         public double? Camping { get; set; }
 
         public double? LongTermStay { get; set; }
+
+        public string GetLastLevel()
+        {
+            var levels = new string[]
+            {
+                this.L4,
+                this.L3,
+                this.L2,
+                this.L1
+            };
+
+            return levels.FirstOrDefault(l => !string.IsNullOrWhiteSpace(l));
+        }
 
         private string GetLocation()
         {
