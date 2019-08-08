@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Query } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Beach } from '../beaches/beach';
+import { environment } from '../../environments/environment'
 
 @Component({
     templateUrl: 'stats.table.component.html',
@@ -23,7 +24,7 @@ export class StatsTableComponent implements OnInit, OnDestroy {
           scrollX: true,
           responsive: true
         };
-        this.httpClient.get<Beach[]>('http://localhost:58124/api/search/beaches?prefix=B')
+        this.httpClient.get<Beach[]>(environment.searchBeachesEndpoint + this.buildQuery())
           .subscribe(beaches => {
             this.beaches = beaches;
 
@@ -33,5 +34,11 @@ export class StatsTableComponent implements OnInit, OnDestroy {
     
       ngOnDestroy(): void {
         this.trigger.unsubscribe();
+      }
+
+      buildQuery() {
+        let query = 'prefix=b';
+
+        return query;
       }
 }
