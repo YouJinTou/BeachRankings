@@ -1,6 +1,5 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
-using AutoMapper;
 using BeachRankings.Core.Abstractions;
 using BeachRankings.Core.Extensions;
 using BeachRankings.Core.Models;
@@ -13,12 +12,9 @@ namespace BeachRankings.Core.DAL
 {
     internal class BeachesRepository : DynamoRepository<Beach>, IBeachesRepository
     {
-        private readonly IMapper mapper;
-
-        public BeachesRepository(IAmazonDynamoDB dynamoDb, string table, IMapper mapper)
+        public BeachesRepository(IAmazonDynamoDB dynamoDb, string table)
             : base(dynamoDb, table)
         {
-            this.mapper = mapper;
         }
 
         public async Task<IEnumerable<Beach>> GetManyAsync(BeachQueryModel model)
@@ -38,7 +34,7 @@ namespace BeachRankings.Core.DAL
                 .TryAddCondition(nameof(Beach.WaterBody), QueryOperator.Equal, model.WaterBody);
             var searchQuery = this.table.Query(partitionKey, filter);
             var docs = await searchQuery.GetNextSetAsync();
-            var beaches = this.mapper.Map<IEnumerable<Beach>>(docs);
+            var beaches = docs.Select(d => d.ConvertTo<Beach>());
             var prop = typeof(Beach).TryGetProperty(model.OrderBy, nameof(Beach.Score));
             var orderedBeaches = (model.SortDirection.ToSortDirection() == Constants.View.Descending) ? 
                 beaches.OrderByDescending(m => prop.GetValue(m, null)) : 
@@ -60,7 +56,7 @@ namespace BeachRankings.Core.DAL
             var filter = new QueryFilter(nameof(Beach.Location), QueryOperator.BeginsWith, prefix);
             var searchQuery = this.table.Query(partitionKey, filter);
             var docs = await searchQuery.GetNextSetAsync();
-            var beaches = this.mapper.Map<IEnumerable<Beach>>(docs);
+            var beaches = docs.Select(d => d.ConvertTo<Beach>());
 
             return beaches;
         }

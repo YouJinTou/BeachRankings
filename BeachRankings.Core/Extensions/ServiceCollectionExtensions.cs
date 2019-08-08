@@ -1,5 +1,4 @@
 ﻿using Amazon.DynamoDBv2;
-using AutoMapper;
 using BeachRankings.Core.Abstractions;
 using BeachRankings.Core.DAL;
 using BeachRankings.Core.Models;
@@ -59,8 +58,7 @@ namespace BeachRankings.Core.Extensions
                 .AddTransient<IRepository<Review>>(
                     sp => new DynamoRepository<Review>(dynamoClient, "Reviews"))
                 .AddTransient<IBeachesRepository>(
-                    sp => new BeachesRepository(
-                        dynamoClient, "Beaches", provider.GetService<IMapper>()));
+                    sp => new BeachesRepository(dynamoClient, "Beaches"));
 
             return services;
         }
