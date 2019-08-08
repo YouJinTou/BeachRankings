@@ -403,5 +403,6 @@ Thumbs.db
 /BeachRankings.Api/Readme.md
 /BeachRankings.Loader/*
 
+BeachRankings.UI/dist/*
 BeachRankings.UI/src/environments/environment.prod.ts
 BeachRankings.UI/src/environments/environment.ts
