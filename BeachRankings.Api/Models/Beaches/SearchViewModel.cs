@@ -2,6 +2,7 @@
 using BeachRankings.Core.DAL;
 using BeachRankings.Core.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BeachRankings.Api.Models.Beaches
 {
@@ -23,21 +24,29 @@ namespace BeachRankings.Api.Models.Beaches
         {
             prefix = new QueryPrefix(prefix);
             this.Continents = mapper.Map<IEnumerable<ContinentSearchViewModel>>(
-                beaches, o => o.Items[nameof(prefix)] = prefix);
+                beaches.Where(b => b.Id == BeachPartitionKey.Continent.ToString()), 
+                o => o.Items[nameof(prefix)] = prefix);
             this.Countries = mapper.Map<IEnumerable<CountrySearchViewModel>>(
-                beaches, o => o.Items[nameof(prefix)] = prefix);
+                beaches.Where(b => b.Id == BeachPartitionKey.Country.ToString()), 
+                o => o.Items[nameof(prefix)] = prefix);
             this.L1s = mapper.Map<IEnumerable<L1SearchViewModel>>(
-                beaches, o => o.Items[nameof(prefix)] = prefix);
+                beaches.Where(b => b.Id == BeachPartitionKey.L1.ToString()), 
+                o => o.Items[nameof(prefix)] = prefix);
             this.L2s = mapper.Map<IEnumerable<L2SearchViewModel>>(
-                beaches, o => o.Items[nameof(prefix)] = prefix);
+                beaches.Where(b => b.Id == BeachPartitionKey.L2.ToString()),
+                o => o.Items[nameof(prefix)] = prefix);
             this.L3s = mapper.Map<IEnumerable<L3SearchViewModel>>(
-                beaches, o => o.Items[nameof(prefix)] = prefix);
+                beaches.Where(b => b.Id == BeachPartitionKey.L3.ToString()),
+                o => o.Items[nameof(prefix)] = prefix);
             this.L4s = mapper.Map<IEnumerable<L4SearchViewModel>>(
-                beaches, o => o.Items[nameof(prefix)] = prefix);
+                beaches.Where(b => b.Id == BeachPartitionKey.L4.ToString()),
+                o => o.Items[nameof(prefix)] = prefix);
             this.WaterBodies = mapper.Map<IEnumerable<WaterBodySearchViewModel>>(
-                beaches, o => o.Items[nameof(prefix)] = prefix);
+                beaches.Where(b => b.Id == BeachPartitionKey.WaterBody.ToString()),
+                o => o.Items[nameof(prefix)] = prefix);
             this.Beaches = mapper.Map<IEnumerable<BeachSearchViewModel>>(
-                beaches, o => o.Items[nameof(prefix)] = prefix);
+                beaches.Where(b => b.Id == BeachPartitionKey.Beach.ToString()),
+                o => o.Items[nameof(prefix)] = prefix);
         }
 
         public IEnumerable<ContinentSearchViewModel> Continents { get; }

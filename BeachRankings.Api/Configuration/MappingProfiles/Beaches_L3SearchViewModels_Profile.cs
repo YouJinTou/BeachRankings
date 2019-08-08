@@ -21,7 +21,7 @@ namespace BeachRankings.Api.Configuration.MappingProfiles
                     .Select(g => new L3SearchViewModel
                     {
                         BeachesCount = g.Count(),
-                        CountryName = beaches.FirstOrDefault()?.Country,
+                        CountryName = g.FirstOrDefault()?.Country,
                         Name = g.Key
                     });
 

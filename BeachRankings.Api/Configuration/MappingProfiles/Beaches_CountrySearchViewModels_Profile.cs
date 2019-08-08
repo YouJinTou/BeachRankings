@@ -21,7 +21,7 @@ namespace BeachRankings.Api.Configuration.MappingProfiles
                     .Select(g => new CountrySearchViewModel
                     {
                         BeachesCount = g.Count(),
-                        ContinentName = beaches.FirstOrDefault()?.Continent,
+                        ContinentName = g.FirstOrDefault()?.Continent,
                         Name = g.Key
                     });
 
