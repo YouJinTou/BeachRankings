@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment'
-import { Beach } from '../beaches/beach';
+import { SearchResult } from './models/search.result';
 
 @Component({
     selector: 'search-bar',
@@ -10,7 +10,7 @@ import { Beach } from '../beaches/beach';
     styleUrls: ['./search.bar.component.css']
 })
 export class SearchBarComponent {
-    beaches: Beach[]
+    result: SearchResult;
 
     constructor(private httpClient: HttpClient) {
     }
@@ -18,10 +18,8 @@ export class SearchBarComponent {
     onSearch(event: any) {
         let query = environment.searchPlacesEndpoint + event.target.value;
 
-        this.httpClient.get<Beach[]>(query).subscribe(beaches => {
-            this.beaches = beaches;
-
-            console.log(this.beaches);
+        this.httpClient.get<SearchResult>(query).subscribe(result => {
+            this.result = result;
         })
     }
 }
