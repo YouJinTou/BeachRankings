@@ -7,26 +7,31 @@ import { Beach } from '../beaches/beach';
     templateUrl: 'stats.table.component.html',
     selector: 'stats-table'
 })
-export class StatsTableComponent implements OnInit {
+export class StatsTableComponent implements OnInit, OnDestroy {
     beaches: Beach[];
-    dtOptions: DataTables.Settings = {};
-    dtTrigger: Subject<Beach> = new Subject();
+    options: DataTables.Settings;
+    trigger: Subject<Beach>;
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) { 
+      this.trigger = new Subject();
+    }
 
     ngOnInit(): void {
-        this.dtOptions = {
+        this.options = {
           pagingType: 'full_numbers',
-          pageLength: 2
+          pageLength: 5,
+          scrollX: true,
+          responsive: true
         };
-        this.httpClient.get<Beach[]>('http://localhost:58124/api/search/places?prefix=B')
-          .subscribe(b => {
-            this.beaches = b;
-            this.dtTrigger.next();
+        this.httpClient.get<Beach[]>('http://localhost:58124/api/search/beaches?prefix=B')
+          .subscribe(beaches => {
+            this.beaches = beaches;
+
+            this.trigger.next();
           });
       }
     
       ngOnDestroy(): void {
-        this.dtTrigger.unsubscribe();
+        this.trigger.unsubscribe();
       }
 }
