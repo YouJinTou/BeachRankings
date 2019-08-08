@@ -26,21 +26,21 @@ namespace BeachRankings.Core.DAL
             InputValidator.ThrowIfNull(model);
 
             var partitionKey = new Primitive(Beach.PrimaryPartitionKeyType.ToString());
-            var prefix = new QueryPrefix(model.PF);
+            var prefix = new QueryPrefix(model.Prefix);
             var filter = new QueryFilter()
                 .TryAddCondition(nameof(Beach.Location), QueryOperator.BeginsWith, prefix)
-                .TryAddCondition(nameof(Beach.Continent), QueryOperator.Equal, model.CT)
-                .TryAddCondition(nameof(Beach.Country), QueryOperator.Equal, model.CY)
+                .TryAddCondition(nameof(Beach.Continent), QueryOperator.Equal, model.Continent)
+                .TryAddCondition(nameof(Beach.Country), QueryOperator.Equal, model.Country)
                 .TryAddCondition(nameof(Beach.L1), QueryOperator.Equal, model.L1)
                 .TryAddCondition(nameof(Beach.L2), QueryOperator.Equal, model.L2)
                 .TryAddCondition(nameof(Beach.L3), QueryOperator.Equal, model.L3)
                 .TryAddCondition(nameof(Beach.L4), QueryOperator.Equal, model.L4)
-                .TryAddCondition(nameof(Beach.WaterBody), QueryOperator.Equal, model.WB);
+                .TryAddCondition(nameof(Beach.WaterBody), QueryOperator.Equal, model.WaterBody);
             var searchQuery = this.table.Query(partitionKey, filter);
             var docs = await searchQuery.GetNextSetAsync();
             var beaches = this.mapper.Map<IEnumerable<Beach>>(docs);
-            var prop = typeof(Beach).TryGetProperty(model.OB, nameof(Beach.Score));
-            var orderedBeaches = (model.OD.ToSortDirection() == Constants.View.Descending) ? 
+            var prop = typeof(Beach).TryGetProperty(model.OrderBy, nameof(Beach.Score));
+            var orderedBeaches = (model.SortDirection.ToSortDirection() == Constants.View.Descending) ? 
                 beaches.OrderByDescending(m => prop.GetValue(m, null)) : 
                 beaches.OrderBy(m => prop.GetValue(m, null));
 
