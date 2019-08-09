@@ -2,35 +2,29 @@
 
 <div>
     <div *ngFor="let continent of result.continents">
-        <span>{{continent.name}}</span>
-        <span>({{continent.beachesCount}} beaches)</span>
+        <span>
+            <a>{{continent.name}} ({{continent.beachesCount}} beaches)</a>
+        </span>
     </div>
     <div *ngFor="let country of result.countries">
-        <span>{{country.name}}</span>
-        <span>({{country.beachesCount}} beaches)</span>
+        <span>{{country.name}} ({{country.beachesCount}} beaches)</span>
     </div>
     <div *ngFor="let l1 of result.l1s">
-        <span>{{l1.name}}</span>
-        <span>({{l1.beachesCount}} beaches)</span>
+        <span>{{l1.name}} ({{l1.beachesCount}} beaches)</span>
     </div>
     <div *ngFor="let l2 of result.l2s">
-        <span>{{l2.name}}</span>
-        <span>({{l2.beachesCount}} beaches)</span>
+        <span>{{l2.name}} ({{l2.beachesCount}} beaches)</span>
     </div>
     <div *ngFor="let l3 of result.l3s">
-        <span>{{l3.name}}</span>
-        <span>({{l3.beachesCount}} beaches)</span>
+        <span>{{l3.name}} ({{l3.beachesCount}} beaches)</span>
     </div>
     <div *ngFor="let l4 of result.l4s">
-        <span>{{l4.name}}</span>
-        <span>({{l4.beachesCount}} beaches)</span>
+        <span>{{l4.name}} ({{l4.beachesCount}} beaches)</span>
     </div>
     <div *ngFor="let waterBody of result.waterBodies">
-        <span>{{waterBody.name}}</span>
-        <span>({{waterBody.beachesCount}} beaches)</span>
+        <span>{{waterBody.name}} ({{waterBody.beachesCount}} beaches)</span>
     </div>
     <div *ngFor="let beach of result.beaches">
-        <span>{{beach.name}}</span>
-        <span>({{beach.lastLevel}}, {{beach.country}})</span>
+        <span>{{beach.name}} ({{beach.lastLevel}}, {{beach.country}})</span>
     </div>
 </div>
