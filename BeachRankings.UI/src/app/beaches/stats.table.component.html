@@ -1,4 +1,8 @@
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+<table 
+    *ngIf="render" 
+    datatable [dtOptions]="dtOptions" 
+    [dtTrigger]="dtTrigger" 
+    class="row-border hover">
     <thead>
         <tr>
             <th>Name</th>

@@ -10,6 +10,7 @@ import { DataTableDirective } from 'angular-datatables';
   selector: 'stats-table'
 })
 export class StatsTableComponent implements OnInit, OnDestroy {
+  render: boolean;
   beaches: Beach[];
   dtOptions: DataTables.Settings;
   dtTrigger: Subject<Beach>;
@@ -34,6 +35,8 @@ export class StatsTableComponent implements OnInit, OnDestroy {
     if (!query) {
       return;
     }
+
+    this.render = true;
 
     this.httpClient.get<Beach[]>(environment.searchBeachesEndpoint + this.buildQuery(query))
       .subscribe(beaches => {
