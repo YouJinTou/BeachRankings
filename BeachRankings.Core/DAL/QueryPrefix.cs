@@ -21,6 +21,11 @@ namespace BeachRankings.Core.DAL
 
         private string GetCleanValue(string prefix)
         {
+            if (string.IsNullOrWhiteSpace(prefix))
+            {
+                return null;
+            }
+
             var pattern = "[^a-zA-Z0-9.-]";
 
             return Regex.Replace(prefix, pattern, string.Empty).ToLower();
