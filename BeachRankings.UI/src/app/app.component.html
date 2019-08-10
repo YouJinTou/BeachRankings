@@ -1,1 +1,2 @@
-<search-bar></search-bar>
+<search-bar (searchQuery)="onSearch($event)"></search-bar>
+<stats-table [searchQuery]="searchQuery"></stats-table>

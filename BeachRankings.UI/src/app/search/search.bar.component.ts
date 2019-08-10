@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment'
@@ -11,8 +11,10 @@ import { SearchResult } from './models/search.result';
 })
 export class SearchBarComponent {
     result: SearchResult;
+    @Output() searchQuery;
 
     constructor(private httpClient: HttpClient) {
+        this.searchQuery = new EventEmitter<any>();
     }
 
     onSearch(event: any) {
@@ -21,5 +23,13 @@ export class SearchBarComponent {
         this.httpClient.get<SearchResult>(query).subscribe(result => {
             this.result = result;
         })
+    }
+
+    onContinentClick(continent: string) {
+        let query = {
+            'continent': continent    
+        };
+
+        this.searchQuery.emit(query);
     }
 }
