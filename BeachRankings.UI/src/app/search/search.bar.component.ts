@@ -25,11 +25,16 @@ export class SearchBarComponent {
         })
     }
 
-    onContinentClick(continent: string) {
-        let query = {
-            'continent': continent    
-        };
+    onLocationClick(location: string, type: string) {
+        let query = {};
+        query[type] = location;
+
+        console.log(query);
 
         this.searchQuery.emit(query);
+    }
+
+    onBeachClick(beach: string) {
+        console.log('NOT IMPLEMENTED');
     }
 }

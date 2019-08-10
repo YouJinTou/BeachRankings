@@ -3,30 +3,58 @@
 <div>
     <div *ngFor="let continent of result?.continents">
         <span>
-            <a (click)="onContinentClick(continent.name)">
+            <a (click)="onLocationClick(continent.name, 'continent')">
                 {{continent.name}} ({{continent.beachesCount}} beaches)
             </a>
         </span>
     </div>
     <div *ngFor="let country of result?.countries">
-        <span>{{country.name}} ({{country.beachesCount}} beaches)</span>
+        <span>
+            <a (click)="onLocationClick(country.name, 'country')">
+                {{country.name}} ({{country.beachesCount}} beaches)
+            </a>
+        </span>
     </div>
     <div *ngFor="let l1 of result?.l1s">
-        <span>{{l1.name}} ({{l1.beachesCount}} beaches)</span>
+        <span>
+            <a (click)="onLocationClick(l1.name, 'l1')">
+                {{l1.name}} ({{l1.beachesCount}} beaches)
+            </a>
+        </span>
     </div>
     <div *ngFor="let l2 of result?.l2s">
-        <span>{{l2.name}} ({{l2.beachesCount}} beaches)</span>
+        <span>
+            <a (click)="onLocationClick(l2.name, 'l2')">
+                {{l2.name}} ({{l2.beachesCount}} beaches)
+            </a>
+        </span>
     </div>
     <div *ngFor="let l3 of result?.l3s">
-        <span>{{l3.name}} ({{l3.beachesCount}} beaches)</span>
+        <span>
+            <a (click)="onLocationClick(l3.name, 'l3')">
+                {{l3.name}} ({{l3.beachesCount}} beaches)
+            </a>
+        </span>
     </div>
     <div *ngFor="let l4 of result?.l4s">
-        <span>{{l4.name}} ({{l4.beachesCount}} beaches)</span>
+        <span>
+            <a (click)="onLocationClick(l4.name, 'l4')">
+                {{l4.name}} ({{l4.beachesCount}} beaches)
+            </a>
+        </span>
     </div>
     <div *ngFor="let waterBody of result?.waterBodies">
-        <span>{{waterBody.name}} ({{waterBody.beachesCount}} beaches)</span>
+        <span>
+            <a (click)="onLocationClick(waterBody.name, 'waterBody')">
+                {{waterBody.name}} ({{waterBody.beachesCount}} beaches)
+            </a>
+        </span>
     </div>
     <div *ngFor="let beach of result?.beaches">
-        <span>{{beach.name}} ({{beach.lastLevel}}, {{beach.country}})</span>
+        <span>
+            <a (click)="onBeachClick(beach.name)">
+                {{beach.name}} ({{beach.lastLevel}}, {{beach.country}})
+            </a>
+        </span>
     </div>
 </div>

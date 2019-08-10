@@ -54,7 +54,11 @@ export class StatsTableComponent implements OnInit, OnDestroy {
   }
 
   private buildQuery(query: any): any {
-    let searchQuery = `continent=${query.continent}`;
+    let searchQuery = '';
+
+    for (let key in query) {
+      searchQuery += (`${key}=${query[key]}`);
+    }
 
     return searchQuery;
   }
