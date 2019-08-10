@@ -11,17 +11,17 @@ import { DataTableDirective } from 'angular-datatables';
 })
 export class StatsTableComponent implements OnInit, OnDestroy {
   beaches: Beach[];
-  options: DataTables.Settings;
-  trigger: Subject<Beach>;
-  @ViewChild(DataTableDirective, {static: false})
+  dtOptions: DataTables.Settings;
+  dtTrigger: Subject<Beach>;
+  @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
 
   constructor(private httpClient: HttpClient) {
-    this.trigger = new Subject();
+    this.dtTrigger = new Subject();
   }
 
   ngOnInit(): void {
-    this.options = {
+    this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
       scrollX: true,
@@ -34,20 +34,26 @@ export class StatsTableComponent implements OnInit, OnDestroy {
     if (!query) {
       return;
     }
-    
+
     this.httpClient.get<Beach[]>(environment.searchBeachesEndpoint + this.buildQuery(query))
       .subscribe(beaches => {
         this.beaches = beaches;
-          
-        this.trigger.next();
+
+        if (this.dtElement.dtInstance) {
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.destroy();
+          });
+        }
+
+        this.dtTrigger.next();
       });
   }
 
   ngOnDestroy(): void {
-    this.trigger.unsubscribe();
+    this.dtTrigger.unsubscribe();
   }
 
-  buildQuery(query: any): any {
+  private buildQuery(query: any): any {
     let searchQuery = `continent=${query.continent}`;
 
     return searchQuery;
