@@ -10,6 +10,7 @@ import { SearchResult } from './models/search.result';
     styleUrls: ['./search.bar.component.css']
 })
 export class SearchBarComponent {
+    render: boolean;
     result: SearchResult;
     @Output() searchQuery;
 
@@ -22,10 +23,12 @@ export class SearchBarComponent {
 
         this.httpClient.get<SearchResult>(query).subscribe(result => {
             this.result = result;
+            this.render = true;
         })
     }
 
     onLocationClick(location: string, type: string) {
+        this.render = false;
         let query = {};
         query[type] = location;
 
@@ -35,6 +38,8 @@ export class SearchBarComponent {
     }
 
     onBeachClick(beach: string) {
+        this.render = false;
+        
         console.log('NOT IMPLEMENTED');
     }
 }

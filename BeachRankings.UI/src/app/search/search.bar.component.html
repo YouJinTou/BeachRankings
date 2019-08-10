@@ -1,6 +1,6 @@
 <input (keyup)='onSearch($event)' />
 
-<div>
+<div *ngIf="render">
     <div *ngFor="let continent of result?.continents">
         <span>
             <a (click)="onLocationClick(continent.name, 'continent')">
