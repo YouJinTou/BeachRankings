@@ -7,11 +7,11 @@ import { DataTablesModule } from 'angular-datatables';
 
 import { AppComponent } from './app.component';
 import { SearchBarComponent } from './search/search.bar.component';
-import { StatsTableComponent } from './beaches/stats.table.component';
-import { BeachDetailsComponent } from './beaches/beach.details.component';
+import { StatsTableComponent } from './beaches/stats/stats.table.component';
+import { BeachDetailsComponent } from './beaches/details/beach.details.component';
 
 const appRoutes: Routes = [
-  { path: '/beaches/:id/details', component: BeachDetailsComponent }
+  { path: 'beaches/:id/details', component: BeachDetailsComponent }
 ]
 
 @NgModule({

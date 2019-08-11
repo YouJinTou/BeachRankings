@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { Beach } from '../beaches/beach';
-import { environment } from '../../environments/environment'
+import { Beach } from '../../models/beaches/beach';
+import { environment } from '../../../environments/environment'
 import { DataTableDirective } from 'angular-datatables';
 
 @Component({
