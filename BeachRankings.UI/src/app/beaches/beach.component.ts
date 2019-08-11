@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Beach } from 'src/app/models/search/beach';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'beach-details',
-  templateUrl: './beach.details.component.html',
-  styleUrls: ['./beach.details.component.css']
+  templateUrl: './beach.component.html',
+  styleUrls: ['./beach.component.css']
 })
-export class BeachDetailsComponent implements OnInit {
+export class BeachComponent implements OnInit {
   beach: Beach;
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) { }

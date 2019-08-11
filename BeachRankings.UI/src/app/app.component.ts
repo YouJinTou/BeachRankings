@@ -5,10 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  searchQuery: any;
-
-  onSearch(query: any) {
-    this.searchQuery = query;
-  }
-}
+export class AppComponent { }

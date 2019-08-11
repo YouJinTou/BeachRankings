@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
@@ -12,13 +12,8 @@ import { SearchResult } from '../models/search/search.result';
 export class SearchBarComponent {
     render: boolean;
     result: SearchResult;
-    @Output() searchQuery;
-    @Output() beach;
 
-    constructor(private httpClient: HttpClient) {
-        this.searchQuery = new EventEmitter<any>();
-        this.beach = new EventEmitter<string>();
-    }
+    constructor(private httpClient: HttpClient) { }
 
     onSearch(event: any) {
         let query = environment.searchPlacesEndpoint + event.target.value;
@@ -27,19 +22,5 @@ export class SearchBarComponent {
             this.result = result;
             this.render = true;
         })
-    }
-
-    onLocationClick(location: string, type: string) {
-        this.render = false;
-        let query = {};
-        query[type] = location;
-
-        this.searchQuery.emit(query);
-    }
-
-    onBeachClick(beach: string) {
-        this.render = false;
-
-        this.beach.emit(beach);
     }
 }

@@ -7,24 +7,31 @@ import { DataTablesModule } from 'angular-datatables';
 
 import { AppComponent } from './app.component';
 import { SearchBarComponent } from './search/search.bar.component';
-import { StatsTableComponent } from './beaches/stats/stats.table.component';
-import { BeachDetailsComponent } from './beaches/details/beach.details.component';
+import { BeachComponent } from './beaches/beach.component';
+import { PlaceTableComponent } from './places/place.table.component';
 
 const appRoutes: Routes = [
-  { path: 'beaches/:id/details', component: BeachDetailsComponent }
+  { path: 'continents/:name', component: PlaceTableComponent },
+  { path: 'countries/:name', component: PlaceTableComponent },
+  { path: 'l1s/:name', component: PlaceTableComponent },
+  { path: 'l2s/:name', component: PlaceTableComponent },
+  { path: 'l3s/:name', component: PlaceTableComponent },
+  { path: 'l4s/:name', component: PlaceTableComponent },
+  { path: 'waterbodies/:name', component: PlaceTableComponent },
+  { path: 'beaches/:id', component: BeachComponent }
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchBarComponent,
-    StatsTableComponent,
-    BeachDetailsComponent
+    BeachComponent,
+    PlaceTableComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes, {
-      enableTracing: true
+      enableTracing: false
     }),
     HttpClientModule,
     DataTablesModule
