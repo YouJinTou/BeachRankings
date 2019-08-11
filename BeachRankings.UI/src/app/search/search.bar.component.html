@@ -52,7 +52,7 @@
     </div>
     <div *ngFor="let beach of result?.beaches">
         <span>
-            <a (click)="onBeachClick(beach.name)">
+            <a routerLink="/beaches/{{beach.id}}/details">
                 {{beach.name}} ({{beach.lastLevel}}, {{beach.country}})
             </a>
         </span>
