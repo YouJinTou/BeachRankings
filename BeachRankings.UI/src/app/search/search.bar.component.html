@@ -1,6 +1,6 @@
 <input (keyup)='onSearch($event)' />
 
-<div *ngIf="render">
+<div class="dropdown" *ngIf="render">
     <div *ngFor="let continent of result?.continents">
         <span>
             <a routerLink="/continents/{{continent.name}}">
