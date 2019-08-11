@@ -1,21 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
 
 import { DataTablesModule } from 'angular-datatables';
 
 import { AppComponent } from './app.component';
 import { SearchBarComponent } from './search/search.bar.component';
 import { StatsTableComponent } from './beaches/stats.table.component';
+import { BeachDetailsComponent } from './beaches/beach.details.component';
+
+const appRoutes: Routes = [
+  { path: '/beaches/:id/details', component: BeachDetailsComponent }
+]
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchBarComponent,
-    StatsTableComponent
+    StatsTableComponent,
+    BeachDetailsComponent
   ],
   imports: [
     BrowserModule,
+    RouterModule.forRoot(appRoutes, {
+      enableTracing: true
+    }),
     HttpClientModule,
     DataTablesModule
   ],

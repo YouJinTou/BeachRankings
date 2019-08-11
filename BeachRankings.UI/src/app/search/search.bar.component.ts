@@ -13,9 +13,11 @@ export class SearchBarComponent {
     render: boolean;
     result: SearchResult;
     @Output() searchQuery;
+    @Output() beach;
 
     constructor(private httpClient: HttpClient) {
         this.searchQuery = new EventEmitter<any>();
+        this.beach = new EventEmitter<string>();
     }
 
     onSearch(event: any) {
@@ -32,14 +34,12 @@ export class SearchBarComponent {
         let query = {};
         query[type] = location;
 
-        console.log(query);
-
         this.searchQuery.emit(query);
     }
 
     onBeachClick(beach: string) {
         this.render = false;
-        
-        console.log('NOT IMPLEMENTED');
+
+        this.beach.emit(beach);
     }
 }
