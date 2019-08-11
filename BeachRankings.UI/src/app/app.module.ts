@@ -7,8 +7,8 @@ import { DataTablesModule } from 'angular-datatables';
 
 import { AppComponent } from './app.component';
 import { SearchBarComponent } from './search/search.bar.component';
-import { BeachComponent } from './beaches/beach.component';
-import { PlaceTableComponent } from './places/place.table.component';
+import { BeachComponent } from './beach/beach.component';
+import { PlaceTableComponent } from './place/place.table.component';
 
 const appRoutes: Routes = [
   { path: 'continents/:name', component: PlaceTableComponent },
