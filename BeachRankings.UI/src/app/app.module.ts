@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { SearchBarComponent } from './search/search.bar.component';
 import { BeachComponent } from './beach/beach.component';
 import { PlaceTableComponent } from './place/place.table.component';
+import { HeaderComponent } from './header/header.component';
 
 const appRoutes: Routes = [
   { path: 'continents/:name', component: PlaceTableComponent },
@@ -26,7 +27,8 @@ const appRoutes: Routes = [
     AppComponent,
     SearchBarComponent,
     BeachComponent,
-    PlaceTableComponent
+    PlaceTableComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
