@@ -21,7 +21,7 @@ namespace BeachRankings.Api.Configuration.MappingProfiles
                     {
                         Name = b.Name,
                         Country = b.Country,
-                        Id = b.Id,
+                        Id = b.Location,
                         LastLevel = b.GetLastLevel()
                     });
 
