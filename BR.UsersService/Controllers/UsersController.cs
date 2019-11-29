@@ -1,0 +1,26 @@
+﻿using BR.Core.Abstractions;
+using BR.UsersService.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+
+namespace BR.UsersService.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class UsersController
+    {
+        private readonly ILogger<UsersController> logger;
+
+        public UsersController(ILogger<UsersController> logger)
+        {
+            this.logger = logger;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUserAsync([FromBody]CreateUserModel model)
+        {
+            return new OkResult();
+        }
+    }
+}
