@@ -5,8 +5,8 @@ namespace BR.Core.Events
 {
     public class UserCreated : EventBase
     {
-        public UserCreated(Guid id, int offset) 
-            : base(id, offset)
+        public UserCreated(Guid streamId, int offset) 
+            : base(streamId, offset)
         {
         }
     }

@@ -5,8 +5,8 @@ namespace BR.Core.Events
 {
     public class BeachModified : EventBase
     {
-        public BeachModified(Guid id, int offset) 
-            : base(id, offset)
+        public BeachModified(Guid streamId, int offset) 
+            : base(streamId, offset)
         {
         }
     }
