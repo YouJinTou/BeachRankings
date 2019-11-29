@@ -1,9 +1,11 @@
-﻿namespace BR.Core.Events
+﻿using System;
+
+namespace BR.Core.Events
 {
     public class BeachModified : EventBase
     {
-        public BeachModified(int id, string type) 
-            : base(id, type)
+        public BeachModified(Guid id, int offset, string type) 
+            : base(id, offset, type)
         {
         }
     }
