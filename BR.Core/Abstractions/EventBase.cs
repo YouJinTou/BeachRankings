@@ -1,17 +1,18 @@
-﻿using System;
+﻿using BR.Core.Tools;
+using System;
 
 namespace BR.Core.Abstractions
 {
     public abstract class EventBase
     {
-        public EventBase(Guid streamId, int offset)
+        public EventBase(string streamId, int offset)
         {
-            this.StreamId = streamId;
+            this.StreamId = Validator.ReturnOrThrowIfNullOrWhiteSpace(streamId);
             this.Offset = offset;
             this.Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
         }
 
-        public Guid StreamId { get; set; }
+        public string StreamId { get; set; }
 
         public int Offset { get; set; }
 

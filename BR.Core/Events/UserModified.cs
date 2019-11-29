@@ -1,11 +1,10 @@
 ﻿using BR.Core.Abstractions;
-using System;
 
 namespace BR.Core.Events
 {
     public class UserModified : EventBase
     {
-        public UserModified(Guid streamId, int offset) 
+        public UserModified(string streamId, int offset) 
             : base(streamId, offset)
         {
         }
