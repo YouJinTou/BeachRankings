@@ -4,8 +4,8 @@ namespace BR.Core.Events
 {
     public class BeachCreated : EventBase
     {
-        public BeachCreated(Guid id, int offset, string type, string name)
-            : base(id, offset, type)
+        public BeachCreated(Guid id, int offset, string name)
+            : base(id, offset)
         {
             this.Name = name;
         }

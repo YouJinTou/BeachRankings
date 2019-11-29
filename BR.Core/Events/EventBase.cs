@@ -4,11 +4,10 @@ namespace BR.Core.Events
 {
     public abstract class EventBase
     {
-        public EventBase(Guid id, int offset, string type)
+        public EventBase(Guid id, int offset)
         {
             this.Id = id;
             this.Offset = offset;
-            this.Type = type;
             this.Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
         }
 
