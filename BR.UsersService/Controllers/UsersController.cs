@@ -1,5 +1,4 @@
-﻿using BR.Core.Abstractions;
-using BR.UsersService.Models;
+﻿using BR.UsersService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
