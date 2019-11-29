@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BR.Core.Abstractions;
+using System;
 
 namespace BR.Core.Events
 {

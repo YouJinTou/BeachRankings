@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BR.Core.Events
+namespace BR.Core.Abstractions
 {
     public abstract class EventBase
     {
