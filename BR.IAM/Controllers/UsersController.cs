@@ -3,6 +3,7 @@ using BR.Iam.Abstractions;
 using BR.Iam.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace BR.Iam.Controllers
@@ -27,10 +28,21 @@ namespace BR.Iam.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateUserAsync([FromBody]CreateUserModel model)
         {
-            var user = await this.service.CreateUserAsync(model);
-            var userModel = this.mapper.Map<GetUserModel>(user);
+            try
+            {
+                this.logger.LogInformation($"Creating user {model.Username}.");
 
-            return new CreatedResult(userModel.Id.ToString(), userModel);
+                var user = await this.service.CreateUserAsync(model);
+                var userModel = this.mapper.Map<GetUserModel>(user);
+
+                return new CreatedResult(userModel.Id.ToString(), userModel);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Creating user {model.Username} failed.");
+
+                return new BadRequestObjectResult(ex);
+            }
         }
     }
 }
