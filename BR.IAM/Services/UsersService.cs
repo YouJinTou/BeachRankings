@@ -1,4 +1,6 @@
 ﻿using BR.Core.Abstractions;
+using BR.Core.Events;
+using BR.Core.Extensions;
 using BR.Core.Tools;
 using BR.Iam.Abstractions;
 using BR.Iam.Models;
@@ -10,25 +12,22 @@ namespace BR.Iam.Services
 {
     internal class UsersService : IUsersService
     {
-        private readonly INoSqlRepository<User> repo;
         private readonly IEventStore store;
         private readonly ILogger<UsersService> logger;
 
-        public UsersService(
-            INoSqlRepository<User> repo, IEventStore store, ILogger<UsersService> logger)
+        public UsersService(IEventStore store, ILogger<UsersService> logger)
         {
-            this.repo = repo;
             this.store = store;
             this.logger = logger;
         }
 
-        public async Task<User> GetUserAsync(Guid id)
+        public async Task<User> GetUserAsync(string id)
         {
             try
             {
-                var user = await this.repo.GetAsync(id.ToString());
+                var eventStream = await this.store.GetEventsAsync(id);
 
-                return user;
+                return null;
             }
             catch (Exception ex)
             {
@@ -46,11 +45,19 @@ namespace BR.Iam.Services
 
                 model.ValidateModel();
 
-                var user = new User(model.Username, model.Email, model.Password);
+                var events = await this.store.GetEventsAsync(model.GetId());
 
-                await this.repo.AddAsync(user);
+                if (events.IsNullOrEmpty())
+                {
+                    var user = new User(model.Username, model.Email, model.Password);
+                    var userCreated = new UserCreated(model.GetId(), 0);
 
-                return user;
+                    await this.store.AddEventsAsync(userCreated.AsEnumerable());
+
+                    return user;
+                }
+
+                return null;
             }
             catch (Exception ex)
             {

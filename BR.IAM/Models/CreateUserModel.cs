@@ -19,5 +19,10 @@ namespace BR.Iam.Models
                 throw new ArgumentException("Passwords mismatch.");
             }
         }
+
+        public string GetId()
+        {
+            return $"{this.Username}|{this.Email}";
+        }
     }
 }

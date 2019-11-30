@@ -34,19 +34,11 @@ namespace BR.Core.Extensions
             {
                 case var type when prop.PropertyType == Types.String:
                     return (string)value ?? Types.DynamoNull;
+                case var type when prop.PropertyType == Types.Int:
+                    return (int)value;
                 case var type when prop.PropertyType == Types.DateTime:
-                    if (((DateTime)value) == DateTime.MinValue)
-                    {
-                        return Types.DynamoNull;
-                    }
-
                     return (DateTime)value;
                 case var type when prop.PropertyType == Types.Guid:
-                    if ((Guid)value == Guid.Empty)
-                    {
-                        return Types.DynamoNull;
-                    }
-
                     return (Guid)value;
                 case var type when prop.PropertyType == Types.NullDouble:
                     if ((double?)value == null)

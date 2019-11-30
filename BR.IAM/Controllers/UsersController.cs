@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BR.Core.Tools;
 using BR.Iam.Abstractions;
 using BR.Iam.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +27,12 @@ namespace BR.Iam.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetUserAsync(Guid id)
+        public async Task<IActionResult> GetUserAsync(string id)
         {
             try
             {
+                Validator.ThrowIfNullOrWhiteSpace(id);
+
                 this.logger.LogInformation($"Getting user {id}.");
 
                 var user = await this.service.GetUserAsync(id);

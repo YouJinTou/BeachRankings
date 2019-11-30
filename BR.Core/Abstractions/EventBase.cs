@@ -3,12 +3,13 @@ using System;
 
 namespace BR.Core.Abstractions
 {
-    public abstract class EventBase
+    public abstract class EventBase : IDbModel
     {
-        public EventBase(string streamId, int offset)
+        public EventBase(string streamId, int offset, string body = null)
         {
             this.StreamId = Validator.ReturnOrThrowIfNullOrWhiteSpace(streamId);
             this.Offset = offset;
+            this.Body = body;
             this.Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
         }
 
@@ -19,5 +20,7 @@ namespace BR.Core.Abstractions
         public string Type { get; set; }
 
         public long Timestamp { get; set; }
+
+        public string Body { get; set; }
     }
 }
