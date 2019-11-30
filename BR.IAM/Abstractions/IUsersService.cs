@@ -1,7 +1,7 @@
-﻿using BR.UsersService.Models;
+﻿using BR.Iam.Models;
 using System.Threading.Tasks;
 
-namespace BR.UsersService.Abstractions
+namespace BR.Iam.Abstractions
 {
     internal interface IUsersService
     {

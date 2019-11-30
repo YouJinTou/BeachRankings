@@ -1,9 +1,9 @@
-﻿using BR.UsersService.Models;
+﻿using BR.Iam.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace BR.UsersService.Controllers
+namespace BR.Iam.Controllers
 {
     [ApiController]
     [Route("[controller]")]

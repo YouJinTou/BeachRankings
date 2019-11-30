@@ -1,4 +1,4 @@
-﻿namespace BR.UsersService.Models
+﻿namespace BR.Iam.Models
 {
     public class CreateUserModel
     {

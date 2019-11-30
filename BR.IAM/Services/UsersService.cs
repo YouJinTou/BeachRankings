@@ -1,12 +1,12 @@
 ﻿using BR.Core.Abstractions;
 using BR.Core.Tools;
-using BR.UsersService.Abstractions;
-using BR.UsersService.Models;
+using BR.Iam.Abstractions;
+using BR.Iam.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace BR.UsersService.Services
+namespace BR.Iam.Services
 {
     internal class UsersService : IUsersService
     {

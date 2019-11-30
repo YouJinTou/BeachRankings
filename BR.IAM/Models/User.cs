@@ -1,7 +1,7 @@
 ﻿using BR.Core.Abstractions;
 using System;
 
-namespace BR.UsersService.Models
+namespace BR.Iam.Models
 {
     internal class User : AggregateBase
     {
