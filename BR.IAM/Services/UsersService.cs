@@ -25,6 +25,8 @@ namespace BR.Iam.Services
         {
             try
             {
+                Validator.ThrowIfNullOrWhiteSpace(id, "No user ID.");
+
                 var eventStream = await this.store.GetEventStreamAsync(id);
 
                 return null;
