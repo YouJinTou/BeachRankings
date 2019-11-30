@@ -22,7 +22,7 @@ namespace BR.Iam.Services
             this.logger = logger;
         }
 
-        public async Task CreateUserAsync(CreateUserModel model)
+        public async Task<User> CreateUserAsync(CreateUserModel model)
         {
             try
             {
@@ -33,6 +33,8 @@ namespace BR.Iam.Services
                 var user = new User(model.Username, model.Email, model.Password);
 
                 await this.repo.AddAsync(user);
+
+                return user;
             }
             catch (Exception ex)
             {

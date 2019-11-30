@@ -1,13 +1,12 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using BR.Core.Abstractions;
-using BR.Core.Helpers;
 using BR.Core.Tools;
 using BR.Iam.Tools;
 using System;
 
 namespace BR.Iam.Models
 {
-    internal class User : IDbModel
+    public class User : IDbModel
     {
         public User(string username, string email, string password)
         {   

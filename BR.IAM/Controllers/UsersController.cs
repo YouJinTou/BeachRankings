@@ -1,4 +1,5 @@
-﻿using BR.Iam.Abstractions;
+﻿using AutoMapper;
+using BR.Iam.Abstractions;
 using BR.Iam.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,11 +12,14 @@ namespace BR.Iam.Controllers
     public class UsersController
     {
         private readonly IUsersService service;
+        private readonly IMapper mapper;
         private readonly ILogger<UsersController> logger;
 
-        public UsersController(IUsersService service, ILogger<UsersController> logger)
+        public UsersController(
+            IUsersService service, IMapper mapper, ILogger<UsersController> logger)
         {
             this.service = service;
+            this.mapper = mapper;
             this.logger = logger;
         }
 
@@ -23,9 +27,10 @@ namespace BR.Iam.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateUserAsync([FromBody]CreateUserModel model)
         {
-            await this.service.CreateUserAsync(model);
+            var user = await this.service.CreateUserAsync(model);
+            var userModel = this.mapper.Map<GetUserModel>(user);
 
-            return new OkResult();
+            return new CreatedResult(userModel.Id.ToString(), userModel);
         }
     }
 }

@@ -5,6 +5,6 @@ namespace BR.Iam.Abstractions
 {
     public interface IUsersService
     {
-        Task CreateUserAsync(CreateUserModel model);
+        Task<User> CreateUserAsync(CreateUserModel model);
     }
 }
