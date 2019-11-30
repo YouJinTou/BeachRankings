@@ -27,7 +27,7 @@ namespace BR.Iam.Services
             {
                 Validator.ThrowIfNullOrWhiteSpace(id, "No user ID.");
 
-                var eventStream = await this.store.GetEventStreamAsync(id);
+                var stream = await this.store.GetEventStreamAsync(id);
 
                 return null;
             }
@@ -47,10 +47,10 @@ namespace BR.Iam.Services
 
                 model.ValidateModel();
 
-                var events = await this.store.GetEventStreamAsync(model.GetId());
+                var stream = await this.store.GetEventStreamAsync(model.GetId());
                 var user = new User(model.Username, model.Email, model.Password);
 
-                if (events.IsNullOrEmpty())
+                if (stream.IsNullOrEmpty())
                 {
                     await this.store.AppendEventAsync(new UserCreated(user));
 
