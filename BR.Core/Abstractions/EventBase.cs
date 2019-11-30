@@ -11,6 +11,7 @@ namespace BR.Core.Abstractions
             this.Offset = offset;
             this.Body = body;
             this.Timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            this.Type = this.GetType().Name;
         }
 
         public string StreamId { get; set; }
