@@ -17,6 +17,7 @@ namespace BR.Iam.Controllers
         }
 
         [HttpPost]
+        [Route("create")]
         public async Task<IActionResult> CreateUserAsync([FromBody]CreateUserModel model)
         {
             return new OkResult();
