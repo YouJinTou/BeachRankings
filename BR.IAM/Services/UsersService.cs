@@ -1,8 +1,8 @@
 ﻿using BR.Core.Abstractions;
-using BR.Core.Events;
 using BR.Core.Extensions;
 using BR.Core.Tools;
 using BR.Iam.Abstractions;
+using BR.Iam.Events;
 using BR.Iam.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -50,7 +50,7 @@ namespace BR.Iam.Services
                 if (events.IsNullOrEmpty())
                 {
                     var user = new User(model.Username, model.Email, model.Password);
-                    var userCreated = new UserCreated(model.GetId(), 0);
+                    var userCreated = new UserCreated(user);
 
                     await this.store.AddEventsAsync(userCreated.AsEnumerable());
 
