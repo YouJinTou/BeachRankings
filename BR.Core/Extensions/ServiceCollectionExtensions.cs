@@ -1,6 +1,6 @@
-﻿using Amazon.DynamoDBv2;
-using BR.Core.Abstractions;
+﻿using BR.Core.Abstractions;
 using BR.Core.Cloud.Aws;
+using BR.Core.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Reflection;
@@ -47,8 +47,11 @@ namespace BR.Core.Extensions
 
         private static IServiceCollection AddDb(this IServiceCollection services)
         {
-            services.AddTransient<INoSqlRepository<EventBase>>(
-                sp => new DynamoRepository<EventBase>("EventLog"));
+            services
+                .AddTransient<INoSqlRepository<EventBase>>(
+                    sp => new DynamoRepository<EventBase>("EventLog"))
+                .AddTransient<IEventsRepository>(
+                    sp => new EventsRepository("EventLog"));
 
             return services;
         }

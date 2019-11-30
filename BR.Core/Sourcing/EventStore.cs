@@ -2,7 +2,6 @@
 using BR.Core.Events;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +9,10 @@ namespace BR.Core.Sourcing
 {
     internal class EventStore : IEventStore
     {
-        private readonly INoSqlRepository<EventBase> repo;
+        private readonly IEventsRepository repo;
         private readonly ILogger<EventStore> logger;
 
-        public EventStore(INoSqlRepository<EventBase> repo, ILogger<EventStore> logger)
+        public EventStore(IEventsRepository repo, ILogger<EventStore> logger)
         {
             this.repo = repo;
             this.logger = logger;

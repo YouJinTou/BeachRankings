@@ -1,4 +1,4 @@
-﻿using BR.Core.Abstractions;
+﻿using BR.Core.Events;
 using BR.Iam.Models;
 using Newtonsoft.Json;
 

@@ -50,11 +50,7 @@ namespace BR.Core.Cloud.Aws
             }
             };
             var response = await this.client.QueryAsync(request);
-            var result = new List<T>();
-
-            foreach (Dictionary<string, AttributeValue> item in response.Items)
-            {
-            }
+            var result = this.ConvertItemsTo(response.Items);
 
             return result;
         }
@@ -82,6 +78,15 @@ namespace BR.Core.Cloud.Aws
             }
 
             await batch.ExecuteAsync();
+        }
+
+        protected virtual IEnumerable<T> ConvertItemsTo(
+            IEnumerable<Dictionary<string, AttributeValue>> items)
+        {
+            foreach (var item in items)
+            {
+                yield return item.ConvertTo<T>();
+            }
         }
     }
 }

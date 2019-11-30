@@ -1,6 +1,8 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
 using BR.Core.System;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BR.Core.Extensions
@@ -15,13 +17,31 @@ namespace BR.Core.Extensions
 
             foreach (var prop in properties)
             {
-                prop.SetValue(instance, document[prop.Name].GetValue(prop.PropertyType));
+                var value = GetValue(document[prop.Name], prop.PropertyType);
+
+                prop.SetValue(instance, value);
             }
 
             return instance;
         }
 
-        public static object GetValue(this DynamoDBEntry entry, Type type)
+        public static T ConvertTo<T>(this Dictionary<string, AttributeValue> values)
+        {
+            var type = typeof(T);
+            var properties = type.GetProperties().Select(p => p).ToList();
+            var instance = Activator.CreateInstance<T>();
+
+            foreach (var prop in properties)
+            {
+                var value = GetValue(values[prop.Name]);
+
+                prop.SetValue(instance, value);
+            }
+
+            return instance;
+        }
+
+        private static object GetValue(DynamoDBEntry entry, Type type)
         {
             if (entry is DynamoDBNull)
             {
@@ -50,6 +70,11 @@ namespace BR.Core.Extensions
             }
 
             return entry.AsString();
+        }
+
+        private static object GetValue(AttributeValue value)
+        {
+            return null;
         }
     }
 }
