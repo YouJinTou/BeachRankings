@@ -10,11 +10,14 @@ namespace BR.Iam.Services
 {
     internal class UsersService : IUsersService
     {
+        private readonly INoSqlRepository<User> repo;
         private readonly IEventStore store;
         private readonly ILogger<UsersService> logger;
 
-        public UsersService(IEventStore store, ILogger<UsersService> logger)
+        public UsersService(
+            INoSqlRepository<User> repo, IEventStore store, ILogger<UsersService> logger)
         {
+            this.repo = repo;
             this.store = store;
             this.logger = logger;
         }
@@ -24,6 +27,12 @@ namespace BR.Iam.Services
             try
             {
                 Validator.ThrowIfNull(model);
+
+                model.ValidateModel();
+
+                var user = new User(model.Username, model.Email, model.Password);
+
+                await this.repo.AddAsync(user);
             }
             catch (Exception ex)
             {

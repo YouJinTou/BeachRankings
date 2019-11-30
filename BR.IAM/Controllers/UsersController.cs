@@ -1,4 +1,5 @@
-﻿using BR.Iam.Models;
+﻿using BR.Iam.Abstractions;
+using BR.Iam.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -9,10 +10,12 @@ namespace BR.Iam.Controllers
     [Route("[controller]")]
     public class UsersController
     {
+        private readonly IUsersService service;
         private readonly ILogger<UsersController> logger;
 
-        public UsersController(ILogger<UsersController> logger)
+        public UsersController(IUsersService service, ILogger<UsersController> logger)
         {
+            this.service = service;
             this.logger = logger;
         }
 
@@ -20,6 +23,8 @@ namespace BR.Iam.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateUserAsync([FromBody]CreateUserModel model)
         {
+            await this.service.CreateUserAsync(model);
+
             return new OkResult();
         }
     }

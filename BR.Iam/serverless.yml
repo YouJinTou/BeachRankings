@@ -24,10 +24,10 @@ resources:
         Properties:
           TableName: Users_${self:provider.stage}
           AttributeDefinitions:
-            - AttributeName: id
+            - AttributeName: Id
               AttributeType: S
           KeySchema:
-            - AttributeName: id
+            - AttributeName: Id
               KeyType: HASH
           ProvisionedThroughput:
             ReadCapacityUnits: 1

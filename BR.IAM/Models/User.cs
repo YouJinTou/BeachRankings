@@ -1,11 +1,26 @@
-﻿using BR.Core.Abstractions;
+﻿using Amazon.DynamoDBv2.DataModel;
+using BR.Core.Abstractions;
+using BR.Core.Helpers;
+using BR.Core.Tools;
+using BR.Iam.Tools;
 using System;
 
 namespace BR.Iam.Models
 {
-    internal class User : AggregateBase
+    internal class User : IDbModel
     {
-        public override Guid Id { get; }
+        public User(string username, string email, string password)
+        {
+            this.Username = Validator.ReturnOrThrowIfNullOrWhiteSpace(username);
+            this.Email = Validator.ReturnOrThrowIfNullOrWhiteSpace(email);
+            var dbHash = Hasher.GetHash(Validator.ReturnOrThrowIfNullOrWhiteSpace(password));
+            this.PasswordSalt = dbHash.Salt;
+            this.PasswordHash = dbHash.Hash;
+            this.Id = Guid.NewGuid();
+        }
+
+        [DynamoDBHashKey]
+        public Guid Id { get; set; }
 
         public string Username { get; set; }
 
@@ -13,6 +28,6 @@ namespace BR.Iam.Models
 
         public string PasswordHash { get; set; }
 
-        public string PasswordSalt { get; set; }
+        public byte[] PasswordSalt { get; set; }
     }
 }

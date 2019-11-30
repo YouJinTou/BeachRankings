@@ -2,13 +2,14 @@
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using BR.Core.Abstractions;
+using BR.Core.Extensions;
 using BR.Core.Tools;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BR.Core.Cloud.Aws
 {
-    internal class DynamoRepository<T> : INoSqlRepository<T>
+    public class DynamoRepository<T> : INoSqlRepository<T> where T : IDbModel
     {
         private readonly Table table;
         private readonly AmazonDynamoDBClient client;
@@ -45,6 +46,15 @@ namespace BR.Core.Cloud.Aws
             }
 
             return result;
+        }
+
+        public async Task AddAsync(T item)
+        {
+            Validator.ThrowIfNull(item);
+
+            var document = item.ToDynamoDbDocument();
+
+            await this.table.PutItemAsync(document);
         }
     }
 }

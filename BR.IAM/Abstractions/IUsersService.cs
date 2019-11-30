@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BR.Iam.Abstractions
 {
-    internal interface IUsersService
+    public interface IUsersService
     {
         Task CreateUserAsync(CreateUserModel model);
     }

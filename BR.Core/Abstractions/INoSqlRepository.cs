@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 
 namespace BR.Core.Abstractions
 {
-    internal interface INoSqlRepository<T>
+    public interface INoSqlRepository<T> where T : IDbModel
     {
         Task<IEnumerable<T>> GetManyAsync(string partitionKey);
+
+        Task AddAsync(T item);
     }
 }
