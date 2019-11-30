@@ -1,11 +1,12 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using BR.Core;
 using BR.Core.Abstractions;
 using BR.Core.Tools;
 using BR.Iam.Tools;
 
 namespace BR.Iam.Models
 {
-    public class User : IDbModel
+    public class User : IDbModel, IAggregate
     {
         public User()
         {
@@ -31,5 +32,10 @@ namespace BR.Iam.Models
         public byte[] PasswordHash { get; set; }
 
         public byte[] PasswordSalt { get; set; }
+
+        public static User CreateNull()
+        {
+            return new User(Constants.NA, Constants.NA, Constants.NA);
+        }
     }
 }

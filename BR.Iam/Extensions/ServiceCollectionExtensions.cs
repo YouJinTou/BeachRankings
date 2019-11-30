@@ -1,5 +1,7 @@
-﻿using BR.Core.Extensions;
+﻿using BR.Core.Abstractions;
+using BR.Core.Extensions;
 using BR.Iam.Models;
+using BR.Iam.Processing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BR.Iam.Extensions
@@ -9,7 +11,8 @@ namespace BR.Iam.Extensions
         public static IServiceCollection AddIam(this IServiceCollection services)
         {
             services
-                .AddByConvention(typeof(User).Assembly);
+                .AddByConvention(typeof(User).Assembly)
+                .AddTransient<IStreamProjector, UserStreamProjector>();
 
             return services;
         }

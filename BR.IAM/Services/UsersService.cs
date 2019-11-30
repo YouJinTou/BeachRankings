@@ -13,11 +13,14 @@ namespace BR.Iam.Services
     internal class UsersService : IUsersService
     {
         private readonly IEventStore store;
+        private readonly IStreamProjector projector;
         private readonly ILogger<UsersService> logger;
 
-        public UsersService(IEventStore store, ILogger<UsersService> logger)
+        public UsersService(
+            IEventStore store, IStreamProjector projector, ILogger<UsersService> logger)
         {
             this.store = store;
+            this.projector = projector;
             this.logger = logger;
         }
 
@@ -28,8 +31,9 @@ namespace BR.Iam.Services
                 Validator.ThrowIfNullOrWhiteSpace(id, "No user ID.");
 
                 var stream = await this.store.GetEventStreamAsync(id);
+                var aggregate = this.projector.GetSnapshot(stream);
 
-                return null;
+                return (User)aggregate;
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@
     public static class Constants
     {
         public const string StreamId = "StreamId";
+        public const string NA = "N/A";
 
         public static class Env
         {
