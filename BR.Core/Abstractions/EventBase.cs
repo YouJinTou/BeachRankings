@@ -30,9 +30,11 @@ namespace BR.Core.Events
 
         public string Body { get; set; }
 
-        public EventStream ToEventStream()
+        public override string ToString()
         {
-            return new EventStream(this.AsEnumerable());
+            var eventString = $"{this.StreamId}/{this.Offset}/{this.Type}/";
+
+            return eventString;
         }
     }
 }

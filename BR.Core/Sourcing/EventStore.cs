@@ -1,5 +1,6 @@
 ﻿using BR.Core.Abstractions;
 using BR.Core.Events;
+using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -18,24 +19,14 @@ namespace BR.Core.Sourcing
             this.logger = logger;
         }
 
-        public async Task AppendEventStream(EventStream stream)
+        public async Task<EventStream> GetEventStreamAsync(string streamId, int offset = 0)
         {
             try
             {
-                await this.repo.AddManyAsync(stream);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "Failed to get add events.");
+                Validator.ThrowIfNullOrWhiteSpace(streamId);
 
-                throw;
-            }
-        }
+                this.logger.LogInformation($"Getting event stream for {streamId}/{offset}.");
 
-        public async Task<EventStream> GetEventStream(string streamId, int offset = 0)
-        {
-            try
-            {
                 var events = await this.repo.GetManyAsync(streamId);
 
                 return new EventStream(events.ToList(), offset);
@@ -43,6 +34,41 @@ namespace BR.Core.Sourcing
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Failed to get events for stream {streamId}/{offset}.");
+
+                throw;
+            }
+        }
+
+        public async Task AppendEventAsync(EventBase @event)
+        {
+            try
+            {
+                Validator.ThrowIfNull(@event);
+
+                this.logger.LogInformation($"Appending event {@event}.");
+
+                await this.repo.AddAsync(@event);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(
+                    ex, $"Failed to append event {@event?.ToString() ?? string.Empty}.");
+
+                throw;
+            }
+        }
+
+        public async Task AppendEventStreamAsync(EventStream stream)
+        {
+            try
+            {
+                Validator.ThrowIfNull(stream);
+
+                await this.repo.AddManyAsync(stream);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "Failed to append events.");
 
                 throw;
             }
