@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using BR.Core.Abstractions;
+using BR.Core.System;
 using System;
 using System.Reflection;
 
@@ -7,13 +8,6 @@ namespace BR.Core.Extensions
 {
     internal static class IDbModelExtensions
     {
-        private static Type stringType = typeof(string);
-        private static Type dateTimeType = typeof(DateTime);
-        private static Type guidType = typeof(Guid);
-        private static Type nullDoubleType = typeof(double?);
-        private static Type byteArrayType = typeof(byte[]);
-        private static DynamoDBNull dynamoNull = new DynamoDBNull();
-
         public static Document ToDynamoDbDocument(this IDbModel model)
         {
             var properties = model.GetType().GetProperties();
@@ -38,33 +32,33 @@ namespace BR.Core.Extensions
 
             switch (prop.PropertyType)
             {
-                case var type when prop.PropertyType == stringType:
-                    return (string)value ?? dynamoNull;
-                case var type when prop.PropertyType == dateTimeType:
+                case var type when prop.PropertyType == Types.String:
+                    return (string)value ?? Types.DynamoNull;
+                case var type when prop.PropertyType == Types.DateTime:
                     if (((DateTime)value) == DateTime.MinValue)
                     {
-                        return dynamoNull;
+                        return Types.DynamoNull;
                     }
 
                     return (DateTime)value;
-                case var type when prop.PropertyType == guidType:
+                case var type when prop.PropertyType == Types.Guid:
                     if ((Guid)value == Guid.Empty)
                     {
-                        return dynamoNull;
+                        return Types.DynamoNull;
                     }
 
                     return (Guid)value;
-                case var type when prop.PropertyType == nullDoubleType:
+                case var type when prop.PropertyType == Types.NullDouble:
                     if ((double?)value == null)
                     {
-                        return dynamoNull;
+                        return Types.DynamoNull;
                     }
 
                     return (double?)value;
                 case var type when prop.PropertyType == typeof(byte[]):
                     return (byte[])value;
                 default:
-                    return dynamoNull;
+                    return Types.DynamoNull;
             }
         }
     }
