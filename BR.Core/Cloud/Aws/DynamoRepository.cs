@@ -22,6 +22,18 @@ namespace BR.Core.Cloud.Aws
             this.tableName = table;
         }
 
+        public async Task<T> GetAsync(string partitionKey, string sortKey = null)
+        {
+            Validator.ThrowIfNullOrWhiteSpace(partitionKey);
+
+            var document = string.IsNullOrWhiteSpace(sortKey) ?
+                await this.table.GetItemAsync(new Primitive(partitionKey)) :
+                await this.table.GetItemAsync(new Primitive(partitionKey), new Primitive(sortKey));
+            var item = document.ConvertTo<T>();
+
+            return item;
+        }
+
         public async Task<IEnumerable<T>> GetManyAsync(string partitionKey)
         {
             Validator.ThrowIfNullOrWhiteSpace(partitionKey);

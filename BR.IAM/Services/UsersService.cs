@@ -22,6 +22,22 @@ namespace BR.Iam.Services
             this.logger = logger;
         }
 
+        public async Task<User> GetUserAsync(Guid id)
+        {
+            try
+            {
+                var user = await this.repo.GetAsync(id.ToString());
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to get user {id}.");
+
+                throw;
+            }
+        }
+
         public async Task<User> CreateUserAsync(CreateUserModel model)
         {
             try

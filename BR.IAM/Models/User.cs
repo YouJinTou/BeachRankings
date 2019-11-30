@@ -8,6 +8,10 @@ namespace BR.Iam.Models
 {
     public class User : IDbModel
     {
+        public User()
+        {
+        }
+
         public User(string username, string email, string password)
         {   
             this.Username = Validator.ReturnOrThrowIfNullOrWhiteSpace(username);

@@ -24,6 +24,27 @@ namespace BR.Iam.Controllers
             this.logger = logger;
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetUserAsync(Guid id)
+        {
+            try
+            {
+                this.logger.LogInformation($"Getting user {id}.");
+
+                var user = await this.service.GetUserAsync(id);
+                var userModel = this.mapper.Map<GetUserModel>(user);
+
+                return new OkObjectResult(userModel);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Getting user {id} failed.");
+
+                return new BadRequestObjectResult(ex);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateUserAsync([FromBody]CreateUserModel model)
         {
