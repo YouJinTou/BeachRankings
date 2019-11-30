@@ -57,8 +57,6 @@ namespace BR.Iam.Services
                     return user;
                 }
 
-                await this.store.AppendEventAsync(new CreateUserFailed(user));
-
                 throw new InvalidOperationException("User already exists.");
             }
             catch (Exception ex)
