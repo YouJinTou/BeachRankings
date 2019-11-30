@@ -10,12 +10,12 @@ namespace BR.Iam.Models
     internal class User : IDbModel
     {
         public User(string username, string email, string password)
-        {
+        {   
             this.Username = Validator.ReturnOrThrowIfNullOrWhiteSpace(username);
             this.Email = Validator.ReturnOrThrowIfNullOrWhiteSpace(email);
             var dbHash = Hasher.GetHash(Validator.ReturnOrThrowIfNullOrWhiteSpace(password));
-            this.PasswordSalt = dbHash.Salt;
             this.PasswordHash = dbHash.Hash;
+            this.PasswordSalt = dbHash.Salt;
             this.Id = Guid.NewGuid();
         }
 
@@ -26,7 +26,7 @@ namespace BR.Iam.Models
 
         public string Email { get; set; }
 
-        public string PasswordHash { get; set; }
+        public byte[] PasswordHash { get; set; }
 
         public byte[] PasswordSalt { get; set; }
     }

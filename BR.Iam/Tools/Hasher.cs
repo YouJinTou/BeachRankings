@@ -1,8 +1,7 @@
 ﻿using BR.Core.Tools;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using System;
+using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace BR.Iam.Tools
 {
@@ -28,14 +27,14 @@ namespace BR.Iam.Tools
             return hash;
         }
 
-        public static bool IsValidPassword(string oldHash, string password, byte[] salt)
+        public static bool IsValidPassword(byte[] oldHash, string password, byte[] salt)
         {
             var hashedPassword = GetHashedPassword(password, salt);
 
-            return oldHash.Equals(hashedPassword);
+            return oldHash.SequenceEqual(hashedPassword);
         }
 
-        private static string GetHashedPassword(string password, byte[] salt)
+        private static byte[] GetHashedPassword(string password, byte[] salt)
         {
             var pbkdf2 = KeyDerivation.Pbkdf2(
                password: password,
@@ -43,9 +42,8 @@ namespace BR.Iam.Tools
                prf: KeyDerivationPrf.HMACSHA1,
                iterationCount: 10000,
                numBytesRequested: 256 / 8);
-            var hashedPassword = Convert.ToBase64String(pbkdf2);
 
-            return hashedPassword;
+            return pbkdf2;
         }
     }
 }
