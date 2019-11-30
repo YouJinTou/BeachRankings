@@ -1,7 +1,7 @@
-﻿using Amazon.Lambda.AspNetCoreServer;
+using Amazon.Lambda.AspNetCoreServer;
 using Microsoft.AspNetCore.Hosting;
 
-namespace BR.UsersService
+namespace BR.IAM
 {
     public class LambdaEntryPoint : APIGatewayProxyFunction
     {
