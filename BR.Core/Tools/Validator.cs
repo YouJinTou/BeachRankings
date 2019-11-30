@@ -19,7 +19,7 @@ namespace BR.Core.Tools
             if (obj is string && string.IsNullOrWhiteSpace(obj as string))
             {
                 throw new ArgumentNullException(
-                    nameof(obj), "String is null or white space." ?? message);
+                    nameof(obj), "Object is null or white space." ?? message);
             }
         }
 
@@ -28,6 +28,14 @@ namespace BR.Core.Tools
             ThrowIfNullOrWhiteSpace(obj);
 
             return obj;
+        }
+
+        public static void ThrowIfAnyNullOrWhiteSpace<T>(params T[] items)
+        {
+            foreach (var item in items)
+            {
+                ThrowIfNullOrWhiteSpace(item, "An item in the collection is null or white space.");
+            }
         }
     }
 }
