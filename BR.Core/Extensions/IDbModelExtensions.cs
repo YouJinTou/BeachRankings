@@ -36,6 +36,8 @@ namespace BR.Core.Extensions
                     return (string)value ?? Types.DynamoNull;
                 case var type when prop.PropertyType == Types.Int:
                     return (int)value;
+                case var type when prop.PropertyType == Types.Long:
+                    return (long)value;
                 case var type when prop.PropertyType == Types.DateTime:
                     return (DateTime)value;
                 case var type when prop.PropertyType == Types.Guid:
