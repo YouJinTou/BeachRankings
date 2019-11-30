@@ -1,4 +1,5 @@
 ﻿using BR.Core.Abstractions;
+using BR.Core.Events;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,11 @@ namespace BR.Core.Sourcing
             this.logger = logger;
         }
 
-        public async Task AddEventsAsync(IEnumerable<EventBase> events)
+        public async Task AppendEventStream(EventStream stream)
         {
             try
             {
-                await this.repo.AddManyAsync(events);
+                await this.repo.AddManyAsync(stream);
             }
             catch (Exception ex)
             {
@@ -32,18 +33,13 @@ namespace BR.Core.Sourcing
             }
         }
 
-        public async Task<IEnumerable<EventBase>> GetEventsAsync(string streamId, int offset = 0)
+        public async Task<EventStream> GetEventStream(string streamId, int offset = 0)
         {
             try
             {
                 var events = await this.repo.GetManyAsync(streamId);
-                
-                if (offset > 0)
-                {
-                    events = events.Where(e => e.Offset >= offset);
-                }
 
-                return events.ToList();
+                return new EventStream(events.ToList(), offset);
             }
             catch (Exception ex)
             {

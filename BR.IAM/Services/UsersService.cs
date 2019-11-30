@@ -25,7 +25,7 @@ namespace BR.Iam.Services
         {
             try
             {
-                var eventStream = await this.store.GetEventsAsync(id);
+                var eventStream = await this.store.GetEventStream(id);
 
                 return null;
             }
@@ -45,14 +45,14 @@ namespace BR.Iam.Services
 
                 model.ValidateModel();
 
-                var events = await this.store.GetEventsAsync(model.GetId());
+                var events = await this.store.GetEventStream(model.GetId());
 
                 if (events.IsNullOrEmpty())
                 {
                     var user = new User(model.Username, model.Email, model.Password);
                     var userCreated = new UserCreated(user);
 
-                    await this.store.AddEventsAsync(userCreated.AsEnumerable());
+                    await this.store.AppendEventStream(userCreated.ToEventStream());
 
                     return user;
                 }

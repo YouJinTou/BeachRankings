@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BR.Core.Events;
 using System.Threading.Tasks;
 
 namespace BR.Core.Abstractions
 {
     public interface IEventStore
     {
-        Task<IEnumerable<EventBase>> GetEventsAsync(string streamId, int offset = 0); 
+        Task<EventStream> GetEventStream(string streamId, int offset = 0); 
 
-        Task AddEventsAsync(IEnumerable<EventBase> events);
+        Task AppendEventStream(EventStream stream);
     }
 }

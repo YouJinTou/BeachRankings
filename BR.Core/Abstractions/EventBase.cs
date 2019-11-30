@@ -1,4 +1,6 @@
-﻿using BR.Core.Tools;
+﻿using BR.Core.Events;
+using BR.Core.Extensions;
+using BR.Core.Tools;
 using System;
 
 namespace BR.Core.Abstractions
@@ -23,5 +25,10 @@ namespace BR.Core.Abstractions
         public long Timestamp { get; set; }
 
         public string Body { get; set; }
+
+        public EventStream ToEventStream()
+        {
+            return new EventStream(this.AsEnumerable());
+        }
     }
 }
