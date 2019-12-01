@@ -11,7 +11,7 @@ namespace BR.Iam.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsersController
+    public class UsersController : ControllerBase
     {
         private readonly IUsersService service;
         private readonly IMapper mapper;
@@ -38,13 +38,13 @@ namespace BR.Iam.Controllers
                 var user = await this.service.GetUserAsync(id);
                 var userModel = this.mapper.Map<GetUserModel>(user);
 
-                return new OkObjectResult(userModel);
+                return Ok(userModel);
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Getting user {id} failed.");
 
-                return new BadRequestObjectResult(ex);
+                return BadRequest(ex);
             }
         }
 
@@ -53,6 +53,11 @@ namespace BR.Iam.Controllers
         {
             try
             {
+                if (!this.ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
                 this.logger.LogInformation($"Creating user {model.Username}.");
 
                 var user = await this.service.CreateUserAsync(model);
@@ -64,7 +69,7 @@ namespace BR.Iam.Controllers
             {
                 this.logger.LogError(ex, $"Creating user {model.Username} failed.");
 
-                return new BadRequestObjectResult(ex);
+                return BadRequest(ex);
             }
         }
     }
