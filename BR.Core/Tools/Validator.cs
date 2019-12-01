@@ -32,7 +32,7 @@ namespace BR.Core.Tools
             return obj;
         }
 
-        public static void ThrowIfAnyNull<T>(params T[] items)
+        public static void ThrowIfAnyNull(params object[] items)
         {
             ThrowIfNull(items);
 
