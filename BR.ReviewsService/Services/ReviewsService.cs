@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BR.Core.Abstractions;
+using BR.Core.Events;
 using BR.Core.Tools;
 using BR.ReviewsService.Abstractions;
 using BR.ReviewsService.Events;
@@ -54,11 +55,36 @@ namespace BR.ReviewsService.Services
             {
                 Validator.ThrowIfNull(model, "Missing review data.");
 
-                var beachStream = await this.store.GetEventStreamAsync(model.BeachId);
+                var beachReviewedStream = await this.store.GetEventStreamByTypeAsync(
+                    model.BeachId, nameof(BeachReviewed));
+                var alreadyReviewed = beachReviewedStream.ContainsEvent<BeachReviewedModel>(
+                    m => m.AuthorId == model.AuthorId);
 
+                if (alreadyReviewed)
+                {
+                    throw new InvalidOperationException(
+                        $"Beach {model.BeachId} already reviewed by user {model.AuthorId}.");
+                }
+
+                var reviewLeftStream = await this.store.GetEventStreamByTypeAsync(
+                    model.AuthorId, nameof(ReviewLeft));
                 var review = this.mapper.Map<Review>(model);
+                var reviewCreated = new ReviewCreated(review);
+                var beachReviwedModel = new BeachReviewedModel(
+                    model.BeachId, 
+                    beachReviewedStream.NextOffset(nameof(BeachReviewed)), 
+                    model.AuthorId, 
+                    review.Id);
+                var beachReviewed = new BeachReviewed(beachReviwedModel);
+                var reviewLeftModel = new ReviewLeftModel(
+                    model.AuthorId, 
+                    reviewLeftStream.NextOffset(nameof(ReviewLeft)), 
+                    review.Id,
+                    model.BeachId);
+                var reviewLeft = new ReviewLeft(reviewLeftModel);
+                var stream = EventStream.CreateStream(reviewCreated, beachReviewed, reviewLeft);
 
-                await this.store.AppendEventAsync(new ReviewCreated(review));
+                await this.store.AppendEventStreamAsync(stream);
 
                 return review;
             }

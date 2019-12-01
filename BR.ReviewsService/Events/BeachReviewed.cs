@@ -6,10 +6,9 @@ namespace BR.ReviewsService.Events
 {
     public class BeachReviewed : EventBase
     {
-        public BeachReviewed(string beachId, int offset, BeachReviewedModel model)
-            : base(beachId, offset, JsonConvert.SerializeObject(model))
+        public BeachReviewed(BeachReviewedModel model)
+            : base(model.BeachId, model.Offset, JsonConvert.SerializeObject(model))
         {
-
         }
     }
 }
