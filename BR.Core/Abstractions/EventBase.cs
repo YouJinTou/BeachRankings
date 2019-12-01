@@ -1,6 +1,6 @@
 ﻿using BR.Core.Abstractions;
-using BR.Core.Extensions;
 using BR.Core.Tools;
+using Newtonsoft.Json;
 using System;
 
 namespace BR.Core.Events
@@ -11,11 +11,11 @@ namespace BR.Core.Events
         {
         }
 
-        public EventBase(string streamId, int offset, string body = null)
+        public EventBase(string streamId, int offset, object body = null)
         {
             this.StreamId = Validator.ReturnOrThrowIfNullOrWhiteSpace(streamId);
             this.Offset = offset;
-            this.Body = body;
+            this.Body = (body == null) ? null : JsonConvert.SerializeObject(body);
             this.TimeStamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
             this.Type = this.GetType().Name;
         }

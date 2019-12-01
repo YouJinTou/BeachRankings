@@ -1,13 +1,12 @@
 ﻿using BR.Core.Events;
 using BR.ReviewsService.Models;
-using Newtonsoft.Json;
 
 namespace BR.ReviewsService.Events
 {
     public class ReviewLeft : EventBase
     {
         public ReviewLeft(ReviewLeftModel model)
-            : base(model.UserId, model.Offset, JsonConvert.SerializeObject(model))
+            : base(model.UserId, model.Offset, model)
         {
         }
     }
