@@ -51,7 +51,7 @@ namespace BR.BeachesService.Models
             this.WaterBody = Validator.ReturnOrThrowIfNullOrWhiteSpace(waterBody);
             this.Coordinates = coordinates;
             this.Location = this.GetLocation();
-            this.Id = this.Location;
+            this.Id = this.Location.ToLower();
             this.Score = score;
             this.SandQuality = sandQuality;
             this.BeachCleanliness = beachCleanliness;
