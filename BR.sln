@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BR.Core", "BR.Core\BR.Core.csproj", "{D23C00E7-CA40-4581-8CAA-94DBAD7DDBE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BR.Iam", "BR.Iam\BR.Iam.csproj", "{0DFADA82-1680-45A3-B669-A6B4A893FD12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BR.Iam", "BR.Iam\BR.Iam.csproj", "{0DFADA82-1680-45A3-B669-A6B4A893FD12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BR.BeachesService", "BR.BeachesService\BR.BeachesService.csproj", "{A9252C30-6355-4E43-809D-7A9F9F097B50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BR.BeachesService", "BR.BeachesService\BR.BeachesService.csproj", "{A9252C30-6355-4E43-809D-7A9F9F097B50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BR.ReviewsService", "BR.ReviewsService\BR.ReviewsService.csproj", "{66DA31BF-72AA-4D10-B271-9EA15307B8CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{A9252C30-6355-4E43-809D-7A9F9F097B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9252C30-6355-4E43-809D-7A9F9F097B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9252C30-6355-4E43-809D-7A9F9F097B50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66DA31BF-72AA-4D10-B271-9EA15307B8CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66DA31BF-72AA-4D10-B271-9EA15307B8CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66DA31BF-72AA-4D10-B271-9EA15307B8CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66DA31BF-72AA-4D10-B271-9EA15307B8CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
