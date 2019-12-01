@@ -39,6 +39,27 @@ namespace BR.Core.Sourcing
             }
         }
 
+        public async Task<EventStream> GetEventStreamByTypeAsync(string streamId, string type)
+        {
+            try
+            {
+                Validator.ThrowIfAnyNullOrWhiteSpace(streamId, type);
+
+                this.logger.LogInformation($"Getting event stream for {streamId}/{type}.");
+
+                var events = await this.repo.GetManyByAttributeAsync(
+                    streamId, nameof(EventBase.Type), type);
+
+                return new EventStream(events.ToList());
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to get events for stream {streamId}/{type}.");
+
+                throw;
+            }
+        }
+
         public async Task AppendEventAsync(EventBase @event)
         {
             try
