@@ -52,6 +52,14 @@ namespace BR.Core.Extensions
             {
                 return entry.AsString();
             }
+            else if (type == Types.Int)
+            {
+                return entry.AsInt();
+            }
+            else if (type == Types.Int64)
+            {
+                return entry.AsLong();
+            }
             else if (type == Types.DateTime)
             {
                 return entry.AsDateTime();
