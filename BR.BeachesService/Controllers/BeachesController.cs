@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BR.BeachesService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class BeachesController : ControllerBase
     {
