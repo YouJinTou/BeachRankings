@@ -1,4 +1,6 @@
 ﻿using BR.Core.Extensions;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +17,29 @@ namespace BR.Core.Events
             this.events = this.events.Where(e => e.Offset >= readOffset);
         }
 
+        public static EventStream CreateStream(params EventBase[] events)
+        {
+            return new EventStream(events ?? new EventBase[] { });
+        }
+
         public bool IsEmpty()
         {
-            return this.events.IsNullOrEmpty();
+            return this.IsNullOrEmpty();
+        }
+
+        public bool ContainsEvent<T>(Func<T, bool> func)
+        {
+            return this.Any(e => func(JsonConvert.DeserializeObject<T>(e.Body)));
+        }
+
+        public int NextOffset(string type)
+        {
+            var leader = this
+                .Where(e => e.Type == type)
+                .OrderByDescending(e => e.Offset)
+                .FirstOrDefault();
+
+            return (leader == null) ? 0 : leader.Offset + 1;
         }
 
         public IEnumerator<EventBase> GetEnumerator()
@@ -27,7 +49,7 @@ namespace BR.Core.Events
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return this.events.GetEnumerator();
         }
     }
 }
