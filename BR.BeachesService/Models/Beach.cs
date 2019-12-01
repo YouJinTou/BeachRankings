@@ -50,8 +50,8 @@ namespace BR.BeachesService.Models
             this.L4 = l4;
             this.WaterBody = Validator.ReturnOrThrowIfNullOrWhiteSpace(waterBody);
             this.Coordinates = coordinates;
-            this.Location = this.GetLocation();
-            this.Id = this.Location.ToLower();
+            this.Location = GetId(this);
+            this.Id = this.Location;
             this.Score = score;
             this.SandQuality = sandQuality;
             this.BeachCleanliness = beachCleanliness;
@@ -129,20 +129,22 @@ namespace BR.BeachesService.Models
 
         public double? LongTermStay { get; set; }
 
-        private string GetLocation()
+        public static string GetId(Beach beach)
         {
-            var location =
-                $"{this.Name}_" +
-                $"{this.Continent}_" +
-                $"{this.Country}_" +
-                $"{this.L1}_" +
-                $"{this.L2}_" +
-                $"{this.L3}_" +
-                $"{this.L4}_" +
-                $"{this.WaterBody}_";
-            location = Regex.Replace(location, "_+", "_").TrimEnd('_').ToLower();
+            Validator.ThrowIfNull(beach);
 
-            return location;
+            var id =
+                $"{beach.Name}_" +
+                $"{beach.Continent}_" +
+                $"{beach.Country}_" +
+                $"{beach.L1}_" +
+                $"{beach.L2}_" +
+                $"{beach.L3}_" +
+                $"{beach.L4}_" +
+                $"{beach.WaterBody}_";
+            id = Regex.Replace(id, "_+", "_").TrimEnd('_').ToLower();
+
+            return id;
         }
 
         private double? CalculateScore()
