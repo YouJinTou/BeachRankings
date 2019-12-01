@@ -1,4 +1,5 @@
-﻿using BR.BeachesService.Abstractions;
+﻿using AutoMapper;
+using BR.BeachesService.Abstractions;
 using BR.BeachesService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -35,10 +36,10 @@ namespace BR.BeachesService.Controllers
 
                 this.logger.LogInformation($"Creating beach {model.Name}.");
 
-                var user = await this.service.CreateBeachAsync(model);
-                var userModel = this.mapper.Map<GetBeachModel>(user);
+                var beach = await this.service.CreateBeachAsync(model);
+                var beachModel = this.mapper.Map<GetBeachModel>(beach);
 
-                return Created(userModel.Id.ToString(), userModel);
+                return Created(beachModel.Id.ToString(), beachModel);
             }
             catch (Exception ex)
             {

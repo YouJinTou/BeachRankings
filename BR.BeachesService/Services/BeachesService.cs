@@ -1,7 +1,9 @@
-﻿using BR.BeachesService.Abstractions;
+﻿using AutoMapper;
+using BR.BeachesService.Abstractions;
 using BR.BeachesService.Events;
 using BR.BeachesService.Models;
 using BR.Core.Abstractions;
+using BR.Core.Extensions;
 using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,11 +14,13 @@ namespace BR.BeachesService.Services
     internal class BeachesService : IBeachesService
     {
         private readonly IEventStore store;
+        private readonly IMapper mapper;
         private readonly ILogger<BeachesService> logger;
 
-        public BeachesService(IEventStore store, ILogger<BeachesService> logger)
+        public BeachesService(IEventStore store, IMapper mapper, ILogger<BeachesService> logger)
         {
             this.store = store;
+            this.mapper = mapper;
             this.logger = logger;
         }
 
@@ -26,8 +30,8 @@ namespace BR.BeachesService.Services
             {
                 Validator.ThrowIfNull(model);
 
-                var stream = await this.store.GetEventStreamAsync(model.GetId());
-                var beach = new Beach(model.Username, model.Email, model.Password);
+                var beach = this.mapper.Map<Beach>(model);
+                var stream = await this.store.GetEventStreamAsync(Beach.GetId(beach));
 
                 if (stream.IsNullOrEmpty())
                 {
@@ -40,7 +44,7 @@ namespace BR.BeachesService.Services
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Failed to create beach {model?.Username}.");
+                this.logger.LogError(ex, $"Failed to create beach {model?.Name}.");
 
                 throw;
             }

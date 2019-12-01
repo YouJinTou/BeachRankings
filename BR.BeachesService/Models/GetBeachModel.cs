@@ -2,5 +2,6 @@
 {
     public class GetBeachModel
     {
+        public string Id { get; set; }
     }
 }

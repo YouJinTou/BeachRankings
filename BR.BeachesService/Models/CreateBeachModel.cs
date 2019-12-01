@@ -59,9 +59,6 @@ namespace BR.BeachesService.Models
 
         public double? LongTermStay { get; set; }
 
-        public void ValidateModel()
-        {
 
-        }
     }
 }
