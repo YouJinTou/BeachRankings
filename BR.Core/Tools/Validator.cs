@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BR.Core.Tools
 {
@@ -36,6 +38,11 @@ namespace BR.Core.Tools
             {
                 ThrowIfNullOrWhiteSpace(item, "An item in the collection is null or white space.");
             }
+        }
+
+        public static bool AllNull<T>(IEnumerable<T> items)
+        {
+            return items.All(i => i == null);
         }
     }
 }
