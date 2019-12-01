@@ -53,11 +53,6 @@ namespace BR.Iam.Controllers
         {
             try
             {
-                if (!this.ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
-
                 this.logger.LogInformation($"Creating user {model.Username}.");
 
                 var user = await this.service.CreateUserAsync(model);

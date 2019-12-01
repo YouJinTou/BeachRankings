@@ -29,11 +29,6 @@ namespace BR.BeachesService.Controllers
         {
             try
             {
-                if (!this.ModelState.IsValid)
-                {
-                    return BadRequest(); // TODO
-                }
-
                 this.logger.LogInformation($"Creating beach {model.Name}.");
 
                 var beach = await this.service.CreateBeachAsync(model);
