@@ -32,6 +32,16 @@ namespace BR.Core.Tools
             return obj;
         }
 
+        public static void ThrowIfAnyNull<T>(params T[] items)
+        {
+            ThrowIfNull(items);
+
+            foreach (var item in items)
+            {
+                ThrowIfNull(item);
+            }
+        }
+
         public static void ThrowIfAnyNullOrWhiteSpace<T>(params T[] items)
         {
             foreach (var item in items)

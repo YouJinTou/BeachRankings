@@ -1,4 +1,5 @@
 ﻿using BR.Core.Events;
+using BR.Core.Tools;
 using BR.ReviewsService.Events;
 using BR.ReviewsService.Models;
 
@@ -9,6 +10,8 @@ namespace BR.ReviewsService.Factories
         public static EventSet CreateSet(
             Review review, EventStream beachReviewedStream, EventStream userLeftReviewStream)
         {
+            Validator.ThrowIfAnyNull(review, beachReviewedStream, userLeftReviewStream);
+
             var reviewCreated = new ReviewCreated(review);
             var beachReviwedModel = new BeachReviewedModel(
                 review.BeachId,
