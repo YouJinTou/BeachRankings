@@ -3,9 +3,9 @@ using BR.ReviewsService.Models;
 
 namespace BR.ReviewsService.Events
 {
-    public class ReviewLeft : EventBase
+    public class UserLeftReview : EventBase
     {
-        public ReviewLeft(ReviewLeftModel model)
+        public UserLeftReview(UserLeftReviewModel model)
             : base(model.UserId, model.Offset, model)
         {
         }

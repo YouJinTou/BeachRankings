@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using BR.Core.Abstractions;
-using BR.Core.Events;
 using BR.Core.Tools;
 using BR.ReviewsService.Abstractions;
 using BR.ReviewsService.Events;
+using BR.ReviewsService.Factories;
 using BR.ReviewsService.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -67,24 +67,11 @@ namespace BR.ReviewsService.Services
                 }
 
                 var reviewLeftStream = await this.store.GetEventStreamByTypeAsync(
-                    model.AuthorId, nameof(ReviewLeft));
+                    model.AuthorId, nameof(UserLeftReview));
                 var review = this.mapper.Map<Review>(model);
-                var reviewCreated = new ReviewCreated(review);
-                var beachReviwedModel = new BeachReviewedModel(
-                    model.BeachId, 
-                    beachReviewedStream.NextOffset(nameof(BeachReviewed)), 
-                    model.AuthorId, 
-                    review.Id);
-                var beachReviewed = new BeachReviewed(beachReviwedModel);
-                var reviewLeftModel = new ReviewLeftModel(
-                    model.AuthorId, 
-                    reviewLeftStream.NextOffset(nameof(ReviewLeft)), 
-                    review.Id,
-                    model.BeachId);
-                var reviewLeft = new ReviewLeft(reviewLeftModel);
-                var stream = EventStream.CreateStream(reviewCreated, beachReviewed, reviewLeft);
+                var set = EventSetFactory.CreateSet(review, beachReviewedStream, reviewLeftStream);
 
-                await this.store.AppendEventStreamAsync(stream);
+                await this.store.AppendEventStreamAsync(set.ToStream());
 
                 return review;
             }
