@@ -5,6 +5,7 @@ using BR.Core.Abstractions;
 using BR.Core.Extensions;
 using BR.Core.Tools;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BR.Core.Cloud.Aws
@@ -55,6 +56,23 @@ namespace BR.Core.Cloud.Aws
             return result;
         }
 
+        public async Task<IEnumerable<T>> GetManyByAttributeAsync(
+           string partitionKey, string attributeName, string attributeValue)
+        {
+            Validator.ThrowIfAnyNullOrWhiteSpace(partitionKey, attributeName, attributeValue);
+
+            var table = Table.LoadTable(this.client, this.tableName);
+            var filter = new QueryFilter();
+
+            filter.AddCondition(attributeName, QueryOperator.Equal, attributeValue);
+
+            var searchQuery = table.Query(partitionKey, filter);
+            var docs = await searchQuery.GetNextSetAsync();
+            var items = docs.Select(d => this.ConvertTo(d));
+
+            return items;
+        }
+
         public async Task AddAsync(T item)
         {
             Validator.ThrowIfNull(item);
@@ -78,6 +96,11 @@ namespace BR.Core.Cloud.Aws
             }
 
             await batch.ExecuteAsync();
+        }
+
+        protected virtual T ConvertTo(Document doc)
+        {
+            return doc.ConvertTo<T>();
         }
 
         protected virtual IEnumerable<T> ConvertItemsTo(

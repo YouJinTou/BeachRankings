@@ -1,6 +1,8 @@
-﻿using Amazon.DynamoDBv2.Model;
+﻿using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
 using BR.Core.Abstractions;
 using BR.Core.Events;
+using BR.Core.Extensions;
 using System.Collections.Generic;
 
 namespace BR.Core.Cloud.Aws
@@ -10,6 +12,11 @@ namespace BR.Core.Cloud.Aws
         public EventsRepository(string table)
             : base(table)
         {
+        }
+
+        protected override EventBase ConvertTo(Document doc)
+        {
+            return doc.ConvertTo<GenericEvent>();
         }
 
         protected override IEnumerable<EventBase> ConvertItemsTo(
