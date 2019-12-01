@@ -25,8 +25,6 @@ namespace BR.BeachesService.Models
         [Required]
         public string WaterBody { get; set; }
 
-        public string Location { get; set; }
-
         public string Coordinates { get; set; }
 
         public double? SandQuality { get; set; }
@@ -58,7 +56,5 @@ namespace BR.BeachesService.Models
         public double? Camping { get; set; }
 
         public double? LongTermStay { get; set; }
-
-
     }
 }
