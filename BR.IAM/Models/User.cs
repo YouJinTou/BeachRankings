@@ -6,7 +6,7 @@ using BR.Iam.Tools;
 
 namespace BR.Iam.Models
 {
-    public class User : IDbModel, IAggregate
+    public class User : IAggregate
     {
         public User()
         {
