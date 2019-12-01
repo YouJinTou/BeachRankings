@@ -31,7 +31,7 @@ namespace BR.Iam.Controllers
         {
             try
             {
-                Validator.ThrowIfNullOrWhiteSpace(id);
+                Validator.ThrowIfNullOrWhiteSpace(id, "Missing user ID.");
 
                 this.logger.LogInformation($"Getting user {id}.");
 
@@ -53,6 +53,8 @@ namespace BR.Iam.Controllers
         {
             try
             {
+                Validator.ThrowIfNull(model, "Missing user data.");
+
                 this.logger.LogInformation($"Creating user {model.Username}.");
 
                 var user = await this.service.CreateUserAsync(model);
