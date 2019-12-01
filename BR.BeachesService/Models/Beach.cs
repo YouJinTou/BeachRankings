@@ -68,7 +68,7 @@ namespace BR.BeachesService.Models
             this.Walking = walking;
             this.Camping = camping;
             this.LongTermStay = longTermStay;
-            this.Score = this.CalculateScore();
+            this.Score = Beach.CalculateScore(this);
         }
 
         public string Id { get; set; }
@@ -131,7 +131,7 @@ namespace BR.BeachesService.Models
 
         public static string GetId(Beach beach)
         {
-            Validator.ThrowIfNull(beach);
+            Validator.ThrowIfNull(beach, "Beach is empty.");
 
             var id =
                 $"{beach.Name}_" +
@@ -147,28 +147,35 @@ namespace BR.BeachesService.Models
             return id;
         }
 
-        private double? CalculateScore()
+        public static double? CalculateScore(Beach beach)
         {
+            Validator.ThrowIfNull(beach, "Beach is empty.");
+
             var scores = new double?[]
             {
-                this.SandQuality,
-                this.BeachCleanliness,
-                this.BeautifulScenery,
-                this.CrowdFree,
-                this.Infrastructure,
-                this.WaterVisibility,
-                this.LitterFree,
-                this.FeetFriendlyBottom,
-                this.SeaLifeDiversity,
-                this.CoralReef,
-                this.Snorkeling,
-                this.Kayaking,
-                this.Walking,
-                this.Camping,
-                this.LongTermStay
+                beach.SandQuality,
+                beach.BeachCleanliness,
+                beach.BeautifulScenery,
+                beach.CrowdFree,
+                beach.Infrastructure,
+                beach.WaterVisibility,
+                beach.LitterFree,
+                beach.FeetFriendlyBottom,
+                beach.SeaLifeDiversity,
+                beach.CoralReef,
+                beach.Snorkeling,
+                beach.Kayaking,
+                beach.Walking,
+                beach.Camping,
+                beach.LongTermStay
             };
 
-            return scores.Average();
+            if (Validator.AllNull(scores))
+            {
+                return null;
+            }
+
+            return (double?)Math.Round((decimal)scores.Average(), 1);
         }
     }
 }

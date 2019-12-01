@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BR.BeachesService.Models;
+using System;
 
 namespace BR.BeachesService.Profiles
 {
@@ -7,7 +8,11 @@ namespace BR.BeachesService.Profiles
     {
         public CreateBeachModel_Beach()
         {
-            this.CreateMap<Beach, CreateBeachModel>();
+            this.CreateMap<CreateBeachModel, Beach>()
+                .AfterMap((s, d) => d.Id = Beach.GetId(d))
+                .AfterMap((s, d) => d.AddedOn = DateTime.UtcNow)
+                .AfterMap((s, d) => d.Location = Beach.GetId(d))
+                .AfterMap((s, d) => d.Score = Beach.CalculateScore(d));
         }
     }
 }
