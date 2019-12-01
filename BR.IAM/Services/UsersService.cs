@@ -54,7 +54,7 @@ namespace BR.Iam.Services
                 var stream = await this.store.GetEventStreamAsync(model.GetId());
                 var user = new User(model.Username, model.Email, model.Password);
 
-                if (stream.IsNullOrEmpty())
+                if (stream.IsEmpty())
                 {
                     await this.store.AppendEventAsync(new UserCreated(user));
 

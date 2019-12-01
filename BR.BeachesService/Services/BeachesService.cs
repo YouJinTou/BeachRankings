@@ -33,7 +33,7 @@ namespace BR.BeachesService.Services
                 var beach = this.mapper.Map<Beach>(model);
                 var stream = await this.store.GetEventStreamAsync(Beach.GetId(beach));
 
-                if (stream.IsNullOrEmpty())
+                if (stream.IsEmpty())
                 {
                     await this.store.AppendEventAsync(new BeachCreated(beach));
 

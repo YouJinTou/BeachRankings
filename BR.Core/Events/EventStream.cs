@@ -1,4 +1,4 @@
-﻿using BR.Core.Abstractions;
+﻿using BR.Core.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,11 @@ namespace BR.Core.Events
         {
             this.events = events ?? new List<EventBase>();
             this.events = this.events.Where(e => e.Offset >= readOffset);
+        }
+
+        public bool IsEmpty()
+        {
+            return this.events.IsNullOrEmpty();
         }
 
         public IEnumerator<EventBase> GetEnumerator()
