@@ -1,11 +1,12 @@
-﻿using BR.Core.Tools;
+﻿using BR.Core.Abstractions;
+using BR.Core.Tools;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BR.BeachesService.Models
 {
-    public class Beach
+    public class Beach : IAggregate
     {
         public Beach()
         {
@@ -176,6 +177,11 @@ namespace BR.BeachesService.Models
             }
 
             return (double?)Math.Round((decimal)scores.Average(), 1);
+        }
+
+        public static Beach CreateNull()
+        {
+            return new Beach();
         }
     }
 }
