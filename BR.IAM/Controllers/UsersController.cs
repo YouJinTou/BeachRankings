@@ -69,5 +69,27 @@ namespace BR.Iam.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpPut]
+        public async Task<IActionResult> ModifyUserAsync([FromBody]ModifyUserModel model)
+        {
+            try
+            {
+                Validator.ThrowIfNull(model, "Missing user data.");
+
+                this.logger.LogInformation($"Creating user {model.Id}.");
+
+                var user = await this.service.ModifyUserAsync(model);
+                var userModel = this.mapper.Map<GetUserModel>(user);
+
+                return Ok(userModel);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Creating user {model.Id} failed.");
+
+                return BadRequest(ex);
+            }
+        }
     }
 }

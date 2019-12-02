@@ -1,5 +1,4 @@
 ﻿using BR.Core.Abstractions;
-using BR.Core.Extensions;
 using BR.Core.Tools;
 using BR.Iam.Abstractions;
 using BR.Iam.Events;
@@ -66,6 +65,22 @@ namespace BR.Iam.Services
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Failed to create user {model?.Username}.");
+
+                throw;
+            }
+        }
+
+        public async Task<User> ModifyUserAsync(ModifyUserModel model)
+        {
+            try
+            {
+                Validator.ThrowIfNull(model);
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to modify user {model?.Id}.");
 
                 throw;
             }

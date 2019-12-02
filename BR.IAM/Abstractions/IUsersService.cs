@@ -8,5 +8,7 @@ namespace BR.Iam.Abstractions
         Task<User> GetUserAsync(string id);
 
         Task<User> CreateUserAsync(CreateUserModel model);
+
+        Task<User> ModifyUserAsync(ModifyUserModel model);
     }
 }
