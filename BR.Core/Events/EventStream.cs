@@ -32,7 +32,7 @@ namespace BR.Core.Events
             return this.Any(e => func(JsonConvert.DeserializeObject<T>(e.Body)));
         }
 
-        public int NextOffset(string type)
+        public int GetNextOffset(string type)
         {
             var leader = this
                 .Where(e => e.Type == type)
@@ -40,6 +40,16 @@ namespace BR.Core.Events
                 .FirstOrDefault();
 
             return (leader == null) ? 0 : leader.Offset + 1;
+        }
+
+        public int GetNextOffset()
+        {
+            if (this.IsEmpty())
+            {
+                return 0;
+            }
+
+            return this.OrderByDescending(e => e.Offset).First().Offset + 1;
         }
 
         public IEnumerator<EventBase> GetEnumerator()

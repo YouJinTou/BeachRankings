@@ -17,6 +17,8 @@ namespace BR.ReviewsService.Models
 
         public DateTime AddedOn { get; set; }
 
+        public DateTime LastUpdatedOn { get; set; }
+
         public double? Score { get; set; }
 
         public double? SandQuality { get; set; }

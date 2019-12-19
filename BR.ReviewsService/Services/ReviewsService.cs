@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BR.Core.Abstractions;
+using BR.Core.Events;
 using BR.Core.Tools;
 using BR.ReviewsService.Abstractions;
 using BR.ReviewsService.Events;
@@ -78,6 +79,50 @@ namespace BR.ReviewsService.Services
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Failed to create review for beach {model?.BeachId}.");
+
+                throw;
+            }
+        }
+
+        public async Task<Review> ModifyReviewAsync(ModifyReviewModel model)
+        {
+            try
+            {
+                Validator.ThrowIfNull(model, "Missing review data.");
+
+                var reviewStream = await this.store.GetEventStreamAsync(model.Id.ToString());
+                var userStream = await this.store.GetEventStreamAsync(model.AuthorId);
+                var beachStream = await this.store.GetEventStreamAsync(model.BeachId);
+                var reviewModified = new ReviewModified(model, reviewStream.GetNextOffset());
+                var userModifiedReviewModel = new UserModifiedReviewModel
+                {
+                    BeachId = model.BeachId,
+                    ReviewId = model.Id,
+                    UserId = model.AuthorId,
+                    Offset = userStream.GetNextOffset()
+                };
+                var userModifiedReview = new UserModifiedReview(userModifiedReviewModel);
+                var beachReviewChangedModel = new BeachReviewChangedModel
+                {
+                    BeachId = model.BeachId,
+                    Offset = beachStream.GetNextOffset(),
+                    ReviewId = model.Id,
+                    UserId = model.AuthorId
+                };
+                var beachReviewChanged = new BeachReviewChanged(beachReviewChangedModel);
+
+                await this.store.AppendEventStreamAsync(
+                    EventStream.CreateStream(
+                        reviewModified, userModifiedReview, beachReviewChanged));
+
+                var review = this.mapper.Map<Review>(model);
+
+                return review;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(
+                    ex, $"Failed to modify review {model?.Id} for beach {model?.BeachId}.");
 
                 throw;
             }

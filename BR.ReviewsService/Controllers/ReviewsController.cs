@@ -69,5 +69,27 @@ namespace BR.ReviewsService.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpPut]
+        public async Task<IActionResult> ModifyReviewAsync([FromBody]ModifyReviewModel model)
+        {
+            try
+            {
+                Validator.ThrowIfNull(model, "Missing review data.");
+
+                this.logger.LogInformation($"Modifying review {model.Id} for {model.BeachId}.");
+
+                var review = await this.service.ModifyReviewAsync(model);
+                var reviewModel = this.mapper.Map<GetReviewModel>(review);
+
+                return Ok(reviewModel);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Creating review for {model.BeachId} failed.");
+
+                return BadRequest(ex);
+            }
+        }
     }
 }

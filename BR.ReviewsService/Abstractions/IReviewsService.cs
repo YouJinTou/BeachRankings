@@ -8,5 +8,7 @@ namespace BR.ReviewsService.Abstractions
         Task<Review> GetReviewAsync(string id);
 
         Task<Review> CreateReviewAsync(CreateReviewModel model);
+
+        Task<Review> ModifyReviewAsync(ModifyReviewModel model);
     }
 }

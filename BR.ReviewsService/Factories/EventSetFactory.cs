@@ -15,13 +15,13 @@ namespace BR.ReviewsService.Factories
             var reviewCreated = new ReviewCreated(review);
             var beachReviwedModel = new BeachReviewedModel(
                 review.BeachId,
-                beachReviewedStream.NextOffset(nameof(BeachReviewed)),
+                beachReviewedStream.GetNextOffset(nameof(BeachReviewed)),
                 review.AuthorId,
                 review.Id);
             var beachReviewed = new BeachReviewed(beachReviwedModel);
             var userLeftReviewModel = new UserLeftReviewModel(
                 review.AuthorId,
-                userLeftReviewStream.NextOffset(nameof(UserLeftReview)),
+                userLeftReviewStream.GetNextOffset(nameof(UserLeftReview)),
                 review.Id,
                 review.BeachId);
             var userLeftReview = new UserLeftReview(userLeftReviewModel);
