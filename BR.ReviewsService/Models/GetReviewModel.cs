@@ -10,7 +10,7 @@ namespace BR.ReviewsService.Models
 
         public string BeachId { get; set; }
 
-        public string AuthorId { get; set; }
+        public string UserId { get; set; }
 
         public DateTime AddedOn { get; set; }
 

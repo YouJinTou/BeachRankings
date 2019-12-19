@@ -59,16 +59,16 @@ namespace BR.ReviewsService.Services
                 var beachReviewedStream = await this.store.GetEventStreamByTypeAsync(
                     model.BeachId, nameof(BeachReviewed));
                 var alreadyReviewed = beachReviewedStream.ContainsEvent<BeachReviewedModel>(
-                    m => m.AuthorId == model.AuthorId);
+                    m => m.UserId == model.UserId);
 
                 if (alreadyReviewed)
                 {
                     throw new InvalidOperationException(
-                        $"Beach {model.BeachId} already reviewed by user {model.AuthorId}.");
+                        $"Beach {model.BeachId} already reviewed by user {model.UserId}.");
                 }
 
                 var reviewLeftStream = await this.store.GetEventStreamByTypeAsync(
-                    model.AuthorId, nameof(UserLeftReview));
+                    model.UserId, nameof(UserLeftReview));
                 var review = this.mapper.Map<Review>(model);
                 var set = EventSetFactory.CreateSet(review, beachReviewedStream, reviewLeftStream);
 
@@ -91,24 +91,14 @@ namespace BR.ReviewsService.Services
                 Validator.ThrowIfNull(model, "Missing review data.");
 
                 var reviewStream = await this.store.GetEventStreamAsync(model.Id.ToString());
-                var userStream = await this.store.GetEventStreamAsync(model.AuthorId);
+                var userStream = await this.store.GetEventStreamAsync(model.UserId);
                 var beachStream = await this.store.GetEventStreamAsync(model.BeachId);
                 var reviewModified = new ReviewModified(model, reviewStream.GetNextOffset());
-                var userModifiedReviewModel = new UserModifiedReviewModel
-                {
-                    BeachId = model.BeachId,
-                    ReviewId = model.Id,
-                    UserId = model.AuthorId,
-                    Offset = userStream.GetNextOffset()
-                };
+                var userModifiedReviewModel = this.mapper.Map<UserModifiedReviewModel>(model);
+                userModifiedReviewModel.Offset = userStream.GetNextOffset();
                 var userModifiedReview = new UserModifiedReview(userModifiedReviewModel);
-                var beachReviewChangedModel = new BeachReviewChangedModel
-                {
-                    BeachId = model.BeachId,
-                    Offset = beachStream.GetNextOffset(),
-                    ReviewId = model.Id,
-                    UserId = model.AuthorId
-                };
+                var beachReviewChangedModel = this.mapper.Map<BeachReviewChangedModel>(model);
+                beachReviewChangedModel.Offset = beachStream.GetNextOffset();
                 var beachReviewChanged = new BeachReviewChanged(beachReviewChangedModel);
 
                 await this.store.AppendEventStreamAsync(

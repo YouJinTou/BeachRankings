@@ -14,7 +14,7 @@ namespace BR.ReviewsService.Models
         public string BeachId { get; set; }
 
         [Required]
-        public string AuthorId { get; set; }
+        public string UserId { get; set; }
 
         public double? SandQuality { get; set; }
 

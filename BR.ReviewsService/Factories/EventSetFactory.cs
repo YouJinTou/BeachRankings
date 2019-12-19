@@ -16,11 +16,11 @@ namespace BR.ReviewsService.Factories
             var beachReviwedModel = new BeachReviewedModel(
                 review.BeachId,
                 beachReviewedStream.GetNextOffset(nameof(BeachReviewed)),
-                review.AuthorId,
+                review.UserId,
                 review.Id);
             var beachReviewed = new BeachReviewed(beachReviwedModel);
             var userLeftReviewModel = new UserLeftReviewModel(
-                review.AuthorId,
+                review.UserId,
                 userLeftReviewStream.GetNextOffset(nameof(UserLeftReview)),
                 review.Id,
                 review.BeachId);

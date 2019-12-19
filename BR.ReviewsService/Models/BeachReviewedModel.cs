@@ -5,11 +5,11 @@ namespace BR.ReviewsService.Models
 {
     public class BeachReviewedModel
     {
-        public BeachReviewedModel(string beachId, int offset, string authorId, Guid reviewId)
+        public BeachReviewedModel(string beachId, int offset, string userId, Guid reviewId)
         {
             this.BeachId = Validator.ReturnOrThrowIfNullOrWhiteSpace(beachId);
             this.Offset = offset;
-            this.AuthorId = Validator.ReturnOrThrowIfNullOrWhiteSpace(authorId);
+            this.UserId = Validator.ReturnOrThrowIfNullOrWhiteSpace(userId);
             this.ReviewId = reviewId;
         }
 
@@ -17,7 +17,7 @@ namespace BR.ReviewsService.Models
 
         public int Offset { get; }
 
-        public string AuthorId { get; }
+        public string UserId { get; }
 
         public Guid ReviewId { get; }
     }
