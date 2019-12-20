@@ -1,35 +1,50 @@
 <div class="wrapper">
     <form>
+        <legend>Add Beach</legend>
+        <p>
+            <input #name type="text" placeholder="Name" />
+        </p>
         <fieldset>
-            <legend>Add Beach</legend>
-            <p>
-                <input #name type="text" placeholder="Name" />
-            </p>
-            <ul>
-                <li *ngFor="let country of countries">
-                    {{ country }}
-                </li>
-            </ul>
-            <ul>
-                <li *ngFor="let l1 of l1s">
-                    {{ l1 }}
-                </li>
-            </ul>
-            <ul>
-                <li *ngFor="let l2 of l2s">
-                    {{ l2 }}
-                </li>
-            </ul>
-            <ul>
-                <li *ngFor="let l3 of l3s">
-                    {{ l3 }}
-                </li>
-            </ul>
-            <ul>
-                <li *ngFor="let l4 of l4s">
-                    {{ l4 }}
-                </li>
-            </ul>
+            <div>
+                <select #countryList (change)="onCountryChanged(countryList.value)">
+                    <option value="0">Select a country</option>
+                    <option *ngFor="let country of countries" [value]="country.id">
+                        {{ country.name }}
+                    </option>
+                </select>
+            </div>
+            <div>
+                <select #l1List (change)="onL1Changed(l1List.value)">
+                    <option value="0">Select a region</option>
+                    <option *ngFor="let l1 of l1s" [value]="l1.id">
+                        {{ l1.name }}
+                    </option>
+                </select>
+            </div>
+            <div>
+                <select #l2List (change)="onL2Changed(l2List.value)">
+                    <option value="0">Select a region</option>
+                    <option *ngFor="let l2 of l2s" [value]="l2.id">
+                        {{ l2.name }}
+                    </option>
+                </select>
+            </div>
+            <div>
+                <select #l3List (change)="onL3Changed(l3List.value)">
+                    <option value="0">Select a region</option>
+                    <option *ngFor="let l3 of l3s" [value]="l3.id">
+                        {{ l3.name }}
+                    </option>
+                </select>
+            </div>
+            <div>
+                <select>
+                    <option value="0">Select a region</option>
+                    <option *ngFor="let l4 of l4s" [value]="l4.id">
+                        {{ l4.name }}
+                    </option>
+                </select>
+            </div>
             <p>
                 <input #coordinates type="text" placeholder="Coordinates" />
             </p>
