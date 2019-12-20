@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlacesService } from '../../services/places.service';
 import { Place } from '../../models/place';
 import { CreateBeachModel } from '../../models/create_beach_model';
+import { BeachesService } from 'src/app/services/beaches.service';
 
 @Component({
   selector: 'app-create-beach',
@@ -16,10 +17,11 @@ export class CreateBeachComponent implements OnInit {
   l3s: Place[];
   l4s: Place[];
 
-  constructor(private placesService: PlacesService) { }
+  constructor(private placesService: PlacesService, private beachesService: BeachesService) { }
 
   ngOnInit() {
     this.model = new CreateBeachModel();
+    this.model.addedBy = "CURRENT_USER";
     this.countries = this.placesService.getCountries()
   }
 
@@ -102,7 +104,7 @@ export class CreateBeachComponent implements OnInit {
   }
 
   addBeach() {
-    console.log(this.model);
+    this.beachesService.addBeach(this.model);
   }
 
   private clearModelPlaceData(
