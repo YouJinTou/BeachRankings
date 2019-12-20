@@ -23,6 +23,10 @@ namespace BR.BeachesService
         {
             services
                 .AddCore()
+                .AddCors(o => o.AddPolicy("UIPolicy", p => p
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()))
                 .AddBeachServices()
                 .AddAutoMapper(typeof(Beach).Assembly)
                 .AddMvc()
@@ -37,12 +41,14 @@ namespace BR.BeachesService
             }
             else
             {
-                app.UseHsts();
+                app
+                    .UseHsts()
+                    .UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
-
-            app.UseMvc();
+            app
+                .UseCors("UIPolicy")
+                .UseMvc();
         }
     }
 }
