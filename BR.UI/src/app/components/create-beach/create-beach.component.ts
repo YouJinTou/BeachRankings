@@ -75,9 +75,9 @@ export class CreateBeachComponent implements OnInit {
     clearL3s: boolean = true, 
     clearL4s: boolean = true) {
     this.countries = clearCountries ? null : this.countries;
-    this.l1s = clearL1s ? null : (this.l1s.length === 0 ? null : this.l1s);
-    this.l2s = clearL2s ? null : (this.l2s.length === 0 ? null : this.l2s);
-    this.l3s = clearL3s ? null : (this.l3s.length === 0 ? null : this.l3s);
-    this.l4s = clearL4s ? null : (this.l4s.length === 0 ? null : this.l4s);
+    this.l1s = (clearL1s || this.l1s.length === 0) ? null : this.l1s;
+    this.l2s = (clearL2s || this.l2s.length === 0) ? null : this.l2s;
+    this.l3s = (clearL3s || this.l3s.length === 0) ? null : this.l3s;
+    this.l4s = (clearL4s || this.l4s.length === 0) ? null : this.l4s;
   }
 }
