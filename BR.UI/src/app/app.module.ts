@@ -2,10 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { CreateBeachComponent } from './components/create-beach/create-beach.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CreateBeachComponent
   ],
   imports: [
     BrowserModule

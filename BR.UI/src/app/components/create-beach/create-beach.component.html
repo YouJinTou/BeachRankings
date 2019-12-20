@@ -1,0 +1,38 @@
+<div class="wrapper">
+    <form>
+        <fieldset>
+            <legend>Add Beach</legend>
+            <p>
+                <input #name type="text" placeholder="Name" />
+            </p>
+            <ul>
+                <li *ngFor="let country of countries">
+                    {{ country }}
+                </li>
+            </ul>
+            <ul>
+                <li *ngFor="let l1 of l1s">
+                    {{ l1 }}
+                </li>
+            </ul>
+            <ul>
+                <li *ngFor="let l2 of l2s">
+                    {{ l2 }}
+                </li>
+            </ul>
+            <ul>
+                <li *ngFor="let l3 of l3s">
+                    {{ l3 }}
+                </li>
+            </ul>
+            <ul>
+                <li *ngFor="let l4 of l4s">
+                    {{ l4 }}
+                </li>
+            </ul>
+            <p>
+                <input #coordinates type="text" placeholder="Coordinates" />
+            </p>
+        </fieldset>
+    </form>
+</div>
