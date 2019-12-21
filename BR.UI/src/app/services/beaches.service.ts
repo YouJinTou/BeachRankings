@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreateBeachModel } from '../models/create_beach_model';
+import { CreateBeachModel } from '../models/create.beach.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 

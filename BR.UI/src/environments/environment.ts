@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  usersUrl: 'http://localhost:5000/api/v1/users/', 
+  loginUrl: 'http://localhost:5000/api/v1/iam/auth/login/', 
+  authUrl: 'http://localhost:5000/api/v1/iam/auth/', 
+  usersUrl: 'http://localhost:5000/api/v1/iam/users/', 
   beachesUrl: 'http://localhost:5002/api/v1/beaches/',
   reviewsUrl: 'http://localhost:5004/api/v1/reviews/' 
 };

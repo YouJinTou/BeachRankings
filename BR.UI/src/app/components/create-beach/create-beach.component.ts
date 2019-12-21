@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlacesService } from '../../services/places.service';
 import { Place } from '../../models/place';
-import { CreateBeachModel } from '../../models/create_beach_model';
+import { CreateBeachModel } from '../../models/create.beach.model';
 import { BeachesService } from 'src/app/services/beaches.service';
 
 @Component({
