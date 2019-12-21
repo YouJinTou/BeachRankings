@@ -18,4 +18,14 @@ export class AuthService {
 
     this.httpClient.post(environment.loginUrl, data).subscribe((o: LoginResult) => console.log(o));
   }
+
+  auth(loginResult: LoginResult) {
+    let data = {
+      'username': loginResult.username,
+      'email': loginResult.email,
+      'accessToken': loginResult.accessToken
+    };
+
+    this.httpClient.post(environment.authUrl, data).subscribe(o => console.log(o));
+  }
 }
