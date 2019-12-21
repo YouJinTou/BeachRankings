@@ -23,7 +23,8 @@ namespace BR.Iam.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AuthorizeAsync([FromBody]AuthModel model)
+        [Route("login")]
+        public async Task<IActionResult> LoginAsync([FromBody]LoginModel model)
         {
             try
             {
@@ -31,7 +32,7 @@ namespace BR.Iam.Controllers
 
                 this.logger.LogInformation($"Authenticating user {model.Username}.");
 
-                var result = await this.service.AuthenticateAsync(model);
+                var result = await this.service.LoginAsync(model);
 
                 return result.IsSuccess ? Ok(result) : (IActionResult)Unauthorized();
             }

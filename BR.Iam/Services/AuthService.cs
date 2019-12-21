@@ -20,7 +20,7 @@ namespace BR.Iam.Services
             this.logger = logger;
         }
 
-        public async Task<AuthResult> AuthenticateAsync(AuthModel model)
+        public async Task<AuthResult> LoginAsync(LoginModel model)
         {
             try
             {

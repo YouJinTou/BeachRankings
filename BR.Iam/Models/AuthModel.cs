@@ -3,7 +3,7 @@ using BR.Core.Tools;
 
 namespace BR.Iam.Models
 {
-    public class AuthModel
+    public class LoginModel
     {
         public string Username { get; set; }
 
