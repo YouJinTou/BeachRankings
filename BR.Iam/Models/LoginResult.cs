@@ -9,5 +9,9 @@ namespace BR.Iam.Models
         public string AccessToken { get; set; }
 
         public DateTime? ExpiresAt { get; set; }
+
+        public string Username { get; set; }
+
+        public string Email { get; set; }
     }
 }

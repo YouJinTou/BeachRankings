@@ -36,7 +36,9 @@ namespace BR.Iam.Services
                 {
                     IsSuccess = passwordsMatch,
                     AccessToken = passwordsMatch ? User.CreateAccessToken() : null,
-                    ExpiresAt = passwordsMatch ? DateTime.UtcNow.AddDays(1) : default(DateTime?)
+                    ExpiresAt = passwordsMatch ? DateTime.UtcNow.AddDays(1) : default(DateTime?),
+                    Username = passwordsMatch ? user.Username : null,
+                    Email = passwordsMatch ? user.Email : null
                 };
                 user.AccessToken = result.AccessToken;
                 user.AccessTokenExpiresAt = result.ExpiresAt;
