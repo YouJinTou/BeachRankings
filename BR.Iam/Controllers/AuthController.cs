@@ -34,13 +34,13 @@ namespace BR.Iam.Controllers
 
                 var result = await this.service.LoginAsync(model);
 
-                return result.IsSuccess ? Ok(result) : (IActionResult)Unauthorized();
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Logging in user {model.Username} failed.");
 
-                return Unauthorized();
+                return Ok(new LoginResult());
             }
         }
 
@@ -55,13 +55,13 @@ namespace BR.Iam.Controllers
 
                 var result = await this.service.AuthenticateAsync(model);
 
-                return result.IsSuccess ? Ok(result) : (IActionResult)Unauthorized();
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Authenticating user {model.Username} failed.");
 
-                return Unauthorized();
+                return Ok(new AuthModel());
             }
         }
     }
