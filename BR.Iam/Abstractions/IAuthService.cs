@@ -5,6 +5,8 @@ namespace BR.Iam.Abstractions
 {
     public interface IAuthService
     {
-        Task<AuthResult> LoginAsync(LoginModel model);
+        Task<LoginResult> LoginAsync(LoginModel model);
+
+        Task<AuthResult> AuthenticateAsync(AuthModel model);
     }
 }

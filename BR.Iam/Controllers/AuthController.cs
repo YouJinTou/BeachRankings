@@ -28,11 +28,33 @@ namespace BR.Iam.Controllers
         {
             try
             {
+                Validator.ThrowIfNull(model, "Missing login data.");
+
+                this.logger.LogInformation($"Logging in user {model.Username}.");
+
+                var result = await this.service.LoginAsync(model);
+
+                return result.IsSuccess ? Ok(result) : (IActionResult)Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Logging in user {model.Username} failed.");
+
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("auth")]
+        public async Task<IActionResult> AuthenticateAsync([FromBody]AuthModel model)
+        {
+            try
+            {
                 Validator.ThrowIfNull(model, "Missing auth data.");
 
                 this.logger.LogInformation($"Authenticating user {model.Username}.");
 
-                var result = await this.service.LoginAsync(model);
+                var result = await this.service.AuthenticateAsync(model);
 
                 return result.IsSuccess ? Ok(result) : (IActionResult)Unauthorized();
             }

@@ -20,11 +20,11 @@ namespace BR.Iam.Services
             this.logger = logger;
         }
 
-        public async Task<AuthResult> LoginAsync(LoginModel model)
+        public async Task<LoginResult> LoginAsync(LoginModel model)
         {
             try
             {
-                Validator.ThrowIfNull(model, "Missing auth data.");
+                Validator.ThrowIfNull(model, "Missing login data.");
 
                 model.ValidateModel();
 
@@ -32,7 +32,7 @@ namespace BR.Iam.Services
                 var user = await this.repo.GetAsync(id);
                 var passwordsMatch = Hasher.IsValidPassword(
                     user.PasswordHash, model.Password, user.PasswordSalt);
-                var result = new AuthResult
+                var result = new LoginResult
                 {
                     IsSuccess = passwordsMatch,
                     AccessToken = passwordsMatch ? User.CreateAccessToken() : null,
@@ -47,9 +47,43 @@ namespace BR.Iam.Services
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex, $"Failed to login user {model?.Username}");
+
+                return new LoginResult { IsSuccess = false };
+            }
+        }
+
+        public async Task<AuthResult> AuthenticateAsync(AuthModel model)
+        {
+            try
+            {
+                Validator.ThrowIfNull(model, "Missing auth data.");
+
+                var id = User.GetId(model.Email);
+                var user = await this.repo.GetAsync(id);
+                var usernamesMatch = user.Username == model.Username;
+                var emailsMatch = user.Email == model.Email;
+                var accessTokensMatch =
+                    !string.IsNullOrWhiteSpace(user.AccessToken)
+                    && user.AccessToken == model.AccessToken;
+                var expirationDateValid = user.AccessTokenExpiresAt.HasValue 
+                    && user.AccessTokenExpiresAt > DateTime.UtcNow;
+                var result = new AuthResult
+                {
+                    IsSuccess = 
+                        usernamesMatch 
+                        && emailsMatch 
+                        && accessTokensMatch 
+                        && expirationDateValid
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
                 this.logger.LogError(ex, $"Failed to authenticate user {model?.Username}");
 
-                throw;
+                return new AuthResult { IsSuccess = false };
             }
         }
     }

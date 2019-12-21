@@ -1,20 +1,17 @@
-﻿
-using BR.Core.Tools;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BR.Iam.Models
 {
-    public class LoginModel
+    public class AuthModel
     {
+        [Required]
         public string Username { get; set; }
 
+        [Required]
         public string Email { get; set; }
 
-        [System.ComponentModel.DataAnnotations.Required]
-        public string Password { get; set; }
 
-        public void ValidateModel()
-        {
-            Validator.ThrowIfAllNull(this.Username, this.Email);
-        }
+        [Required]
+        public string AccessToken { get; set; }
     }
 }
