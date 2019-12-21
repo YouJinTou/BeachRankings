@@ -66,7 +66,8 @@ namespace BR.Iam.Services
                 var accessTokensMatch =
                     !string.IsNullOrWhiteSpace(user.AccessToken)
                     && user.AccessToken == model.AccessToken;
-                var expirationDateValid = user.AccessTokenExpiresAt.HasValue 
+                var expirationDateValid = 
+                    user.AccessTokenExpiresAt.HasValue 
                     && user.AccessTokenExpiresAt > DateTime.UtcNow;
                 var result = new AuthResult
                 {
