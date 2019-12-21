@@ -40,7 +40,7 @@ namespace BR.Iam.Controllers
             {
                 this.logger.LogError(ex, $"Logging in user {model.Username} failed.");
 
-                return BadRequest(ex);
+                return Unauthorized();
             }
         }
 
@@ -62,7 +62,7 @@ namespace BR.Iam.Controllers
             {
                 this.logger.LogError(ex, $"Authenticating user {model.Username} failed.");
 
-                return BadRequest(ex);
+                return Unauthorized();
             }
         }
     }
