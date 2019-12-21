@@ -23,10 +23,6 @@ namespace BR.BeachesService
         {
             services
                 .AddCore()
-                .AddCors(o => o.AddPolicy("UIPolicy", p => p
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()))
                 .AddBeachServices()
                 .AddAutoMapper(typeof(Beach).Assembly)
                 .AddMvc()
@@ -47,7 +43,7 @@ namespace BR.BeachesService
             }
 
             app
-                .UseCors("UIPolicy")
+                .AddCore()
                 .UseMvc();
         }
     }

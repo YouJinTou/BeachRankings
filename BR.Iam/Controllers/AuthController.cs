@@ -45,7 +45,6 @@ namespace BR.Iam.Controllers
         }
 
         [HttpPost]
-        [Route("auth")]
         public async Task<IActionResult> AuthenticateAsync([FromBody]AuthModel model)
         {
             try

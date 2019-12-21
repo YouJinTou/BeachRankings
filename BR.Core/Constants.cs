@@ -4,6 +4,7 @@
     {
         public const string StreamId = "StreamId";
         public const string NA = "N/A";
+        public const string UICorsPolicy = "UIPolicy";
 
         public static class Env
         {

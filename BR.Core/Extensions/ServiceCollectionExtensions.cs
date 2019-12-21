@@ -13,6 +13,7 @@ namespace BR.Core.Extensions
         {
             services
                 .AddByConvention(typeof(Constants).Assembly)
+                .AddUiCors()
                 .AddDb();
 
             return services;
@@ -52,6 +53,17 @@ namespace BR.Core.Extensions
                     sp => new DynamoRepository<EventBase>("EventLog"))
                 .AddTransient<IEventsRepository>(
                     sp => new EventsRepository("EventLog"));
+
+            return services;
+        }
+
+        private static IServiceCollection AddUiCors(this IServiceCollection services)
+        {
+            services
+                .AddCors(o => o.AddPolicy("UIPolicy", p => p
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()));
 
             return services;
         }

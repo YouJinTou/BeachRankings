@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BR.Core.Extensions;
-using BR.Iam.Configuration;
 using BR.Iam.Extensions;
 using BR.Iam.Models;
 using Microsoft.AspNetCore.Builder;
@@ -22,7 +21,7 @@ namespace BR.Iam
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var settings = new Settings();
+            var settings = new Configuration.Settings();
 
             Configuration.GetSection("Settings").Bind(settings);
 
@@ -43,11 +42,14 @@ namespace BR.Iam
             }
             else
             {
-                app.UseHsts();
+                app
+                    .UseHsts()
+                    .UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            app
+                .AddCore()
+                .UseMvc();
         }
     }
 }
