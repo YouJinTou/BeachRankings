@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BR.Core.Abstractions
 {
-    internal interface INoSqlRepository<T> where T : IDbModel
+    public interface INoSqlRepository<T> where T : IDbModel
     {
         Task<T> GetAsync(string partitionKey, string sortKey = null);
 

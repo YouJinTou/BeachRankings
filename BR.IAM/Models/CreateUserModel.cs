@@ -1,15 +1,21 @@
-﻿using System;
+﻿using BR.Iam.Tools;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BR.Iam.Models
 {
     public class CreateUserModel
     {
+        [Required]
         public string Username { get; set; }
 
+        [Required]
         public string Email { get; set; }
 
+        [Required]
         public string Password { get; set; }
 
+        [Required]
         public string ConfirmedPassword { get; set; }
 
         public void ValidateModel()
@@ -22,7 +28,7 @@ namespace BR.Iam.Models
 
         public string GetId()
         {
-            return $"{this.Username}|{this.Email}";
+            return Hasher.GetHashString($"{this.Username}|{this.Email}");
         }
     }
 }

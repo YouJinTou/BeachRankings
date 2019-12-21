@@ -5,19 +5,25 @@ using BR.Iam.Events;
 using BR.Iam.Models;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BR.Iam.Services
 {
     internal class UsersService : IUsersService
     {
+        private readonly INoSqlRepository<User> repo;
         private readonly IEventStore store;
         private readonly IStreamProjector projector;
         private readonly ILogger<UsersService> logger;
 
         public UsersService(
-            IEventStore store, IStreamProjector projector, ILogger<UsersService> logger)
+            INoSqlRepository<User> repo, 
+            IEventStore store, 
+            IStreamProjector projector, 
+            ILogger<UsersService> logger)
         {
+            this.repo = repo;
             this.store = store;
             this.projector = projector;
             this.logger = logger;
@@ -50,17 +56,23 @@ namespace BR.Iam.Services
 
                 model.ValidateModel();
 
-                var stream = await this.store.GetEventStreamAsync(model.GetId());
-                var user = new User(model.Username, model.Email, model.Password);
-
-                if (stream.IsEmpty())
+                try
                 {
-                    await this.store.AppendEventAsync(new UserCreated(user));
+                    var existingUser = await this.repo.GetAsync(model.GetId());
 
-                    return user;
+                    throw new InvalidOperationException("User already exists.");
+                }
+                catch (KeyNotFoundException)
+                {
                 }
 
-                throw new InvalidOperationException("User already exists.");
+                var user = new User(model.Username, model.Email, model.Password);
+
+                await this.repo.AddAsync(user);
+
+                await this.store.AppendEventAsync(new UserCreated(user));
+
+                return user;
             }
             catch (Exception ex)
             {

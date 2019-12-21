@@ -2,12 +2,37 @@
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace BR.Iam.Tools
 {
     public static class Hasher
     {
-        public static DbHash GetHash(string password)
+        public static byte[] GetHash(string input)
+        {
+            Validator.ThrowIfNullOrWhiteSpace(input, "Input is empty.");
+
+            var sha256 = SHA256.Create();
+            var hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            return hash;
+        }
+
+        public static string GetHashString(string input)
+        {
+            Validator.ThrowIfNullOrWhiteSpace(input, "Input is empty.");
+
+            var sb = new StringBuilder();
+
+            foreach (var b in GetHash(input))
+            {
+                sb.Append(b.ToString("X2"));
+            }
+
+            return sb.ToString();
+        }
+
+        public static DbHash GetPasswordHash(string password)
         {
             Validator.ThrowIfNullOrWhiteSpace(password, "Password is empty.");
 

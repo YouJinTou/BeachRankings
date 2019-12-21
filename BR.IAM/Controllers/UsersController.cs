@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BR.Iam.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/iam/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService service;

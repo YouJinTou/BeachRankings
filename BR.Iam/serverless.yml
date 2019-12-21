@@ -4,10 +4,13 @@ provider:
   name: aws
   runtime: dotnetcore2.1
   region: eu-central-1
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, self:custom:defaultStage}
 
 package:
   artifact: bin/release/netcoreapp2.1/deploy-package.zip
+
+custom:
+  defaultStage: dev
 
 functions:
   api:
@@ -22,7 +25,7 @@ resources:
       usersTable:
         Type: AWS::DynamoDB::Table
         Properties:
-          TableName: Users_${self:provider.stage}
+          TableName: 'Users_${self:provider.stage}'
           AttributeDefinitions:
             - AttributeName: Id
               AttributeType: S
@@ -43,5 +46,4 @@ iamRoleStatements:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource:
-        - "Fn::GetAtt": [ usersTable, Arn ]
+      Resource: '*'

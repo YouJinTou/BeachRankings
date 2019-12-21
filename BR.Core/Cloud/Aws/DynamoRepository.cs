@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BR.Core.Cloud.Aws
 {
-    internal class DynamoRepository<T> : INoSqlRepository<T> where T : IDbModel
+    public class DynamoRepository<T> : INoSqlRepository<T> where T : IDbModel
     {
         private readonly AmazonDynamoDBClient client;
         private readonly string tableName;
@@ -29,6 +29,14 @@ namespace BR.Core.Cloud.Aws
             var document = string.IsNullOrWhiteSpace(sortKey) ?
                 await table.GetItemAsync(new Primitive(partitionKey)) :
                 await table.GetItemAsync(new Primitive(partitionKey), new Primitive(sortKey));
+
+            if (document == null)
+            {
+                throw new KeyNotFoundException(
+                    $"Could not find {partitionKey}" +
+                    $"{(string.IsNullOrWhiteSpace(sortKey) ? string.Empty : sortKey)}");
+            }
+
             var item = document.ConvertTo<T>();
 
             return item;

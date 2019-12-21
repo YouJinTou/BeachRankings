@@ -3,10 +3,11 @@ using BR.Core;
 using BR.Core.Abstractions;
 using BR.Core.Tools;
 using BR.Iam.Tools;
+using System;
 
 namespace BR.Iam.Models
 {
-    public class User : IAggregate
+    public class User : IAggregate, IDbModel
     {
         public User()
         {
@@ -16,10 +17,10 @@ namespace BR.Iam.Models
         {   
             this.Username = Validator.ReturnOrThrowIfNullOrWhiteSpace(username);
             this.Email = Validator.ReturnOrThrowIfNullOrWhiteSpace(email);
-            var dbHash = Hasher.GetHash(Validator.ReturnOrThrowIfNullOrWhiteSpace(password));
+            var dbHash = Hasher.GetPasswordHash(Validator.ReturnOrThrowIfNullOrWhiteSpace(password));
             this.PasswordHash = dbHash.Hash;
             this.PasswordSalt = dbHash.Salt;
-            this.Id = $"{this.Username}|{this.Email}";
+            this.Id = Hasher.GetHashString($"{username}|{email}");
         }
 
         [DynamoDBHashKey]
