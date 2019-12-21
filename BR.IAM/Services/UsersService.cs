@@ -58,7 +58,8 @@ namespace BR.Iam.Services
 
                 try
                 {
-                    var existingUser = await this.repo.GetAsync(model.GetId());
+                    var id = User.GetId(model.Email);
+                    var existingUser = await this.repo.GetAsync(id);
 
                     throw new InvalidOperationException("User already exists.");
                 }

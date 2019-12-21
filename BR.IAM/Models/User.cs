@@ -20,7 +20,7 @@ namespace BR.Iam.Models
             var dbHash = Hasher.GetPasswordHash(Validator.ReturnOrThrowIfNullOrWhiteSpace(password));
             this.PasswordHash = dbHash.Hash;
             this.PasswordSalt = dbHash.Salt;
-            this.Id = Hasher.GetHashString($"{username}|{email}");
+            this.Id = GetId(this.Email);
         }
 
         [DynamoDBHashKey]
@@ -34,9 +34,30 @@ namespace BR.Iam.Models
 
         public byte[] PasswordSalt { get; set; }
 
+        public string AccessToken { get; set; }
+
+        public DateTime? AccessTokenExpiresAt { get; set; }
+
         public static User CreateNull()
         {
             return new User(Constants.NA, Constants.NA, Constants.NA);
+        }
+
+        public static string GetId(string email)
+        {
+            Validator.ThrowIfNullOrWhiteSpace(email);
+
+            var id = Hasher.GetHashString(email);
+
+            return id;
+        }
+
+        public static string CreateAccessToken()
+        {
+            var guid = Guid.NewGuid().ToString();
+            var hash = Hasher.GetHashString(guid);
+
+            return hash;
         }
     }
 }

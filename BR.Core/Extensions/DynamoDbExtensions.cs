@@ -48,36 +48,26 @@ namespace BR.Core.Extensions
                 return null;
             }
 
-            if (type == Types.String)
+            switch (type)
             {
-                return entry.AsString();
+                case var x when type == Types.String:
+                    return entry.AsString();
+                case var x when type == Types.Int:
+                    return entry.AsInt();
+                case var x when type == Types.Int64:
+                    return entry.AsLong();
+                case var x when type == Types.DateTime:
+                case var y when type == Types.NullDateTime:
+                    return entry.AsDateTime();
+                case var x when type == Types.NullDouble:
+                    return entry.AsDouble();
+                case var x when type == Types.ByteArray:
+                    return entry.AsByteArray();
+                case var x when type == Types.Guid:
+                    return entry.AsGuid();
+                default:
+                    return entry.AsString();
             }
-            else if (type == Types.Int)
-            {
-                return entry.AsInt();
-            }
-            else if (type == Types.Int64)
-            {
-                return entry.AsLong();
-            }
-            else if (type == Types.DateTime)
-            {
-                return entry.AsDateTime();
-            }
-            else if (type == Types.NullDouble)
-            {
-                return entry.AsDouble();
-            }
-            else if (type == Types.ByteArray)
-            {
-                return entry.AsByteArray();
-            }
-            else if (type == Types.Guid)
-            {
-                return entry.AsGuid();
-            }
-
-            return entry.AsString();
         }
 
         private static object GetValue(AttributeValue value)

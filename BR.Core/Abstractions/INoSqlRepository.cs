@@ -16,5 +16,7 @@ namespace BR.Core.Abstractions
         Task AddAsync(T item);
 
         Task AddManyAsync(IEnumerable<T> items);
+
+        Task UpdateAsync(T item);
     }
 }

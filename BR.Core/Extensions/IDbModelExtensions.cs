@@ -40,6 +40,8 @@ namespace BR.Core.Extensions
                     return (long)value;
                 case var type when prop.PropertyType == Types.DateTime:
                     return (DateTime)value;
+                case var type when prop.PropertyType == Types.NullDateTime:
+                    return (DateTime?)value;
                 case var type when prop.PropertyType == Types.Guid:
                     return (Guid)value;
                 case var type when prop.PropertyType == Types.NullDouble:

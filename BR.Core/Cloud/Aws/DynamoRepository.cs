@@ -106,6 +106,16 @@ namespace BR.Core.Cloud.Aws
             await batch.ExecuteAsync();
         }
 
+        public async Task UpdateAsync(T item)
+        {
+            Validator.ThrowIfNull(item, "Cannot update item.");
+
+            var table = Table.LoadTable(this.client, this.tableName);
+            var document = item.ToDynamoDbDocument();
+
+            await table.UpdateItemAsync(document);
+        }
+
         protected virtual T ConvertTo(Document doc)
         {
             return doc.ConvertTo<T>();

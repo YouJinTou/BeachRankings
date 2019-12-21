@@ -60,7 +60,11 @@ namespace BR.Iam.Controllers
                 var user = await this.service.CreateUserAsync(model);
                 var userModel = this.mapper.Map<GetUserModel>(user);
 
-                return new CreatedResult(userModel.Id.ToString(), userModel);
+                return new CreatedResult(userModel.Id, userModel);
+            }
+            catch (InvalidOperationException)
+            {
+                return UnprocessableEntity("User already exists.");
             }
             catch (Exception ex)
             {

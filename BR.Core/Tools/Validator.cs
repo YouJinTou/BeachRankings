@@ -54,5 +54,13 @@ namespace BR.Core.Tools
         {
             return items.All(i => i == null);
         }
+
+        public static void ThrowIfAllNull<T>(params T[] items)
+        {
+            if (AllNull(items))
+            {
+                throw new ArgumentNullException("All items are null.");
+            }
+        }
     }
 }
