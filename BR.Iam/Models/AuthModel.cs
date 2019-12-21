@@ -10,7 +10,6 @@ namespace BR.Iam.Models
         [Required]
         public string Email { get; set; }
 
-
         [Required]
         public string AccessToken { get; set; }
     }
