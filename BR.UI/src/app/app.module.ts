@@ -5,11 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { CreateBeachComponent } from './components/create-beach/create-beach.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateBeachComponent
+    CreateBeachComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
