@@ -9,10 +9,11 @@ import { CreateBeachComponent } from './components/create-beach/create-beach.com
 import { LoginComponent } from './components/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { HeaderComponent } from './components/header/header.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'add-beach', component: CreateBeachComponent }
+  { path: 'add-beach', component: CreateBeachComponent, canActivate: [AuthGuardService] }
 ]
 
 @NgModule({
