@@ -2,6 +2,8 @@
 using BR.Core.Abstractions;
 using BR.Core.System;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace BR.Core.Extensions
@@ -51,8 +53,10 @@ namespace BR.Core.Extensions
                     }
 
                     return (double?)value;
-                case var type when prop.PropertyType == typeof(byte[]):
+                case var type when prop.PropertyType == Types.ByteArray:
                     return (byte[])value;
+                case var type when prop.PropertyType == Types.StringEnumerable:
+                    return ((IEnumerable<string>)value).ToArray();
                 default:
                     return Types.DynamoNull;
             }
