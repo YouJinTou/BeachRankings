@@ -8,7 +8,9 @@ export const environment = {
   authUrl: 'http://localhost:5000/api/v1/iam/auth/', 
   usersUrl: 'http://localhost:5000/api/v1/iam/users/', 
   beachesUrl: 'http://localhost:5002/api/v1/beaches/',
-  reviewsUrl: 'http://localhost:5004/api/v1/reviews/' 
+  reviewsUrl: 'http://localhost:5004/api/v1/reviews/',
+  countriesUrl: 'http://localhost:5006/api/v1/places/countries/',
+  placeChildrenUrl: 'http://localhost:5006/api/v1/places/{id}/next'
 };
 
 /*

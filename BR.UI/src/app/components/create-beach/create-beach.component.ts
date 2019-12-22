@@ -22,7 +22,10 @@ export class CreateBeachComponent implements OnInit {
   ngOnInit() {
     this.model = new CreateBeachModel();
     this.model.addedBy = "CURRENT_USER";
-    this.countries = this.placesService.getCountries()
+
+    this.placesService.getCountries().subscribe(countries => {
+      this.countries = countries;
+    });
   }
 
   onCountryChanged(event: object) {
@@ -37,9 +40,12 @@ export class CreateBeachComponent implements OnInit {
     }
 
     this.model.country = data['text'];
-    this.l1s = this.placesService.getLevelOnes(data['value']);
 
-    this.clearPlaces(false, false);
+    this.placesService.getNextLevel(data['value']).subscribe(ls => {
+      this.l1s = ls;
+
+      this.clearPlaces(false, false);
+    });
   }
 
   onL1Changed(event: object) {
@@ -54,9 +60,12 @@ export class CreateBeachComponent implements OnInit {
     }
 
     this.model.l1 = data['value'];
-    this.l2s = this.placesService.getLevelTwos(data['value']);
 
-    this.clearPlaces(false, false, false);
+    this.placesService.getNextLevel(data['value']).subscribe(ls => {
+      this.l2s = ls;
+
+      this.clearPlaces(false, false, false);
+    });
   }
 
   onL2Changed(event: object) {
@@ -71,9 +80,12 @@ export class CreateBeachComponent implements OnInit {
     }
 
     this.model.l2 = data['value'];
-    this.l3s = this.placesService.getLevelThrees(data['value']);
 
-    this.clearPlaces(false, false, false, false);
+    this.placesService.getNextLevel(data['value']).subscribe(ls => {
+      this.l3s = ls;
+
+      this.clearPlaces(false, false, false, false);
+    });
   }
 
   onL3Changed(event: object) {
@@ -88,9 +100,12 @@ export class CreateBeachComponent implements OnInit {
     }
 
     this.model.l3 = data['value'];
-    this.l4s = this.placesService.getLevelFours(data['value']);
 
-    this.clearPlaces(false, false, false, false, false);
+    this.placesService.getNextLevel(data['value']).subscribe(ls => {
+      this.l4s = ls;
+
+      this.clearPlaces(false, false, false, false, false);
+    });
   }
 
   onL4Changed(event: object) {

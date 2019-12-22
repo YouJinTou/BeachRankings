@@ -1,55 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Place } from '../models/place';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators'
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlacesService {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
-  public getCountries(): Place[] {
-    return [
-      new Place('1', 'Bulgaria'),
-      new Place('2', 'Romania')
-    ]
+  public getCountries(): Observable<Place[]> {
+    return this.httpClient.get<string[]>(environment.countriesUrl)
+      .pipe(map(countries => {
+        return countries.map<Place>(c => new Place(c, c));
+      }));
   }
 
-  public getLevelOnes(countryId: string): Place[] {
-    if (countryId == '1') {
-      return [
-        new Place('3', 'Varna'),
-      ]
-    }
+  public getNextLevel(id: string): Observable<Place[]> {
+    return this.httpClient.get<any[]>(environment.placeChildrenUrl.replace('{id}', id))
+      .pipe(map(ls => {
+        if (!ls) {
+          return [];
+        }
 
-    return [
-      new Place('4', 'Constanta'),
-    ]
-  }
-
-  public getLevelTwos(l1Id: string): Place[] {
-    if (l1Id == '3') {
-      return [
-        new Place('5', 'Varna'),
-      ]
-    }
-    
-    return [
-      new Place('6', 'Mamaia'),
-    ]
-  }
-
-  public getLevelThrees(l2Id: string): Place[] {
-    if (l2Id == '5') {
-      return [
-        new Place('7', 'St. St. Constantine and Helena'),
-      ]
-    }
-    
-    return []
-  }
-
-  public getLevelFours(l3Id: string): Place[] {
-    return []
+        return ls.map<Place>(l => new Place(l['id'], l['name']));
+      }));
   }
 }
