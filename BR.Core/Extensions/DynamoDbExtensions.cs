@@ -65,6 +65,8 @@ namespace BR.Core.Extensions
                     return entry.AsByteArray();
                 case var x when type == Types.Guid:
                     return entry.AsGuid();
+                case var x when type == Types.StringEnumerable:
+                    return entry.AsListOfString();
                 default:
                     return entry.AsString();
             }
