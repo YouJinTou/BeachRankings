@@ -69,5 +69,11 @@ namespace BR.BeachesService.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpPut]
+        public async Task<IActionResult> ModifyBeachAsync([FromBody]ModifyBeachModel model)
+        {
+            return null;
+        }
     }
 }
