@@ -96,14 +96,38 @@ namespace BR.Core.Cloud.Aws
             Validator.ThrowIfNull(items);
 
             var table = Table.LoadTable(this.client, this.tableName);
-            var batch = table.CreateBatchWrite();
+            var batchSize = 50;
+            var count = 0;
 
-            foreach (var item in items)
+            foreach (var itemBatch in items.ToBatches(batchSize))
             {
-                batch.AddDocumentToPut(item.ToDynamoDbDocument());
-            }
+                await WriteBatchAsync(table, itemBatch);
 
-            await batch.ExecuteAsync();
+                await Task.Delay(2000);
+
+                count += batchSize;
+            }
+        }
+
+        private static async Task WriteBatchAsync(Table table, IEnumerable<T> itemBatch)
+        {
+            try
+            {
+                var batch = table.CreateBatchWrite();
+
+                foreach (var item in itemBatch)
+                {
+                    batch.AddDocumentToPut(item.ToDynamoDbDocument());
+                }
+
+                await batch.ExecuteAsync();
+            }
+            catch (ProvisionedThroughputExceededException)
+            {
+                await Task.Delay(20000);
+
+                await WriteBatchAsync(table, itemBatch);
+            }
         }
 
         public async Task UpdateAsync(T item)
