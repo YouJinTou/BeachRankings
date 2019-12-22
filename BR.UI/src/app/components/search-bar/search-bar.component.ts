@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SearchResult } from '../../models/search.result';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
+  results: SearchResult[];
 
-  constructor() { }
+  constructor(private searchService: SearchService) { }
 
   ngOnInit() {
   }
 
+  onKeyUp(query: string) {
+    this.searchService.search(query).subscribe(results => {
+      console.log(results);
+      this.results = results;
+    });
+  }
 }
