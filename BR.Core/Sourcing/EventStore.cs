@@ -29,7 +29,7 @@ namespace BR.Core.Sourcing
 
                 var events = await this.repo.GetManyAsync(streamId);
 
-                return new EventStream(events.ToList(), offset);
+                return new EventStream(events, offset);
             }
             catch (Exception ex)
             {

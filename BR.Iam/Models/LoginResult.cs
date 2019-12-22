@@ -6,6 +6,8 @@ namespace BR.Iam.Models
     {
         public bool IsSuccess { get; set; }
 
+        public string Id { get; set; }
+
         public string AccessToken { get; set; }
 
         public DateTime? ExpiresAt { get; set; }

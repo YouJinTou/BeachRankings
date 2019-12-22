@@ -35,6 +35,7 @@ namespace BR.Iam.Services
                 var result = new LoginResult
                 {
                     IsSuccess = passwordsMatch,
+                    Id = passwordsMatch ? user.Id : null,
                     AccessToken = passwordsMatch ? User.CreateAccessToken() : null,
                     ExpiresAt = passwordsMatch ? DateTime.UtcNow.AddDays(1) : default(DateTime?),
                     Username = passwordsMatch ? user.Username : null,

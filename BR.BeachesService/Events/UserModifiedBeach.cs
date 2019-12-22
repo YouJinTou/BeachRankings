@@ -1,6 +1,6 @@
 ﻿using BR.Core.Events;
 
-namespace BR.BeachesService.Models
+namespace BR.BeachesService.Events
 {
     public class UserModifiedBeach : EventBase
     {

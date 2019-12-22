@@ -19,9 +19,9 @@ namespace BR.BeachesService.Services
         private readonly ILogger<BeachesService> logger;
 
         public BeachesService(
-            IEventStore store, 
-            IStreamProjector projector, 
-            IMapper mapper, 
+            IEventStore store,
+            IStreamProjector projector,
+            IMapper mapper,
             ILogger<BeachesService> logger)
         {
             this.store = store;
@@ -58,14 +58,20 @@ namespace BR.BeachesService.Services
                 var beach = this.mapper.Map<Beach>(model);
                 var stream = await this.store.GetEventStreamAsync(Beach.GetId(beach));
 
-                if (stream.IsEmpty())
+                if (!stream.IsEmpty())
                 {
-                    await this.store.AppendEventAsync(new BeachCreated(beach));
-
-                    return beach;
+                    throw new InvalidOperationException("Beach already exists.");
                 }
 
-                throw new InvalidOperationException("Beach already exists.");
+                var userStream = await this.store.GetEventStreamAsync(model.AddedBy);
+                var beachCreated = new BeachCreated(beach);
+                var userCreatedBeach = new UserCreatedBeach(
+                    model.AddedBy, userStream.GetNextOffset(), beach.Id);
+                var events = EventStream.CreateStream(beachCreated, userCreatedBeach);
+
+                await this.store.AppendEventStreamAsync(events);
+
+                return beach;
             }
             catch (Exception ex)
             {
