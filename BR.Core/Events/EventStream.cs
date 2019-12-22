@@ -52,6 +52,11 @@ namespace BR.Core.Events
             return this.OrderByDescending(e => e.Offset).First().Offset + 1;
         }
 
+        public bool IsInitial()
+        {
+            return this.GetNextOffset() == 1;
+        }
+
         public IEnumerator<EventBase> GetEnumerator()
         {
             return this.events.GetEnumerator();

@@ -42,6 +42,7 @@ namespace BR.BeachesService.Models
         {
             this.Name = Validator.ReturnOrThrowIfNullOrWhiteSpace(name);
             this.AddedOn = DateTime.UtcNow;
+            this.LastUpdatedOn = DateTime.UtcNow;
             this.AddedBy = addedBy;
             this.Continent = Validator.ReturnOrThrowIfNullOrWhiteSpace(continent);
             this.Country = country;
@@ -77,6 +78,8 @@ namespace BR.BeachesService.Models
         public string Name { get; set; }
 
         public DateTime AddedOn { get; set; }
+
+        public DateTime LastUpdatedOn { get; set; }
 
         public string AddedBy { get; set; }
 

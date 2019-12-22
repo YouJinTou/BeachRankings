@@ -64,7 +64,7 @@ namespace BR.BeachesService.Controllers
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Creating user {model.Name} failed.");
+                this.logger.LogError(ex, $"Creating beach {model?.Name} failed.");
 
                 return BadRequest(ex);
             }
@@ -73,7 +73,23 @@ namespace BR.BeachesService.Controllers
         [HttpPut]
         public async Task<IActionResult> ModifyBeachAsync([FromBody]ModifyBeachModel model)
         {
-            return null;
+            try
+            {
+                Validator.ThrowIfNull(model, "Missing beach data.");
+
+                this.logger.LogInformation($"Creating beach {model.Name}.");
+
+                var beach = await this.service.ModifyBeachAsync(model);
+                var beachModel = this.mapper.Map<GetBeachModel>(beach);
+
+                return Created(beachModel.Id.ToString(), beachModel);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Creating beach {model?.Name} failed.");
+
+                return BadRequest(ex);
+            }
         }
     }
 }
