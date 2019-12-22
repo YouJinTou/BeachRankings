@@ -8,5 +8,7 @@ namespace BR.BeachesService.Abstractions
         Task<Beach> GetBeachAsync(string id);
 
         Task<Beach> CreateBeachAsync(CreateBeachModel model);
+
+        Task<Beach> ModifyBeachAsync(ModifyBeachModel model);
     }
 }
