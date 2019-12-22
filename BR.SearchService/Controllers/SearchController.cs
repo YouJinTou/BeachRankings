@@ -1,4 +1,5 @@
-﻿using BR.SearchService.Models;
+﻿using BR.SearchService.Abstractions;
+using BR.SearchService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,10 +12,12 @@ namespace BR.SearchService.Controllers
     [ApiController]
     public class SearchController : ControllerBase
     {
+        private readonly ISearchService service;
         private readonly ILogger<SearchController> logger;
 
-        public SearchController(ILogger<SearchController> logger)
+        public SearchController(ISearchService service, ILogger<SearchController> logger)
         {
+            this.service = service;
             this.logger = logger;
         }
 
@@ -23,16 +26,9 @@ namespace BR.SearchService.Controllers
         {
             try
             {
-                var results = new List<SearchResult>
-                {
-                    new SearchResult
-                    {
-                        Id = "7vHSFLZd5R8g6iW",
-                        Label = "Rubin Beach"
-                    }
-                };
+                var results = await this.service.SearchAsync(query);
 
-                return Ok(await Task.FromResult(results));
+                return Ok(results);
             }
             catch (Exception ex)
             {
