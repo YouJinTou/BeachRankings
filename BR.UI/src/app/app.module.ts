@@ -10,6 +10,7 @@ import { LoginComponent } from './components/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { HeaderComponent } from './components/header/header.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { ViewBeachComponent } from './components/view-beach/view-beach.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,7 +22,8 @@ const appRoutes: Routes = [
     AppComponent,
     CreateBeachComponent,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    ViewBeachComponent
   ],
   imports: [
     BrowserModule,
