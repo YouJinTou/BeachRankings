@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BR.SearchService.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BR.SearchService.Controllers
@@ -21,7 +23,16 @@ namespace BR.SearchService.Controllers
         {
             try
             {
-                return Ok(await Task.FromResult("123"));
+                var results = new List<SearchResult>
+                {
+                    new SearchResult
+                    {
+                        Id = "7vHSFLZd5R8g6iW",
+                        Label = "Rubin Beach"
+                    }
+                };
+
+                return Ok(await Task.FromResult(results));
             }
             catch (Exception ex)
             {
