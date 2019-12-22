@@ -136,6 +136,8 @@ namespace BR.BeachesService.Models
 
         public static string GetId(Beach beach)
         {
+            Validator.ThrowIfNull(beach, "Beach is empty.");
+
             return Hasher.GetHash(GetLocation(beach));
         }
 
