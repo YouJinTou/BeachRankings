@@ -1,8 +1,10 @@
 ﻿using BR.Core.Abstractions;
 using BR.Core.Models;
+using BR.PlacesService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BR.PlacesService.Controllers
@@ -43,7 +45,11 @@ namespace BR.PlacesService.Controllers
             try
             {
                 var place = await this.repo.GetAsync(id);
-                var children = place.Children;
+                var children = place?.Children?.Select(c => new GetNextModel
+                {
+                    Id = c,
+                    Name = c.Split('_').Last()
+                }).ToList();
 
                 return Ok(children);
             }
