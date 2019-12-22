@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 import { LoginResult } from '../models/login.result';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -11,12 +11,18 @@ import { ActivatedRoute, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  private currentUserSubject: BehaviorSubject<LoginResult>;
+  currentUser: Observable<LoginResult>;
+
   constructor(
-    private httpClient: HttpClient, 
+    private httpClient: HttpClient,
     private cookieService: CookieService,
     private route: ActivatedRoute,
-    private router: Router) { 
-    }
+    private router: Router) {
+      let loginResult = this.cookieService.get('BR_LOGIN_RESULT');
+      this.currentUserSubject = new BehaviorSubject<LoginResult>(JSON.parse(loginResult));
+      this.currentUser = this.currentUserSubject.asObservable();
+  }
 
   public isAuthenticated(): Observable<boolean> {
     if (!this.cookieService.check('BR_LOGIN_RESULT')) {
@@ -24,19 +30,20 @@ export class AuthService {
     }
 
     let loginResult = JSON.parse(this.cookieService.get('BR_LOGIN_RESULT'));
-    let isValidResult = 
+    let isValidResult =
       loginResult['username'] && loginResult['email'] && loginResult['accessToken']
-    
+
     if (!isValidResult) {
       return of(false);
     }
 
     let data = {
+      'id': loginResult['id'],
       'username': loginResult['username'],
       'email': loginResult['email'],
       'accessToken': loginResult['accessToken']
     };
-    console.log(data)
+
     return this.httpClient.post(environment.authUrl, data).pipe(map(r => {
       return r['isSuccess'];
     }))

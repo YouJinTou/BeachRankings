@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PlacesService } from '../../services/places.service';
 import { Place } from '../../models/place';
 import { CreateBeachModel } from '../../models/create.beach.model';
-import { BeachesService } from 'src/app/services/beaches.service';
+import { BeachesService } from '../../services/beaches.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-create-beach',
@@ -17,11 +18,17 @@ export class CreateBeachComponent implements OnInit {
   l3s: Place[];
   l4s: Place[];
 
-  constructor(private placesService: PlacesService, private beachesService: BeachesService) { }
+  constructor(
+    private placesService: PlacesService,
+    private beachesService: BeachesService,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.model = new CreateBeachModel();
-    this.model.addedBy = "CURRENT_USER";
+
+    this.authService.currentUser.subscribe(u => {
+      this.model.addedBy = u.id;
+    });
 
     this.placesService.getCountries().subscribe(countries => {
       this.countries = countries;

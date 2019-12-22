@@ -3,8 +3,6 @@ import { CreateBeachModel } from '../models/create.beach.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { ViewBeachModel } from '../models/view.beach.model';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
