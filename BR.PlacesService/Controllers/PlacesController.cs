@@ -28,6 +28,8 @@ namespace BR.PlacesService.Controllers
         {
             try
             {
+                this.logger.LogInformation("Getting countries.");
+
                 return Ok(await Task.FromResult(Models.Places.Countries));
             }
             catch (Exception ex)
@@ -44,6 +46,8 @@ namespace BR.PlacesService.Controllers
         {
             try
             {
+                this.logger.LogInformation($"Getting children for {id}.");
+
                 var place = await this.repo.GetAsync(id);
                 var children = place?.Children?.Select(c => new GetNextModel
                 {
