@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using System;
+using System.Collections.Generic;
 
 namespace BR.Core.System
 {
@@ -14,6 +15,7 @@ namespace BR.Core.System
         public static readonly Type Guid = typeof(Guid);
         public static readonly Type NullDouble = typeof(double?);
         public static readonly Type ByteArray = typeof(byte[]);
+        public static readonly Type StringEnumerable = typeof(IEnumerable<string>);
         public static readonly DynamoDBNull DynamoNull = new DynamoDBNull();
     }
 }
