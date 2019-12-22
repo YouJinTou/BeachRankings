@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BR.Core.System
+namespace BR.Core.Caching
 {
     public static class Types
     {

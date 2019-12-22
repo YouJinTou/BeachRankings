@@ -52,11 +52,11 @@ namespace BR.Core.Cloud.Aws
                 TableName = this.tableName,
                 KeyConditionExpression = $"{partitionKeyName} = :v_{partitionKeyName}",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-            {
                 {
-                    $":v_{partitionKeyName}", new AttributeValue { S = partitionKeyValue }
+                    {
+                        $":v_{partitionKeyName}", new AttributeValue { S = partitionKeyValue }
+                    }
                 }
-            }
             };
             var response = await this.client.QueryAsync(request);
             var result = this.ConvertItemsTo(response.Items);
@@ -101,32 +101,11 @@ namespace BR.Core.Cloud.Aws
 
             foreach (var itemBatch in items.ToBatches(batchSize))
             {
-                await WriteBatchAsync(table, itemBatch);
+                await this.WriteBatchAsync(table, itemBatch);
 
                 await Task.Delay(2000);
 
                 count += batchSize;
-            }
-        }
-
-        private static async Task WriteBatchAsync(Table table, IEnumerable<T> itemBatch)
-        {
-            try
-            {
-                var batch = table.CreateBatchWrite();
-
-                foreach (var item in itemBatch)
-                {
-                    batch.AddDocumentToPut(item.ToDynamoDbDocument());
-                }
-
-                await batch.ExecuteAsync();
-            }
-            catch (ProvisionedThroughputExceededException)
-            {
-                await Task.Delay(20000);
-
-                await WriteBatchAsync(table, itemBatch);
             }
         }
 
@@ -151,6 +130,27 @@ namespace BR.Core.Cloud.Aws
             foreach (var item in items)
             {
                 yield return item.ConvertTo<T>();
+            }
+        }
+
+        private async Task WriteBatchAsync(Table table, IEnumerable<T> itemBatch)
+        {
+            try
+            {
+                var batch = table.CreateBatchWrite();
+
+                foreach (var item in itemBatch)
+                {
+                    batch.AddDocumentToPut(item.ToDynamoDbDocument());
+                }
+
+                await batch.ExecuteAsync();
+            }
+            catch (ProvisionedThroughputExceededException)
+            {
+                await Task.Delay(20000);
+
+                await this.WriteBatchAsync(table, itemBatch);
             }
         }
     }

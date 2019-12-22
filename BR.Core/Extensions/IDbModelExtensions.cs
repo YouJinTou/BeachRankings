@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using BR.Core.Abstractions;
-using BR.Core.System;
+using BR.Core.Caching;
 using System;
 using System.Collections.Generic;
 using System.Linq;

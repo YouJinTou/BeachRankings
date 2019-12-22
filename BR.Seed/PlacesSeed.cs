@@ -81,6 +81,8 @@ namespace BR.Seed
 
             places.AddRange(GetWaterBodyPlaces(places));
 
+            DoSanityCheck(places);
+
             return places;
         }
 
@@ -122,6 +124,40 @@ namespace BR.Seed
             var result = string.Join('*', results);
 
             return result.NullIfEmpty();
+        }
+
+        private static void DoSanityCheck(IEnumerable<Place> places)
+        {
+            var duplicatesExist = false;
+
+            foreach (var place in places)
+            {
+                var duplicatesCounter = new Dictionary<string, int>();
+
+                foreach (var child in place.Children.NewIfNull())
+                {
+                    if (duplicatesCounter.ContainsKey(child))
+                    {
+                        duplicatesCounter[child] += 1;
+                    }
+                    else
+                    {
+                        duplicatesCounter.Add(child, 1);
+                    }
+                }
+
+                foreach (var item in duplicatesCounter.Where(kvp => kvp.Value > 1))
+                {
+                    duplicatesExist = true;
+
+                    System.Console.WriteLine(item.Key);
+                }
+            }
+
+            if (duplicatesExist)
+            {
+                throw new System.InvalidOperationException("Duplicates exist.");
+            }
         }
     }
 }

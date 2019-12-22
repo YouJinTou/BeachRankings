@@ -631,16 +631,7 @@
       <L1 name="Azores Islands" continent="Europe" country="Portugal" waterBody="Atlantic Ocean">
         <L2 name="Corvo" continent="Europe" country="Portugal" L1="Azores Islands" waterBody="Atlantic Ocean" />
         <L2 name="Faial" continent="Europe" country="Portugal" L1="Azores Islands" waterBody="Atlantic Ocean" />
-        <L2 name="Flores" continent="Europe" country="Portugal" L1="Azores Islands" waterBody="Atlantic Ocean">
-          <L3 name="West Manggarai" continent="Asia" country="Indonesia" L1="Nusa Tenggara-East" L2="Flores" waterBody="Flores Sea" />
-          <L3 name="Manggarai" continent="Asia" country="Indonesia" L1="Nusa Tenggara-East" L2="Flores" waterBody="Flores Sea" />
-          <L3 name="East Manggarai" continent="Asia" country="Indonesia" L1="Nusa Tenggara-East" L2="Flores" waterBody="Flores Sea" />
-          <L3 name="Ngada" continent="Asia" country="Indonesia" L1="Nusa Tenggara-East" L2="Flores" waterBody="Flores Sea" />
-          <L3 name="Nagekeo" continent="Asia" country="Indonesia" L1="Nusa Tenggara-East" L2="Flores" waterBody="Flores Sea" />
-          <L3 name="Ende Regency" continent="Asia" country="Indonesia" L1="Nusa Tenggara-East" L2="Flores" waterBody="Flores Sea" />
-          <L3 name="Sikka Regency" continent="Asia" country="Indonesia" L1="Nusa Tenggara-East" L2="Flores" waterBody="Flores Sea" />
-          <L3 name="East Flores Regency" continent="Asia" country="Indonesia" L1="Nusa Tenggara-East" L2="Flores" waterBody="Flores Sea" />
-        </L2>
+        <L2 name="Flores" continent="Europe" country="Portugal" L1="Azores Islands" waterBody="Atlantic Ocean" />
         <L2 name="Graciosa" continent="Europe" country="Portugal" L1="Azores Islands" waterBody="Atlantic Ocean" />
         <L2 name="Pico" continent="Europe" country="Portugal" L1="Azores Islands" waterBody="Atlantic Ocean" />
         <L2 name="São Jorge" continent="Europe" country="Portugal" L1="Azores Islands" waterBody="Atlantic Ocean" />
@@ -1224,16 +1215,7 @@
       <L1 name="Western Region" continent="Africa" country="Gambia" waterBody="Atlantic Ocean" />
     </Country>
     <Country name="Ghana" continent="Africa" waterBody="Atlantic Ocean">
-      <L1 name="Central Region" continent="Africa" country="Ghana" waterBody="Atlantic Ocean">
-        <L2 name="Beira Baixa" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Beiras e Serra da Estrela" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Médio Tejo" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Oeste" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Região de Aveiro" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Região de Coimbra" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Região de Leiria" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Viseu Dão Lafões" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-      </L1>
+      <L1 name="Central Region" continent="Africa" country="Ghana" waterBody="Atlantic Ocean" />
       <L1 name="Western" continent="Africa" country="Ghana" waterBody="Atlantic Ocean" />
       <L1 name="Greater Accra" continent="Africa" country="Ghana" waterBody="Atlantic Ocean" />
       <L1 name="Volta" continent="Africa" country="Ghana" waterBody="Atlantic Ocean" />
@@ -1264,13 +1246,7 @@
       <L1 name="Rivercess" continent="Africa" country="Liberia" waterBody="Atlantic Ocean" />
       <L1 name="Sinoe" continent="Africa" country="Liberia" waterBody="Atlantic Ocean" />
       <L1 name="Grand Kru" continent="Africa" country="Liberia" waterBody="Atlantic Ocean" />
-      <L1 name="Maryland" continent="Africa" country="Liberia" waterBody="Atlantic Ocean">
-        <L2 name="Western Region" continent="North America" country="United States" L1="Maryland" waterBody="Atlantic Ocean" />
-        <L2 name="Cpital Region" continent="North America" country="United States" L1="Maryland" waterBody="Atlantic Ocean" />
-        <L2 name="Southern Region" continent="North America" country="United States" L1="Maryland" waterBody="Atlantic Ocean" />
-        <L2 name="Central Region" continent="North America" country="United States" L1="Maryland" waterBody="Atlantic Ocean" />
-        <L2 name="Eastern Shore" continent="North America" country="United States" L1="Maryland" waterBody="Atlantic Ocean" />
-      </L1>
+      <L1 name="Maryland" continent="Africa" country="Liberia" waterBody="Atlantic Ocean" />
     </Country>
     <Country name="Libya" continent="Africa" waterBody="Mediterranean Sea">
       <L1 name="Tripolitania" continent="Africa" country="Libya" waterBody="Mediterranean Sea" />
@@ -1457,17 +1433,8 @@
       </L1>
     </Country>
     <Country name="Sierra Leone" continent="Africa" waterBody="Atlantic Ocean">
-      <L1 name="Northern Province" continent="Africa" country="Sierra Leone" waterBody="Atlantic Ocean">
-        <L2 name="Jaffna District" continent="Asia" country="Sri Lanca" L1="Northern Province" waterBody="Indian Ocean" />
-        <L2 name="Kilinochchi District" continent="Asia" country="Sri Lanca" L1="Northern Province" waterBody="Indian Ocean" />
-        <L2 name="Mannar District" continent="Asia" country="Sri Lanca" L1="Northern Province" waterBody="Indian Ocean" />
-        <L2 name="Mullaitivu District" continent="Asia" country="Sri Lanca" L1="Northern Province" waterBody="Indian Ocean" />
-      </L1>
-      <L1 name="Southern Province" continent="Africa" country="Sierra Leone" waterBody="Atlantic Ocean">
-        <L2 name="Galle District" continent="Asia" country="Sri Lanca" L1="Southern Province" waterBody="Indian Ocean" />
-        <L2 name="Hambantota District" continent="Asia" country="Sri Lanca" L1="Southern Province" waterBody="Indian Ocean" />
-        <L2 name="Matara District" continent="Asia" country="Sri Lanca" L1="Southern Province" waterBody="Indian Ocean" />
-      </L1>
+      <L1 name="Northern Province" continent="Africa" country="Sierra Leone" waterBody="Atlantic Ocean" />
+      <L1 name="Southern Province" continent="Africa" country="Sierra Leone" waterBody="Atlantic Ocean" />
       <L1 name="Western Area" continent="Africa" country="Sierra Leone" waterBody="Atlantic Ocean" />
     </Country>
     <Country name="Somalia" continent="Africa" waterBody="Indian Ocean">
@@ -2649,14 +2616,7 @@
         <L2 name="West Cay" continent="North America" country="United States" L1="US Virgin Islands" waterBody="Caribbean Sea" />
         <L2 name="Whistling Cay" continent="North America" country="United States" L1="US Virgin Islands" waterBody="Caribbean Sea" />
       </L1>
-      <L1 name="American Samoa" continent="North America" country="United States" waterBody="Pacific Ocean">
-        <L2 name="Tutuila" continent="Oceania" country="Samoa" L1="American Samoa" waterBody="Pacific Ocean" />
-        <L2 name="Aunu'u" continent="Oceania" country="Samoa" L1="American Samoa" waterBody="Pacific Ocean" />
-        <L2 name="Ta'ū" continent="Oceania" country="Samoa" L1="American Samoa" waterBody="Pacific Ocean" />
-        <L2 name="Ofu‑Olosega" continent="Oceania" country="Samoa" L1="American Samoa" waterBody="Pacific Ocean" />
-        <L2 name="Rose Atoll" continent="Oceania" country="Samoa" L1="American Samoa" waterBody="Pacific Ocean" />
-        <L2 name="Swains Island" continent="Oceania" country="Samoa" L1="American Samoa" waterBody="Pacific Ocean" />
-      </L1>
+      <L1 name="American Samoa" continent="North America" country="United States" waterBody="Pacific Ocean" />
       <L1 name="Midway Islands" continent="North America" country="United States" waterBody="Pacific Ocean">
         <L2 name="Sand Island" continent="North America" country="United States" L1="Midway Islands" waterBody="Pacific Ocean" />
         <L2 name="Eastern Island" continent="North America" country="United States" L1="Midway Islands" waterBody="Pacific Ocean" />
@@ -3729,11 +3689,7 @@
       <L1 name="Malaita Province" continent="Oceania" country="Solomon Islands" waterBody="Pacific Ocean" />
       <L1 name="Rennell and Bellona Province" continent="Oceania" country="Solomon Islands" waterBody="Pacific Ocean" />
       <L1 name="Temotu Province" continent="Oceania" country="Solomon Islands" waterBody="Pacific Ocean" />
-      <L1 name="Western Province" continent="Oceania" country="Solomon Islands" waterBody="Pacific Ocean">
-        <L2 name="Colombo District" continent="Asia" country="Sri Lanca" L1="Western Province" waterBody="Indian Ocean" />
-        <L2 name="Gampaha District" continent="Asia" country="Sri Lanca" L1="Western Province" waterBody="Indian Ocean" />
-        <L2 name="Kalutara District" continent="Asia" country="Sri Lanca" L1="Western Province" waterBody="Indian Ocean" />
-      </L1>
+      <L1 name="Western Province" continent="Oceania" country="Solomon Islands" waterBody="Pacific Ocean" />
       <L1 name="Capital Territory" continent="Oceania" country="Solomon Islands" waterBody="Pacific Ocean" />
     </Country>
     <Country name="Tonga" continent="Oceania" waterBody="Pacific Ocean">
@@ -6358,21 +6314,21 @@
     <Country name="Philippines" continent="Asia" waterBody="">
       <L1 name="Luzon" continent="Asia" country="Philippines" waterBody="">
         <L2 name="Luzon Coastline" continent="Asia" country="Philippines" L1="Luzon" waterBody="">
-          <L3 name="Philippine Sea!Aurora" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="Philippine Sea" />
-          <L3 name="South China Sea!Batanes" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="South China Sea!Batangas" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="South China Sea!Bataan" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="South China Sea!Bulacan" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="Philippine Sea!Cagayan" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="Philippine Sea" />
-          <L3 name="South China Sea!Cavite" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="South China Sea!Ilocos Norte" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="South China Sea!Ilocos Sur" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="Philippine Sea!Isabela" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="Philippine Sea" />
-          <L3 name="South China Sea!La Union" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="South China Sea!Pangasinan" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="South China Sea!Pampanga" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
-          <L3 name="Philippine Sea!Quezon" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="Philippine Sea" />
-          <L3 name="South China Sea!Zambales" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Aurora" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="Philippine Sea" />
+          <L3 name="Batanes" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Batangas" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Bataan" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Bulacan" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Cagayan" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="Philippine Sea" />
+          <L3 name="Cavite" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Ilocos Norte" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Ilocos Sur" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Isabela" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="Philippine Sea" />
+          <L3 name="La Union" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Pangasinan" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Pampanga" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
+          <L3 name="Quezon" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="Philippine Sea" />
+          <L3 name="Zambales" continent="Asia" country="Philippines" L1="Luzon" L2="Luzon Coastline" waterBody="South China Sea" />
         </L2>
         <L2 name="Babuyan Islands" continent="Asia" country="Philippines" L1="Luzon" waterBody="South China Sea">
           <L3 name="Babuyan Island" continent="Asia" country="Philippines" L1="Luzon" L2="Babuyan Islands" waterBody="South China Sea" />
@@ -6704,12 +6660,7 @@
           <L3 name="Macalanhag Island" continent="Asia" country="Philippines" L1="Luzon" L2="Catanduanes Islands" waterBody="Philippine Sea" />
           <L3 name="Maguinling Island" continent="Asia" country="Philippines" L1="Luzon" L2="Catanduanes Islands" waterBody="Philippine Sea" />
           <L3 name="Palumbanes Island" continent="Asia" country="Philippines" L1="Luzon" L2="Catanduanes Islands" waterBody="Philippine Sea" />
-          <L3 name="Panay Island" continent="Asia" country="Philippines" L1="Luzon" L2="Catanduanes Islands" waterBody="Philippine Sea">
-            <L4 name="Aklan  Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
-            <L4 name="Antique  Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
-            <L4 name="Capiz Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
-            <L4 name="Iloilo  Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
-          </L3>
+          <L3 name="Panay Island" continent="Asia" country="Philippines" L1="Luzon" L2="Catanduanes Islands" waterBody="Philippine Sea" />
           <L3 name="Porongpong Island" continent="Asia" country="Philippines" L1="Luzon" L2="Catanduanes Islands" waterBody="Philippine Sea" />
           <L3 name="Pinohagan Island" continent="Asia" country="Philippines" L1="Luzon" L2="Catanduanes Islands" waterBody="Philippine Sea" />
           <L3 name="Pondanan Island" continent="Asia" country="Philippines" L1="Luzon" L2="Catanduanes Islands" waterBody="Philippine Sea" />
@@ -8237,10 +8188,10 @@
           <L3 name="Panagatan Malaqui Island" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" waterBody="Visayan Sea" />
           <L3 name="Pandan Island" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" waterBody="Visayan Sea" />
           <L3 name="Panay Island" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" waterBody="Visayan Sea">
-            <L4 name="Aklan  Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
-            <L4 name="Antique  Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
+            <L4 name="Aklan Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
+            <L4 name="Antique Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
             <L4 name="Capiz Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
-            <L4 name="Iloilo  Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
+            <L4 name="Iloilo Province" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" L3="Panay Island" waterBody="Visayan Sea" />
           </L3>
           <L3 name="Pinamucan Island" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" waterBody="Visayan Sea" />
           <L3 name="Pulo Piña Island" continent="Asia" country="Philippines" L1="Visayas" L2="Panay Region" waterBody="Visayan Sea" />
@@ -8409,23 +8360,10 @@
       <L1 name="Makkah Region" continent="Asia" country="Saudi Arabia" waterBody="Red Sea" />
       <L1 name="Asir Region" continent="Asia" country="Saudi Arabia" waterBody="Red Sea" />
       <L1 name="Jizan Region" continent="Asia" country="Saudi Arabia" waterBody="Red Sea" />
-      <L1 name="Eastern Province" continent="Asia" country="Saudi Arabia" waterBody="Persian Gulf">
-        <L2 name="Ampara District" continent="Asia" country="Sri Lanca" L1="Eastern Province" waterBody="Indian Ocean" />
-        <L2 name="Batticaloa District" continent="Asia" country="Sri Lanca" L1="Eastern Province" waterBody="Indian Ocean" />
-        <L2 name="Trincomalee District" continent="Asia" country="Sri Lanca" L1="Eastern Province" waterBody="Indian Ocean" />
-      </L1>
+      <L1 name="Eastern Province" continent="Asia" country="Saudi Arabia" waterBody="Persian Gulf" />
     </Country>
     <Country name="Singapore" continent="Asia" waterBody="South China Sea">
-      <L1 name="Central Region" continent="Asia" country="Singapore" waterBody="South China Sea">
-        <L2 name="Beira Baixa" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Beiras e Serra da Estrela" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Médio Tejo" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Oeste" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Região de Aveiro" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Região de Coimbra" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Região de Leiria" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-        <L2 name="Viseu Dão Lafões" continent="Europe" country="Portugal" L1="Central Region" waterBody="Atlantic Ocean" />
-      </L1>
+      <L1 name="Central Region" continent="Asia" country="Singapore" waterBody="South China Sea" />
       <L1 name="East Region" continent="Asia" country="Singapore" waterBody="South China Sea" />
       <L1 name="North Region" continent="Asia" country="Singapore" waterBody="South China Sea" />
       <L1 name="North-East Region" continent="Asia" country="Singapore" waterBody="South China Sea" />
