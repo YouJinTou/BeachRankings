@@ -12,7 +12,7 @@ namespace BR.BeachesService.Profiles
                 .AfterMap((s, d) => d.Id = Beach.GetId(d))
                 .AfterMap((s, d) => d.AddedOn = DateTime.UtcNow)
                 .AfterMap((s, d) => d.LastUpdatedOn = DateTime.UtcNow)
-                .AfterMap((s, d) => d.Location = Beach.GetId(d))
+                .AfterMap((s, d) => d.Location = Beach.GetLocation(d))
                 .AfterMap((s, d) => d.Score = Beach.CalculateScore(d));
         }
     }

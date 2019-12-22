@@ -1,4 +1,5 @@
-﻿using BR.Core.Abstractions;
+﻿using BR.BeachesService.Tools;
+using BR.Core.Abstractions;
 using BR.Core.Tools;
 using System;
 using System.Linq;
@@ -52,8 +53,8 @@ namespace BR.BeachesService.Models
             this.L4 = l4;
             this.WaterBody = Validator.ReturnOrThrowIfNullOrWhiteSpace(waterBody);
             this.Coordinates = coordinates;
-            this.Location = GetId(this);
-            this.Id = this.Location;
+            this.Location = GetLocation(this);
+            this.Id = GetId(this);
             this.Score = score;
             this.SandQuality = sandQuality;
             this.BeachCleanliness = beachCleanliness;
@@ -135,9 +136,14 @@ namespace BR.BeachesService.Models
 
         public static string GetId(Beach beach)
         {
+            return Hasher.GetHash(GetLocation(beach));
+        }
+
+        public static string GetLocation(Beach beach)
+        {
             Validator.ThrowIfNull(beach, "Beach is empty.");
 
-            var id =
+            var location =
                 $"{beach.Name}_" +
                 $"{beach.Continent}_" +
                 $"{beach.Country}_" +
@@ -146,9 +152,9 @@ namespace BR.BeachesService.Models
                 $"{beach.L3}_" +
                 $"{beach.L4}_" +
                 $"{beach.WaterBody}_";
-            id = Regex.Replace(id, "_+", "_").TrimEnd('_').ToLower();
+            location = Regex.Replace(location, "_+", "_").TrimEnd('_').ToLower();
 
-            return id;
+            return location;
         }
 
         public static double? CalculateScore(Beach beach)
