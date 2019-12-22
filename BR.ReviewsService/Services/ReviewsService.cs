@@ -56,7 +56,7 @@ namespace BR.ReviewsService.Services
             {
                 Validator.ThrowIfNull(model, "Missing review data.");
 
-                var beachReviewedStream = await this.store.GetEventStreamByTypeAsync(
+                var beachReviewedStream = await this.store.GetEventStreamAsync(
                     model.BeachId, nameof(BeachReviewed));
                 var alreadyReviewed = beachReviewedStream.ContainsEvent<BeachReviewedModel>(
                     m => m.UserId == model.UserId);
@@ -67,7 +67,7 @@ namespace BR.ReviewsService.Services
                         $"Beach {model.BeachId} already reviewed by user {model.UserId}.");
                 }
 
-                var reviewLeftStream = await this.store.GetEventStreamByTypeAsync(
+                var reviewLeftStream = await this.store.GetEventStreamAsync(
                     model.UserId, nameof(UserLeftReview));
                 var review = this.mapper.Map<Review>(model);
                 var set = EventSetFactory.CreateSet(review, beachReviewedStream, reviewLeftStream);

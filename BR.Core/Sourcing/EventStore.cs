@@ -1,8 +1,10 @@
 ﻿using BR.Core.Abstractions;
 using BR.Core.Events;
+using BR.Core.Extensions;
 using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,7 +41,7 @@ namespace BR.Core.Sourcing
             }
         }
 
-        public async Task<EventStream> GetEventStreamByTypeAsync(string streamId, string type)
+        public async Task<EventStream> GetEventStreamAsync(string streamId, string type)
         {
             try
             {
@@ -90,6 +92,25 @@ namespace BR.Core.Sourcing
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Failed to append events.");
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<EventStream>> GetEventStreams(params string[] types)
+        {
+            try
+            {
+                if (types.IsNullOrEmpty())
+                {
+                    return new List<EventStream>();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "Failed to fetch event streams.");
 
                 throw;
             }
