@@ -21,6 +21,22 @@ namespace BR.PlacesService.Controllers
         }
 
         [HttpGet]
+        [Route("countries")]
+        public async Task<IActionResult> GetCountriesAsync()
+        {
+            try
+            {
+                return Ok(await Task.FromResult(Models.Places.Countries));
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Could not get countries.");
+
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
         [Route("{id}/next")]
         public async Task<IActionResult> GetNextAsync(string id)
         {

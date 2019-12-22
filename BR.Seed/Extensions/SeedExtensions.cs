@@ -7,134 +7,130 @@ namespace BR.Seed.Extensions
 {
     public static class SeedExtensions
     {
+        public static string GetId(this SeedContinent continent) 
+            => continent.name;
+
+        public static string GetId(this SeedContinentCountry country)
+            => $"{country.continent}_{country.name}";
+
+        public static string GetId(this SeedContinentCountryL1 l1)
+            => $"{l1.continent}_{l1.country}_{l1.name}";
+
+        public static string GetId(this SeedContinentCountryL1L2 l2)
+            => $"{l2.continent}_{l2.country}_{l2.L1}_{l2.name}";
+
+        public static string GetId(this SeedContinentCountryL1L2L3 l3)
+           => $"{l3.continent}_{l3.country}_{l3.L1}_{l3.L2}_{l3.name}";
+
+        public static string GetId(this SeedContinentCountryL1L2L3L4 l4)
+            => $"{l4.continent}_{l4.country}_{l4.L1}_{l4.L2}_{l4.L3}_{l4.name}";
+
         public static Place GetContinent(
-            this SeedContinent continent,
-            IEnumerable<string> waterBodies)
+            this SeedContinent continent, IEnumerable<string> waterBodies)
         {
             var place = new Place
             {
-                Id = continent.name,
+                Id = continent.GetId(),
                 Name = continent.name,
                 Type = PlaceType.Continent.ToString(),
                 WaterBodies = waterBodies.NonNullOrEmpty(),
-                Children = continent.Country.Select(c => c.name)
+                Children = continent.Country.Select(c => c.GetId())
             };
 
             return place;
         }
 
         public static IEnumerable<Place> GetCountry(
-            this SeedContinentCountry country,
-            SeedContinent continent,
-            IEnumerable<string> waterBodies)
+            this SeedContinentCountry country, IEnumerable<string> waterBodies)
         {
             var place1 = new Place
             {
-                Id = $"{continent.name}_{country.name}",
+                Id = country.GetId(),
                 Name = country.name,
                 Type = PlaceType.Country.ToString(),
-                Continent = continent.name,
+                Continent = country.continent,
                 WaterBodies = waterBodies.NonNullOrEmpty(),
-                Children = country.L1?.Select(l => l.name)
+                Children = country.L1?.Select(l => l.GetId())
             };
             var place2 = new Place
             {
                 Id = country.name,
                 Name = country.name,
                 Type = PlaceType.Country.ToString(),
-                Continent = continent.name,
+                Continent = country.continent,
                 WaterBodies = waterBodies.NonNullOrEmpty(),
-                Children = country.L1?.Select(l => l.name)
+                Children = country.L1?.Select(l => l.GetId())
             };
 
             return new[] { place1, place2 };
         }
 
-        public static Place GetL1(
-            this SeedContinentCountryL1 l1,
-            SeedContinentCountry country,
-            SeedContinent continent,
-            IEnumerable<string> waterBodies)
+        public static Place GetL1(this SeedContinentCountryL1 l1, IEnumerable<string> waterBodies)
         {
             var place = new Place
             {
-                Id = $"{country.name}_{l1.name}",
+                Id = l1.GetId(),
                 Name = l1.name,
                 Type = PlaceType.L1.ToString(),
-                Continent = continent.name,
-                Country = country.name,
+                Continent = l1.continent,
+                Country = l1.country,
                 WaterBodies = waterBodies.NonNullOrEmpty(),
-                Children = l1.L2?.Select(l => l.name)
+                Children = l1.L2?.Select(l => l.GetId())
             };
 
             return place;
         }
 
         public static Place GetL2(
-            this SeedContinentCountryL1L2 l2,
-            SeedContinentCountryL1 l1,
-            SeedContinentCountry country,
-            SeedContinent continent,
-            IEnumerable<string> waterBodies)
+            this SeedContinentCountryL1L2 l2, IEnumerable<string> waterBodies)
         {
             var place = new Place
             {
-                Id = $"{country.name}_{l1.name}_{l2.name}",
+                Id = l2.GetId(),
                 Name = l2.name,
                 Type = PlaceType.L2.ToString(),
-                Continent = continent.name,
-                Country = country.name,
-                L1 = l1.name,
+                Continent = l2.continent,
+                Country = l2.country,
+                L1 = l2.L1,
                 WaterBodies = waterBodies.NonNullOrEmpty(),
-                Children = l2.L3?.Select(l => l.name)
+                Children = l2.L3?.Select(l => l.GetId())
             };
 
             return place;
         }
 
         public static Place GetL3(
-            this SeedContinentCountryL1L2L3 l3,
-            SeedContinentCountryL1L2 l2,
-            SeedContinentCountryL1 l1,
-            SeedContinentCountry country,
-            SeedContinent continent,
-            IEnumerable<string> waterBodies)
+            this SeedContinentCountryL1L2L3 l3, IEnumerable<string> waterBodies)
         {
             var place = new Place
             {
-                Id = $"{country.name}_{l1.name}_{l2.name}_{l3.name}",
+                Id = l3.GetId(),
                 Name = l3.name,
                 Type = PlaceType.L3.ToString(),
-                Continent = continent.name,
-                Country = country.name,
-                L1 = l1.name,
-                L2 = l2.name,
+                Continent = l3.continent,
+                Country = l3.country,
+                L1 = l3.L1,
+                L2 = l3.L2,
                 WaterBodies = waterBodies.NonNullOrEmpty(),
-                Children = l3.L4?.Select(l => l.name)
+                Children = l3.L4?.Select(l => l.GetId())
             };
 
             return place;
         }
 
         public static Place GetL4(
-            this SeedContinentCountryL1L2L3L4 l4, 
-            SeedContinentCountryL1L2L3 l3,
-            SeedContinentCountryL1L2 l2,
-            SeedContinentCountryL1 l1,
-            SeedContinentCountry country,
-            SeedContinent continent,
-            IEnumerable<string> waterBodies)
+            this SeedContinentCountryL1L2L3L4 l4, IEnumerable<string> waterBodies)
         {
             var place = new Place
             {
-                Id = $"{country.name}_{l1.name}_{l2.name}_{l3.name}_{l4.name}",
+                Id = l4.GetId(),
                 Name = l4.name,
                 Type = PlaceType.L4.ToString(),
-                Continent = continent.name,
-                Country = country.name,
-                L1 = l1.name,
-                L2 = l2.name,
-                L3 = l3.name,
+                Continent = l4.continent,
+                Country = l4.country,
+                L1 = l4.L1,
+                L2 = l4.L2,
+                L3 = l4.L3,
                 WaterBodies = waterBodies.NonNullOrEmpty()
             };
 

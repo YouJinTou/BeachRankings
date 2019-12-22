@@ -61,19 +61,19 @@ namespace BR.Seed
 
                                     l4.waterBody.AddTo(conWb, couWb, l1Wb, l2Wb, l3Wb, l4Wb);
 
-                                    places.Add(l4.GetL4(l3, l2, l1, country, continent, l4Wb));
+                                    places.Add(l4.GetL4(l4Wb));
                                 }
 
-                                places.Add(l3.GetL3(l2, l1, country, continent, l3Wb));
+                                places.Add(l3.GetL3(l3Wb));
                             }
 
-                            places.Add(l2.GetL2(l1, country, continent, l2Wb));
+                            places.Add(l2.GetL2(l2Wb));
                         }
 
-                        places.Add(l1.GetL1(country, continent, l1Wb));
+                        places.Add(l1.GetL1(l1Wb));
                     }
 
-                    places.AddRange(country.GetCountry(continent, couWb));
+                    places.AddRange(country.GetCountry(couWb));
                 }
 
                 places.Add(continent.GetContinent(conWb));
@@ -103,7 +103,7 @@ namespace BR.Seed
                     Children = currentPlaces.Select(wbp => wbp.Id),
                     Type = PlaceType.WaterBody.ToString(),
                     Name = waterBody,
-                    Continent = GetWaterBodyContinent(currentPlaces),
+                    Continent = GetWaterBodyPlace(currentPlaces, PlaceType.Continent),
                     Country = GetWaterBodyPlace(currentPlaces, PlaceType.Country),
                     L1 = GetWaterBodyPlace(currentPlaces, PlaceType.L1),
                     L2 = GetWaterBodyPlace(currentPlaces, PlaceType.L2),
@@ -113,17 +113,6 @@ namespace BR.Seed
             }
 
             return waterBodyPlaces;
-        }
-
-        private static string GetWaterBodyContinent(IEnumerable<Place> places)
-        {
-            var results = places
-                .Where(p => p.Type == PlaceType.Country.ToString())
-                .Select(p => p.Continent)
-                .Distinct();
-            var result = string.Join('*', results);
-
-            return result.NullIfEmpty();
         }
 
         private static string GetWaterBodyPlace(IEnumerable<Place> places, PlaceType type)
