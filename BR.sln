@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BR.Seed", "BR.Seed\BR.Seed.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BR.PlacesService", "BR.PlacesService\BR.PlacesService.csproj", "{A5DB0F99-B5ED-4F34-A239-3D58F02A22E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BR.SearchService", "BR.SearchService\BR.SearchService.csproj", "{17EFA185-343F-4DD7-84E4-F6D45D2F3B40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BR.SearchService", "BR.SearchService\BR.SearchService.csproj", "{17EFA185-343F-4DD7-84E4-F6D45D2F3B40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BR.IndexService", "BR.IndexService\BR.IndexService.csproj", "{D03602B3-A6B2-455F-B248-FD1C6D395EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{17EFA185-343F-4DD7-84E4-F6D45D2F3B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17EFA185-343F-4DD7-84E4-F6D45D2F3B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17EFA185-343F-4DD7-84E4-F6D45D2F3B40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D03602B3-A6B2-455F-B248-FD1C6D395EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D03602B3-A6B2-455F-B248-FD1C6D395EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D03602B3-A6B2-455F-B248-FD1C6D395EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D03602B3-A6B2-455F-B248-FD1C6D395EF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

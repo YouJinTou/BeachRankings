@@ -1,6 +1,6 @@
 ﻿using BR.Core.Cloud.Aws;
 using BR.Core.Models;
-using BR.Core.Search;
+using BR.IndexService.Processors;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

@@ -1,7 +1,7 @@
 ﻿using BR.Core.Models;
 using System.Collections.Generic;
 
-namespace BR.Core.Search
+namespace BR.IndexService.Processors
 {
     public class IndexEntryEqualityComparer : IEqualityComparer<IndexEntry>
     {

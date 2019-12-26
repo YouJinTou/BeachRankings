@@ -1,12 +1,13 @@
 ﻿using BR.Core.Extensions;
 using BR.Core.Models;
+using BR.IndexService.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace BR.Core.Search
+namespace BR.IndexService.Processors
 {
-    public class IndexEntryPreprocessor
+    public class IndexEntryPreprocessor : IIndexEntryPreprocessor
     {
         private IDictionary<char, char> latinizer = new Dictionary<char, char>
         {
