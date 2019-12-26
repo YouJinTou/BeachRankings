@@ -64,7 +64,7 @@ namespace BR.IndexService.Processors
             { 'ž', 'z' },
         };
 
-        public IEnumerable<IndexEntry> PreprocessToken(string token)
+        public IEnumerable<IndexEntry> PreprocessToken(string token, params string[] ids)
         {
             var entries = new HashSet<IndexEntry>(new IndexEntryEqualityComparer());
 
@@ -89,7 +89,8 @@ namespace BR.IndexService.Processors
                 entries.Add(new IndexEntry
                 {
                     Bucket = normalized[0].ToString(),
-                    Token = normalized
+                    Token = normalized,
+                    Postings = ids
                 });
             }
 

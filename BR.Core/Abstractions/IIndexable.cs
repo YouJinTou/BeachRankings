@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using BR.Core.Models;
 
 namespace BR.Core.Abstractions
 {
     public interface IIndexable
     {
-        IEnumerable<string> GetTokens();
+        IndexData GetIndexData();
     }
 }

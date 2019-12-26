@@ -1,8 +1,11 @@
 ﻿using BR.Core.Abstractions;
 using BR.Core.Models;
+using BR.Core.Tools;
 using BR.IndexService.Abstractions;
+using BR.IndexService.Processors;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BR.IndexService.Services
@@ -23,12 +26,33 @@ namespace BR.IndexService.Services
             this.logger = logger;
         }
 
-        public async Task AddToIndexAsync(params string[] tokens)
+        public async Task AddToIndexAsync(IndexData data)
         {
             try
             {
-                //var existingEntries = this.repo.GetManyAsync();
-                //var entries = this.preprocessor.PreprocessTokens(tokens);
+                Validator.ThrowIfNull(data, $"{nameof(IndexData)} empty.");
+
+                var entriesToCheck = this.preprocessor.PreprocessTokens(data.Tokens);
+                var updatableEntries = new HashSet<IndexEntry>(new IndexEntryEqualityComparer());
+
+                foreach (var entry in entriesToCheck)
+                {
+                    try
+                    {
+                        var existingEntry = await this.repo.GetAsync(entry.Bucket, entry.Token);
+                        var newPostings = new List<string>(existingEntry.Postings);
+
+                        newPostings.AddRange(data.Ids);
+
+                        existingEntry.Postings = newPostings;
+
+                        updatableEntries.Add(existingEntry);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        updatableEntries.Add(entry);
+                    }
+                }
             }
             catch (Exception ex)
             {

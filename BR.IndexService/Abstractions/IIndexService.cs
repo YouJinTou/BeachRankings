@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using BR.Core.Models;
+using System.Threading.Tasks;
 
 namespace BR.IndexService.Abstractions
 {
     public interface IIndexService
     {
-        Task AddToIndexAsync(params string[] tokens);
+        Task AddToIndexAsync(IndexData data);
     }
 }
