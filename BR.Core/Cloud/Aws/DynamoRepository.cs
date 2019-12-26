@@ -142,6 +142,8 @@ namespace BR.Core.Cloud.Aws
                 foreach (var item in itemBatch)
                 {
                     batch.AddDocumentToPut(item.ToDynamoDbDocument());
+
+                    System.Console.WriteLine(item.ToString());
                 }
 
                 await batch.ExecuteAsync();

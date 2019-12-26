@@ -4,7 +4,9 @@
     {
         static void Main(string[] args)
         {
-            PlacesSeed.SeedPlacesAsync().Wait();
+            //PlacesSeed.SeedPlacesAsync().Wait();
+
+            IndexSeed.SeedIndexAsync().Wait();
         }
     }
 }
