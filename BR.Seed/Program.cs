@@ -6,7 +6,9 @@
         {
             //PlacesSeed.SeedPlacesAsync().Wait();
 
-            IndexSeed.SeedIndexAsync().Wait();
+            //IndexSeed.SeedIndexAsync().Wait();
+
+            BeachesSeed.SeedBeachesAsync().Wait();
         }
     }
 }

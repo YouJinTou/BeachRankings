@@ -76,9 +76,9 @@ namespace BR.Core.Search
                 "", token.Select(c => this.latinizer.ContainsKey(c) ? this.latinizer[c] : c));
             var lowered = latinized.ToLower();
 
-            foreach (var item in lowered.Split(' '))
+            foreach (var item in lowered.Split(new[] { ' ', '-', '.', ',', '_', '–' }))
             {
-                var normalized = Regex.Replace(item, $"[^a-z]", "");
+                var normalized = Regex.Replace(item, $"[^a-z]", string.Empty);
 
                 if (string.IsNullOrWhiteSpace(normalized) || normalized.Length == 1)
                 {

@@ -6,10 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BR.BeachesService\BR.BeachesService.csproj" />
     <ProjectReference Include="..\BR.Core\BR.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="beaches.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="reviews.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="seed.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
