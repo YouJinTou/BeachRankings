@@ -30,6 +30,11 @@ namespace BR.Core.Events
 
         public string Body { get; set; }
 
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
         public override string ToString()
         {
             var eventString = $"{this.StreamId}/{this.Offset}/{this.Type}/";
