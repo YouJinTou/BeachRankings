@@ -12,7 +12,7 @@ namespace BR.Iam.Extensions
     {
         public static IServiceCollection AddIam(this IServiceCollection services)
         {
-            var settings = services.BuildServiceProvider().GetService<Settings>();
+            var settings = services.BuildServiceProvider().GetService<IamSettings>();
 
             services
                 .AddByConvention(typeof(User).Assembly)

@@ -1,4 +1,5 @@
-﻿using BR.Core.Abstractions;
+﻿using Amazon.SimpleNotificationService;
+using BR.Core.Abstractions;
 using BR.Core.Cloud.Aws;
 using BR.Core.Events;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ namespace BR.Core.Extensions
         {
             services
                 .AddByConvention(typeof(Constants).Assembly)
+                .AddAWSService<IAmazonSimpleNotificationService>()
                 .AddUiCors()
                 .AddDb();
 

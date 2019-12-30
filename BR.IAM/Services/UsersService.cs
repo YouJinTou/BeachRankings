@@ -13,17 +13,20 @@ namespace BR.Iam.Services
     internal class UsersService : IUsersService
     {
         private readonly INoSqlRepository<User> repo;
+        private readonly IEventBus bus;
         private readonly IEventStore store;
         private readonly IStreamProjector projector;
         private readonly ILogger<UsersService> logger;
 
         public UsersService(
-            INoSqlRepository<User> repo, 
+            INoSqlRepository<User> repo,
+            IEventBus bus,
             IEventStore store, 
             IStreamProjector projector, 
             ILogger<UsersService> logger)
         {
             this.repo = repo;
+            this.bus = bus;
             this.store = store;
             this.projector = projector;
             this.logger = logger;
@@ -70,6 +73,8 @@ namespace BR.Iam.Services
                 var user = new User(model.Username, model.Email, model.Password);
 
                 await this.repo.AddAsync(user);
+
+                await this.bus.PublishEventAsync(new UserCreated(user));
 
                 await this.store.AppendEventAsync(new UserCreated(user));
 

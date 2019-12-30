@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using BR.Core;
 using BR.Core.Extensions;
+using BR.Iam.Configuration;
 using BR.Iam.Extensions;
 using BR.Iam.Models;
 using Microsoft.AspNetCore.Builder;
@@ -21,12 +23,13 @@ namespace BR.Iam
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var settings = new Configuration.Settings();
+            var settings = new IamSettings();
 
             Configuration.GetSection("Settings").Bind(settings);
 
             services
                 .AddSingleton(settings)
+                .AddSingleton<Settings>(settings)
                 .AddCore()
                 .AddIam()
                 .AddAutoMapper(typeof(User).Assembly)
