@@ -42,5 +42,13 @@ namespace BR.Core.Messaging
                 throw;
             }
         }
+
+        public async Task PublishEventStreamAsync(EventStream stream)
+        {
+            foreach (var @event in stream)
+            {
+                await this.PublishEventAsync(@event);
+            }
+        }
     }
 }
