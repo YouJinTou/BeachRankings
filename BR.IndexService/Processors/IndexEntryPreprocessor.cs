@@ -9,7 +9,7 @@ namespace BR.IndexService.Processors
 {
     public class IndexEntryPreprocessor : IIndexEntryPreprocessor
     {
-        private IDictionary<char, char> latinizer = new Dictionary<char, char>
+        private readonly IDictionary<char, char> latinizer = new Dictionary<char, char>
         {
             { 'ă', 'a' },
             { 'á', 'a' },
