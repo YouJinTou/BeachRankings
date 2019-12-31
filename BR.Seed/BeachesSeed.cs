@@ -92,9 +92,9 @@ namespace BR.Seed
                 if (groupedEntries.ContainsKey(entry.ToString()))
                 {
                     var currentEntry = groupedEntries[entry.ToString()];
-                    var newPostings = new List<string>(
+                    var newPostings = new HashSet<string>(
                         Collection.Combine<string>(currentEntry.Postings, entry.Postings));
-                    currentEntry.Postings = new HashSet<string>(newPostings);
+                    currentEntry.Postings = newPostings;
                 }
                 else
                 {
