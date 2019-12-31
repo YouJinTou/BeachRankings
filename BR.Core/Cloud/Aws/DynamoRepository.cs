@@ -44,35 +44,57 @@ namespace BR.Core.Cloud.Aws
         }
 
         public async Task<IEnumerable<T>> GetManyAsync(
-            string partitionKeyName, 
-            string partitionKeyValue, 
-            string sortKeyName = null, 
-            string sortKeyValue = null,
-            NoSqlQueryOperator? op = null)
+            string partitionKeyName, string partitionKeyValue)
         {
             Validator.ThrowIfAnyNullOrWhiteSpace(partitionKeyName, partitionKeyValue);
 
-            var allNull = Validator.AllNull(sortKeyName, sortKeyValue, op);
-
-            if (!allNull)
-            {
-                Validator.ThrowIfAnyNullOrWhiteSpace(sortKeyName, sortKeyValue, op?.ToString());
-            }
-
-            var kce = $"{partitionKeyName} = :v_{partitionKeyName}";
-            kce = allNull ? 
-                kce : 
-                $"{kce} and {sortKeyName} {op.Value.AsDynamoString()} :v_{sortKeyValue}";
+            var kce = $"#{partitionKeyName} = :v_{partitionKeyName}";
             var request = new QueryRequest
             {
                 TableName = this.tableName,
                 KeyConditionExpression = kce,
+                ExpressionAttributeNames = new Dictionary<string, string>
+                {
+                    { $"#{partitionKeyName}", $"{partitionKeyName}" }
+                },
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                 {
-                    {
-                        $":v_{partitionKeyName}", new AttributeValue { S = partitionKeyValue }
-                    }
+                    { $":v_{partitionKeyName}", new AttributeValue { S = partitionKeyValue } }
                 }
+            };
+            var response = await this.client.QueryAsync(request);
+            var result = this.ConvertItemsTo(response.Items);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<T>> GetManyBeginsWithAsync(
+            string partitionKeyName,
+            string partitionKeyValue,
+            string sortKeyName,
+            string sortKeyValue)
+        {
+            Validator.ThrowIfAnyNullOrWhiteSpace(
+                partitionKeyName, partitionKeyValue, sortKeyName, sortKeyValue);
+
+            var kce = $"#{partitionKeyName} = :v_{partitionKeyName} " +
+                $"and begins_with(#{sortKeyName}, :v_{sortKeyName})";
+            var expAttributeNames = new Dictionary<string, string>
+            {
+                { $"#{partitionKeyName}", $"{partitionKeyName}" },
+                { $"#{sortKeyName}", $"{sortKeyName}" }
+            };
+            var expAttributeValues = new Dictionary<string, AttributeValue>
+            {
+                { $":v_{partitionKeyName}", new AttributeValue { S = partitionKeyValue } },
+                { $":v_{sortKeyName}", new AttributeValue { S = sortKeyValue } },
+            };
+            var request = new QueryRequest
+            {
+                TableName = this.tableName,
+                KeyConditionExpression = kce,
+                ExpressionAttributeNames = expAttributeNames,
+                ExpressionAttributeValues = expAttributeValues
             };
             var response = await this.client.QueryAsync(request);
             var result = this.ConvertItemsTo(response.Items);

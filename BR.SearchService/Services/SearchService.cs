@@ -33,15 +33,24 @@ namespace BR.SearchService.Services
                     return results;
                 }
 
-                var entries = await this.repo.GetManyAsync(
-                    "Bucket",
-                    query.AsBucket(),
-                    "Token",
-                    query.ToLower(),
-                    NoSqlQueryOperator.BeginsWith);
+                var entries = await this.repo.GetManyBeginsWithAsync(
+                    "Bucket", query.AsBucket(), "Token", query.ToLower());
+                var idsByType = new Dictionary<string, IEnumerable<string>>
+                {
+                    { PlaceType.Continent.ToString(), new List<string>() },
+                    { PlaceType.Country.ToString(), new List<string>() },
+                    { PlaceType.L1.ToString(), new List<string>() },
+                    { PlaceType.L2.ToString(), new List<string>() },
+                    { PlaceType.L3.ToString(), new List<string>() },
+                    { PlaceType.L4.ToString(), new List<string>() },
+                    { PlaceType.WaterBody.ToString(), new List<string>() },
+                    { PlaceType.Beach.ToString(), new List<string>() }
+                };
 
                 foreach (var entry in entries)
                 {
+                    idsByType.Add(entry.ToString(), entry.Postings);
+
                     foreach (var posting in entry.Postings)
                     {
                         results.Add(new SearchResult

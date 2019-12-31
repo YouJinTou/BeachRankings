@@ -8,12 +8,13 @@ namespace BR.Core.Abstractions
     {
         Task<T> GetAsync(string partitionKey, string sortKey = null);
 
-        Task<IEnumerable<T>> GetManyAsync(
-            string partitionKeyName, 
+        Task<IEnumerable<T>> GetManyAsync(string partitionKeyName, string partitionKeyValue);
+
+        Task<IEnumerable<T>> GetManyBeginsWithAsync(
+            string partitionKeyName,
             string partitionKeyValue,
-            string sortKeyName = null,
-            string sortKeyValue = null,
-            NoSqlQueryOperator? op = null);
+            string sortKeyName,
+            string sortKeyValue);
 
         Task<IEnumerable<T>> GetManyByAttributeAsync(
            string partitionKey, string attributeName, string attributeValue);

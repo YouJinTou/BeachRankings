@@ -1,4 +1,5 @@
 ﻿using BR.Core.Extensions;
+using BR.SearchService.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace BR.SearchService
         {
             services
                 .AddCore()
+                .AddByConvention(typeof(SearchResult).Assembly)
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
