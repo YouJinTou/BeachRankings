@@ -14,17 +14,20 @@ namespace BR.BeachesService.Services
     internal class BeachesService : IBeachesService
     {
         private readonly IEventStore store;
+        private readonly IEventBus bus;
         private readonly IStreamProjector projector;
         private readonly IMapper mapper;
         private readonly ILogger<BeachesService> logger;
 
         public BeachesService(
             IEventStore store,
+            IEventBus bus,
             IStreamProjector projector,
             IMapper mapper,
             ILogger<BeachesService> logger)
         {
             this.store = store;
+            this.bus = bus;
             this.projector = projector;
             this.mapper = mapper;
             this.logger = logger;
@@ -69,7 +72,7 @@ namespace BR.BeachesService.Services
                     model.AddedBy, userStream.GetNextOffset(), beach.Id);
                 var events = EventStream.CreateStream(beachCreated, userCreatedBeach);
 
-                await this.store.AppendEventStreamAsync(events);
+                await this.bus.PublishEventStreamAsync(events);
 
                 return beach;
             }
@@ -107,7 +110,7 @@ namespace BR.BeachesService.Services
                     model.ModifiedBy, userStream.GetNextOffset(), beach.Id);
                 var events = EventStream.CreateStream(beachModified, userModifiedBeach);
 
-                await this.store.AppendEventStreamAsync(events);
+                await this.bus.PublishEventStreamAsync(events);
 
                 return beach;
             }
