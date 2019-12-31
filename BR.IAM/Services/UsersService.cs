@@ -14,20 +14,17 @@ namespace BR.Iam.Services
     {
         private readonly INoSqlRepository<User> repo;
         private readonly IEventBus bus;
-        private readonly IEventStore store;
         private readonly IStreamProjector projector;
         private readonly ILogger<UsersService> logger;
 
         public UsersService(
             INoSqlRepository<User> repo,
             IEventBus bus,
-            IEventStore store, 
             IStreamProjector projector, 
             ILogger<UsersService> logger)
         {
             this.repo = repo;
             this.bus = bus;
-            this.store = store;
             this.projector = projector;
             this.logger = logger;
         }
@@ -38,10 +35,9 @@ namespace BR.Iam.Services
             {
                 Validator.ThrowIfNullOrWhiteSpace(id, "No user ID.");
 
-                var stream = await this.store.GetEventStreamAsync(id);
-                var aggregate = this.projector.GetSnapshot(stream);
+                var user = await this.repo.GetAsync(id);
 
-                return (User)aggregate;
+                return user;
             }
             catch (Exception ex)
             {
@@ -76,8 +72,6 @@ namespace BR.Iam.Services
 
                 await this.bus.PublishEventAsync(new UserCreated(user));
 
-                await this.store.AppendEventAsync(new UserCreated(user));
-
                 return user;
             }
             catch (Exception ex)
@@ -93,6 +87,8 @@ namespace BR.Iam.Services
             try
             {
                 Validator.ThrowIfNull(model);
+
+                await Task.CompletedTask;
 
                 return null;
             }
