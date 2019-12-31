@@ -3,6 +3,7 @@ using Amazon.Lambda.SNSEvents;
 using BR.Core.Abstractions;
 using BR.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 
 
@@ -21,19 +22,24 @@ namespace BR.EventsService
             this.store = provider.GetService<IEventStore>();
         }
 
+        public LambdaEntryPoint(IEventStore store)
+        {
+            this.store = store;
+        }
+
         public async Task HandleAsync(SNSEvent @event, ILambdaContext context)
         {
-            foreach(var record in @event.Records)
+            foreach (var record in @event.Records)
             {
-                await ProcessRecordAsync(record, context);
+                await this.ProcessRecordAsync(record, context);
             }
         }
 
         private async Task ProcessRecordAsync(SNSEvent.SNSRecord record, ILambdaContext context)
         {
-            context.Logger.LogLine($"Processed record {record.Sns.Message}");
+            context.Logger.LogLine($"Incoming event: {Environment.NewLine}{record.Sns.Message}");
 
-            //await this.store.AppendEventAsync()
+            await this.store.AppendFromStringAsync(record.Sns.Message);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace BR.Core.Extensions
         {
             services
                 .AddByConvention(typeof(Constants).Assembly)
+                .AddLogging()
                 .AddAWSService<IAmazonSimpleNotificationService>()
                 .AddUiCors()
                 .AddDb();
