@@ -15,17 +15,20 @@ namespace BR.ReviewsService.Services
     internal class ReviewsService : IReviewsService
     {
         private readonly IEventStore store;
+        private readonly IEventBus bus;
         private readonly IStreamProjector projector;
         private readonly IMapper mapper;
         private readonly ILogger<ReviewsService> logger;
 
         public ReviewsService(
-            IEventStore store, 
+            IEventStore store,
+            IEventBus bus,
             IStreamProjector projector, 
             IMapper mapper, 
             ILogger<ReviewsService> logger)
         {
             this.store = store;
+            this.bus = bus;
             this.projector = projector;
             this.mapper = mapper;
             this.logger = logger;
@@ -72,7 +75,7 @@ namespace BR.ReviewsService.Services
                 var review = this.mapper.Map<Review>(model);
                 var set = EventSetFactory.CreateSet(review, beachReviewedStream, reviewLeftStream);
 
-                await this.store.AppendEventStreamAsync(set.ToStream());
+                await this.bus.PublishEventStreamAsync(set.ToStream());
 
                 return review;
             }
@@ -100,10 +103,10 @@ namespace BR.ReviewsService.Services
                 var beachReviewChangedModel = this.mapper.Map<BeachReviewChangedModel>(model);
                 beachReviewChangedModel.Offset = beachStream.GetNextOffset();
                 var beachReviewChanged = new BeachReviewChanged(beachReviewChangedModel);
+                var stream = EventStream.CreateStream(
+                    reviewModified, userModifiedReview, beachReviewChanged);
 
-                await this.store.AppendEventStreamAsync(
-                    EventStream.CreateStream(
-                        reviewModified, userModifiedReview, beachReviewChanged));
+                await this.bus.PublishEventStreamAsync(stream);
 
                 var review = this.mapper.Map<Review>(model);
 
