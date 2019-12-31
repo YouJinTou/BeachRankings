@@ -89,6 +89,8 @@ namespace BR.Core.Sourcing
             {
                 Validator.ThrowIfNull(stream);
 
+                this.logger.LogInformation($"Appending event stream {stream}.");
+
                 await this.repo.AddManyAsync(stream);
             }
             catch (Exception ex)
@@ -112,6 +114,8 @@ namespace BR.Core.Sourcing
                         JsonConvert.DeserializeObject<EventBaseModel>(eventString) 
                     };
                 var stream = EventStream.CreateStream(events.ToArray());
+
+                this.logger.LogInformation($"Appending event stream {stream}.");
 
                 await this.repo.AddManyAsync(stream);
             }
