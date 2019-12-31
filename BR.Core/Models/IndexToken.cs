@@ -1,5 +1,4 @@
-﻿using BR.Core.Tools;
-using System;
+﻿using System;
 
 namespace BR.Core.Models
 {
