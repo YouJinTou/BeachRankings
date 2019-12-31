@@ -2,6 +2,7 @@
 using BR.Core.Abstractions;
 using BR.Core.Cloud.Aws;
 using BR.Core.Events;
+using BR.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Reflection;
@@ -55,7 +56,9 @@ namespace BR.Core.Extensions
                 .AddTransient<INoSqlRepository<EventBase>>(
                     sp => new DynamoRepository<EventBase>("EventLog"))
                 .AddTransient<IEventsRepository>(
-                    sp => new EventsRepository("EventLog"));
+                    sp => new EventsRepository("EventLog"))
+                .AddTransient<INoSqlRepository<IndexEntry>>(
+                    sp => new DynamoRepository<IndexEntry>("Index"));
 
             return services;
         }

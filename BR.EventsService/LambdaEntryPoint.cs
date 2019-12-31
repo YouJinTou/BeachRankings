@@ -6,14 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
-
 namespace BR.EventsService
 {
     public class LambdaEntryPoint
     {
-        private IEventStore store;
+        private readonly IEventStore store;
 
         public LambdaEntryPoint()
         {
