@@ -1,8 +1,10 @@
 ﻿using BR.Core.Abstractions;
 using BR.Core.Events;
 using BR.Core.Extensions;
+using BR.Core.Models;
 using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,6 +94,30 @@ namespace BR.Core.Sourcing
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Failed to append events.");
+
+                throw;
+            }
+        }
+
+        public async Task AppendFromStringAsync(string eventString)
+        {
+            try
+            {
+                Validator.ThrowIfNullOrWhiteSpace(eventString);
+
+                var events = eventString.StartsWith("[") ?
+                    JsonConvert.DeserializeObject<IEnumerable<EventBaseModel>>(eventString) :
+                    new List<EventBaseModel> 
+                    { 
+                        JsonConvert.DeserializeObject<EventBaseModel>(eventString) 
+                    };
+                var stream = EventStream.CreateStream(events.ToArray());
+
+                await this.repo.AddManyAsync(stream);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to append event string {eventString}.");
 
                 throw;
             }

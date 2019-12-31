@@ -14,6 +14,8 @@ namespace BR.Core.Abstractions
 
         Task AppendEventStreamAsync(EventStream stream);
 
+        Task AppendFromStringAsync(string eventString);
+
         Task<IEnumerable<EventStream>> GetEventStreams(params string[] types);
     }
 }
