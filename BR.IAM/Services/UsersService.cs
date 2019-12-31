@@ -14,18 +14,15 @@ namespace BR.Iam.Services
     {
         private readonly INoSqlRepository<User> repo;
         private readonly IEventBus bus;
-        private readonly IStreamProjector projector;
         private readonly ILogger<UsersService> logger;
 
         public UsersService(
             INoSqlRepository<User> repo,
             IEventBus bus,
-            IStreamProjector projector, 
             ILogger<UsersService> logger)
         {
             this.repo = repo;
             this.bus = bus;
-            this.projector = projector;
             this.logger = logger;
         }
 
