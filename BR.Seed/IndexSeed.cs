@@ -30,41 +30,41 @@ namespace BR.Seed
             using var reader = new StreamReader("seed.xml");
             var serializer = new XmlSerializer(typeof(Seed));
             var seed = (Seed)serializer.Deserialize(reader);
-            var tokens = new HashSet<string>();
+            var tokens = new HashSet<IndexToken>();
 
             foreach (var continent in seed.Continent)
             {
-                tokens.Add(continent.name);
+                tokens.Add(new IndexToken(continent.name, PlaceType.Continent));
 
                 foreach (var country in continent.Country.NewIfNull())
                 {
-                    tokens.Add(country.name);
+                    tokens.Add(new IndexToken(country.name, PlaceType.Country));
 
-                    tokens.Add(country.waterBody);
+                    tokens.Add(new IndexToken(country.waterBody, PlaceType.WaterBody));
 
                     foreach (var l1 in country.L1.NewIfNull())
                     {
-                        tokens.Add(l1.name);
+                        tokens.Add(new IndexToken(l1.name, PlaceType.L1));
 
-                        tokens.Add(l1.waterBody);
+                        tokens.Add(new IndexToken(l1.waterBody, PlaceType.WaterBody));
 
                         foreach (var l2 in l1.L2.NewIfNull())
                         {
-                            tokens.Add(l2.name);
+                            tokens.Add(new IndexToken(l2.name, PlaceType.L2));
 
-                            tokens.Add(l2.waterBody);
+                            tokens.Add(new IndexToken(l2.waterBody, PlaceType.WaterBody));
 
                             foreach (var l3 in l2.L3.NewIfNull())
                             {
-                                tokens.Add(l3.name);
+                                tokens.Add(new IndexToken(l3.name, PlaceType.L3));
 
-                                tokens.Add(l3.waterBody);
+                                tokens.Add(new IndexToken(l3.waterBody, PlaceType.WaterBody));
 
                                 foreach (var l4 in l3.L4.NewIfNull())
                                 {
-                                    tokens.Add(l4.name);
+                                    tokens.Add(new IndexToken(l4.name, PlaceType.L4));
 
-                                    tokens.Add(l4.waterBody);
+                                    tokens.Add(new IndexToken(l4.waterBody, PlaceType.WaterBody));
                                 }
                             }
                         }

@@ -5,8 +5,8 @@ namespace BR.IndexService.Abstractions
 {
     public interface IIndexEntryPreprocessor
     {
-        IEnumerable<IndexEntry> PreprocessToken(string token, params string[] ids);
+        IEnumerable<IndexEntry> PreprocessToken(IndexToken token, params string[] ids);
 
-        IEnumerable<IndexEntry> PreprocessTokens(IEnumerable<string> tokens);
+        IEnumerable<IndexEntry> PreprocessTokens(IEnumerable<IndexToken> tokens);
     }
 }

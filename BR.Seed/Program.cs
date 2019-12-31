@@ -8,7 +8,7 @@
 
             //IndexSeed.SeedIndexAsync().Wait();
 
-            BeachesSeed.SeedBeachesAsync().Wait();
+            //BeachesSeed.SeedBeachesAsync().Wait();
         }
     }
 }

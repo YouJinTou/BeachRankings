@@ -6,6 +6,6 @@ namespace BR.Core.Models
     {
         public IEnumerable<string> Ids { get; set; }
 
-        public IEnumerable<string> Tokens { get; set; }
+        public IEnumerable<IndexToken> Tokens { get; set; }
     }
 }

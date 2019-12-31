@@ -1,5 +1,6 @@
 ﻿using BR.Core.Extensions;
 using BR.Core.Models;
+using BR.Core.Tools;
 using BR.IndexService.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,17 +65,18 @@ namespace BR.IndexService.Processors
             { 'ž', 'z' },
         };
 
-        public IEnumerable<IndexEntry> PreprocessToken(string token, params string[] ids)
+        public IEnumerable<IndexEntry> PreprocessToken(IndexToken token, params string[] ids)
         {
             var entries = new HashSet<IndexEntry>(new IndexEntryEqualityComparer());
 
-            if (string.IsNullOrWhiteSpace(token))
+            if (Validator.AllNull(token))
             {
                 return entries;
             }
 
             var latinized = string.Join(
-                "", token.Select(c => this.latinizer.ContainsKey(c) ? this.latinizer[c] : c));
+                "", token.Token.Select(
+                    c => this.latinizer.ContainsKey(c) ? this.latinizer[c] : c));
             var lowered = latinized.ToLower();
 
             foreach (var item in lowered.Split(new[] { ' ', '-', '.', ',', '_', '–' }))
@@ -88,8 +90,9 @@ namespace BR.IndexService.Processors
 
                 entries.Add(new IndexEntry
                 {
-                    Bucket = normalized[0].ToString(),
+                    Bucket = normalized.AsBucket(),
                     Token = normalized,
+                    Type = token.Type.ToString(),
                     Postings = ids
                 });
             }
@@ -97,7 +100,7 @@ namespace BR.IndexService.Processors
             return entries;
         }
 
-        public IEnumerable<IndexEntry> PreprocessTokens(IEnumerable<string> tokens)
+        public IEnumerable<IndexEntry> PreprocessTokens(IEnumerable<IndexToken> tokens)
         {
             var allEntries = new HashSet<IndexEntry>(new IndexEntryEqualityComparer());
 

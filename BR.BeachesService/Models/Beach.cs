@@ -15,43 +15,43 @@ namespace BR.BeachesService.Models
 
         public Beach(
             string name,
-            string addedBy,
             string continent,
-            string country,
-            string l1,
-            string l2,
-            string l3,
-            string l4,
             string waterBody,
-            string coordinates,
-            double? score,
-            double? sandQuality,
-            double? beachCleanliness,
-            double? beautifulScenery,
-            double? crowdFree,
-            double? infrastructure,
-            double? waterVisibility,
-            double? litterFree,
-            double? feetFriendlyBottom,
-            double? seaLifeDiversity,
-            double? coralReef,
-            double? snorkeling,
-            double? kayaking,
-            double? walking,
-            double? camping,
-            double? longTermStay)
+            string country = null,
+            string l1 = null,
+            string l2 = null,
+            string l3 = null,
+            string l4 = null,
+            string addedBy = null,
+            string coordinates = null,
+            double? score = null,
+            double? sandQuality = null,
+            double? beachCleanliness = null,
+            double? beautifulScenery = null,
+            double? crowdFree = null,
+            double? infrastructure = null,
+            double? waterVisibility = null,
+            double? litterFree = null,
+            double? feetFriendlyBottom = null,
+            double? seaLifeDiversity = null,
+            double? coralReef = null,
+            double? snorkeling = null,
+            double? kayaking = null,
+            double? walking = null,
+            double? camping = null,
+            double? longTermStay = null)
         {
             this.Name = Validator.ReturnOrThrowIfNullOrWhiteSpace(name);
+            this.Continent = Validator.ReturnOrThrowIfNullOrWhiteSpace(continent);
+            this.WaterBody = Validator.ReturnOrThrowIfNullOrWhiteSpace(waterBody);
             this.AddedOn = DateTime.UtcNow;
             this.LastUpdatedOn = DateTime.UtcNow;
             this.AddedBy = addedBy;
-            this.Continent = Validator.ReturnOrThrowIfNullOrWhiteSpace(continent);
             this.Country = country;
             this.L1 = l1;
             this.L2 = l2;
             this.L3 = l3;
             this.L4 = l4;
-            this.WaterBody = Validator.ReturnOrThrowIfNullOrWhiteSpace(waterBody);
             this.Coordinates = coordinates;
             this.Location = GetLocation(this);
             this.Id = GetId(this);

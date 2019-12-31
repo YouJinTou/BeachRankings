@@ -50,14 +50,32 @@ namespace BR.Core.Tools
             }
         }
 
+        public static bool AllNull<T>(IEnumerable<T> items)
+        {
+            return items?.All(i => i == null) ?? true;
+        }
+
         public static bool AllNull(params object[] items)
         {
-            return items.All(i => i == null);
+            if (items == null)
+            {
+                return true;
+            }
+
+            foreach (var item in items)
+            {
+                if (item != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public static void ThrowIfAllNull<T>(params T[] items)
         {
-            if (AllNull(items))
+            if (AllNull(items?.ToList()))
             {
                 throw new ArgumentNullException("All items are null.");
             }
