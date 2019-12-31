@@ -1,4 +1,7 @@
-﻿using BR.Core.Abstractions;
+﻿using BR.Core;
+using BR.Core.Abstractions;
+using BR.Core.Extensions;
+using BR.Core.Models;
 using BR.SearchService.Abstractions;
 using BR.SearchService.Models;
 using Microsoft.Extensions.Logging;
@@ -10,12 +13,12 @@ namespace BR.SearchService.Services
 {
     internal class SearchService : ISearchService
     {
-        private readonly IEventStore store;
+        private readonly INoSqlRepository<IndexEntry> repo;
         private readonly ILogger<SearchService> logger;
 
-        public SearchService(IEventStore store, ILogger<SearchService> logger)
+        public SearchService(INoSqlRepository<IndexEntry> repo, ILogger<SearchService> logger)
         {
-            this.store = store;
+            this.repo = repo;
             this.logger = logger;
         }
 
@@ -23,16 +26,33 @@ namespace BR.SearchService.Services
         {
             try
             {
-                await Task.Delay(0);
+                var results = new List<SearchResult>();
 
-                return new List<SearchResult>
+                if (string.IsNullOrWhiteSpace(query))
                 {
-                    new SearchResult
+                    return results;
+                }
+
+                var entries = await this.repo.GetManyAsync(
+                    "Bucket",
+                    query.AsBucket(),
+                    "Token",
+                    query.ToLower(),
+                    NoSqlQueryOperator.BeginsWith);
+
+                foreach (var entry in entries)
+                {
+                    foreach (var posting in entry.Postings)
                     {
-                        Id = "7vHSFLZd5R8g6iW",
-                        Label = "Rubin Beach"
+                        results.Add(new SearchResult
+                        {
+                            Id = posting,
+                            Label = entry.Token
+                        });
                     }
-                };
+                }
+
+                return results;
             }
             catch (Exception ex)
             {

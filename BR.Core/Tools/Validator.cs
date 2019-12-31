@@ -50,7 +50,7 @@ namespace BR.Core.Tools
             }
         }
 
-        public static bool AllNull<T>(IEnumerable<T> items)
+        public static bool AllNull(params object[] items)
         {
             return items.All(i => i == null);
         }

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BR.Core.Extensions
 {
-    internal static class DynamoDbExtensions
+    public static class DynamoDbExtensions
     {
         public static T ConvertTo<T>(this Document document)
         {
@@ -39,6 +39,11 @@ namespace BR.Core.Extensions
             }
 
             return instance;
+        }
+
+        public static string AsBucket(this string s)
+        {
+            return s[0].ToString();
         }
 
         private static object GetValue(DynamoDBEntry entry, Type type)

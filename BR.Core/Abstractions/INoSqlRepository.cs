@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BR.Core.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BR.Core.Abstractions
@@ -8,7 +9,11 @@ namespace BR.Core.Abstractions
         Task<T> GetAsync(string partitionKey, string sortKey = null);
 
         Task<IEnumerable<T>> GetManyAsync(
-            string partitionKeyValue, string partitionKeyName = Constants.StreamId);
+            string partitionKeyName, 
+            string partitionKeyValue,
+            string sortKeyName = null,
+            string sortKeyValue = null,
+            NoSqlQueryOperator? op = null);
 
         Task<IEnumerable<T>> GetManyByAttributeAsync(
            string partitionKey, string attributeName, string attributeValue);

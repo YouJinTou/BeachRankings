@@ -31,7 +31,7 @@ namespace BR.Core.Sourcing
 
                 this.logger.LogInformation($"Getting event stream for {streamId}/{offset}.");
 
-                var events = await this.repo.GetManyAsync(streamId);
+                var events = await this.repo.GetManyAsync("StreamId", streamId);
 
                 return new EventStream(events, offset);
             }

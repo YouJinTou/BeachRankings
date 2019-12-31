@@ -3,6 +3,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using BR.Core.Abstractions;
 using BR.Core.Extensions;
+using BR.Core.Models;
 using BR.Core.Tools;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,14 +44,29 @@ namespace BR.Core.Cloud.Aws
         }
 
         public async Task<IEnumerable<T>> GetManyAsync(
-            string partitionKeyValue, string partitionKeyName = Constants.StreamId)
+            string partitionKeyName, 
+            string partitionKeyValue, 
+            string sortKeyName = null, 
+            string sortKeyValue = null,
+            NoSqlQueryOperator? op = null)
         {
             Validator.ThrowIfAnyNullOrWhiteSpace(partitionKeyName, partitionKeyValue);
 
+            var allNull = Validator.AllNull(sortKeyName, sortKeyValue, op);
+
+            if (!allNull)
+            {
+                Validator.ThrowIfAnyNullOrWhiteSpace(sortKeyName, sortKeyValue, op?.ToString());
+            }
+
+            var kce = $"{partitionKeyName} = :v_{partitionKeyName}";
+            kce = allNull ? 
+                kce : 
+                $"{kce} and {sortKeyName} {op.Value.AsDynamoString()} :v_{sortKeyValue}";
             var request = new QueryRequest
             {
                 TableName = this.tableName,
-                KeyConditionExpression = $"{partitionKeyName} = :v_{partitionKeyName}",
+                KeyConditionExpression = kce,
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                 {
                     {
