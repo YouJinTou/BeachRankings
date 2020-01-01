@@ -1,1 +1,12 @@
-<input type="text" (keyup)="onKeyUp($event.target.value)" placeholder="Search" />
+<div class="wrapper">
+    <input type="text" (keyup)="onKeyUp($event.target.value)" placeholder="Search" />
+    <div class="search-results-wrapper">
+        <ul class="search-results">
+            <li class="search-result" *ngFor="let result of results">
+                <a href="{{ getPlaceLink(result) }}">
+                    {{ result.name }} ({{ result.beachesCount }})
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

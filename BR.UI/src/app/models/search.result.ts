@@ -1,4 +1,6 @@
 export class SearchResult {
     id: string;
-    label: string;
+    name: string;
+    beachesCount: number;
+    type: string;
 }

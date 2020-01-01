@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchResult } from '../../models/search.result';
 import { SearchService } from '../../services/search.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-search-bar',
@@ -20,5 +21,12 @@ export class SearchBarComponent implements OnInit {
       console.log(results);
       this.results = results;
     });
+  }
+
+  getPlaceLink(result: SearchResult) {
+    let url = (result.type == 'Beach') ? environment.beachesUrl : environment.searchPlaceUrl;
+    url += result.id;
+
+    return url;
   }
 }

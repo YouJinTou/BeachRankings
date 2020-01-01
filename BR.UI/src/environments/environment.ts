@@ -11,7 +11,8 @@ export const environment = {
   reviewsUrl: 'http://localhost:5004/api/v1/reviews/',
   countriesUrl: 'http://localhost:5006/api/v1/places/countries/',
   placeChildrenUrl: 'http://localhost:5006/api/v1/places/{id}/next',
-  searchUrl: 'http://localhost:5008/api/v1/search?query='
+  searchUrl: 'http://localhost:5008/api/v1/search?query=',
+  searchPlaceUrl: 'http://localhost:5008/api/v1/search?query='
 };
 
 /*
