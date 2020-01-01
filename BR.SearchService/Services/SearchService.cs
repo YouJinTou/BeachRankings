@@ -31,7 +31,7 @@ namespace BR.SearchService.Services
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(query))
+                if (string.IsNullOrWhiteSpace(query) || query.Length == 1)
                 {
                     return new List<SearchResult>();
                 }

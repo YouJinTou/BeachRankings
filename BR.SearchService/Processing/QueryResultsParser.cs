@@ -9,20 +9,28 @@ namespace BR.SearchService.Processing
 {
     internal class QueryResultsParser : IQueryResultsParser
     {
-        private IDictionary<string, IDictionary<string, List<string>>> tokenPostingsByType;
+        private class TokenPostingsItem
+        {
+            public string Id { get; set; }
+
+            public IDictionary<string, List<string>> PostingsByToken { get; set; } 
+                = new Dictionary<string, List<string>>();
+        }
+
+        private IDictionary<string, TokenPostingsItem> postingsItemByType;
 
         public QueryResultsParser()
         {
-            this.tokenPostingsByType = new Dictionary<string, IDictionary<string, List<string>>>
+            this.postingsItemByType = new Dictionary<string, TokenPostingsItem>
             {
-                { PlaceType.Continent.ToString(), new Dictionary<string, List<string>>() },
-                { PlaceType.Country.ToString(), new Dictionary<string, List<string>>() },
-                { PlaceType.L1.ToString(), new Dictionary<string, List<string>>() },
-                { PlaceType.L2.ToString(), new Dictionary<string, List<string>>() },
-                { PlaceType.L3.ToString(), new Dictionary<string, List<string>>() },
-                { PlaceType.L4.ToString(), new Dictionary<string, List<string>>() },
-                { PlaceType.WaterBody.ToString(), new Dictionary<string, List<string>>() },
-                { PlaceType.Beach.ToString(), new Dictionary<string, List<string>>() }
+                { PlaceType.Continent.ToString(), new TokenPostingsItem() },
+                { PlaceType.Country.ToString(), new TokenPostingsItem() },
+                { PlaceType.L1.ToString(), new TokenPostingsItem() },
+                { PlaceType.L2.ToString(), new TokenPostingsItem() },
+                { PlaceType.L3.ToString(), new TokenPostingsItem() },
+                { PlaceType.L4.ToString(), new TokenPostingsItem() },
+                { PlaceType.WaterBody.ToString(), new TokenPostingsItem() },
+                { PlaceType.Beach.ToString(), new TokenPostingsItem() }
             };
         }
 
@@ -32,31 +40,42 @@ namespace BR.SearchService.Processing
             {
                 foreach (var posting in entry.Postings)
                 {
-                    tokenPostingsByType[posting.Type].Add(
-                        posting.Place, posting.BeachIds.ToList());
+                    var item = postingsItemByType[posting.Type];
+                    item.Id = entry.ToString();
+
+                    item.PostingsByToken.Add(posting.Place, posting.BeachIds.ToList());
                 }
             }
 
             var results = Collection.Combine<SearchResult>(
-                this.GetMaxPostingsEntries(PlaceType.Continent),
-                this.GetMaxPostingsEntries(PlaceType.Country),
-                this.GetMaxPostingsEntries(PlaceType.L1),
-                this.GetMaxPostingsEntries(PlaceType.L2),
-                this.GetMaxPostingsEntries(PlaceType.L3),
-                this.GetMaxPostingsEntries(PlaceType.L4),
-                this.GetMaxPostingsEntries(PlaceType.Beach), 2);
+                this.GetSearchResults(PlaceType.Continent),
+                this.GetSearchResults(PlaceType.Country),
+                this.GetSearchResults(PlaceType.L1),
+                this.GetSearchResults(PlaceType.L2),
+                this.GetSearchResults(PlaceType.L3),
+                this.GetSearchResults(PlaceType.L4),
+                this.GetSearchResults(PlaceType.Beach, 2));
 
             return results;
         }
 
-        private IEnumerable<KeyValuePair<string, List<string>>> GetMaxPostingsEntries(
+        private IEnumerable<SearchResult> GetSearchResults(
             PlaceType type, int take = 1)
         {
-            var result = this.tokenPostingsByType[type.ToString()]
-                .OrderByDescending(s => s.Value.Count)
-                .Take(take);
+            var item = this.postingsItemByType[type.ToString()];
+            var results = item.PostingsByToken
+                .Select(i => new SearchResult
+                {
+                    Id = item.Id,
+                    Name = i.Key,
+                    Type = type.ToString(),
+                    BeachesCount = i.Value.Count
+                })
+                .OrderByDescending(r => r.BeachesCount)
+                .Take(take)
+                .ToList();
 
-            return result;
+            return results;
         }
     }
 }
