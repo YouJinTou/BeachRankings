@@ -2,6 +2,7 @@
 using Amazon.DynamoDBv2.Model;
 using BR.Core.Caching;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,7 +36,25 @@ namespace BR.Core.Extensions
             {
                 if (values.ContainsKey(prop.Name))
                 {
-                    var value = GetValue(values[prop.Name]);
+                    var value = GetValue(values[prop.Name], prop.PropertyType);
+
+                    prop.SetValue(instance, value);
+                }
+            }
+
+            return instance;
+        }
+
+        public static object ConvertTo(this Dictionary<string, AttributeValue> values, Type type)
+        {
+            var properties = type.GetProperties().Select(p => p).ToList();
+            var instance = Activator.CreateInstance(type);
+
+            foreach (var prop in properties)
+            {
+                if (values.ContainsKey(prop.Name))
+                {
+                    var value = GetValue(values[prop.Name], prop.PropertyType);
 
                     prop.SetValue(instance, value);
                 }
@@ -76,20 +95,40 @@ namespace BR.Core.Extensions
                 case var x when type == Types.StringEnumerable:
                     return entry.AsListOfString();
                 default:
-                    return entry.AsString();
+                    throw new NotImplementedException("Dynamo type not implemented.");
             }
         }
 
-        private static object GetValue(AttributeValue value)
+        private static object GetValue(AttributeValue value, Type type)
         {
             if (!string.IsNullOrWhiteSpace(value.S))
             {
                 return value.S;
             }
 
-            if (!value.SS.IsNull())
+            if (!value.SS.IsNullOrEmpty())
             {
                 return value.SS;
+            }
+
+            if (!value.L.IsNullOrEmpty())
+            {
+                var genericList = Types.GenericList.MakeGenericType(type.GenericTypeArguments[0]);
+                var list = (Activator.CreateInstance(genericList)) as IList;
+
+                foreach (var item in value.L)
+                {
+                    var result = GetValue(item, type.GenericTypeArguments[0]);
+
+                    list.Add(result);
+                }
+
+                return list;
+            }
+
+            if (!value.M.IsNullOrEmpty())
+            {
+                return value.M.ConvertTo(type);
             }
 
             throw new InvalidOperationException();

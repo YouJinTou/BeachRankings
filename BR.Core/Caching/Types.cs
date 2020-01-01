@@ -17,7 +17,7 @@ namespace BR.Core.Caching
         public static readonly Type ByteArray = typeof(byte[]);
         public static readonly Type StringEnumerable = typeof(IEnumerable<string>);
         public static readonly Type Enumerable = typeof(System.Collections.IEnumerable);
-        public static readonly Type GenericEnumerable = typeof(IEnumerable<>);
+        public static readonly Type GenericList = typeof(List<>);
         public static readonly DynamoDBNull DynamoNull = new DynamoDBNull();
     }
 }
