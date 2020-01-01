@@ -63,7 +63,7 @@ namespace BR.Core.Cloud.Aws
                 }
             };
             var response = await this.client.QueryAsync(request);
-            var result = this.ConvertItemsTo(response.Items);
+            var result = this.ConvertItemsTo(response.Items).ToList();
 
             return result;
         }
@@ -97,7 +97,7 @@ namespace BR.Core.Cloud.Aws
                 ExpressionAttributeValues = expAttributeValues
             };
             var response = await this.client.QueryAsync(request);
-            var result = this.ConvertItemsTo(response.Items);
+            var result = this.ConvertItemsTo(response.Items).ToList();
 
             return result;
         }
@@ -114,7 +114,7 @@ namespace BR.Core.Cloud.Aws
 
             var searchQuery = table.Query(partitionKey, filter);
             var docs = await searchQuery.GetNextSetAsync();
-            var items = docs.Select(d => this.ConvertTo(d));
+            var items = docs.Select(d => this.ConvertTo(d)).ToList();
 
             return items;
         }
