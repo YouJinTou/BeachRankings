@@ -33,7 +33,7 @@ namespace BR.BeachesService.Controllers
             {
                 Validator.ThrowIfNullOrWhiteSpace(id, "Missing beach ID.");
 
-                this.logger.LogInformation($"Getting user {id}.");
+                this.logger.LogInformation($"Getting beach {id}.");
 
                 var beach = await this.service.GetBeachAsync(id);
                 var beachModel = this.mapper.Map<GetBeachModel>(beach);
