@@ -48,8 +48,9 @@ namespace BR.Seed.Extensions
 
             var result = groupedPostings.Select(p => new IndexPosting
             {
-                Place = p.Key.Split('|')[0],
-                Type = p.Key.Split('|')[1],
+                Id = p.Key.Split('_')[0],
+                Place = p.Key.Split('_')[1],
+                Type = p.Key.Split('_')[2],
                 BeachIds = p.Value
             }).ToList();
 

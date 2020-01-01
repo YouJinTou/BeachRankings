@@ -88,20 +88,24 @@ namespace BR.IndexService.Processors
                     continue;
                 }
 
-                entries.Add(new IndexEntry
+                var entry = new IndexEntry
                 {
                     Bucket = normalized.AsBucket(),
-                    Token = normalized,
-                    Postings = new List<IndexPosting>
+                    Token = normalized
+                };
+                var postings = new List<IndexPosting>
+                {
+                    new IndexPosting
                     {
-                        new IndexPosting
-                        {
-                            Type = token.Type.ToString(),
-                            BeachIds = ids,
-                            Place = token.Token
-                        }
+                        Id = entry.ToString(),
+                        Type = token.Type.ToString(),
+                        BeachIds = ids,
+                        Place = token.Token
                     }
-                });
+                };
+                entry.Postings = postings;
+
+                entries.Add(entry);
             }
 
             return entries;

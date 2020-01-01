@@ -36,9 +36,17 @@ namespace BR.SearchService.Services
                     return new List<SearchResult>();
                 }
 
-                var entries = await this.repo.GetManyBeginsWithAsync(
-                    "Bucket", query.AsBucket(), "Token", query.ToLower());
-                var results = this.parser.ParseQueryResults(entries).ToList();
+                var allEntries = new List<IndexEntry>();
+
+                foreach (var token in query.Split(" "))
+                {
+                    var entries = await this.repo.GetManyBeginsWithAsync(
+                    "Bucket", token.AsBucket(), "Token", token.ToLower());
+
+                    allEntries.AddRange(entries);
+                }
+
+                var results = this.parser.ParseQueryResults(allEntries).ToList();
 
                 return results;
             }

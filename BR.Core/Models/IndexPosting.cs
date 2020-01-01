@@ -5,6 +5,8 @@ namespace BR.Core.Models
 {
     public class IndexPosting : IDbModel
     {
+        public string Id { get; set; }
+
         public string Place { get; set; }
 
         public IEnumerable<string> BeachIds { get; set; }
@@ -13,7 +15,7 @@ namespace BR.Core.Models
 
         public override string ToString()
         {
-            return $"{this.Place}|{this.Type}";
+            return $"{this.Id}_{this.Place}_{this.Type}";
         }
     }
 }

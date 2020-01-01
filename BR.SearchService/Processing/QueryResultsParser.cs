@@ -9,28 +9,20 @@ namespace BR.SearchService.Processing
 {
     internal class QueryResultsParser : IQueryResultsParser
     {
-        private class TokenPostingsItem
-        {
-            public string Id { get; set; }
-
-            public IDictionary<string, List<string>> PostingsByToken { get; set; } 
-                = new Dictionary<string, List<string>>();
-        }
-
-        private IDictionary<string, TokenPostingsItem> postingsItemByType;
+        private IDictionary<string, IList<IndexPosting>> postingsItemByType;
 
         public QueryResultsParser()
         {
-            this.postingsItemByType = new Dictionary<string, TokenPostingsItem>
+            this.postingsItemByType = new Dictionary<string, IList<IndexPosting>>
             {
-                { PlaceType.Continent.ToString(), new TokenPostingsItem() },
-                { PlaceType.Country.ToString(), new TokenPostingsItem() },
-                { PlaceType.L1.ToString(), new TokenPostingsItem() },
-                { PlaceType.L2.ToString(), new TokenPostingsItem() },
-                { PlaceType.L3.ToString(), new TokenPostingsItem() },
-                { PlaceType.L4.ToString(), new TokenPostingsItem() },
-                { PlaceType.WaterBody.ToString(), new TokenPostingsItem() },
-                { PlaceType.Beach.ToString(), new TokenPostingsItem() }
+                { PlaceType.Continent.ToString(), new List<IndexPosting>() },
+                { PlaceType.Country.ToString(), new List<IndexPosting>() },
+                { PlaceType.L1.ToString(), new List<IndexPosting>() },
+                { PlaceType.L2.ToString(), new List<IndexPosting>() },
+                { PlaceType.L3.ToString(), new List<IndexPosting>() },
+                { PlaceType.L4.ToString(), new List<IndexPosting>() },
+                { PlaceType.WaterBody.ToString(), new List<IndexPosting>() },
+                { PlaceType.Beach.ToString(), new List<IndexPosting>() }
             };
         }
 
@@ -40,10 +32,7 @@ namespace BR.SearchService.Processing
             {
                 foreach (var posting in entry.Postings)
                 {
-                    var item = postingsItemByType[posting.Type];
-                    item.Id = entry.ToString();
-
-                    item.PostingsByToken.Add(posting.Place, posting.BeachIds.ToList());
+                    this.postingsItemByType[posting.Type].Add(posting);
                 }
             }
 
@@ -62,18 +51,17 @@ namespace BR.SearchService.Processing
         private IEnumerable<SearchResult> GetSearchResults(
             PlaceType type, int take = 1)
         {
-            var item = this.postingsItemByType[type.ToString()];
-            var results = item.PostingsByToken
-                .Select(i => new SearchResult
-                {
-                    Id = item.Id,
-                    Name = i.Key,
-                    Type = type.ToString(),
-                    BeachesCount = i.Value.Count
-                })
-                .OrderByDescending(r => r.BeachesCount)
-                .Take(take)
-                .ToList();
+            var results = this.postingsItemByType[type.ToString()]
+            .Select(i => new SearchResult
+            {
+                Id = i.Id,
+                Name = i.Place,
+                Type = i.Type,
+                BeachesCount = i.BeachIds.Count()
+            })
+            .OrderByDescending(r => r.BeachesCount)
+            .Take(take)
+            .ToList();
 
             return results;
         }

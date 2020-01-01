@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace BR.Seed
+﻿namespace BR.Seed
 {
     class Program
     {
@@ -11,6 +9,6 @@ namespace BR.Seed
             //IndexSeed.SeedIndexAsync().Wait();
 
             BeachesSeed.SeedBeachesAsync().Wait();
-        }
+            }
     }
 }
