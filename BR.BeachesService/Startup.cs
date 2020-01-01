@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BR.BeachesService.Extensions;
 using BR.BeachesService.Models;
+using BR.Core;
 using BR.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,7 +22,12 @@ namespace BR.BeachesService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var settings = new Settings();
+
+            Configuration.GetSection("Settings").Bind(settings);
+
             services
+                .AddSingleton(settings)
                 .AddCore()
                 .AddBeachServices()
                 .AddAutoMapper(typeof(Beach).Assembly)
