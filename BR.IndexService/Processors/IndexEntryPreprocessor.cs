@@ -97,7 +97,7 @@ namespace BR.IndexService.Processors
                 {
                     new IndexPosting
                     {
-                        Id = entry.ToString(),
+                        Id = token.Type == PlaceType.Beach ? ids[0] : entry.ToString(),
                         Type = token.Type.ToString(),
                         BeachIds = ids,
                         Place = token.Token
