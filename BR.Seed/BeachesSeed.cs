@@ -3,6 +3,7 @@ using BR.Core.Cloud.Aws;
 using BR.Core.Models;
 using BR.Core.Tools;
 using BR.IndexService.Processors;
+using BR.Seed.Extensions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,29 +13,29 @@ namespace BR.Seed
 {
     public static class BeachesSeed
     {
+        private static IndexEntryPreprocessor preprocessor = new IndexEntryPreprocessor();
+
         public static async Task SeedBeachesAsync()
         {
             var db = new DynamoRepository<IndexEntry>("Index");
             using var reader = new StreamReader("beaches.csv");
-            var entryPreprocessor = new IndexEntryPreprocessor();
-            var allIndices = new HashSet<IndexEntry>();
+            var allIndices = new List<IndexEntry>();
             var line = string.Empty;
 
             while ((line = reader.ReadLine()) != null)
             {
                 var tokens = line.Split('\t');
-                var indices = GetBeachIndices(tokens, entryPreprocessor).ToList();
+                var indices = GetBeachIndices(tokens).ToList();
 
                 indices.ForEach(i => allIndices.Add(i));
             }
 
-            var groupedIndices = GroupIndices(allIndices);
+            var groupedIndices = allIndices.Group();
 
             await db.AddManyAsync(groupedIndices);
         }
 
-        private static IEnumerable<IndexEntry> GetBeachIndices(
-            string[] tokens, IndexEntryPreprocessor preprocessor)
+        private static IEnumerable<IndexEntry> GetBeachIndices(string[] tokens)
         {
             var name = tokens[0];
             var continent = tokens[1];
@@ -54,55 +55,28 @@ namespace BR.Seed
                 l3: l3,
                 l4: l4);
             var id = Beach.GetId(beach);
-            var beachEntries = preprocessor.PreprocessToken(
-                new IndexToken(name, PlaceType.Beach), id);
-            var continentEntries = preprocessor.PreprocessToken(
-                new IndexToken(continent, PlaceType.Continent), id);
-            var countryEntries = preprocessor.PreprocessToken(
-               new IndexToken(country, PlaceType.Country), id);
-            var l1Entries = preprocessor.PreprocessToken(
-               new IndexToken(l1, PlaceType.L1), id);
-            var l2Entries = preprocessor.PreprocessToken(
-               new IndexToken(l2, PlaceType.L2), id);
-            var l3Entries = preprocessor.PreprocessToken(
-               new IndexToken(l3, PlaceType.L3), id);
-            var l4Entries = preprocessor.PreprocessToken(
-               new IndexToken(l4, PlaceType.L4), id);
-            var waterBodyEntries = preprocessor.PreprocessToken(
-               new IndexToken(waterBody, PlaceType.WaterBody), id);
             var allEntries = Collection.Combine<IndexEntry>(
-                beachEntries, 
-                continentEntries,
-                countryEntries,
-                l1Entries,
-                l2Entries,
-                l3Entries,
-                l4Entries,
-                waterBodyEntries);
+                GetPlaceEntries(PlaceType.Beach, name, id),
+                GetPlaceEntries(PlaceType.Continent, continent, id),
+                GetPlaceEntries(PlaceType.Country, country, id),
+                GetPlaceEntries(PlaceType.L1, l1, id),
+                GetPlaceEntries(PlaceType.L2, l2, id),
+                GetPlaceEntries(PlaceType.L3, l3, id),
+                GetPlaceEntries(PlaceType.L4, l4, id),
+                GetPlaceEntries(PlaceType.WaterBody, waterBody, id));
 
             return allEntries;
         }
 
-        private static IEnumerable<IndexEntry> GroupIndices(IEnumerable<IndexEntry> entries)
+        private static IEnumerable<IndexEntry> GetPlaceEntries(
+            PlaceType type, string name, params string[] ids)
         {
-            var groupedEntries = new Dictionary<string, IndexEntry>();
-
-            foreach (var entry in entries)
+            if (name.ToLower() == "null")
             {
-                if (groupedEntries.ContainsKey(entry.ToString()))
-                {
-                    var currentEntry = groupedEntries[entry.ToString()];
-                    var newPostings = new HashSet<string>(
-                        Collection.Combine<string>(currentEntry.Postings, entry.Postings));
-                    currentEntry.Postings = newPostings;
-                }
-                else
-                {
-                    groupedEntries[entry.ToString()] = entry;
-                }
+                return new List<IndexEntry>();
             }
 
-            return groupedEntries.Values;
+            return preprocessor.PreprocessToken(new IndexToken(name, type), ids);
         }
     }
 }

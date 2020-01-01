@@ -1,5 +1,4 @@
-﻿using BR.Core;
-using BR.Core.Abstractions;
+﻿using BR.Core.Abstractions;
 using BR.Core.Extensions;
 using BR.Core.Models;
 using BR.SearchService.Abstractions;
@@ -7,6 +6,7 @@ using BR.SearchService.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BR.SearchService.Services
@@ -14,11 +14,16 @@ namespace BR.SearchService.Services
     internal class SearchService : ISearchService
     {
         private readonly INoSqlRepository<IndexEntry> repo;
+        private readonly IQueryResultsParser parser;
         private readonly ILogger<SearchService> logger;
 
-        public SearchService(INoSqlRepository<IndexEntry> repo, ILogger<SearchService> logger)
+        public SearchService(
+            INoSqlRepository<IndexEntry> repo, 
+            IQueryResultsParser parser, 
+            ILogger<SearchService> logger)
         {
             this.repo = repo;
+            this.parser = parser;
             this.logger = logger;
         }
 
@@ -26,40 +31,14 @@ namespace BR.SearchService.Services
         {
             try
             {
-                var results = new List<SearchResult>();
-
                 if (string.IsNullOrWhiteSpace(query))
                 {
-                    return results;
+                    return new List<SearchResult>();
                 }
 
                 var entries = await this.repo.GetManyBeginsWithAsync(
                     "Bucket", query.AsBucket(), "Token", query.ToLower());
-                var idsByType = new Dictionary<string, IEnumerable<string>>
-                {
-                    { PlaceType.Continent.ToString(), new List<string>() },
-                    { PlaceType.Country.ToString(), new List<string>() },
-                    { PlaceType.L1.ToString(), new List<string>() },
-                    { PlaceType.L2.ToString(), new List<string>() },
-                    { PlaceType.L3.ToString(), new List<string>() },
-                    { PlaceType.L4.ToString(), new List<string>() },
-                    { PlaceType.WaterBody.ToString(), new List<string>() },
-                    { PlaceType.Beach.ToString(), new List<string>() }
-                };
-
-                foreach (var entry in entries)
-                {
-                    idsByType.Add(entry.ToString(), entry.Postings);
-
-                    foreach (var posting in entry.Postings)
-                    {
-                        results.Add(new SearchResult
-                        {
-                            Id = posting,
-                            Label = entry.Token
-                        });
-                    }
-                }
+                var results = this.parser.ParseQueryResults(entries).ToList();
 
                 return results;
             }

@@ -33,20 +33,21 @@ namespace BR.IndexService.Services
                 Validator.ThrowIfNull(data, $"{nameof(IndexData)} empty.");
 
                 var entriesToCheck = this.preprocessor.PreprocessTokens(data.Tokens);
-                var updatableEntries = new HashSet<IndexEntry>(new IndexEntryEqualityComparer());
+                var updatableEntries = new List<IndexEntry>();
 
                 foreach (var entry in entriesToCheck)
                 {
                     try
                     {
                         var existingEntry = await this.repo.GetAsync(entry.Bucket, entry.Token);
-                        var newPostings = new List<string>(existingEntry.Postings);
+#warning: "Here"
+                        //var newPostings = new List<string>(existingEntry.BeachPostings);
 
-                        newPostings.AddRange(data.Ids);
+                        //newPostings.AddRange(data.Ids);
 
-                        existingEntry.Postings = newPostings;
+                        //existingEntry.Postings = newPostings;
 
-                        updatableEntries.Add(existingEntry);
+                        //updatableEntries.Add(existingEntry);
                     }
                     catch (KeyNotFoundException)
                     {

@@ -57,8 +57,13 @@ namespace BR.Core.Extensions
                     return (byte[])value;
                 case var type when prop.PropertyType == Types.StringEnumerable:
                     return ((IEnumerable<string>)value).ToArray();
+                case var type when Types.Enumerable.IsAssignableFrom(prop.PropertyType):
+                    return ((System.Collections.IEnumerable)value)
+                        .OfType<IDbModel>()
+                        .Select(m => ToDynamoDbDocument(m))
+                        .ToList();
                 default:
-                    return Types.DynamoNull;
+                    throw new InvalidOperationException("Could not determine Dynamo type.");
             }
         }
     }

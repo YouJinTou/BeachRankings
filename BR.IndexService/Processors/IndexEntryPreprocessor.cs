@@ -67,7 +67,7 @@ namespace BR.IndexService.Processors
 
         public IEnumerable<IndexEntry> PreprocessToken(IndexToken token, params string[] ids)
         {
-            var entries = new HashSet<IndexEntry>(new IndexEntryEqualityComparer());
+            var entries = new List<IndexEntry>();
 
             if (Validator.AllNull(token))
             {
@@ -75,7 +75,7 @@ namespace BR.IndexService.Processors
             }
 
             var latinized = string.Join(
-                "", token.Token.Select(
+                string.Empty, token.Token.Select(
                     c => this.latinizer.ContainsKey(c) ? this.latinizer[c] : c));
             var lowered = latinized.ToLower();
 
@@ -88,12 +88,23 @@ namespace BR.IndexService.Processors
                     continue;
                 }
 
+                if (normalized == "null")
+                {
+                    var t = 5;
+                }
                 entries.Add(new IndexEntry
                 {
                     Bucket = normalized.AsBucket(),
                     Token = normalized,
-                    Type = token.Type.ToString(),
-                    Postings = ids
+                    Postings = new List<IndexPosting>
+                    {
+                        new IndexPosting
+                        {
+                            Type = token.Type.ToString(),
+                            BeachIds = ids,
+                            Place = token.Token
+                        }
+                    }
                 });
             }
 
@@ -102,7 +113,7 @@ namespace BR.IndexService.Processors
 
         public IEnumerable<IndexEntry> PreprocessTokens(IEnumerable<IndexToken> tokens)
         {
-            var allEntries = new HashSet<IndexEntry>(new IndexEntryEqualityComparer());
+            var allEntries = new List<IndexEntry>();
 
             foreach (var token in tokens.NewIfNull())
             {

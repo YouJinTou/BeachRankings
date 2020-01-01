@@ -138,7 +138,10 @@ namespace BR.BeachesService.Models
         {
             Validator.ThrowIfNull(beach, "Beach is empty.");
 
-            return Hasher.GetHash(GetLocation(beach));
+            var hashedId = Hasher.GetHash(GetLocation(beach));
+            var id = Regex.Replace(hashedId, @"[^a-zA-Z]+", string.Empty);
+
+            return id;
         }
 
         public static string GetLocation(Beach beach)

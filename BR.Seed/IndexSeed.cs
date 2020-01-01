@@ -2,6 +2,7 @@
 using BR.Core.Extensions;
 using BR.Core.Models;
 using BR.IndexService.Processors;
+using BR.Seed.Extensions;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -14,13 +15,7 @@ namespace BR.Seed
         public static async Task SeedIndexAsync()
         {
             var db = new DynamoRepository<IndexEntry>("Index");
-            var indices = new HashSet<IndexEntry>(GetIndices(), new IndexEntryEqualityComparer());
-
-            indices.Add(new IndexEntry
-            {
-                Bucket = "b",
-                Token = "beach"
-            });
+            var indices = new List<IndexEntry>(GetIndices());
 
             await db.AddManyAsync(indices);
         }
@@ -72,7 +67,10 @@ namespace BR.Seed
                 }
             }
 
-            return new IndexEntryPreprocessor().PreprocessTokens(tokens);
+            var indices = new IndexEntryPreprocessor().PreprocessTokens(tokens);
+            var groupedIndices = indices.Group();
+
+            return groupedIndices;
         }
     }
 }

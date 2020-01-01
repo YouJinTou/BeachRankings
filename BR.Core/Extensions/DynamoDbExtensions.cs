@@ -33,9 +33,12 @@ namespace BR.Core.Extensions
 
             foreach (var prop in properties)
             {
-                var value = GetValue(values[prop.Name]);
+                if (values.ContainsKey(prop.Name))
+                {
+                    var value = GetValue(values[prop.Name]);
 
-                prop.SetValue(instance, value);
+                    prop.SetValue(instance, value);
+                }
             }
 
             return instance;
@@ -79,7 +82,17 @@ namespace BR.Core.Extensions
 
         private static object GetValue(AttributeValue value)
         {
-            return null;
+            if (!string.IsNullOrWhiteSpace(value.S))
+            {
+                return value.S;
+            }
+
+            if (!value.SS.IsNull())
+            {
+                return value.SS;
+            }
+
+            throw new InvalidOperationException();
         }
     }
 }

@@ -12,9 +12,7 @@ namespace BR.Core.Models
         [DynamoDBRangeKey]
         public string Token { get; set; }
 
-        public string Type { get; set; }
-
-        public IEnumerable<string> Postings { get; set; }
+        public IEnumerable<IndexPosting> Postings { get; set; }
 
         public override string ToString()
         {
