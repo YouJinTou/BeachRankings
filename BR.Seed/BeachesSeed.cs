@@ -40,7 +40,7 @@ namespace BR.Seed
 
             var groupedIndices = allIndices.Group();
 
-            //await db.AddManyAsync(groupedIndices);
+            await db.AddManyAsync(groupedIndices);
 
             await SeedEventsAsync(allBeachTokens);
         }
