@@ -46,7 +46,7 @@ namespace BR.Core.Extensions
 
         public static string AsBucket(this string s)
         {
-            return s[0].ToString();
+            return string.Join(string.Empty, s.Take(2));
         }
 
         private static object GetValue(DynamoDBEntry entry, Type type)

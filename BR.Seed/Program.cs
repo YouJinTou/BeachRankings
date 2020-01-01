@@ -1,4 +1,6 @@
-﻿namespace BR.Seed
+﻿using System.Linq;
+
+namespace BR.Seed
 {
     class Program
     {

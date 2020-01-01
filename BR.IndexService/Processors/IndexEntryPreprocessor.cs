@@ -88,10 +88,6 @@ namespace BR.IndexService.Processors
                     continue;
                 }
 
-                if (normalized == "null")
-                {
-                    var t = 5;
-                }
                 entries.Add(new IndexEntry
                 {
                     Bucket = normalized.AsBucket(),
