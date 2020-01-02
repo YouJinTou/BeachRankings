@@ -40,8 +40,9 @@ namespace BR.SearchService.Services
 
                 foreach (var token in query.Split(" "))
                 {
+                    var key = new IndexKey(token);
                     var entries = await this.repo.GetManyBeginsWithAsync(
-                    "Bucket", token.AsBucket(), "Token", token.ToLower());
+                    "Bucket", key.Bucket, "Token", key.Token);
 
                     allEntries.AddRange(entries);
                 }
@@ -53,6 +54,33 @@ namespace BR.SearchService.Services
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Failed to search for {query}.");
+
+                throw;
+            }
+        }
+
+        public async Task<PlaceSearchResult> SearchPlaceAsync(string id, string name)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(name))
+                {
+                    return new PlaceSearchResult();
+                }
+
+                var key = new IndexKey(id);
+                var entry = await this.repo.GetAsync(key.Bucket, key.Token);
+                var place = entry.Postings.Single(p => p.Place == name);
+                var result = new PlaceSearchResult
+                {
+                    BeachIds = place.BeachIds
+                };
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to search for {id}/{name}.");
 
                 throw;
             }

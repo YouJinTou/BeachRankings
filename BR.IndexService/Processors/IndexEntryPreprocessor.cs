@@ -88,10 +88,11 @@ namespace BR.IndexService.Processors
                     continue;
                 }
 
+                var key = new IndexKey(normalized);
                 var entry = new IndexEntry
                 {
-                    Bucket = normalized.AsBucket(),
-                    Token = normalized
+                    Bucket = key.Bucket,
+                    Token = key.Token
                 };
                 var postings = new List<IndexPosting>
                 {

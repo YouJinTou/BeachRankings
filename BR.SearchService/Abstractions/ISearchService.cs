@@ -6,6 +6,8 @@ namespace BR.SearchService.Abstractions
 {
     public interface ISearchService
     {
-        Task<IEnumerable<SearchResult>> SearchAsync(string query); 
+        Task<IEnumerable<SearchResult>> SearchAsync(string query);
+
+        Task<PlaceSearchResult> SearchPlaceAsync(string id, string name);
     }
 }

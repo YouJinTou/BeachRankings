@@ -35,5 +35,23 @@ namespace BR.SearchService.Controllers
                 return StatusCode(500, ex);
             }
         }
+
+        [HttpGet]
+        [Route("place")]
+        public async Task<IActionResult> SearchPlaceAsync(string id, string name)
+        {
+            try
+            {
+                var result = await this.service.SearchPlaceAsync(id, name);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Running '{id}/{name}' failed.");
+
+                return StatusCode(500, ex);
+            }
+        }
     }
 }
