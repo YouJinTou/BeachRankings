@@ -22,8 +22,9 @@ export class SearchBarComponent implements OnInit {
   }
 
   getPlaceLink(result: SearchResult) {
-    let url = (result.type == 'Beach') ? 'beaches/' : 'places/';
-    url += result.id;
+    let url = (result.type == 'Beach') ? 
+      'beaches/' + result.id : 
+      'places/' + (result.id + '_' + result.name);
 
     return url;
   }

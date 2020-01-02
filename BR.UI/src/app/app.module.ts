@@ -12,11 +12,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ViewBeachComponent } from './components/view-beach/view-beach.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { PlaceTableComponent } from './components/place-table/place-table.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'add-beach', component: CreateBeachComponent, canActivate: [AuthGuardService] },
-  { path: 'beaches/:id', component: ViewBeachComponent }
+  { path: 'beaches/:id', component: ViewBeachComponent },
+  { path: 'places/:id', component: PlaceTableComponent }
 ]
 
 @NgModule({
@@ -26,7 +28,8 @@ const appRoutes: Routes = [
     LoginComponent,
     HeaderComponent,
     ViewBeachComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    PlaceTableComponent
   ],
   imports: [
     BrowserModule,

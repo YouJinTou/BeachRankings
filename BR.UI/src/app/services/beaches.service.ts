@@ -15,6 +15,11 @@ export class BeachesService {
     return this.httpClient.get(environment.beachesUrl + id);
   }
 
+  public getPlaceBeaches(ids: string[]): Observable<any> {
+    //TODO
+    return this.httpClient.get(environment.beachesUrl)
+  }
+
   addBeach(model: CreateBeachModel) {
     this.httpClient.post(environment.beachesUrl, model).subscribe();
   }

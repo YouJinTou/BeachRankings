@@ -12,7 +12,7 @@ export const environment = {
   countriesUrl: 'http://localhost:5006/api/v1/places/countries/',
   placeChildrenUrl: 'http://localhost:5006/api/v1/places/{id}/next',
   searchUrl: 'http://localhost:5008/api/v1/search?query=',
-  searchPlaceUrl: 'http://localhost:5008/api/v1/search?query='
+  searchPlaceUrl: 'http://localhost:5008/api/v1/search/place?id={id}&name={name}',
 };
 
 /*
