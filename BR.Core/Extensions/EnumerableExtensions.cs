@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using BR.Core.Caching;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BR.Core.Extensions
@@ -37,6 +39,20 @@ namespace BR.Core.Extensions
             {
                 yield return items.Skip(i).Take(batchSize);
             }
+        }
+
+        public static System.Collections.IEnumerable ToGenericEnumerable(
+            this System.Collections.IEnumerable enumerable, Type type)
+        {
+            var genericList = Types.GenericList.MakeGenericType(type);
+            var list = Activator.CreateInstance(genericList) as System.Collections.IList;
+
+            foreach (var item in enumerable)
+            {
+                list.Add(item);
+            }
+
+            return list;
         }
     }
 }

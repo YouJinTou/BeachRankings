@@ -34,30 +34,30 @@ namespace BR.Core.Extensions
 
             switch (prop.PropertyType)
             {
-                case var type when prop.PropertyType == Types.String:
+                case var _ when prop.PropertyType == Types.String:
                     return (string)value ?? Types.DynamoNull;
-                case var type when prop.PropertyType == Types.Int:
+                case var _ when prop.PropertyType == Types.Int:
                     return (int)value;
-                case var type when prop.PropertyType == Types.Long:
+                case var _ when prop.PropertyType == Types.Long:
                     return (long)value;
-                case var type when prop.PropertyType == Types.DateTime:
+                case var _ when prop.PropertyType == Types.DateTime:
                     return (DateTime)value;
-                case var type when prop.PropertyType == Types.NullDateTime:
+                case var _ when prop.PropertyType == Types.NullDateTime:
                     return (DateTime?)value;
-                case var type when prop.PropertyType == Types.Guid:
+                case var _ when prop.PropertyType == Types.Guid:
                     return (Guid)value;
-                case var type when prop.PropertyType == Types.NullDouble:
+                case var _ when prop.PropertyType == Types.NullDouble:
                     if ((double?)value == null)
                     {
                         return Types.DynamoNull;
                     }
 
                     return (double?)value;
-                case var type when prop.PropertyType == Types.ByteArray:
+                case var _ when prop.PropertyType == Types.ByteArray:
                     return (byte[])value;
-                case var type when prop.PropertyType == Types.StringEnumerable:
+                case var _ when prop.PropertyType == Types.StringEnumerable:
                     return ((IEnumerable<string>)value).ToArray();
-                case var type when Types.Enumerable.IsAssignableFrom(prop.PropertyType):
+                case var _ when Types.Enumerable.IsAssignableFrom(prop.PropertyType):
                     return ((System.Collections.IEnumerable)value)
                         .OfType<IDbModel>()
                         .Select(m => ToDynamoDbDocument(m))
