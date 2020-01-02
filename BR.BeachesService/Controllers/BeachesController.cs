@@ -5,6 +5,7 @@ using BR.Core.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BR.BeachesService.Controllers
@@ -43,6 +44,29 @@ namespace BR.BeachesService.Controllers
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Getting beach {id} failed.");
+
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("many")]
+        public async Task<IActionResult> GetBeachesAsync([FromBody]IEnumerable<string> ids)
+        {
+            try
+            {
+                Validator.ThrowIfNull(ids, "Missing beach IDs.");
+
+                this.logger.LogInformation($"Getting beaches {string.Join(" ", ids)}.");
+
+                var beaches = await this.service.GetBeachesAsync(ids);
+                var models = this.mapper.Map<IEnumerable<GetBeachModel>>(beaches);
+
+                return Ok(models);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Getting beach {string.Join(" ", ids)} failed.");
 
                 return BadRequest(ex);
             }

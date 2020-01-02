@@ -64,6 +64,34 @@ namespace BR.Core.Sourcing
             }
         }
 
+        public async Task<IEnumerable<EventStream>> GetEventStreamsAsync(IEnumerable<string> ids)
+        {
+            try
+            {
+                Validator.ThrowIfNull(ids);
+
+                this.logger.LogInformation($"Getting event streams for {string.Join(" ", ids)}.");
+
+                var streams = new List<EventStream>();
+
+                foreach (var id in ids)
+                {
+                    var stream = new EventStream(
+                        await this.repo.GetManyAsync(Constants.StreamId, id));
+
+                    streams.Add(stream);
+                }
+
+                return streams;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to get streams.");
+
+                throw;
+            }
+        }
+
         public async Task AppendEventAsync(EventBase @event)
         {
             try
@@ -108,10 +136,10 @@ namespace BR.Core.Sourcing
                 Validator.ThrowIfNullOrWhiteSpace(eventString);
 
                 var events = eventString.StartsWith("[") ?
-                    JsonConvert.DeserializeObject<IEnumerable<EventBaseModel>>(eventString) :
-                    new List<EventBaseModel> 
+                    JsonConvert.DeserializeObject<IEnumerable<EventBase>>(eventString) :
+                    new List<EventBase> 
                     { 
-                        JsonConvert.DeserializeObject<EventBaseModel>(eventString) 
+                        JsonConvert.DeserializeObject<EventBase>(eventString) 
                     };
                 var stream = EventStream.CreateStream(events.ToArray());
 
@@ -122,25 +150,6 @@ namespace BR.Core.Sourcing
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Failed to append event string {eventString}.");
-
-                throw;
-            }
-        }
-
-        public async Task<IEnumerable<EventStream>> GetEventStreams(params string[] types)
-        {
-            try
-            {
-                if (types.IsNullOrEmpty())
-                {
-                    return new List<EventStream>();
-                }
-
-                return null;
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "Failed to fetch event streams.");
 
                 throw;
             }

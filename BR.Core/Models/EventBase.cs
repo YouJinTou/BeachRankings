@@ -3,9 +3,9 @@ using BR.Core.Tools;
 using Newtonsoft.Json;
 using System;
 
-namespace BR.Core.Events
+namespace BR.Core.Models
 {
-    public abstract class EventBase : IDbModel
+    public class EventBase : IDbModel
     {
         public EventBase()
         {

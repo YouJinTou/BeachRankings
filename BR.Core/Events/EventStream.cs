@@ -1,4 +1,5 @@
 ﻿using BR.Core.Extensions;
+using BR.Core.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections;

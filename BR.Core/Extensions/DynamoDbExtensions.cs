@@ -126,7 +126,8 @@ namespace BR.Core.Extensions
 
             if (!value.L.IsNullOrEmpty())
             {
-                return value.L.ToGenericEnumerable(type.GenericTypeArguments[0]);
+                return value.L.Select(i => GetValue(i, type.GenericTypeArguments[0]))
+                    .ToGenericEnumerable(type.GenericTypeArguments[0]);
             }
 
             if (!value.M.IsNullOrEmpty())

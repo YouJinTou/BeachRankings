@@ -10,6 +10,9 @@ namespace BR.Core.Abstractions
 
         Task<IEnumerable<T>> GetManyAsync(string partitionKeyName, string partitionKeyValue);
 
+        Task<IEnumerable<T>> GetManyAsync(
+            string partitionKeyName, IEnumerable<string> partitionKeyValues);
+
         Task<IEnumerable<T>> GetManyBeginsWithAsync(
             string partitionKeyName,
             string partitionKeyValue,

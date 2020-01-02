@@ -2,6 +2,7 @@
 using Amazon.SimpleNotificationService.Model;
 using BR.Core.Abstractions;
 using BR.Core.Events;
+using BR.Core.Models;
 using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;

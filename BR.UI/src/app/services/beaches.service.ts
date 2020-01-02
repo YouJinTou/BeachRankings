@@ -3,6 +3,7 @@ import { CreateBeachModel } from '../models/create.beach.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
+import { ViewBeachModel } from '../models/view.beach.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,12 @@ export class BeachesService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getBeach(id: string): Observable<any> {
-    return this.httpClient.get(environment.beachesUrl + id);
+  public getBeach(id: string): Observable<ViewBeachModel> {
+    return this.httpClient.get<ViewBeachModel>(environment.beachesUrl + id);
   }
 
-  public getPlaceBeaches(ids: string[]): Observable<any> {
-    //TODO
-    return this.httpClient.get(environment.beachesUrl)
+  public getPlaceBeaches(ids: string[]): Observable<ViewBeachModel[]> {
+    return this.httpClient.post<ViewBeachModel[]>(environment.manyBeachesUrl, ids);
   }
 
   addBeach(model: CreateBeachModel) {

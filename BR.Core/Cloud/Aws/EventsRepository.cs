@@ -1,8 +1,8 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using BR.Core.Abstractions;
-using BR.Core.Events;
 using BR.Core.Extensions;
+using BR.Core.Models;
 using System.Collections.Generic;
 
 namespace BR.Core.Cloud.Aws
@@ -16,7 +16,7 @@ namespace BR.Core.Cloud.Aws
 
         protected override EventBase ConvertTo(Document doc)
         {
-            return doc.ConvertTo<GenericEvent>();
+            return doc.ConvertTo<EventBase>();
         }
 
         protected override IEnumerable<EventBase> ConvertItemsTo(
@@ -26,7 +26,7 @@ namespace BR.Core.Cloud.Aws
 
             foreach (var item in items)
             {
-                var @event = new GenericEvent
+                var @event = new EventBase
                 {
                     Body = item["Body"].S,
                     Offset = int.Parse(item["Offset"].N),

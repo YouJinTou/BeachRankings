@@ -55,9 +55,9 @@ namespace BR.EventsService.Tests
             return new LambdaEntryPoint(Mock.Of<IEventStore>());
         }
 
-        private EventBaseModel CreateModel()
+        private EventBase CreateModel()
         {
-            return new EventBaseModel
+            return new EventBase
             {
                 StreamId = "STREAM_ID",
                 Body = "BODY",

@@ -33,25 +33,22 @@ export class PlaceTableComponent implements OnInit, OnDestroy {
     };
 
     this.route.params.subscribe(params => {
-      console.log(params['id']);
       let placeIid = params['id'].split('_')[0];
       let placeName = params['id'].split('_')[1];
-      this.searchService.searchPlace(placeIid, placeName).subscribe(ids => {
-        console.log(ids);
-        //   this.beachesService.getPlaceBeaches()
-        //     .subscribe(beaches => {
-        //       if (this.dtElement && this.dtElement.dtInstance) {
-        //         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        //           console.log('destroying...')
-        //           dtInstance.destroy();
-        //         });
-        //       }
 
-        //       this.beaches = beaches;
+      this.searchService.searchPlace(placeIid, placeName).subscribe(result => {
+        this.beachesService.getPlaceBeaches(result.beachIds).subscribe(beaches => {
+          if (this.dtElement && this.dtElement.dtInstance) {
+            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+              console.log('destroying...')
+              dtInstance.destroy();
+            });
+          }
 
-        //       this.dtTrigger.next();
-        //     });
-        // });
+          this.beaches = beaches;
+
+          this.dtTrigger.next();
+        });
       });
     });
   }

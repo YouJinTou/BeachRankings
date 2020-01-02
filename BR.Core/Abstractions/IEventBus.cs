@@ -1,4 +1,5 @@
 ﻿using BR.Core.Events;
+using BR.Core.Models;
 using System.Threading.Tasks;
 
 namespace BR.Core.Abstractions

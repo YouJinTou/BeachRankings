@@ -1,4 +1,4 @@
-﻿using BR.Core.Events;
+﻿using BR.Core.Models;
 using BR.ReviewsService.Models;
 
 namespace BR.ReviewsService.Events

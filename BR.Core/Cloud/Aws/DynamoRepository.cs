@@ -1,9 +1,9 @@
 ﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using BR.Core.Abstractions;
 using BR.Core.Extensions;
-using BR.Core.Models;
 using BR.Core.Tools;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +14,13 @@ namespace BR.Core.Cloud.Aws
     public class DynamoRepository<T> : INoSqlRepository<T> where T : IDbModel
     {
         private readonly AmazonDynamoDBClient client;
+        private readonly DynamoDBContext context;
         private readonly string tableName;
 
         public DynamoRepository(string table)
         {
             this.client = new AmazonDynamoDBClient();
+            this.context = new DynamoDBContext(this.client);
             this.tableName = table;
         }
 
@@ -64,6 +66,43 @@ namespace BR.Core.Cloud.Aws
             };
             var response = await this.client.QueryAsync(request);
             var result = this.ConvertItemsTo(response.Items).ToList();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<T>> GetManyAsync(
+            string partitionKeyName, IEnumerable<string> partitionKeyValues)
+        {
+            Validator.ThrowIfAnyNull(partitionKeyName, partitionKeyValues);
+
+            var keys = partitionKeyValues.Select(pkv => new Dictionary<string, AttributeValue>
+            {
+                { partitionKeyName, new AttributeValue { S = pkv } }
+            }).ToList();
+            var requestItems = new Dictionary<string, KeysAndAttributes>
+            {
+                { this.tableName, new KeysAndAttributes { Keys = keys } }
+            };
+            var request = new BatchGetItemRequest(requestItems);
+            var response = default(BatchGetItemResponse);
+            var result = new List<T>();
+
+            do
+            {
+                response = await client.BatchGetItemAsync(request);
+                var responses = response.Responses;
+
+                foreach (var tableName in responses.Keys)
+                {
+                    foreach (var tableResponse in responses[tableName])
+                    {
+                        result.Add(tableResponse.ConvertTo<T>());
+                    }
+                }
+
+                request.RequestItems = response.UnprocessedKeys;
+
+            } while (response.UnprocessedKeys.Count > 0);
 
             return result;
         }

@@ -1,4 +1,4 @@
-﻿using BR.Core.Events;
+﻿using BR.Core.Models;
 
 namespace BR.BeachesService.Events
 {

@@ -7,6 +7,8 @@ using BR.Core.Events;
 using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BR.BeachesService.Services
@@ -47,6 +49,26 @@ namespace BR.BeachesService.Services
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Failed to get beach {id}.");
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Beach>> GetBeachesAsync(IEnumerable<string> ids)
+        {
+            try
+            {
+                Validator.ThrowIfNull(ids, "No beach IDs.");
+
+                var streams = await this.store.GetEventStreamsAsync(ids);
+                var aggregates = streams
+                    .Select(s => this.projector.GetSnapshot(s)).Cast<Beach>().ToList();
+
+                return aggregates;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to get beaches {string.Join(" ", ids)}.");
 
                 throw;
             }
