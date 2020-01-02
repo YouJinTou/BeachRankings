@@ -56,25 +56,4 @@ export class PlaceTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
-
-  // private buildQuery(url: any): any {
-  //   let queryParam = '';
-
-  //   switch (url[0].path) {
-  //     case 'countries':
-  //       queryParam = 'country';
-
-  //       break;
-  //     case 'waterbodies':
-  //       queryParam = 'waterBody';
-
-  //       break;
-  //     default:
-  //       queryParam = url[0].path.slice(0, -1);
-  //   }
-
-  //   let searchQuery = `${queryParam}=${url[1]}`;
-
-  //   return searchQuery;
-  // }
 }

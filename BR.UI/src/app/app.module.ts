@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import { DataTablesModule } from 'angular-datatables';
+
 import { AppComponent } from './app.component';
 import { CreateBeachComponent } from './components/create-beach/create-beach.component';
 import { LoginComponent } from './components/login/login.component';
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
       enableTracing: false
     }),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DataTablesModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
