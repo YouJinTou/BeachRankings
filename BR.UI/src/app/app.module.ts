@@ -15,7 +15,8 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'add-beach', component: CreateBeachComponent, canActivate: [AuthGuardService] }
+  { path: 'add-beach', component: CreateBeachComponent, canActivate: [AuthGuardService] },
+  { path: 'beaches/:id', component: ViewBeachComponent }
 ]
 
 @NgModule({

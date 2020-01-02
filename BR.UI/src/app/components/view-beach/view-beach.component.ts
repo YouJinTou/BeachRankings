@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BeachesService } from '../../services/beaches.service';
 import { ViewBeachModel } from '../../models/view.beach.model';
 
@@ -10,13 +11,13 @@ import { ViewBeachModel } from '../../models/view.beach.model';
 export class ViewBeachComponent implements OnInit {
   beach: ViewBeachModel;
 
-  constructor(private beachesService: BeachesService) { 
+  constructor(private beachesService: BeachesService, private route: ActivatedRoute) { 
     this.beach = new ViewBeachModel();
   }
 
   ngOnInit() {
-    this.beachesService.getBeach(
-      'coral cove beach_asia_thailand_surat thani_ko samui district_ko samui_bo phut_gulf of thailand')
-      .subscribe(result => {console.log(result); this.beach = result;});
+    this.route.params.subscribe(params => {
+      this.beachesService.getBeach(params['id']).subscribe(beach => this.beach = beach);
+    })
   }
 }
