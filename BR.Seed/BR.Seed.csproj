@@ -9,10 +9,14 @@
     <ProjectReference Include="..\BR.BeachesService\BR.BeachesService.csproj" />
     <ProjectReference Include="..\BR.Core\BR.Core.csproj" />
     <ProjectReference Include="..\BR.IndexService\BR.IndexService.csproj" />
+    <ProjectReference Include="..\BR.ReviewsService\BR.ReviewsService.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="beaches.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="reviews - Copy.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="reviews.csv">

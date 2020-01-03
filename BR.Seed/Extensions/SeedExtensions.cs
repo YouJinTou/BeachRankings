@@ -136,10 +136,5 @@ namespace BR.Seed.Extensions
 
             return place;
         }
-
-        public static string NullIfNullString(this string s)
-        {
-            return s == "NULL" ? null : s;
-        }
     }
 }

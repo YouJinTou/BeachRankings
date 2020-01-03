@@ -16,5 +16,22 @@ namespace BR.Core.Extensions
                 collection.Add(s);
             }
         }
+
+        public static double? ToNullDouble(this string number, string defaultNullString = null)
+        {
+            var isNull = string.
+                IsNullOrEmpty(number) || 
+                number.ToLower().Equals(defaultNullString?.ToLower());
+
+            return isNull ? (double?)null : double.Parse(number);
+        }
+
+        public static string NullIfNullString(this string s, string defaultNullString = null)
+        {
+            return 
+                string.IsNullOrWhiteSpace(s) || s.ToLower().Equals(defaultNullString?.ToLower()) ?
+                null : 
+                s;
+        }
     }
 }

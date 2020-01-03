@@ -1,5 +1,6 @@
 ﻿using BR.BeachesService.Events;
 using BR.BeachesService.Models;
+using BR.Core;
 using BR.Core.Abstractions;
 using BR.Core.Cloud.Aws;
 using BR.Core.Events;
@@ -18,36 +19,40 @@ namespace BR.Seed
 {
     public static class BeachesSeed
     {
+        private const string NullString = "NULL";
+
         private static IndexEntryPreprocessor preprocessor = new IndexEntryPreprocessor();
 
-        public static async Task SeedBeachesAsync()
+        public static IEnumerable<Beach> ParseBeaches()
         {
-            var db = new DynamoRepository<IndexEntry>("Index");
             using var reader = new StreamReader("beaches.csv");
-            var allIndices = new List<IndexEntry>();
-            var allBeachTokens = new List<string[]>();
+            var beaches = new List<Beach>();
             var line = string.Empty;
 
             while ((line = reader.ReadLine()) != null)
             {
                 var tokens = line.Split('\t');
-                var indices = GetBeachIndices(tokens).ToList();
 
-                indices.ForEach(i => allIndices.Add(i));
-
-                allBeachTokens.Add(tokens);
+                beaches.Add(CreateBeach(tokens));
             }
 
-            var groupedIndices = allIndices.Group();
+            return beaches;
+        }
+
+        public static async Task SeedBeachesAsync()
+        {
+            var db = new DynamoRepository<IndexEntry>("Index");
+            var beaches = ParseBeaches();
+            var indices = beaches.Select(b => GetBeachIndices(b)).SelectMany(i => i).ToList();
+            var groupedIndices = indices.Group();
 
             await db.AddManyAsync(groupedIndices);
 
-            await SeedEventsAsync(allBeachTokens);
+            await SeedEventsAsync(beaches);
         }
 
-        private static IEnumerable<IndexEntry> GetBeachIndices(string[] tokens)
+        private static IEnumerable<IndexEntry> GetBeachIndices(Beach beach)
         {
-            var beach = CreateBeach(tokens);
             var allEntries = Collection.Combine<IndexEntry>(
                 GetPlaceEntries(PlaceType.Beach, beach.Name, beach.Id),
                 GetPlaceEntries(PlaceType.Continent, beach.Continent, beach.Id),
@@ -64,7 +69,7 @@ namespace BR.Seed
         private static IEnumerable<IndexEntry> GetPlaceEntries(
             PlaceType type, string name, params string[] ids)
         {
-            if (string.IsNullOrWhiteSpace(name.NullIfNullString()))
+            if (string.IsNullOrWhiteSpace(name.NullIfNullString(NullString)))
             {
                 return new List<IndexEntry>();
             }
@@ -72,12 +77,11 @@ namespace BR.Seed
             return preprocessor.PreprocessToken(new IndexToken(name, type), ids);
         }
 
-        private static async Task SeedEventsAsync(IEnumerable<string[]> tokensList)
+        private static async Task SeedEventsAsync(IEnumerable<Beach> beaches)
         {
             var services = new ServiceCollection().AddCore();
             var provider = services.BuildServiceProvider();
             var store = provider.GetService<IEventStore>();
-            var beaches = tokensList.Select(t => CreateBeach(t)).ToList();
             var events = beaches.Select(b => new BeachCreated(b)).ToArray();
 
             await store.AppendEventStreamAsync(EventStream.CreateStream(events));
@@ -87,13 +91,13 @@ namespace BR.Seed
         {
             var name = tokens[0];
             var continent = tokens[1];
-            var country = tokens[2].NullIfNullString();
-            var l1 = tokens[3].NullIfNullString();
-            var l2 = tokens[4].NullIfNullString();
-            var l3 = tokens[5].NullIfNullString();
-            var l4 = tokens[6].NullIfNullString();
+            var country = tokens[2].NullIfNullString(NullString);
+            var l1 = tokens[3].NullIfNullString(NullString);
+            var l2 = tokens[4].NullIfNullString(NullString);
+            var l3 = tokens[5].NullIfNullString(NullString);
+            var l4 = tokens[6].NullIfNullString(NullString);
             var waterBody = tokens[7];
-            var coordinates = tokens[8].NullIfNullString();
+            var coordinates = tokens[8].NullIfNullString(NullString);
             var score = tokens[9];
             var sandQuality = tokens[10];
             var beachCleanliness = tokens[11];
@@ -119,33 +123,26 @@ namespace BR.Seed
                 l2: l2,
                 l3: l3,
                 l4: l4,
-                addedBy: "Admin",
+                addedBy: Constants.Surfer,
                 coordinates: coordinates,
-                score: ParseNullDouble(score),
-                sandQuality: ParseNullDouble(sandQuality),
-                beachCleanliness: ParseNullDouble(beachCleanliness),
-                beautifulScenery: ParseNullDouble(beautifulScenery),
-                crowdFree: ParseNullDouble(crowdFree),
-                infrastructure: ParseNullDouble(infrastructure),
-                waterVisibility: ParseNullDouble(waterVisibility),
-                litterFree: ParseNullDouble(litterFree),
-                feetFriendlyBottom: ParseNullDouble(feetFriendlyBottom),
-                seaLifeDiversity: ParseNullDouble(seaLifeDiversity),
-                coralReef: ParseNullDouble(coralReef),
-                snorkeling: ParseNullDouble(snorkeling),
-                kayaking: ParseNullDouble(kayaking),
-                walking: ParseNullDouble(walking),
-                camping: ParseNullDouble(camping),
-                longTermStay: ParseNullDouble(longTermStay));
+                score: score.ToNullDouble(NullString),
+                sandQuality: sandQuality.ToNullDouble(NullString),
+                beachCleanliness: beachCleanliness.ToNullDouble(NullString),
+                beautifulScenery: beautifulScenery.ToNullDouble(NullString),
+                crowdFree: crowdFree.ToNullDouble(NullString),
+                infrastructure: infrastructure.ToNullDouble(NullString),
+                waterVisibility: waterVisibility.ToNullDouble(NullString),
+                litterFree: litterFree.ToNullDouble(NullString),
+                feetFriendlyBottom: feetFriendlyBottom.ToNullDouble(NullString),
+                seaLifeDiversity: seaLifeDiversity.ToNullDouble(NullString),
+                coralReef: coralReef.ToNullDouble(NullString),
+                snorkeling: snorkeling.ToNullDouble(NullString),
+                kayaking: kayaking.ToNullDouble(NullString),
+                walking: walking.ToNullDouble(NullString),
+                camping: camping.ToNullDouble(NullString),
+                longTermStay: longTermStay.ToNullDouble(NullString));
 
             return beach;
-        }
-
-        private static double? ParseNullDouble(string number)
-        {
-            return string.IsNullOrEmpty(number.NullIfNullString()) ? 
-                (double?)null : 
-                double.Parse(number);
         }
     }
 }
