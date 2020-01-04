@@ -2,18 +2,20 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const baseUrl = 'http://localhost:5000/api/v1/';
+
 export const environment = {
   production: false,
-  loginUrl: 'http://localhost:5000/api/v1/iam/auth/login/', 
-  authUrl: 'http://localhost:5000/api/v1/iam/auth/', 
-  usersUrl: 'http://localhost:5000/api/v1/iam/users/', 
-  beachesUrl: 'http://localhost:5002/api/v1/beaches/',
-  manyBeachesUrl: 'http://localhost:5002/api/v1/beaches/many',
-  reviewsUrl: 'http://localhost:5004/api/v1/reviews/',
-  countriesUrl: 'http://localhost:5006/api/v1/places/countries/',
-  placeChildrenUrl: 'http://localhost:5006/api/v1/places/{id}/next',
-  searchUrl: 'http://localhost:5008/api/v1/search?query=',
-  searchPlaceUrl: 'http://localhost:5008/api/v1/search/place?id={id}&name={name}',
+  loginUrl: baseUrl + 'iam/auth/login/', 
+  authUrl: baseUrl + 'iam/auth/', 
+  usersUrl: baseUrl + 'iam/users/', 
+  beachesUrl: baseUrl + 'beaches/',
+  manyBeachesUrl: baseUrl + 'beaches/many',
+  reviewsUrl: baseUrl + 'reviews/',
+  countriesUrl: baseUrl + 'places/countries/',
+  placeChildrenUrl: baseUrl + 'places/{id}/next',
+  searchUrl: baseUrl + 'search?query=',
+  searchPlaceUrl: baseUrl + 'search/place?id={id}&name={name}',
 };
 
 /*
