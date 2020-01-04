@@ -20,7 +20,7 @@ namespace BR.Core.Services
         public ReviewsService(
             IEventStore store,
             IEventBus bus,
-            IStreamProjector projector, 
+            IReviewStreamProjector projector, 
             IMapper mapper, 
             ILogger<ReviewsService> logger)
         {

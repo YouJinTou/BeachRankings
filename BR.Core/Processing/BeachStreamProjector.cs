@@ -13,10 +13,19 @@ namespace BR.Core.Processing
         {
             Validator.ThrowIfNull(stream);
 
-            var @event = stream.LastOrDefault();
+            var @event = stream.Where(
+                e => e.Type.Equals(Event.BeachCreated.ToString()) 
+                || e.Type.Equals(Event.BeachModified.ToString())
+                || e.Type.Equals(Event.BeachDeleted.ToString())).LastOrDefault();
 
-            return (@event == null) ?
-                Beach.CreateNull() : JsonConvert.DeserializeObject<Beach>(@event.Body);
+            if (@event == null || @event.Type.Equals(Event.BeachDeleted.ToString()))
+            {
+                return Beach.CreateNull();
+            }
+
+            var beach = JsonConvert.DeserializeObject<Beach>(@event.Body);
+
+            return beach;
         }
     }
 }

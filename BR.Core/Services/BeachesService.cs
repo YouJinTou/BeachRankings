@@ -22,7 +22,7 @@ namespace BR.Core.Services
         public BeachesService(
             IEventStore store,
             IEventBus bus,
-            IStreamProjector projector,
+            IBeachStreamProjector projector,
             IMapper mapper,
             ILogger<BeachesService> logger)
         {
