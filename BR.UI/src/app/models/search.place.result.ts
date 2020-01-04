@@ -1,3 +1,5 @@
+import { ViewBeachModel } from "./view.beach.model";
+
 export class SearchPlaceResult {
-    beachIds: string[];
+    beaches: ViewBeachModel[];
 }

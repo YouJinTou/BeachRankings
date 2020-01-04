@@ -2,7 +2,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
-import { BeachesService } from '../../services/beaches.service';
 import { SearchService } from '../../services/search.service';
 import { ViewBeachModel } from '../../models/view.beach.model';
 
@@ -19,7 +18,6 @@ export class PlaceTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private searchService: SearchService,
-    private beachesService: BeachesService,
     private route: ActivatedRoute) {
     this.dtTrigger = new Subject();
   }
@@ -37,18 +35,16 @@ export class PlaceTableComponent implements OnInit, OnDestroy {
       let placeName = params['id'].split('_')[1];
 
       this.searchService.searchPlace(placeIid, placeName).subscribe(result => {
-        this.beachesService.getPlaceBeaches(result.beachIds).subscribe(beaches => {
-          if (this.dtElement && this.dtElement.dtInstance) {
-            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-              console.log('destroying...')
-              dtInstance.destroy();
-            });
-          }
+        if (this.dtElement && this.dtElement.dtInstance) {
+          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            console.log('destroying...')
+            dtInstance.destroy();
+          });
+        }
 
-          this.beaches = beaches;
+        this.beaches = result.beaches;
 
-          this.dtTrigger.next();
-        });
+        this.dtTrigger.next();
       });
     });
   }
