@@ -64,14 +64,14 @@ namespace BR.Seed
                 .ToArray();
             var userLeftReviewEvents = reviews.Select((r, i) =>
             {
-                var model = new UserLeftReviewModel(Constants.Surfer, r.Id, r.BeachId);
+                var model = new UserLeftReviewModel(r.UserId, r.Id, r.BeachId);
 
                 return new AppEvent(
                     model.UserId, model, ReviewsService.Models.Event.UserLeftReview.ToString());
             }).ToArray();
             var beachReviewedEvents = reviews.Select((r, i) =>
             {
-                var model = new BeachReviewedModel(r.BeachId, Constants.Surfer, r.Id);
+                var model = new BeachReviewedModel(r.BeachId, r.UserId, r.Id);
 
                 return new AppEvent(
                     model.BeachId, model, ReviewsService.Models.Event.BeachReviewed.ToString());

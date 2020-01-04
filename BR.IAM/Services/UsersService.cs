@@ -68,7 +68,7 @@ namespace BR.Iam.Services
                 await this.repo.AddAsync(user);
 
                 await this.bus.PublishEventAsync(
-                    new EventBase(user.Id, user, Event.UserCreated.ToString()));
+                    new AppEvent(user.Id, user, Event.UserCreated.ToString()));
 
                 return user;
             }
