@@ -58,8 +58,7 @@ namespace BR.Seed
                 }
             }
 
-            var reviewCreatedEvents = reviews
-                .Select(r => new AppEvent(
+            var reviewCreatedEvents = reviews.Select(r => new AppEvent(
                     r.Id.ToString(), r, ReviewsService.Models.Event.ReviewCreated.ToString()))
                 .ToArray();
             var userLeftReviewEvents = reviews.Select((r, i) =>

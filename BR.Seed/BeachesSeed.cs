@@ -20,7 +20,7 @@ namespace BR.Seed
     {
         private const string NullString = "NULL";
 
-        private static IndexEntryPreprocessor preprocessor = new IndexEntryPreprocessor();
+        private static readonly IndexEntryPreprocessor preprocessor = new IndexEntryPreprocessor();
 
         public static IEnumerable<Beach> ParseBeaches()
         {
@@ -81,10 +81,14 @@ namespace BR.Seed
             var services = new ServiceCollection().AddCore();
             var provider = services.BuildServiceProvider();
             var store = provider.GetService<IEventStore>();
-            var events = beaches.Select(
+            var beachCreatedEvents = beaches.Select(
                 b => new AppEvent(b.Id, b, Event.BeachCreated.ToString())).ToArray();
+            var userCreatedBeachEvents = beaches.Select(
+                b => new AppEvent(b.AddedBy, b.Id, Event.UserCreatedBeach.ToString()));
+            var events = Collection.Combine<AppEvent>(beachCreatedEvents, userCreatedBeachEvents);
+            var stream = EventStream.CreateStream(events.ToArray());
 
-            await store.AppendEventStreamAsync(EventStream.CreateStream(events));
+            await store.AppendEventStreamAsync(stream);
         }
 
         private static Beach CreateBeach(string[] tokens)
