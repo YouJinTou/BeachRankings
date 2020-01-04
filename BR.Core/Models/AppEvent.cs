@@ -1,4 +1,5 @@
-﻿using BR.Core.Abstractions;
+﻿using Amazon.DynamoDBv2.DataModel;
+using BR.Core.Abstractions;
 using BR.Core.Tools;
 using Newtonsoft.Json;
 using System;
@@ -19,8 +20,10 @@ namespace BR.Core.Models
             this.Type = Validator.ReturnOrThrowIfNullOrWhiteSpace(type);
         }
 
+        [DynamoDBHashKey]
         public string StreamId { get; set; }
 
+        [DynamoDBRangeKey]
         public long TimeStamp { get; set; }
 
         public string Type { get; set; }
