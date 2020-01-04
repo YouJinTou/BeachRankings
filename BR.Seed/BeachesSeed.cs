@@ -53,7 +53,7 @@ namespace BR.Seed
             var indices = beaches.Select(b => GetBeachIndices(b)).SelectMany(i => i).ToList();
             var groupedIndices = indices.Group();
 
-            //await db.AddManyAsync(groupedIndices);
+            await db.AddManyAsync(groupedIndices);
 
             await SeedEventsAsync(beaches);
         }
