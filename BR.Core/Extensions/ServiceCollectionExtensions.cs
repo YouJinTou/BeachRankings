@@ -53,8 +53,8 @@ namespace BR.Core.Extensions
         private static IServiceCollection AddDb(this IServiceCollection services)
         {
             services
-                .AddTransient<INoSqlRepository<EventBase>>(
-                    sp => new DynamoRepository<EventBase>("EventLog"))
+                .AddTransient<INoSqlRepository<AppEvent>>(
+                    sp => new DynamoRepository<AppEvent>("EventLog"))
                 .AddTransient<IEventsRepository>(
                     sp => new EventsRepository("EventLog"))
                 .AddTransient<INoSqlRepository<IndexEntry>>(

@@ -32,7 +32,7 @@ namespace BR.EventsService.Tests
         [Fact]
         public async Task PassMultipleEvents()
         {
-            var stream = new List<EventBase>
+            var stream = new List<AppEvent>
             {
                 this.CreateModel(),
                 this.CreateModel()
@@ -55,9 +55,9 @@ namespace BR.EventsService.Tests
             return new LambdaEntryPoint(Mock.Of<IEventStore>());
         }
 
-        private EventBase CreateModel()
+        private AppEvent CreateModel()
         {
-            return new EventBase
+            return new AppEvent
             {
                 StreamId = "STREAM_ID",
                 Body = "BODY",

@@ -52,7 +52,7 @@ namespace BR.Core.Sourcing
                 this.logger.LogInformation($"Getting event stream for {streamId}/{type}.");
 
                 var events = await this.repo.GetManyByAttributeAsync(
-                    streamId, nameof(EventBase.Type), type);
+                    streamId, nameof(AppEvent.Type), type);
 
                 return new EventStream(events.ToList());
             }
@@ -92,7 +92,7 @@ namespace BR.Core.Sourcing
             }
         }
 
-        public async Task AppendEventAsync(EventBase @event)
+        public async Task AppendEventAsync(AppEvent @event)
         {
             try
             {
@@ -136,10 +136,10 @@ namespace BR.Core.Sourcing
                 Validator.ThrowIfNullOrWhiteSpace(eventString);
 
                 var events = eventString.StartsWith("[") ?
-                    JsonConvert.DeserializeObject<IEnumerable<EventBase>>(eventString) :
-                    new List<EventBase> 
+                    JsonConvert.DeserializeObject<IEnumerable<AppEvent>>(eventString) :
+                    new List<AppEvent> 
                     { 
-                        JsonConvert.DeserializeObject<EventBase>(eventString) 
+                        JsonConvert.DeserializeObject<AppEvent>(eventString) 
                     };
                 var stream = EventStream.CreateStream(events.ToArray());
 

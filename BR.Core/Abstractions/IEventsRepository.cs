@@ -2,7 +2,7 @@
 
 namespace BR.Core.Abstractions
 {
-    internal interface IEventsRepository : INoSqlRepository<EventBase>
+    internal interface IEventsRepository : INoSqlRepository<AppEvent>
     {
     }
 }

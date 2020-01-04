@@ -70,15 +70,15 @@ namespace BR.ReviewsService.Services
                 }
 
                 var review = this.mapper.Map<Review>(model);
-                var reviewCreated = new EventBase(
+                var reviewCreated = new AppEvent(
                 review.Id.ToString(), review, Event.ReviewCreated.ToString());
                 var beachReviwedModel = new BeachReviewedModel(
                     review.BeachId, review.UserId, review.Id);
-                var beachReviewed = new EventBase(
+                var beachReviewed = new AppEvent(
                     review.BeachId, beachReviwedModel, Event.BeachReviewed.ToString());
                 var userLeftReviewModel = new UserLeftReviewModel(
                     review.UserId, review.Id, review.BeachId);
-                var userLeftReview = new EventBase(
+                var userLeftReview = new AppEvent(
                     review.UserId, userLeftReviewModel, Event.UserLeftReview.ToString());
                 var stream = EventStream.CreateStream(
                     reviewCreated, beachReviewed, userLeftReview);
@@ -101,15 +101,15 @@ namespace BR.ReviewsService.Services
             {
                 Validator.ThrowIfNull(model, "Missing review data.");
 
-                var reviewModified = new EventBase(
+                var reviewModified = new AppEvent(
                     model.Id.ToString(), model, Event.ReviewModified.ToString());
                 var userModifiedReviewModel = this.mapper.Map<UserModifiedReviewModel>(model);
-                var userModifiedReview = new EventBase(
+                var userModifiedReview = new AppEvent(
                     model.UserId, 
                     userModifiedReviewModel, 
                     Event.UserModifiedReview.ToString());
                 var beachReviewChangedModel = this.mapper.Map<BeachReviewChangedModel>(model);
-                var beachReviewChanged = new EventBase(
+                var beachReviewChanged = new AppEvent(
                     model.BeachId, 
                     beachReviewChangedModel, 
                     Event.BeachReviewChanged.ToString());

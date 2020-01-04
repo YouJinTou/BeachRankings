@@ -59,24 +59,24 @@ namespace BR.Seed
             }
 
             var reviewCreatedEvents = reviews
-                .Select(r => new EventBase(
+                .Select(r => new AppEvent(
                     r.Id.ToString(), r, ReviewsService.Models.Event.ReviewCreated.ToString()))
                 .ToArray();
             var userLeftReviewEvents = reviews.Select((r, i) =>
             {
                 var model = new UserLeftReviewModel(Constants.Surfer, r.Id, r.BeachId);
 
-                return new EventBase(
+                return new AppEvent(
                     model.UserId, model, ReviewsService.Models.Event.UserLeftReview.ToString());
             }).ToArray();
             var beachReviewedEvents = reviews.Select((r, i) =>
             {
                 var model = new BeachReviewedModel(r.BeachId, Constants.Surfer, r.Id);
 
-                return new EventBase(
+                return new AppEvent(
                     model.BeachId, model, ReviewsService.Models.Event.BeachReviewed.ToString());
             }).ToArray();
-            var events = Collection.Combine<EventBase>(
+            var events = Collection.Combine<AppEvent>(
                 reviewCreatedEvents, userLeftReviewEvents, beachReviewedEvents).ToArray();
             var stream = EventStream.CreateStream(events);
 

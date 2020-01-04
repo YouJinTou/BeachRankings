@@ -9,18 +9,18 @@ using System.Text;
 
 namespace BR.Core.Events
 {
-    public class EventStream : IEnumerable<EventBase>
+    public class EventStream : IEnumerable<AppEvent>
     {
-        private IEnumerable<EventBase> events;
+        private IEnumerable<AppEvent> events;
 
-        public EventStream(IEnumerable<EventBase> events)
+        public EventStream(IEnumerable<AppEvent> events)
         {
-            this.events = events ?? new List<EventBase>();
+            this.events = events ?? new List<AppEvent>();
         }
 
-        public static EventStream CreateStream(params EventBase[] events)
+        public static EventStream CreateStream(params AppEvent[] events)
         {
-            return new EventStream(events ?? new EventBase[] { });
+            return new EventStream(events ?? new AppEvent[] { });
         }
 
         public bool IsEmpty()
@@ -33,7 +33,7 @@ namespace BR.Core.Events
             return this.Any(e => func(JsonConvert.DeserializeObject<T>(e.Body)));
         }
 
-        public IEnumerator<EventBase> GetEnumerator()
+        public IEnumerator<AppEvent> GetEnumerator()
         {
             return this.events.GetEnumerator();
         }

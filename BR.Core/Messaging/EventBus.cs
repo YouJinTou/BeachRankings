@@ -23,7 +23,7 @@ namespace BR.Core.Messaging
             this.logger = logger;
         }
 
-        public async Task PublishEventAsync(EventBase @event)
+        public async Task PublishEventAsync(AppEvent @event)
         {
             try
             {

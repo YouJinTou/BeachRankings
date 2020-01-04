@@ -7,26 +7,26 @@ using System.Collections.Generic;
 
 namespace BR.Core.Cloud.Aws
 {
-    internal class EventsRepository : DynamoRepository<EventBase>, IEventsRepository
+    internal class EventsRepository : DynamoRepository<AppEvent>, IEventsRepository
     {
         public EventsRepository(string table)
             : base(table)
         {
         }
 
-        protected override EventBase ConvertTo(Document doc)
+        protected override AppEvent ConvertTo(Document doc)
         {
-            return doc.ConvertTo<EventBase>();
+            return doc.ConvertTo<AppEvent>();
         }
 
-        protected override IEnumerable<EventBase> ConvertItemsTo(
+        protected override IEnumerable<AppEvent> ConvertItemsTo(
             IEnumerable<Dictionary<string, AttributeValue>> items)
         {
-            var result = new List<EventBase>();
+            var result = new List<AppEvent>();
 
             foreach (var item in items)
             {
-                var @event = new EventBase
+                var @event = new AppEvent
                 {
                     Body = item["Body"].S,
                     StreamId = item[Constants.StreamId].S,

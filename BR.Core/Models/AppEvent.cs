@@ -5,13 +5,13 @@ using System;
 
 namespace BR.Core.Models
 {
-    public class EventBase : IDbModel
+    public class AppEvent : IDbModel
     {
-        public EventBase()
+        public AppEvent()
         {
         }
 
-        public EventBase(string streamId, object body, string type)
+        public AppEvent(string streamId, object body, string type)
         {
             this.StreamId = Validator.ReturnOrThrowIfNullOrWhiteSpace(streamId);
             this.Body = JsonConvert.SerializeObject(body);

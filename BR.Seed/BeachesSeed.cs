@@ -82,7 +82,7 @@ namespace BR.Seed
             var provider = services.BuildServiceProvider();
             var store = provider.GetService<IEventStore>();
             var events = beaches.Select(
-                b => new EventBase(b.Id, b, Event.BeachCreated.ToString())).ToArray();
+                b => new AppEvent(b.Id, b, Event.BeachCreated.ToString())).ToArray();
 
             await store.AppendEventStreamAsync(EventStream.CreateStream(events));
         }

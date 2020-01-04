@@ -89,8 +89,8 @@ namespace BR.BeachesService.Services
                 }
 
                 var userStream = await this.store.GetEventStreamAsync(model.AddedBy);
-                var beachCreated = new EventBase(beach.Id, beach, Event.BeachCreated.ToString());
-                var userCreatedBeach = new EventBase(
+                var beachCreated = new AppEvent(beach.Id, beach, Event.BeachCreated.ToString());
+                var userCreatedBeach = new AppEvent(
                     model.AddedBy, beach.Id, Event.UserCreatedBeach.ToString());
                 var events = EventStream.CreateStream(beachCreated, userCreatedBeach);
 
@@ -121,8 +121,8 @@ namespace BR.BeachesService.Services
                 }
 
                 var userStream = await this.store.GetEventStreamAsync(model.ModifiedBy);
-                var beachModified = new EventBase(beach.Id, model, Event.BeachModified.ToString());
-                var userModifiedBeach = new EventBase(
+                var beachModified = new AppEvent(beach.Id, model, Event.BeachModified.ToString());
+                var userModifiedBeach = new AppEvent(
                     model.ModifiedBy, beach.Id, Event.UserModifiedBeach.ToString());
                 var events = EventStream.CreateStream(beachModified, userModifiedBeach);
 
