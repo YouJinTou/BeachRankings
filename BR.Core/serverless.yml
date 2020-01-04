@@ -26,7 +26,7 @@ custom:
 
 functions:
   api:
-    handler: BR.Core::BR.Core.Cloud.Aws.WebEntryPoint::Init
+    handler: BR.Core::BR.Core.Cloud.Aws.WebEntryPoint::FunctionHandlerAsync
     environment:
       MessagingTopic: !Ref messagingTopic
     events:
