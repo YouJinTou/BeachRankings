@@ -5,6 +5,8 @@ provider:
   runtime: dotnetcore2.1
   region: eu-central-1
   stage: ${opt:stage, self:custom:defaultStage}
+  memorySize: 192
+  timeout: 15
   iamRoleStatements:
     - Effect: Allow
       Action:
