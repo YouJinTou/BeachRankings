@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using BR.BeachesService.Models;
 using BR.Core;
 using BR.Core.Abstractions;
 using BR.Core.Cloud.Aws;
 using BR.Core.Events;
 using BR.Core.Extensions;
 using BR.Core.Models;
+using BR.Core.Processors;
 using BR.Core.Tools;
-using BR.IndexService.Processors;
 using BR.Seed.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -22,10 +21,13 @@ namespace BR.Seed
         private const string NullString = "NULL";
 
         private static readonly IndexEntryPreprocessor preprocessor = new IndexEntryPreprocessor();
+        private static readonly INoSqlRepository<IndexEntry> db;
         private static readonly IMapper mapper;
 
         static BeachesSeed()
         {
+            var provider = new ServiceCollection().AddCore().BuildServiceProvider();
+            db = provider.GetService<INoSqlRepository<IndexEntry>>();
             var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Beach, IndexBeach>());
             mapper = new Mapper(configuration);
         }
@@ -48,7 +50,6 @@ namespace BR.Seed
 
         public static async Task SeedBeachesAsync()
         {
-            var db = new DynamoRepository<IndexEntry>("Index");
             var beaches = ParseBeaches();
             var indices = beaches.Select(b => GetBeachIndices(b)).SelectMany(i => i).ToList();
             var groupedIndices = indices.Group();

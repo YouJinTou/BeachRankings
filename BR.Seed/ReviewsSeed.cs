@@ -1,11 +1,9 @@
-﻿using BR.BeachesService.Models;
-using BR.Core;
+﻿using BR.Core;
 using BR.Core.Abstractions;
 using BR.Core.Events;
 using BR.Core.Extensions;
 using BR.Core.Models;
 using BR.Core.Tools;
-using BR.ReviewsService.Models;
 using BR.Seed.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic.FileIO;
@@ -18,6 +16,15 @@ namespace BR.Seed
 {
     internal static class ReviewsSeed
     {
+        private static readonly IEventStore store;
+
+        static ReviewsSeed()
+        {
+            var services = new ServiceCollection().AddCore();
+            var provider = services.BuildServiceProvider();
+            store = provider.GetService<IEventStore>();
+        }
+
         public static async Task SeedReviewsAsync()
         {
             var tokensList = new List<string[]>();
@@ -41,9 +48,6 @@ namespace BR.Seed
             IEnumerable<string[]> tokensList, IEnumerable<Beach> beaches)
         {
             var startingIndex = beaches.Count() + 1;
-            var services = new ServiceCollection().AddCore();
-            var provider = services.BuildServiceProvider();
-            var store = provider.GetService<IEventStore>();
             var reviews = new List<Review>();
             var failedReviews = new List<string>();
 
@@ -60,21 +64,21 @@ namespace BR.Seed
             }
 
             var reviewCreatedEvents = reviews.Select(r => new AppEvent(
-                    r.Id.ToString(), r, ReviewsService.Models.Event.ReviewCreated.ToString()))
+                    r.Id.ToString(), r, Event.ReviewCreated.ToString()))
                 .ToArray();
             var userLeftReviewEvents = await reviews.SelectDelayAsync(r =>
             {
                 var model = new UserLeftReviewModel(r.UserId, r.Id, r.BeachId);
 
                 return new AppEvent(
-                    model.UserId, model, ReviewsService.Models.Event.UserLeftReview.ToString());
+                    model.UserId, model, Event.UserLeftReview.ToString());
             });
             var beachReviewedEvents = await reviews.SelectDelayAsync(r =>
             {
                 var model = new BeachReviewedModel(r.BeachId, r.UserId, r.Id);
 
                 return new AppEvent(
-                    model.BeachId, model, ReviewsService.Models.Event.BeachReviewed.ToString());
+                    model.BeachId, model, Event.BeachReviewed.ToString());
             });
             var events = Collection.Combine<AppEvent>(
                 reviewCreatedEvents, userLeftReviewEvents, beachReviewedEvents).ToArray();

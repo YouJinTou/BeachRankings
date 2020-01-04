@@ -10,7 +10,7 @@
         public static class Env
         {
             public const string Stage = "STAGE";
-            public const string Dev = "dev";
+            public const string QA = "qa";
         }
     }
 }

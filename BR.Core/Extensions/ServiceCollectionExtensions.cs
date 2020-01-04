@@ -1,8 +1,9 @@
 ﻿using Amazon.SimpleNotificationService;
+using AutoMapper;
 using BR.Core.Abstractions;
 using BR.Core.Cloud.Aws;
-using BR.Core.Events;
 using BR.Core.Models;
+using BR.Core.Processing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Reflection;
@@ -18,12 +19,14 @@ namespace BR.Core.Extensions
                 .AddLogging()
                 .AddAWSService<IAmazonSimpleNotificationService>()
                 .AddUiCors()
+                .AddAutoMapper(typeof(Constants).Assembly)
+                .AddProjectors()
                 .AddDb();
 
             return services;
         }
 
-        public static IServiceCollection AddByConvention(
+        private static IServiceCollection AddByConvention(
             this IServiceCollection services, params Assembly[] assemblies)
         {
             foreach (var assembly in assemblies)
@@ -52,13 +55,30 @@ namespace BR.Core.Extensions
 
         private static IServiceCollection AddDb(this IServiceCollection services)
         {
+            var settings = services.BuildServiceProvider().GetService<Settings>() 
+                ?? new Settings();
+
             services
                 .AddTransient<INoSqlRepository<AppEvent>>(
-                    sp => new DynamoRepository<AppEvent>("EventLog"))
-                .AddTransient<IEventsRepository>(
-                    sp => new EventsRepository("EventLog"))
+                    sp => new DynamoRepository<AppEvent>(settings.EventLogTable))
+                 .AddTransient<IEventsRepository>(
+                    sp => new EventsRepository(settings.EventLogTable))
+                .AddTransient<INoSqlRepository<Place>>(
+                    sp => new DynamoRepository<Place>(settings.PlacesTable))
+                .AddTransient<INoSqlRepository<User>>(
+                    sp => new DynamoRepository<User>(settings.UsersTable))
                 .AddTransient<INoSqlRepository<IndexEntry>>(
-                    sp => new DynamoRepository<IndexEntry>("Index"));
+                    sp => new DynamoRepository<IndexEntry>(settings.IndexTable));
+
+            return services;
+        }
+
+        private static IServiceCollection AddProjectors(this IServiceCollection services)
+        {
+            services
+                .AddTransient<IReviewStreamProjector, ReviewStreamProjector>()
+                .AddTransient<IBeachStreamProjector, BeachStreamProjector>()
+                .AddTransient<IUserStreamProjector, UserStreamProjector>();
 
             return services;
         }

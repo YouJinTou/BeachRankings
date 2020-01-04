@@ -6,14 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BR.BeachesService\BR.BeachesService.csproj" />
-    <ProjectReference Include="..\BR.Core\BR.Core.csproj" />
-    <ProjectReference Include="..\BR.IndexService\BR.IndexService.csproj" />
-    <ProjectReference Include="..\BR.ReviewsService\BR.ReviewsService.csproj" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <ProjectReference Include="..\BR.Core\BR.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

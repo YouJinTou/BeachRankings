@@ -1,7 +1,9 @@
-﻿using BR.Core.Cloud.Aws;
+﻿using BR.Core.Abstractions;
+using BR.Core.Cloud.Aws;
 using BR.Core.Extensions;
 using BR.Core.Models;
 using BR.Seed.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,9 +14,16 @@ namespace BR.Seed
 {
     public static class PlacesSeed
     {
+        private static readonly INoSqlRepository<Place> db;
+
+        static PlacesSeed()
+        {
+            var provider = new ServiceCollection().AddCore().BuildServiceProvider();
+            db = provider.GetService<INoSqlRepository<Place>>();
+        }
+
         public static async Task SeedPlacesAsync()
         {
-            var db = new DynamoRepository<Place>("Places");
             var places = GetPlaces();
 
             await db.AddManyAsync(places);
