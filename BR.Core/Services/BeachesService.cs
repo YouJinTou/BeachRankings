@@ -52,26 +52,6 @@ namespace BR.Core.Services
             }
         }
 
-        public async Task<IEnumerable<Beach>> GetBeachesAsync(IEnumerable<string> ids)
-        {
-            try
-            {
-                Validator.ThrowIfNull(ids, "No beach IDs.");
-
-                var streams = await this.store.GetEventStreamsAsync(ids);
-                var aggregates = streams
-                    .Select(s => this.projector.GetSnapshot(s)).Cast<Beach>().ToList();
-
-                return aggregates;
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, $"Failed to get beaches {string.Join(" ", ids)}.");
-
-                throw;
-            }
-        }
-
         public async Task<Beach> CreateBeachAsync(CreateBeachModel model)
         {
             try

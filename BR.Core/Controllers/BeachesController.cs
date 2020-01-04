@@ -50,29 +50,6 @@ namespace BR.Core.Controllers
         }
 
         [HttpPost]
-        [Route("many")]
-        public async Task<IActionResult> GetBeachesAsync([FromBody]IEnumerable<string> ids)
-        {
-            try
-            {
-                Validator.ThrowIfNull(ids, "Missing beach IDs.");
-
-                this.logger.LogInformation($"Getting beaches {string.Join(" ", ids)}.");
-
-                var beaches = await this.service.GetBeachesAsync(ids);
-                var models = this.mapper.Map<IEnumerable<GetBeachModel>>(beaches);
-
-                return Ok(models);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, $"Getting beach {string.Join(" ", ids)} failed.");
-
-                return BadRequest(ex);
-            }
-        }
-
-        [HttpPost]
         public async Task<IActionResult> CreateBeachAsync([FromBody]CreateBeachModel model)
         {
             try
