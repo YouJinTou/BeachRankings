@@ -1,5 +1,6 @@
 ﻿using BR.Core.Models;
 using BR.Core.Tools;
+using BR.Seed.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,19 +31,20 @@ namespace BR.Seed.Extensions
 
         public static IEnumerable<IndexPosting> Group(this IEnumerable<IndexPosting> postings)
         {
-            var groupedPostings = new Dictionary<string, List<string>>();
+            var groupedPostings = new Dictionary<string, List<IndexBeach>>();
 
             foreach (var posting in postings)
             {
                 if (groupedPostings.ContainsKey(posting.ToString()))
                 {
-                    groupedPostings[posting.ToString()] = new HashSet<string>(
-                        Collection.Combine<string>(
-                            posting.BeachIds, groupedPostings[posting.ToString()])).ToList();
+                    groupedPostings[posting.ToString()] = new HashSet<IndexBeach>(
+                        Collection.Combine<IndexBeach>(
+                            posting.Beaches, groupedPostings[posting.ToString()]),
+                        new IndexBeachEqualityComparer()).ToList();
                 }
                 else
                 {
-                    groupedPostings[posting.ToString()] = posting.BeachIds.ToList();
+                    groupedPostings[posting.ToString()] = posting.Beaches.ToList();
                 }
             }
 
@@ -51,7 +53,7 @@ namespace BR.Seed.Extensions
                 Id = p.Key.Split('_')[0],
                 Place = p.Key.Split('_')[1],
                 Type = p.Key.Split('_')[2],
-                BeachIds = p.Value
+                Beaches = p.Value
             }).ToList();
 
             return result;

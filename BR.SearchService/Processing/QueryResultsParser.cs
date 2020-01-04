@@ -57,7 +57,7 @@ namespace BR.SearchService.Processing
                 Id = i.Id,
                 Name = i.Place,
                 Type = i.Type,
-                BeachesCount = i.BeachIds.Count()
+                BeachesCount = i.Beaches.Count()
             })
             .OrderByDescending(r => r.BeachesCount)
             .Take(take)

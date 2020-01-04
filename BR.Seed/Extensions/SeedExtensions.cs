@@ -1,5 +1,6 @@
 ﻿using BR.Core.Extensions;
 using BR.Core.Models;
+using BR.Seed.Models;
 using System.Collections.Generic;
 using System.Linq;
 

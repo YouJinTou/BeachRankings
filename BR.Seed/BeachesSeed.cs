@@ -1,4 +1,5 @@
-﻿using BR.BeachesService.Models;
+﻿using AutoMapper;
+using BR.BeachesService.Models;
 using BR.Core;
 using BR.Core.Abstractions;
 using BR.Core.Cloud.Aws;
@@ -21,6 +22,13 @@ namespace BR.Seed
         private const string NullString = "NULL";
 
         private static readonly IndexEntryPreprocessor preprocessor = new IndexEntryPreprocessor();
+        private static readonly IMapper mapper;
+
+        static BeachesSeed()
+        {
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Beach, IndexBeach>());
+            mapper = new Mapper(configuration);
+        }
 
         public static IEnumerable<Beach> ParseBeaches()
         {
@@ -45,35 +53,36 @@ namespace BR.Seed
             var indices = beaches.Select(b => GetBeachIndices(b)).SelectMany(i => i).ToList();
             var groupedIndices = indices.Group();
 
-            await db.AddManyAsync(groupedIndices);
+            //await db.AddManyAsync(groupedIndices);
 
             await SeedEventsAsync(beaches);
         }
 
         private static IEnumerable<IndexEntry> GetBeachIndices(Beach beach)
         {
+            var indexBeach = mapper.Map<IndexBeach>(beach);
             var allEntries = Collection.Combine<IndexEntry>(
-                GetPlaceEntries(PlaceType.Beach, beach.Name, beach.Id),
-                GetPlaceEntries(PlaceType.Continent, beach.Continent, beach.Id),
-                GetPlaceEntries(PlaceType.Country, beach.Country, beach.Id),
-                GetPlaceEntries(PlaceType.L1, beach.L1, beach.Id),
-                GetPlaceEntries(PlaceType.L2, beach.L2, beach.Id),
-                GetPlaceEntries(PlaceType.L3, beach.L3, beach.Id),
-                GetPlaceEntries(PlaceType.L4, beach.L4, beach.Id),
-                GetPlaceEntries(PlaceType.WaterBody, beach.WaterBody, beach.Id));
+                GetPlaceEntries(PlaceType.Beach, beach.Name, indexBeach),
+                GetPlaceEntries(PlaceType.Continent, beach.Continent, indexBeach),
+                GetPlaceEntries(PlaceType.Country, beach.Country, indexBeach),
+                GetPlaceEntries(PlaceType.L1, beach.L1, indexBeach),
+                GetPlaceEntries(PlaceType.L2, beach.L2, indexBeach),
+                GetPlaceEntries(PlaceType.L3, beach.L3, indexBeach),
+                GetPlaceEntries(PlaceType.L4, beach.L4, indexBeach),
+                GetPlaceEntries(PlaceType.WaterBody, beach.WaterBody, indexBeach));
 
             return allEntries;
         }
 
         private static IEnumerable<IndexEntry> GetPlaceEntries(
-            PlaceType type, string name, params string[] ids)
+            PlaceType type, string name, IndexBeach beach)
         {
             if (string.IsNullOrWhiteSpace(name.NullIfNullString(NullString)))
             {
                 return new List<IndexEntry>();
             }
 
-            return preprocessor.PreprocessToken(new IndexToken(name, type), ids);
+            return preprocessor.PreprocessToken(new IndexToken(name, type), beach);
         }
 
         private static async Task SeedEventsAsync(IEnumerable<Beach> beaches)
@@ -81,9 +90,9 @@ namespace BR.Seed
             var services = new ServiceCollection().AddCore();
             var provider = services.BuildServiceProvider();
             var store = provider.GetService<IEventStore>();
-            var beachCreatedEvents = beaches.Select(
-                b => new AppEvent(b.Id, b, Event.BeachCreated.ToString())).ToArray();
-            var userCreatedBeachEvents = beaches.Select(
+            var beachCreatedEvents = await beaches.SelectDelayAsync(
+                b => new AppEvent(b.Id, b, Event.BeachCreated.ToString()));
+            var userCreatedBeachEvents = await beaches.SelectDelayAsync(
                 b => new AppEvent(b.AddedBy, b.Id, Event.UserCreatedBeach.ToString()));
             var events = Collection.Combine<AppEvent>(beachCreatedEvents, userCreatedBeachEvents);
             var stream = EventStream.CreateStream(events.ToArray());

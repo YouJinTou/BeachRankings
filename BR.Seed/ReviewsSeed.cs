@@ -6,6 +6,7 @@ using BR.Core.Extensions;
 using BR.Core.Models;
 using BR.Core.Tools;
 using BR.ReviewsService.Models;
+using BR.Seed.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic.FileIO;
 using System;
@@ -61,20 +62,20 @@ namespace BR.Seed
             var reviewCreatedEvents = reviews.Select(r => new AppEvent(
                     r.Id.ToString(), r, ReviewsService.Models.Event.ReviewCreated.ToString()))
                 .ToArray();
-            var userLeftReviewEvents = reviews.Select((r, i) =>
+            var userLeftReviewEvents = await reviews.SelectDelayAsync(r =>
             {
                 var model = new UserLeftReviewModel(r.UserId, r.Id, r.BeachId);
 
                 return new AppEvent(
                     model.UserId, model, ReviewsService.Models.Event.UserLeftReview.ToString());
-            }).ToArray();
-            var beachReviewedEvents = reviews.Select((r, i) =>
+            });
+            var beachReviewedEvents = await reviews.SelectDelayAsync(r =>
             {
                 var model = new BeachReviewedModel(r.BeachId, r.UserId, r.Id);
 
                 return new AppEvent(
                     model.BeachId, model, ReviewsService.Models.Event.BeachReviewed.ToString());
-            }).ToArray();
+            });
             var events = Collection.Combine<AppEvent>(
                 reviewCreatedEvents, userLeftReviewEvents, beachReviewedEvents).ToArray();
             var stream = EventStream.CreateStream(events);

@@ -10,9 +10,8 @@ namespace BR.Seed
             var options = new List<string>
             {
                 "1. Places",
-                "2. Index",
-                "3. Beaches",
-                "4. Reviews"
+                "2. Beaches",
+                "3. Reviews"
             };
             var formattedOptions = string.Join(Environment.NewLine, options);
 
@@ -24,12 +23,9 @@ namespace BR.Seed
                     PlacesSeed.SeedPlacesAsync().Wait();
                     break;
                 case "2":
-                    IndexSeed.SeedIndexAsync().Wait();
-                    break;
-                case "3":
                     BeachesSeed.SeedBeachesAsync().Wait();
                     break;
-                case "4":
+                case "3":
                     ReviewsSeed.SeedReviewsAsync().Wait();
                     break;
                 default:

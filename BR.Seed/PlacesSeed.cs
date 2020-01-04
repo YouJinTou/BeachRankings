@@ -23,8 +23,8 @@ namespace BR.Seed
         private static IEnumerable<Place> GetPlaces()
         {
             using var reader = new StreamReader("seed.xml");
-            var serializer = new XmlSerializer(typeof(Seed));
-            var seed = (Seed)serializer.Deserialize(reader);
+            var serializer = new XmlSerializer(typeof(Models.Seed));
+            var seed = (Models.Seed)serializer.Deserialize(reader);
             var places = new List<Place>();
 
             foreach (var continent in seed.Continent)

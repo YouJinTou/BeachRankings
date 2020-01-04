@@ -1,5 +1,4 @@
-﻿using BR.Core.Extensions;
-using BR.Core.Models;
+﻿using BR.Core.Models;
 using BR.Core.Tools;
 using BR.IndexService.Abstractions;
 using System.Collections.Generic;
@@ -65,7 +64,7 @@ namespace BR.IndexService.Processors
             { 'ž', 'z' },
         };
 
-        public IEnumerable<IndexEntry> PreprocessToken(IndexToken token, params string[] ids)
+        public IEnumerable<IndexEntry> PreprocessToken(IndexToken token, IndexBeach beach)
         {
             var entries = new List<IndexEntry>();
 
@@ -98,9 +97,9 @@ namespace BR.IndexService.Processors
                 {
                     new IndexPosting
                     {
-                        Id = token.Type == PlaceType.Beach ? ids[0] : entry.ToString(),
+                        Id = token.Type == PlaceType.Beach ? beach.Id : entry.ToString(),
                         Type = token.Type.ToString(),
-                        BeachIds = ids,
+                        Beaches = Collection.Combine<IndexBeach>(beach),
                         Place = token.Token
                     }
                 };
@@ -110,21 +109,6 @@ namespace BR.IndexService.Processors
             }
 
             return entries;
-        }
-
-        public IEnumerable<IndexEntry> PreprocessTokens(IEnumerable<IndexToken> tokens)
-        {
-            var allEntries = new List<IndexEntry>();
-
-            foreach (var token in tokens.NewIfNull())
-            {
-                foreach (var entry in this.PreprocessToken(token))
-                {
-                    allEntries.Add(entry);
-                }
-            }
-
-            return allEntries;
         }
     }
 }

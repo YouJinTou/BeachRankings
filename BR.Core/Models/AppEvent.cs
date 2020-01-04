@@ -16,7 +16,7 @@ namespace BR.Core.Models
         {
             this.StreamId = Validator.ReturnOrThrowIfNullOrWhiteSpace(streamId);
             this.Body = JsonConvert.SerializeObject(body);
-            this.TimeStamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            this.TimeStamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
             this.Type = Validator.ReturnOrThrowIfNullOrWhiteSpace(type);
         }
 

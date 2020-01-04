@@ -73,7 +73,7 @@ namespace BR.SearchService.Services
                 var place = entry.Postings.Single(p => p.Place == name);
                 var result = new PlaceSearchResult
                 {
-                    BeachIds = place.BeachIds
+                    Beaches = place.Beaches
                 };
 
                 return result;

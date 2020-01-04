@@ -9,7 +9,7 @@ namespace BR.Core.Models
 
         public string Place { get; set; }
 
-        public IEnumerable<string> BeachIds { get; set; }
+        public IEnumerable<IndexBeach> Beaches { get; set; }
 
         public string Type { get; set; }
 
