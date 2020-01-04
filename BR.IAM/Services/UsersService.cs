@@ -1,7 +1,7 @@
 ﻿using BR.Core.Abstractions;
+using BR.Core.Models;
 using BR.Core.Tools;
 using BR.Iam.Abstractions;
-using BR.Iam.Events;
 using BR.Iam.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -67,7 +67,8 @@ namespace BR.Iam.Services
 
                 await this.repo.AddAsync(user);
 
-                await this.bus.PublishEventAsync(new UserCreated(user));
+                await this.bus.PublishEventAsync(
+                    new EventBase(user.Id, user, Event.UserCreated.ToString()));
 
                 return user;
             }

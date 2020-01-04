@@ -9,7 +9,5 @@ namespace BR.ReviewsService.Models
         public Guid ReviewId { get; set; }
 
         public string BeachId { get; set; }
-
-        public int Offset { get; set; }
     }
 }

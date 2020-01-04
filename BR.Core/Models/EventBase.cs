@@ -11,22 +11,19 @@ namespace BR.Core.Models
         {
         }
 
-        public EventBase(string streamId, int offset, object body = null)
+        public EventBase(string streamId, object body, string type)
         {
             this.StreamId = Validator.ReturnOrThrowIfNullOrWhiteSpace(streamId);
-            this.Offset = offset;
-            this.Body = (body == null) ? null : JsonConvert.SerializeObject(body);
+            this.Body = JsonConvert.SerializeObject(body);
             this.TimeStamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
-            this.Type = this.GetType().Name;
+            this.Type = Validator.ReturnOrThrowIfNullOrWhiteSpace(type);
         }
 
         public string StreamId { get; set; }
 
-        public int Offset { get; set; }
+        public long TimeStamp { get; set; }
 
         public string Type { get; set; }
-
-        public long TimeStamp { get; set; }
 
         public string Body { get; set; }
 
@@ -37,7 +34,7 @@ namespace BR.Core.Models
 
         public override string ToString()
         {
-            var eventString = $"{this.StreamId}/{this.Offset}/{this.Type}/";
+            var eventString = $"{this.StreamId}/{this.Type}/";
 
             return eventString;
         }

@@ -7,7 +7,7 @@ namespace BR.Core.Abstractions
 {
     public interface IEventStore
     {
-        Task<EventStream> GetEventStreamAsync(string streamId, int offset = 0);
+        Task<EventStream> GetEventStreamAsync(string streamId);
 
         Task<EventStream> GetEventStreamAsync(string streamId, string type);
 

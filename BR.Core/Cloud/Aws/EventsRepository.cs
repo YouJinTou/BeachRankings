@@ -29,7 +29,6 @@ namespace BR.Core.Cloud.Aws
                 var @event = new EventBase
                 {
                     Body = item["Body"].S,
-                    Offset = int.Parse(item["Offset"].N),
                     StreamId = item[Constants.StreamId].S,
                     TimeStamp = long.Parse(item["TimeStamp"].N),
                     Type = item["Type"].S

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using BR.BeachesService.Abstractions;
-using BR.BeachesService.Events;
 using BR.BeachesService.Models;
 using BR.Core.Abstractions;
 using BR.Core.Events;
+using BR.Core.Models;
 using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
 using System;
@@ -89,9 +89,9 @@ namespace BR.BeachesService.Services
                 }
 
                 var userStream = await this.store.GetEventStreamAsync(model.AddedBy);
-                var beachCreated = new BeachCreated(beach);
-                var userCreatedBeach = new UserCreatedBeach(
-                    model.AddedBy, userStream.GetNextOffset(), beach.Id);
+                var beachCreated = new EventBase(beach.Id, beach, Event.BeachCreated.ToString());
+                var userCreatedBeach = new EventBase(
+                    model.AddedBy, beach.Id, Event.UserCreatedBeach.ToString());
                 var events = EventStream.CreateStream(beachCreated, userCreatedBeach);
 
                 await this.bus.PublishEventStreamAsync(events);
@@ -120,16 +120,10 @@ namespace BR.BeachesService.Services
                     throw new InvalidOperationException("Beach does not exist.");
                 }
 
-                if (!stream.IsInitial())
-                {
-                    throw new InvalidOperationException(
-                        $"Modifying to a beach that already exists: {beach.Id}.");
-                }
-
                 var userStream = await this.store.GetEventStreamAsync(model.ModifiedBy);
-                var beachModified = new BeachModified(beach.Id, stream.GetNextOffset(), model);
-                var userModifiedBeach = new UserModifiedBeach(
-                    model.ModifiedBy, userStream.GetNextOffset(), beach.Id);
+                var beachModified = new EventBase(beach.Id, model, Event.BeachModified.ToString());
+                var userModifiedBeach = new EventBase(
+                    model.ModifiedBy, beach.Id, Event.UserModifiedBeach.ToString());
                 var events = EventStream.CreateStream(beachModified, userModifiedBeach);
 
                 await this.bus.PublishEventStreamAsync(events);

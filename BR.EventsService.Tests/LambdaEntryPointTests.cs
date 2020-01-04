@@ -62,7 +62,6 @@ namespace BR.EventsService.Tests
                 StreamId = "STREAM_ID",
                 Body = "BODY",
                 TimeStamp = 123,
-                Offset = 2,
                 Type = "TYPE"
             };
         }

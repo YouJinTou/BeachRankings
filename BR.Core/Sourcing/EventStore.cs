@@ -23,21 +23,21 @@ namespace BR.Core.Sourcing
             this.logger = logger;
         }
 
-        public async Task<EventStream> GetEventStreamAsync(string streamId, int offset = 0)
+        public async Task<EventStream> GetEventStreamAsync(string streamId)
         {
             try
             {
                 Validator.ThrowIfNullOrWhiteSpace(streamId);
 
-                this.logger.LogInformation($"Getting event stream for {streamId}/{offset}.");
+                this.logger.LogInformation($"Getting event stream for {streamId}.");
 
                 var events = await this.repo.GetManyAsync(Constants.StreamId, streamId);
 
-                return new EventStream(events, offset);
+                return new EventStream(events);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Failed to get events for stream {streamId}/{offset}.");
+                this.logger.LogError(ex, $"Failed to get events for stream {streamId}.");
 
                 throw;
             }

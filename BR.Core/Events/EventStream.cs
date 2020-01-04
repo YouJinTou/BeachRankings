@@ -13,10 +13,9 @@ namespace BR.Core.Events
     {
         private IEnumerable<EventBase> events;
 
-        public EventStream(IEnumerable<EventBase> events, int readOffset = 0)
+        public EventStream(IEnumerable<EventBase> events)
         {
             this.events = events ?? new List<EventBase>();
-            this.events = this.events.Where(e => e.Offset >= readOffset);
         }
 
         public static EventStream CreateStream(params EventBase[] events)
@@ -32,31 +31,6 @@ namespace BR.Core.Events
         public bool ContainsEvent<T>(Func<T, bool> func)
         {
             return this.Any(e => func(JsonConvert.DeserializeObject<T>(e.Body)));
-        }
-
-        public int GetNextOffset(string type)
-        {
-            var leader = this
-                .Where(e => e.Type == type)
-                .OrderByDescending(e => e.Offset)
-                .FirstOrDefault();
-
-            return (leader == null) ? 0 : leader.Offset + 1;
-        }
-
-        public int GetNextOffset()
-        {
-            if (this.IsEmpty())
-            {
-                return 0;
-            }
-
-            return this.OrderByDescending(e => e.Offset).First().Offset + 1;
-        }
-
-        public bool IsInitial()
-        {
-            return this.GetNextOffset() == 1;
         }
 
         public IEnumerator<EventBase> GetEnumerator()

@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using BR.Core.Abstractions;
 using BR.Core.Events;
+using BR.Core.Models;
 using BR.Core.Tools;
 using BR.ReviewsService.Abstractions;
-using BR.ReviewsService.Events;
-using BR.ReviewsService.Factories;
 using BR.ReviewsService.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -60,7 +59,7 @@ namespace BR.ReviewsService.Services
                 Validator.ThrowIfNull(model, "Missing review data.");
 
                 var beachReviewedStream = await this.store.GetEventStreamAsync(
-                    model.BeachId, nameof(BeachReviewed));
+                    model.BeachId, Event.BeachReviewed.ToString());
                 var alreadyReviewed = beachReviewedStream.ContainsEvent<BeachReviewedModel>(
                     m => m.UserId == model.UserId);
 
@@ -70,12 +69,21 @@ namespace BR.ReviewsService.Services
                         $"Beach {model.BeachId} already reviewed by user {model.UserId}.");
                 }
 
-                var reviewLeftStream = await this.store.GetEventStreamAsync(
-                    model.UserId, nameof(UserLeftReview));
                 var review = this.mapper.Map<Review>(model);
-                var set = EventSetFactory.CreateSet(review, beachReviewedStream, reviewLeftStream);
+                var reviewCreated = new EventBase(
+                review.Id.ToString(), review, Event.ReviewCreated.ToString());
+                var beachReviwedModel = new BeachReviewedModel(
+                    review.BeachId, review.UserId, review.Id);
+                var beachReviewed = new EventBase(
+                    review.BeachId, beachReviwedModel, Event.BeachReviewed.ToString());
+                var userLeftReviewModel = new UserLeftReviewModel(
+                    review.UserId, review.Id, review.BeachId);
+                var userLeftReview = new EventBase(
+                    review.UserId, userLeftReviewModel, Event.UserLeftReview.ToString());
+                var stream = EventStream.CreateStream(
+                    reviewCreated, beachReviewed, userLeftReview);
 
-                await this.bus.PublishEventStreamAsync(set.ToStream());
+                await this.bus.PublishEventStreamAsync(stream);
 
                 return review;
             }
@@ -93,16 +101,18 @@ namespace BR.ReviewsService.Services
             {
                 Validator.ThrowIfNull(model, "Missing review data.");
 
-                var reviewStream = await this.store.GetEventStreamAsync(model.Id.ToString());
-                var userStream = await this.store.GetEventStreamAsync(model.UserId);
-                var beachStream = await this.store.GetEventStreamAsync(model.BeachId);
-                var reviewModified = new ReviewModified(model, reviewStream.GetNextOffset());
+                var reviewModified = new EventBase(
+                    model.Id.ToString(), model, Event.ReviewModified.ToString());
                 var userModifiedReviewModel = this.mapper.Map<UserModifiedReviewModel>(model);
-                userModifiedReviewModel.Offset = userStream.GetNextOffset();
-                var userModifiedReview = new UserModifiedReview(userModifiedReviewModel);
+                var userModifiedReview = new EventBase(
+                    model.UserId, 
+                    userModifiedReviewModel, 
+                    Event.UserModifiedReview.ToString());
                 var beachReviewChangedModel = this.mapper.Map<BeachReviewChangedModel>(model);
-                beachReviewChangedModel.Offset = beachStream.GetNextOffset();
-                var beachReviewChanged = new BeachReviewChanged(beachReviewChangedModel);
+                var beachReviewChanged = new EventBase(
+                    model.BeachId, 
+                    beachReviewChangedModel, 
+                    Event.BeachReviewChanged.ToString());
                 var stream = EventStream.CreateStream(
                     reviewModified, userModifiedReview, beachReviewChanged);
 

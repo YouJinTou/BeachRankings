@@ -1,5 +1,4 @@
-﻿using BR.BeachesService.Events;
-using BR.BeachesService.Models;
+﻿using BR.BeachesService.Models;
 using BR.Core;
 using BR.Core.Abstractions;
 using BR.Core.Cloud.Aws;
@@ -82,7 +81,8 @@ namespace BR.Seed
             var services = new ServiceCollection().AddCore();
             var provider = services.BuildServiceProvider();
             var store = provider.GetService<IEventStore>();
-            var events = beaches.Select(b => new BeachCreated(b)).ToArray();
+            var events = beaches.Select(
+                b => new EventBase(b.Id, b, Event.BeachCreated.ToString())).ToArray();
 
             await store.AppendEventStreamAsync(EventStream.CreateStream(events));
         }

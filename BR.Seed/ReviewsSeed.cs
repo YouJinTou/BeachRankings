@@ -5,7 +5,6 @@ using BR.Core.Events;
 using BR.Core.Extensions;
 using BR.Core.Models;
 using BR.Core.Tools;
-using BR.ReviewsService.Events;
 using BR.ReviewsService.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic.FileIO;
@@ -59,16 +58,23 @@ namespace BR.Seed
                 }
             }
 
-            var reviewCreatedEvents = reviews.Select(r => new ReviewCreated(r)).ToArray();
+            var reviewCreatedEvents = reviews
+                .Select(r => new EventBase(
+                    r.Id.ToString(), r, ReviewsService.Models.Event.ReviewCreated.ToString()))
+                .ToArray();
             var userLeftReviewEvents = reviews.Select((r, i) =>
             {
-                return new UserLeftReview(new UserLeftReviewModel(
-                    Constants.Surfer, startingIndex + i, r.Id, r.BeachId));
+                var model = new UserLeftReviewModel(Constants.Surfer, r.Id, r.BeachId);
+
+                return new EventBase(
+                    model.UserId, model, ReviewsService.Models.Event.UserLeftReview.ToString());
             }).ToArray();
             var beachReviewedEvents = reviews.Select((r, i) =>
             {
-                return new BeachReviewed(new BeachReviewedModel(
-                    r.BeachId, startingIndex + i, Constants.Surfer, r.Id));
+                var model = new BeachReviewedModel(r.BeachId, Constants.Surfer, r.Id);
+
+                return new EventBase(
+                    model.BeachId, model, ReviewsService.Models.Event.BeachReviewed.ToString());
             }).ToArray();
             var events = Collection.Combine<EventBase>(
                 reviewCreatedEvents, userLeftReviewEvents, beachReviewedEvents).ToArray();
