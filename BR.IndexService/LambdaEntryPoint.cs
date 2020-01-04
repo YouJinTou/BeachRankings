@@ -22,6 +22,11 @@ namespace BR.IndexService
             this.service = provider.GetService<IIndexService>();
         }
 
+        public LambdaEntryPoint(IIndexService service)
+        {
+            this.service = service;
+        }
+
         public async Task HandleAsync(SNSEvent evnt, ILambdaContext context)
         {
             foreach(var record in evnt.Records)
@@ -34,7 +39,7 @@ namespace BR.IndexService
         {
             context.Logger.LogLine($"Incoming event: {Environment.NewLine}{record.Sns.Message}");
 
-            await Task.CompletedTask;
+            await this.service.UpdateIndexAsync(record.Sns.Message);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using BR.Core.Tools;
-using System.Linq;
+﻿using System.Linq;
 
 namespace BR.Core.Models
 {
@@ -7,7 +6,10 @@ namespace BR.Core.Models
     {
         public IndexKey(string id)
         {
-            Validator.ThrowIfNullOrWhiteSpace(id, $"{nameof(id)} is empty.");
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return;
+            }
 
             var isPrimaryKey = id.Contains("|");
 

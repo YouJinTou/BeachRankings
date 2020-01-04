@@ -4,6 +4,7 @@
     {
         BeachCreated,
         BeachModified,
+        BeachDeleted,
         UserCreatedBeach,
         UserModifiedBeach
     }

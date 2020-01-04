@@ -1,5 +1,7 @@
 using Amazon.Lambda.SNSEvents;
 using Amazon.Lambda.TestUtilities;
+using BR.IndexService.Abstractions;
+using Moq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -29,7 +31,7 @@ namespace BR.IndexService.Tests
             {
                 Logger = logger
             };
-            var function = new LambdaEntryPoint();
+            var function = new LambdaEntryPoint(Mock.Of<IIndexService>());
 
             await function.HandleAsync(snsEvent, context);
 

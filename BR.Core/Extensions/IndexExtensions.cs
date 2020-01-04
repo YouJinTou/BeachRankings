@@ -1,10 +1,9 @@
 ﻿using BR.Core.Models;
 using BR.Core.Tools;
-using BR.Seed.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BR.Seed.Extensions
+namespace BR.Core.Extensions
 {
     public static class IndexExtensions
     {
