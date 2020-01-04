@@ -24,7 +24,7 @@ export class SearchService {
       return of(new SearchPlaceResult());
     }
 
-    let url = environment.searchPlaceUrl.replace('{id}', id).replace('{name}', name);
+    let url = encodeURI(environment.searchPlaceUrl.replace('{id}', id).replace('{name}', name));
 
     return this.httpClient.get<SearchPlaceResult>(url);
   }
