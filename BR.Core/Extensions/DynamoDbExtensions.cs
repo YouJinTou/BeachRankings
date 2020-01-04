@@ -114,9 +114,14 @@ namespace BR.Core.Extensions
 
         private static object GetValue(AttributeValue value, Type type)
         {
-            if (!string.IsNullOrWhiteSpace(value.S))
+            if (type == Types.String)
             {
                 return value.S;
+            }
+
+            if (type == Types.NullDouble)
+            {
+                return value.S.ToNullDouble();
             }
 
             if (!value.SS.IsNullOrEmpty())
