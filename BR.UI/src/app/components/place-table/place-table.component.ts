@@ -45,6 +45,8 @@ export class PlaceTableComponent implements OnInit, OnDestroy {
         this.beaches = result.beaches;
 
         this.dtTrigger.next();
+      }, error => {
+        console.log(error);
       });
     });
   }
