@@ -10,7 +10,6 @@ export const environment = {
   authUrl: baseUrl + 'iam/auth/', 
   usersUrl: baseUrl + 'iam/users/', 
   beachesUrl: baseUrl + 'beaches/',
-  manyBeachesUrl: baseUrl + 'beaches/many',
   reviewsUrl: baseUrl + 'reviews/',
   countriesUrl: baseUrl + 'places/countries/',
   placeChildrenUrl: baseUrl + 'places/{id}/next',

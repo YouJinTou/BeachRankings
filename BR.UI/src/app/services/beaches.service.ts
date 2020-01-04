@@ -16,10 +16,6 @@ export class BeachesService {
     return this.httpClient.get<ViewBeachModel>(environment.beachesUrl + id);
   }
 
-  public getPlaceBeaches(ids: string[]): Observable<ViewBeachModel[]> {
-    return this.httpClient.post<ViewBeachModel[]>(environment.manyBeachesUrl, ids);
-  }
-
   addBeach(model: CreateBeachModel) {
     this.httpClient.post(environment.beachesUrl, model).subscribe();
   }
