@@ -1,5 +1,8 @@
 <div class="wrapper">
     <div>
+        <button (click)='redirectToLeaveReview()'>Leave review</button>
+    </div>
+    <div>
         <p>{{ beach.id }}</p>
         <p>{{ beach.name }}</p>
         <p>{{ beach.addedOn }}</p>
@@ -28,7 +31,4 @@
         <p>{{ beach.walking }}</p>
         <p>{{ beach.camping }}</p>
     </div>
-<div>
-    <button (click)='redirectToLeaveReview()'>Leave review</button>
-</div>
 </div>
