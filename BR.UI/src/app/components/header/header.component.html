@@ -9,11 +9,14 @@
         <li>
             <a routerLink="/add-beach">Add beach</a>
         </li>
-        <li>
+        <li *ngIf="!isLoggedIn">
             <a routerLink="/login">Login</a>
         </li>
-        <li>
+        <li *ngIf="!isLoggedIn">
             <a routerLink="/register">Register</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+            <a routerLink="/logout">Logout</a>
         </li>
     </ul>
 </div>
