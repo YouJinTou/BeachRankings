@@ -19,9 +19,12 @@ export class AuthService {
     private cookieService: CookieService,
     private route: ActivatedRoute,
     private router: Router) {
-      let loginResult = this.cookieService.get('BR_LOGIN_RESULT');
+    let loginResult = this.cookieService.get('BR_LOGIN_RESULT');
+    
+    if (loginResult) {
       this.currentUserSubject = new BehaviorSubject<LoginResult>(JSON.parse(loginResult));
       this.currentUser = this.currentUserSubject.asObservable();
+    }
   }
 
   public isAuthenticated(): Observable<boolean> {
