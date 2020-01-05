@@ -1,0 +1,35 @@
+.wrapper {
+    background-color: orange;
+}
+
+.search-bar-container {
+    display: grid;
+    justify-items: center;
+}
+
+ul {
+    list-style-type: none;
+    margin: 10px;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+  
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+}
+
+li a:hover {
+    color: white;
+}
+
+.greeting {
+    float: right;
+}

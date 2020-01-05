@@ -1,6 +1,6 @@
 <div class="wrapper">
-    <input type="text" (keyup)="onKeyUp($event.target.value)" placeholder="Search" />
-    <div class="search-results-wrapper">
+    <input class="search-box" type="text" (keyup)="onKeyUp($event.target.value)" placeholder="Search" />
+    <div *ngIf="results" class="search-results-wrapper">
         <ul class="search-results">
             <li class="search-result" *ngFor="let result of results">
                 <a href="{{ getPlaceLink(result) }}">

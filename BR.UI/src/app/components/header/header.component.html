@@ -1,22 +1,27 @@
 <div class="wrapper">
     <div>
+        <ul>
+            <li>
+                <a routerLink="/">HOME</a>
+            </li>
+            <li>
+                <a routerLink="/add-beach">ADD BEACH</a>
+            </li>
+            <li *ngIf="!isLoggedIn">
+                <a routerLink="/login">LOGIN</a>
+            </li>
+            <li *ngIf="!isLoggedIn">
+                <a routerLink="/register">REGISTER</a>
+            </li>
+            <li *ngIf="isLoggedIn">
+                <a href="/" (click)="logout()">LOGOUT</a>
+            </li>
+            <li class="greeting" *ngIf="isLoggedIn">
+                <span>Hello, {{ user.username }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="search-bar-container">
         <app-search-bar></app-search-bar>
     </div>
-    <ul>
-        <li>
-            <a routerLink="/">Home</a>
-        </li>
-        <li>
-            <a routerLink="/add-beach">Add beach</a>
-        </li>
-        <li *ngIf="!isLoggedIn">
-            <a routerLink="/login">Login</a>
-        </li>
-        <li *ngIf="!isLoggedIn">
-            <a routerLink="/register">Register</a>
-        </li>
-        <li *ngIf="isLoggedIn">
-            <a href="/" (click)="logout()">Logout</a>
-        </li>
-    </ul>
 </div>

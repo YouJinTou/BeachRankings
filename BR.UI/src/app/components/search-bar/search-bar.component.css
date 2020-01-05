@@ -1,0 +1,18 @@
+.search-box {
+    padding: 2px;
+    width: 400px;
+    height: 20px;
+}
+
+.search-results-wrapper {
+    background-color: white;
+    position: absolute;
+    z-index: 10;
+    width: inherit;
+}
+
+ul {
+    list-style-type: none;
+    padding: 5px;
+    width: 400px;
+}
