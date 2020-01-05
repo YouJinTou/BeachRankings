@@ -1,4 +1,5 @@
 import { Scorable } from './scorable';
+import { ViewReviewModel } from './view-review-model';
 
 export class ViewBeachModel extends Scorable {
     id: string;
@@ -14,4 +15,5 @@ export class ViewBeachModel extends Scorable {
     waterBody: string;
     location: string;
     coordinates: string;
+    reviews: ViewReviewModel[];
 }

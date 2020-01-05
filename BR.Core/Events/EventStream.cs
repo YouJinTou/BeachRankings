@@ -33,6 +33,24 @@ namespace BR.Core.Events
             return this.Any(e => func(JsonConvert.DeserializeObject<T>(e.Body)));
         }
 
+        public EventStream FilterForEvents(params Event[] types)
+        {
+            if (types.IsNullOrEmpty())
+            {
+                return this;
+            }
+
+            var filteredStream = new EventStream(
+                this.Where(e => types.Any(t => t.ToString().Equals(e.Type))));
+
+            return filteredStream;
+        }
+
+        public IEnumerable<T> ToInstances<T>()
+        {
+            return this.Select(e => e.ToInstance<T>());
+        }
+
         public IEnumerator<AppEvent> GetEnumerator()
         {
             return this.events.GetEnumerator();

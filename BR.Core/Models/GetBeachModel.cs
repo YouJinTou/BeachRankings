@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BR.Core.Models
 {
@@ -61,5 +62,7 @@ namespace BR.Core.Models
         public double? Camping { get; set; }
 
         public double? LongTermStay { get; set; }
+
+        public IEnumerable<GetReviewModel> Reviews { get; set; }
     }
 }

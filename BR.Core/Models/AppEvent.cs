@@ -35,6 +35,11 @@ namespace BR.Core.Models
             return JsonConvert.SerializeObject(this);
         }
 
+        public T ToInstance<T>()
+        {
+            return JsonConvert.DeserializeObject<T>(this.Body);
+        }
+
         public override string ToString()
         {
             var eventString = $"{this.StreamId}/{this.Type}/";

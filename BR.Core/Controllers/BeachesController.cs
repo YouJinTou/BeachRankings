@@ -14,14 +14,19 @@ namespace BR.Core.Controllers
     [ApiController]
     public class BeachesController : ControllerBase
     {
-        private readonly IBeachesService service;
+        private readonly IBeachesService beachesService;
+        private readonly IReviewsService reviewsService;
         private readonly IMapper mapper;
         private readonly ILogger<BeachesController> logger;
 
         public BeachesController(
-            IBeachesService service, IMapper mapper, ILogger<BeachesController> logger)
+            IBeachesService beachesService, 
+            IReviewsService reviewsService,
+            IMapper mapper, 
+            ILogger<BeachesController> logger)
         {
-            this.service = service;
+            this.beachesService = beachesService;
+            this.reviewsService = reviewsService;
             this.mapper = mapper;
             this.logger = logger;
         }
@@ -36,8 +41,10 @@ namespace BR.Core.Controllers
 
                 this.logger.LogInformation($"Getting beach {id}.");
 
-                var beach = await this.service.GetBeachAsync(id);
+                var beach = await this.beachesService.GetBeachAsync(id);
+                var reviews = await this.reviewsService.GetBeachReviewsAsync(id);
                 var beachModel = this.mapper.Map<GetBeachModel>(beach);
+                beachModel.Reviews = this.mapper.Map<IEnumerable<GetReviewModel>>(reviews);
 
                 return Ok(beachModel);
             }
@@ -58,7 +65,7 @@ namespace BR.Core.Controllers
 
                 this.logger.LogInformation($"Creating beach {model.Name}.");
 
-                var beach = await this.service.CreateBeachAsync(model);
+                var beach = await this.beachesService.CreateBeachAsync(model);
                 var beachModel = this.mapper.Map<GetBeachModel>(beach);
 
                 return Created(beachModel.Id.ToString(), beachModel);
@@ -80,7 +87,7 @@ namespace BR.Core.Controllers
 
                 this.logger.LogInformation($"Creating beach {model.Name}.");
 
-                var beach = await this.service.ModifyBeachAsync(model);
+                var beach = await this.beachesService.ModifyBeachAsync(model);
                 var beachModel = this.mapper.Map<GetBeachModel>(beach);
 
                 return Created(beachModel.Id.ToString(), beachModel);

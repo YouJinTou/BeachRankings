@@ -66,20 +66,10 @@ namespace BR.Seed
             var reviewCreatedEvents = reviews.Select(r => new AppEvent(
                     r.Id.ToString(), r, Event.ReviewCreated.ToString()))
                 .ToArray();
-            var userLeftReviewEvents = await reviews.SelectDelayAsync(r =>
-            {
-                var model = new UserLeftReviewModel(r.UserId, r.Id, r.BeachId);
-
-                return new AppEvent(
-                    model.UserId, model, Event.UserLeftReview.ToString());
-            });
-            var beachReviewedEvents = await reviews.SelectDelayAsync(r =>
-            {
-                var model = new BeachReviewedModel(r.BeachId, r.UserId, r.Id);
-
-                return new AppEvent(
-                    model.BeachId, model, Event.BeachReviewed.ToString());
-            });
+            var userLeftReviewEvents = await reviews.SelectDelayAsync(r => new AppEvent(
+                r.UserId, r, Event.UserLeftReview.ToString()));
+            var beachReviewedEvents = await reviews.SelectDelayAsync(r => new AppEvent(
+                r.BeachId, r, Event.BeachReviewed.ToString()));
             var events = Collection.Combine<AppEvent>(
                 reviewCreatedEvents, userLeftReviewEvents, beachReviewedEvents).ToArray();
             var stream = EventStream.CreateStream(events);

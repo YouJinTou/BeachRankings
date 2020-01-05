@@ -31,4 +31,24 @@
         <p>{{ beach.walking }}</p>
         <p>{{ beach.camping }}</p>
     </div>
+    <div>
+        <div *ngFor="let review of beach.reviews">
+            <h3>REVIEW</h3>
+            <p>{{ review.text }}</p>
+            <p>{{ review.score }}</p>
+            <p>{{ review.sandQuality }}</p>
+            <p>{{ review.beachCleanliness }}</p>
+            <p>{{ review.beautifulScenery }}</p>
+            <p>{{ review.crowdFree }}</p>
+            <p>{{ review.infrastructure }}</p>
+            <p>{{ review.litterFree }}</p>
+            <p>{{ review.feetFriendlyBottom }}</p>
+            <p>{{ review.seaLifeDiversity }}</p>
+            <p>{{ review.coralReef }}</p>
+            <p>{{ review.snorkeling }}</p>
+            <p>{{ review.kayaking }}</p>
+            <p>{{ review.walking }}</p>
+            <p>{{ review.camping }}</p>
+        </div>
+    </div>
 </div>

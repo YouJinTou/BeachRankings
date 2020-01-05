@@ -5,6 +5,7 @@ using BR.Core.Models;
 using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BR.Core.Services
@@ -13,7 +14,7 @@ namespace BR.Core.Services
     {
         private readonly IEventStore store;
         private readonly IEventBus bus;
-        private readonly IStreamProjector projector;
+        private readonly IReviewStreamProjector projector;
         private readonly IMapper mapper;
         private readonly ILogger<ReviewsService> logger;
 
@@ -50,6 +51,27 @@ namespace BR.Core.Services
             }
         }
 
+        public async Task<IEnumerable<Review>> GetBeachReviewsAsync(string id)
+        {
+            try
+            {
+                Validator.ThrowIfNullOrWhiteSpace(id, "No beach ID.");
+
+                var stream = await this.store.GetEventStreamAsync(id);
+                var filteredStream = stream.FilterForEvents(
+                    Event.BeachReviewed, Event.BeachReviewChanged, Event.BeachReviewDeleted);
+                var reviews = this.projector.GetBeachReviews(filteredStream);
+
+                return (IEnumerable<Review>)reviews;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to get reviews for beach {id}.");
+
+                throw;
+            }
+        }
+
         public async Task<Review> CreateReviewAsync(CreateReviewModel model)
         {
             try
@@ -58,8 +80,8 @@ namespace BR.Core.Services
 
                 var beachReviewedStream = await this.store.GetEventStreamAsync(
                     model.BeachId, Event.BeachReviewed.ToString());
-                var alreadyReviewed = beachReviewedStream.ContainsEvent<BeachReviewedModel>(
-                    m => m.UserId == model.UserId);
+                var alreadyReviewed = beachReviewedStream.ContainsEvent<Review>(
+                    r => r.UserId == model.UserId);
 
                 if (alreadyReviewed)
                 {
@@ -69,15 +91,11 @@ namespace BR.Core.Services
 
                 var review = this.mapper.Map<Review>(model);
                 var reviewCreated = new AppEvent(
-                review.Id.ToString(), review, Event.ReviewCreated.ToString());
-                var beachReviwedModel = new BeachReviewedModel(
-                    review.BeachId, review.UserId, review.Id);
+                    review.Id.ToString(), review, Event.ReviewCreated.ToString());
                 var beachReviewed = new AppEvent(
-                    review.BeachId, beachReviwedModel, Event.BeachReviewed.ToString());
-                var userLeftReviewModel = new UserLeftReviewModel(
-                    review.UserId, review.Id, review.BeachId);
+                    review.BeachId, review, Event.BeachReviewed.ToString());
                 var userLeftReview = new AppEvent(
-                    review.UserId, userLeftReviewModel, Event.UserLeftReview.ToString());
+                    review.UserId, review, Event.UserLeftReview.ToString());
                 var stream = EventStream.CreateStream(
                     reviewCreated, beachReviewed, userLeftReview);
 
@@ -101,16 +119,10 @@ namespace BR.Core.Services
 
                 var reviewModified = new AppEvent(
                     model.Id.ToString(), model, Event.ReviewModified.ToString());
-                var userModifiedReviewModel = this.mapper.Map<UserModifiedReviewModel>(model);
                 var userModifiedReview = new AppEvent(
-                    model.UserId, 
-                    userModifiedReviewModel, 
-                    Event.UserModifiedReview.ToString());
-                var beachReviewChangedModel = this.mapper.Map<BeachReviewChangedModel>(model);
+                    model.UserId, model, Event.UserModifiedReview.ToString());
                 var beachReviewChanged = new AppEvent(
-                    model.BeachId, 
-                    beachReviewChangedModel, 
-                    Event.BeachReviewChanged.ToString());
+                    model.BeachId, model, Event.BeachReviewChanged.ToString());
                 var stream = EventStream.CreateStream(
                     reviewModified, userModifiedReview, beachReviewChanged);
 
