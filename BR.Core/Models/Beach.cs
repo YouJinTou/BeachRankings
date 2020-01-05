@@ -1,12 +1,12 @@
 ﻿using BR.Core.Abstractions;
+using BR.Core.Extensions;
 using BR.Core.Tools;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BR.Core.Models
 {
-    public class Beach : IAggregate
+    public class Beach : IAggregate, IScorable
     {
         public Beach()
         {
@@ -70,7 +70,7 @@ namespace BR.Core.Models
             this.Walking = walking;
             this.Camping = camping;
             this.LongTermStay = longTermStay;
-            this.Score = Beach.CalculateScore(this);
+            this.Score = this.CalculateScore();
         }
 
         public string Id { get; set; }
@@ -159,37 +159,6 @@ namespace BR.Core.Models
             location = Regex.Replace(location, "_+", "_").TrimEnd('_').ToLower();
 
             return location;
-        }
-
-        public static double? CalculateScore(Beach beach)
-        {
-            Validator.ThrowIfNull(beach, "Beach is empty.");
-
-            var scores = new double?[]
-            {
-                beach.SandQuality,
-                beach.BeachCleanliness,
-                beach.BeautifulScenery,
-                beach.CrowdFree,
-                beach.Infrastructure,
-                beach.WaterVisibility,
-                beach.LitterFree,
-                beach.FeetFriendlyBottom,
-                beach.SeaLifeDiversity,
-                beach.CoralReef,
-                beach.Snorkeling,
-                beach.Kayaking,
-                beach.Walking,
-                beach.Camping,
-                beach.LongTermStay
-            };
-
-            if (Validator.AllNull(scores))
-            {
-                return null;
-            }
-
-            return (double?)Math.Round((decimal)scores.Average(), 1);
         }
 
         public static Beach CreateNull()

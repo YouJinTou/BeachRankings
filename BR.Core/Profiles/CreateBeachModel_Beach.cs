@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BR.Core.Extensions;
 using BR.Core.Models;
 using System;
 
@@ -13,7 +14,7 @@ namespace BR.Core.Profiles
                 .AfterMap((s, d) => d.AddedOn = DateTime.UtcNow)
                 .AfterMap((s, d) => d.LastUpdatedOn = DateTime.UtcNow)
                 .AfterMap((s, d) => d.Location = Beach.GetLocation(d))
-                .AfterMap((s, d) => d.Score = Beach.CalculateScore(d));
+                .AfterMap((s, d) => d.Score = d.CalculateScore());
         }
     }
 }

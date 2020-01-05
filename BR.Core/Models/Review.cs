@@ -1,11 +1,9 @@
 ﻿using BR.Core.Abstractions;
-using BR.Core.Tools;
 using System;
-using System.Linq;
 
 namespace BR.Core.Models
 {
-    public class Review : IAggregate
+    public class Review : IAggregate, IScorable
     {
         public Guid Id { get; set; }
 
@@ -50,37 +48,6 @@ namespace BR.Core.Models
         public double? Camping { get; set; }
 
         public double? LongTermStay { get; set; }
-
-        public static double? CalculateScore(Review review)
-        {
-            Validator.ThrowIfNull(review, "Review is empty.");
-
-            var scores = new double?[]
-            {
-                review.SandQuality,
-                review.BeachCleanliness,
-                review.BeautifulScenery,
-                review.CrowdFree,
-                review.Infrastructure,
-                review.WaterVisibility,
-                review.LitterFree,
-                review.FeetFriendlyBottom,
-                review.SeaLifeDiversity,
-                review.CoralReef,
-                review.Snorkeling,
-                review.Kayaking,
-                review.Walking,
-                review.Camping,
-                review.LongTermStay
-            };
-
-            if (Validator.AllNull(scores))
-            {
-                return null;
-            }
-
-            return (double?)Math.Round((decimal)scores.Average(), 1);
-        }
 
         public static Review CreateNull()
         {

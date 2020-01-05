@@ -16,12 +16,14 @@ import { ViewBeachComponent } from './components/view-beach/view-beach.component
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { PlaceTableComponent } from './components/place-table/place-table.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AddReviewComponent } from './components/add-review/add-review.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'add-beach', component: CreateBeachComponent, canActivate: [AuthGuardService] },
   { path: 'beaches/:id', component: ViewBeachComponent },
+  { path: 'beaches/:id/review', component: AddReviewComponent, canActivate: [AuthGuardService] },
   { path: 'places/:id', component: PlaceTableComponent }
 ]
 
@@ -34,7 +36,8 @@ const appRoutes: Routes = [
     ViewBeachComponent,
     SearchBarComponent,
     PlaceTableComponent,
-    RegisterComponent
+    RegisterComponent,
+    AddReviewComponent
   ],
   imports: [
     BrowserModule,

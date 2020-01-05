@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BR.Core.Extensions;
 using BR.Core.Models;
 using System;
 
@@ -10,7 +11,7 @@ namespace BR.Core.Profiles
         {
             this.CreateMap<ModifyReviewModel, Review>()
                 .AfterMap((s, d) => d.LastUpdatedOn = DateTime.UtcNow)
-                .AfterMap((s, d) => d.Score = Review.CalculateScore(d));
+                .AfterMap((s, d) => d.Score = d.CalculateScore());
         }
     }
 }

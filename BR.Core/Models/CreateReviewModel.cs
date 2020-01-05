@@ -13,8 +13,6 @@ namespace BR.Core.Models
         [Required]
         public string UserId { get; set; }
 
-        public double? Score { get; set; }
-
         public double? SandQuality { get; set; }
 
         public double? BeachCleanliness { get; set; }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BeachesService } from '../../services/beaches.service';
 import { ViewBeachModel } from '../../models/view.beach.model';
 
@@ -11,7 +11,8 @@ import { ViewBeachModel } from '../../models/view.beach.model';
 export class ViewBeachComponent implements OnInit {
   beach: ViewBeachModel;
 
-  constructor(private beachesService: BeachesService, private route: ActivatedRoute) { 
+  constructor(
+    private beachesService: BeachesService, private route: ActivatedRoute, private router: Router) { 
     this.beach = new ViewBeachModel();
   }
 
@@ -19,5 +20,9 @@ export class ViewBeachComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.beachesService.getBeach(params['id']).subscribe(beach => this.beach = beach);
     })
+  }
+
+  redirectToLeaveReview() {
+    this.router.navigate(['/beaches/' + this.beach.id + '/review']);
   }
 }
