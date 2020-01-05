@@ -55,6 +55,30 @@ namespace BR.Core.Tools
             return items?.All(i => i == null) ?? true;
         }
 
+        public static bool AllNullOrWhiteSpace<T>(params T[] items)
+        {
+            if (items == null)
+            {
+                return true;
+            }
+
+            var isPositive = true;
+
+            foreach (var item in items)
+            {
+                if (item is string)
+                {
+                    isPositive = isPositive && string.IsNullOrWhiteSpace(item as string);
+                }
+                else
+                {
+                    isPositive = isPositive && (item == null);
+                }
+            }
+
+            return isPositive;
+        }
+
         public static bool AllNull(params object[] items)
         {
             if (items == null)

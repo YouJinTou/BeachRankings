@@ -37,12 +37,12 @@ namespace BR.Core.Controllers
         }
 
         [HttpGet]
-        [Route("place")]
-        public async Task<IActionResult> SearchPlaceAsync(string id, string name)
+        [Route("places")]
+        public async Task<IActionResult> SearchPlaceAsync(string id, string name, string type)
         {
             try
             {
-                var result = await this.service.SearchPlaceAsync(id, name);
+                var result = await this.service.SearchPlaceAsync(id, name, type);
 
                 return Ok(result);
             }

@@ -33,8 +33,9 @@ export class PlaceTableComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       let placeIid = params['id'].split('_')[0];
       let placeName = params['id'].split('_')[1];
+      let placeType = params['id'].split('_')[2];
 
-      this.searchService.searchPlace(placeIid, placeName).subscribe(result => {
+      this.searchService.searchPlace(placeIid, placeName, placeType).subscribe(result => {
         if (this.dtElement && this.dtElement.dtInstance) {
           this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             console.log('destroying...')

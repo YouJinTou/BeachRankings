@@ -8,6 +8,6 @@ namespace BR.Core.Abstractions
     {
         Task<IEnumerable<SearchResult>> SearchAsync(string query);
 
-        Task<PlaceSearchResult> SearchPlaceAsync(string id, string name);
+        Task<PlaceSearchResult> SearchPlaceAsync(string id, string name, string type);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BR.Core.Abstractions;
 using BR.Core.Models;
+using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -56,18 +57,19 @@ namespace BR.Core.Services
             }
         }
 
-        public async Task<PlaceSearchResult> SearchPlaceAsync(string id, string name)
+        public async Task<PlaceSearchResult> SearchPlaceAsync(string id, string name, string type)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(name))
+                if (Validator.AllNullOrWhiteSpace(id, name, type))
                 {
                     return new PlaceSearchResult();
                 }
 
                 var key = new IndexKey(id);
                 var entry = await this.repo.GetAsync(key.Bucket, key.Token);
-                var place = entry.Postings.Single(p => p.Place == name);
+                var place = entry.Postings.Single(
+                    p => p.Place.Equals(name) && p.Type.Equals(type));
                 var result = new PlaceSearchResult
                 {
                     Beaches = place.Beaches

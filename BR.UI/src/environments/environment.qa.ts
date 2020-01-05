@@ -10,5 +10,5 @@ export const environment = {
   countriesUrl: baseUrl + 'places/countries/',
   placeChildrenUrl: baseUrl + 'places/{id}/next',
   searchUrl: baseUrl + 'search?query=',
-  searchPlaceUrl: baseUrl + 'search/place?id={id}&name={name}',
+  searchPlaceUrl: baseUrl + 'search/places?id={id}&name={name}&type={type}',
 };

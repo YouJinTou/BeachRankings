@@ -19,13 +19,15 @@ export class SearchService {
     return this.httpClient.get<any[]>(environment.searchUrl + query);
   }
 
-  searchPlace(id: string, name: string): Observable<SearchPlaceResult> {
-    if (!id || !name) {
+  searchPlace(id: string, name: string, type: string): Observable<SearchPlaceResult> {
+    if (!id || !name || !type) {
       return of(new SearchPlaceResult());
     }
 
-    let url = encodeURI(environment.searchPlaceUrl.replace('{id}', id).replace('{name}', name));
+    let url = environment.searchPlaceUrl
+      .replace('{id}', id).replace('{name}', name).replace('{type}', type);
+    let encodedUrl = encodeURI(url);
 
-    return this.httpClient.get<SearchPlaceResult>(url);
+    return this.httpClient.get<SearchPlaceResult>(encodedUrl);
   }
 }
