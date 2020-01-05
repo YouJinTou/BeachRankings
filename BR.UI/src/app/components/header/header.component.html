@@ -16,7 +16,7 @@
             <a routerLink="/register">Register</a>
         </li>
         <li *ngIf="isLoggedIn">
-            <a routerLink="/logout">Logout</a>
+            <a href="/" (click)="logout()">Logout</a>
         </li>
     </ul>
 </div>

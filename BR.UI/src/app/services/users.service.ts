@@ -67,6 +67,10 @@ export class UsersService {
     }));
   }
 
+  public logout() {
+    this.cookieService.delete('BR_LOGIN_RESULT');
+  }
+
   public register(model: RegisterModel) : Observable<CreateUserResult> {
     return this.httpClient.post<CreateUserResult>(environment.usersUrl, model);
   }
