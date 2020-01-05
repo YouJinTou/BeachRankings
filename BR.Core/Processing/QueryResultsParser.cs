@@ -42,7 +42,8 @@ namespace BR.Core.Processing
                 this.GetSearchResults(PlaceType.L2),
                 this.GetSearchResults(PlaceType.L3),
                 this.GetSearchResults(PlaceType.L4),
-                this.GetSearchResults(PlaceType.Beach, 2));
+                this.GetSearchResults(PlaceType.Beach, 2),
+                this.GetSearchResults(PlaceType.WaterBody, 2));
 
             return results;
         }
