@@ -3,7 +3,7 @@ import { PlacesService } from '../../services/places.service';
 import { Place } from '../../models/place';
 import { CreateBeachModel } from '../../models/create.beach.model';
 import { BeachesService } from '../../services/beaches.service';
-import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-create-beach',
@@ -21,12 +21,12 @@ export class CreateBeachComponent implements OnInit {
   constructor(
     private placesService: PlacesService,
     private beachesService: BeachesService,
-    private authService: AuthService) { }
+    private usersService: UsersService) { }
 
   ngOnInit() {
     this.model = new CreateBeachModel();
 
-    this.authService.currentUser.subscribe(u => {
+    this.usersService.currentUser.subscribe(u => {
       this.model.addedBy = u.id;
     });
 

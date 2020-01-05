@@ -15,6 +15,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { ViewBeachComponent } from './components/view-beach/view-beach.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { PlaceTableComponent } from './components/place-table/place-table.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     ViewBeachComponent,
     SearchBarComponent,
-    PlaceTableComponent
+    PlaceTableComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

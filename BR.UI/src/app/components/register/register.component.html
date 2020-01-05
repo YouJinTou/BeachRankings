@@ -1,0 +1,15 @@
+<div>
+    <p>
+        <input type="text" [(ngModel)]="username" placeholder="Username" />
+    </p>
+    <p>
+        <input type="text" [(ngModel)]="email" placeholder="Email" />
+    </p>
+    <p>
+        <input type="password" [(ngModel)]="password" placeholder="Password" />
+    </p>
+    <p>
+        <input type="password" [(ngModel)]="confirmedPassword" placeholder="Confirm password" />
+    </p>
+    <input type="button" (click)="register()" value="Register" />
+</div>
