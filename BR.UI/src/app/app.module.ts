@@ -19,6 +19,7 @@ import { RegisterComponent } from './components/register/register.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'add-beach', component: CreateBeachComponent, canActivate: [AuthGuardService] },
   { path: 'beaches/:id', component: ViewBeachComponent },
   { path: 'places/:id', component: PlaceTableComponent }

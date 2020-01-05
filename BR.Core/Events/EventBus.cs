@@ -26,6 +26,13 @@ namespace BR.Core.Events
         {
             try
             {
+                if (!Env.IsProduction)
+                {
+                    this.logger.LogInformation($"Environment {Env.Stage} is non-production.");
+
+                    return;
+                }
+
                 Validator.ThrowIfNull(@event, $"{nameof(@event)} missing.");
 
                 var request = new PublishRequest
@@ -37,7 +44,7 @@ namespace BR.Core.Events
             }
             catch (System.Exception ex)
             {
-                this.logger.LogError(ex, "Failed to publish event.");
+                this.logger.LogError(ex, $"Failed to publish event: {@event?.ToJson()}.");
 
                 throw;
             }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
-using BR.Core.Tools;
 using BR.Core.Abstractions;
+using BR.Core.Caching;
+using BR.Core.Exceptions;
 using BR.Core.Models;
+using BR.Core.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -53,24 +55,39 @@ namespace BR.Core.Controllers
         {
             try
             {
-                Validator.ThrowIfNull(model, "Missing user data.");
+                try
+                {
+                    this.logger.LogInformation($"Creating user {model?.Username}.");
 
-                this.logger.LogInformation($"Creating user {model.Username}.");
+                    Validator.ThrowIfNull(model, "Missing user data.");
 
-                var user = await this.service.CreateUserAsync(model);
-                var userModel = this.mapper.Map<GetUserModel>(user);
+                    var user = await this.service.CreateUserAsync(model);
+                    var resultModel = this.mapper.Map<CreateUserResult>(user);
 
-                return new CreatedResult(userModel.Id, userModel);
-            }
-            catch (InvalidOperationException)
-            {
-                return UnprocessableEntity("User already exists.");
+                    return new CreatedResult(resultModel.Id, resultModel);
+                }
+                catch (UserCreationFailedException ucfe)
+                {
+                    var result = new CreateUserResult
+                    {
+                        IsSuccess = false,
+                        Message = ucfe.Message
+                    };
+
+                    return UnprocessableEntity(result);
+                }
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Creating user {model.Username} failed.");
 
-                return BadRequest(ex);
+                var result = new CreateUserResult
+                {
+                    IsSuccess = false,
+                    Message = "We could not process the request."
+                };
+
+                return StatusCode(500, result);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BR.Core.Caching;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 

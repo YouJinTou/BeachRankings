@@ -1,4 +1,4 @@
-﻿using System;
+﻿using BR.Core.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
 namespace BR.Core.Models
@@ -21,7 +21,7 @@ namespace BR.Core.Models
         {
             if (!this.Password.Equals(this.ConfirmedPassword))
             {
-                throw new ArgumentException("Passwords mismatch.");
+                throw new UserCreationFailedException("Passwords mismatch.");
             }
         }
     }

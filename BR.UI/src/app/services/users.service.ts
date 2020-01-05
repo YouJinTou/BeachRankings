@@ -6,6 +6,8 @@ import { LoginResult } from '../models/login.result';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RegisterModel } from '../models/register.model';
+import { CreateUserResult } from '../models/create.user.result';
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +65,9 @@ export class UsersService {
 
       return r;
     }));
+  }
+
+  public register(model: RegisterModel) : Observable<CreateUserResult> {
+    return this.httpClient.post<CreateUserResult>(environment.usersUrl, model);
   }
 }

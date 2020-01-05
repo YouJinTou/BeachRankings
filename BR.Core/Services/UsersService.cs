@@ -1,4 +1,5 @@
 ﻿using BR.Core.Abstractions;
+using BR.Core.Exceptions;
 using BR.Core.Models;
 using BR.Core.Tools;
 using Microsoft.Extensions.Logging;
@@ -55,7 +56,7 @@ namespace BR.Core.Services
                     var id = User.GetId(model.Email);
                     var existingUser = await this.repo.GetAsync(id);
 
-                    throw new InvalidOperationException("User already exists.");
+                    throw new UserCreationFailedException("User already exists.");
                 }
                 catch (KeyNotFoundException)
                 {

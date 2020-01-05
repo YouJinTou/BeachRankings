@@ -11,6 +11,7 @@
         {
             public const string Stage = "STAGE";
             public const string QA = "qa";
+            public const string Prod = "prod";
         }
     }
 }

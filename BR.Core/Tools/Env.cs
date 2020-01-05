@@ -13,5 +13,7 @@ namespace BR.Core.Tools
 
         public static string Stage => 
             GetEnvironmentVariable(Constants.Env.Stage, Constants.Env.QA);
+
+        public static bool IsProduction => Stage.Equals(Constants.Env.Prod);
     }
 }
