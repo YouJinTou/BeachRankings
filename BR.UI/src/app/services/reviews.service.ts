@@ -24,7 +24,7 @@ export class ReviewsService {
     return this.httpClient.put<ViewReviewModel>(environment.reviewsUrl, review);
   }
 
-  public deleteReview(id: string) {
-    this.httpClient.delete(environment.reviewsUrl + id);
+  public deleteReview(id: string): Observable<any> {
+    return this.httpClient.delete(environment.reviewsUrl + id);
   }
 }

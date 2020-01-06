@@ -1,6 +1,9 @@
 <div class="wrapper">
     <div>
         <div>
+            <button (click)='redirectToEditBeach()'>Edit beach</button>
+        </div>
+        <div>
             <a href="http://maps.google.com/maps?q={{ beach.coordinates }}" target="_blank">
                 {{ beach.name }}
             </a>

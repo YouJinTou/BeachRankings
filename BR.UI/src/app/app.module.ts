@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -18,12 +19,14 @@ import { PlaceTableComponent } from './components/place-table/place-table.compon
 import { RegisterComponent } from './components/register/register.component';
 import { AddReviewComponent } from './components/add-review/add-review.component';
 import { EditReviewComponent } from './components/edit-review/edit-review.component';
+import { EditBeachComponent } from './components/edit-beach/edit-beach.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'add-beach', component: CreateBeachComponent, canActivate: [AuthGuardService] },
   { path: 'beaches/:id', component: ViewBeachComponent },
+  { path: 'beaches/:id/edit', component: CreateBeachComponent, canActivate: [AuthGuardService] },
   { path: 'beaches/:id/review', component: AddReviewComponent, canActivate: [AuthGuardService] },
   { path: 'reviews/:id/edit', component: EditReviewComponent, canActivate: [AuthGuardService] },
   { path: 'places/:id', component: PlaceTableComponent }
@@ -40,7 +43,8 @@ const appRoutes: Routes = [
     PlaceTableComponent,
     RegisterComponent,
     AddReviewComponent,
-    EditReviewComponent
+    EditReviewComponent,
+    EditBeachComponent
   ],
   imports: [
     BrowserModule,
@@ -48,8 +52,9 @@ const appRoutes: Routes = [
       enableTracing: false
     }),
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-    DataTablesModule
+    DataTablesModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

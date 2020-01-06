@@ -4,6 +4,8 @@ import { Place } from '../../models/place';
 import { CreateBeachModel } from '../../models/create.beach.model';
 import { BeachesService } from '../../services/beaches.service';
 import { UsersService } from '../../services/users.service';
+import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create-beach',
@@ -11,6 +13,7 @@ import { UsersService } from '../../services/users.service';
   styleUrls: ['./create-beach.component.css']
 })
 export class CreateBeachComponent implements OnInit {
+  placesForm: FormGroup;
   model: CreateBeachModel;
   countries: Place[];
   l1s: Place[];
@@ -21,17 +24,74 @@ export class CreateBeachComponent implements OnInit {
   constructor(
     private placesService: PlacesService,
     private beachesService: BeachesService,
-    private usersService: UsersService) { }
+    private usersService: UsersService,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder) {
+    this.model = new CreateBeachModel();
+    this.placesForm = new FormGroup({
+      countryList: new FormControl(),
+      l1List: new FormControl(),
+      l2List: new FormControl(),
+      l3List: new FormControl(),
+      l4List: new FormControl()
+    });
+  }
 
   ngOnInit() {
-    this.model = new CreateBeachModel();
+      this.usersService.currentUser.subscribe(u => {
+        this.model.addedBy = u.id;
+      });
 
-    this.usersService.currentUser.subscribe(u => {
-      this.model.addedBy = u.id;
-    });
+      this.placesService.getCountries().subscribe(countries => {
+        this.countries = countries;
 
-    this.placesService.getCountries().subscribe(countries => {
-      this.countries = countries;
+        this.route.url.subscribe(v => {
+          if (v.length == 3 && v[2].path == 'edit') {
+            this.route.params.subscribe(p => {
+              this.beachesService.getBeach(p['id']).subscribe(b => {
+                this.model.name = b.name;
+                this.model.l1 = b.l1;
+                this.model.l2 = b.l2;
+                this.model.l3 = b.l3;
+                this.model.l4 = b.l4;
+                this.model.country = b.country;
+                this.model.coordinates = b.coordinates;
+                let group = {};
+                group['countryList'] = b.country ? b.country : 0;
+
+                if (b.l1) {
+                  this.placesService.getNextLevel(b.country).subscribe(l1s => {
+                    this.l1s = l1s;
+                    group['l1List'] = b.l1;
+                  });
+                }
+
+                if (b.l2) {
+                  this.placesService.getNextLevel(b.l1).subscribe(l2s => {
+                    this.l2s = l2s;
+                    group['l2List'] = b.l2;
+                  });
+                }
+
+                if (b.l3) {
+                  this.placesService.getNextLevel(b.l2).subscribe(l3s => {
+                    this.l3s = l3s;
+                    group['l3List'] = b.l3;
+                  });
+                }
+
+                if (b.l4) {
+                  this.placesService.getNextLevel(b.l3).subscribe(l4s => {
+                    this.l4s = l4s;
+                    group['l4List'] = b.l4;
+                  });
+                }
+
+                this.placesForm = this.formBuilder.group(group);
+              });
+            });
+          }
+      });
     });
   }
 
@@ -125,7 +185,7 @@ export class CreateBeachComponent implements OnInit {
     }
   }
 
-  addBeach() {
+  submit() {
     this.beachesService.addBeach(this.model);
   }
 

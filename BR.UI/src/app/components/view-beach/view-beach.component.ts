@@ -17,11 +17,11 @@ export class ViewBeachComponent implements OnInit {
   beach: ViewBeachModel;
 
   constructor(
-    private beachesService: BeachesService, 
+    private beachesService: BeachesService,
     private usersService: UsersService,
     private reviewsService: ReviewsService,
-    private route: ActivatedRoute, 
-    private router: Router) { 
+    private route: ActivatedRoute,
+    private router: Router) {
     this.beach = new ViewBeachModel();
 
     this.usersService.currentUser.subscribe(u => this.user = u);
@@ -33,6 +33,10 @@ export class ViewBeachComponent implements OnInit {
     })
   }
 
+  redirectToEditBeach() {
+    this.router.navigate(['/beaches/' + this.beach.id + '/edit'])
+  }
+
   redirectToLeaveReview() {
     this.router.navigate(['/beaches/' + this.beach.id + '/review']);
   }
@@ -42,9 +46,9 @@ export class ViewBeachComponent implements OnInit {
   }
 
   redirectToDeleteReview(id: string) {
-    this.reviewsService.deleteReview(id);
-
-    this.router.navigate(['/beaches/' + this.beach.id]);
+    this.reviewsService.deleteReview(id).subscribe(r => {
+      this.router.navigate(['/beaches/' + this.beach.id]);
+    });
   }
 
   canEditReview(review: ViewReviewModel) {
