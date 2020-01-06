@@ -101,7 +101,7 @@ namespace BR.Core.Controllers
 
                 this.logger.LogInformation($"Deleting review {id}.");
 
-                var review = await this.service.DeleteReviewAsync(id);
+                await this.service.DeleteReviewAsync(id);
 
                 return Ok();
             }
