@@ -28,5 +28,10 @@ namespace BR.Core.Models
         public string L4 { get; set; }
 
         public IEnumerable<string> WaterBodies { get; set; }
+
+        public override string ToString()
+        {
+            return this.Id;
+        }
     }
 }
