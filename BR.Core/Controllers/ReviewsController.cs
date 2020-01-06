@@ -95,24 +95,22 @@ namespace BR.Core.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteReviewAsync(string id)
         {
-            return null;
-            //try
-            //{
-            //    Validator.ThrowIfNullOrWhiteSpace(id, "Missing review ID.");
+            try
+            {
+                Validator.ThrowIfNullOrWhiteSpace(id, "Missing review ID.");
 
-            //    this.logger.LogInformation($"Deleting review {id}.");
+                this.logger.LogInformation($"Deleting review {id}.");
 
-            //    var review = await this.service.GetReviewAsync(id);
-            //    var reviewModel = this.mapper.Map<GetReviewModel>(review);
+                var review = await this.service.DeleteReviewAsync(id);
 
-            //    return Ok(reviewModel);
-            //}
-            //catch (Exception ex)
-            //{
-            //    this.logger.LogError(ex, $"Getting review {id} failed.");
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Getting review {id} failed.");
 
-            //    return BadRequest(ex);
-            //}
+                return BadRequest(ex);
+            }
         }
     }
 }

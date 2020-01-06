@@ -140,5 +140,30 @@ namespace BR.Core.Services
                 throw;
             }
         }
+
+        public async Task DeleteReviewAsync(string id)
+        {
+            try
+            {
+                Validator.ThrowIfNullOrWhiteSpace(id, "No review ID.");
+
+                var review = await this.GetReviewAsync(id);
+                var reviewDeleted = new AppEvent(id, review, Event.ReviewDeleted.ToString());
+                var beachReviewDeleted = new AppEvent(
+                    review.BeachId, review, Event.BeachReviewChanged.ToString());
+                var userDeletedReview = new AppEvent(
+                    review.UserId, review, Event.UserDeletedReview.ToString());
+                var stream = EventStream.CreateStream(
+                    reviewDeleted, beachReviewDeleted, userDeletedReview);
+
+                await this.bus.PublishEventStreamAsync(stream);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Failed to delete review {id}.");
+
+                throw;
+            }
+        }
     }
 }

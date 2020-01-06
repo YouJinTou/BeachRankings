@@ -5,15 +5,21 @@
         BeachCreated,
         BeachModified,
         BeachDeleted,
+
         UserCreatedBeach,
         UserModifiedBeach,
         UserCreated,
+
         BeachReviewed,
         BeachReviewChanged,
         BeachReviewDeleted,
+
         ReviewCreated,
         ReviewModified,
+        ReviewDeleted,
+
         UserLeftReview,
-        UserModifiedReview
+        UserModifiedReview,
+        UserDeletedReview
     }
 }
