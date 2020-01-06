@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BR.Core.Tools;
+using System.Collections.Generic;
 
 namespace BR.Core.Extensions
 {
@@ -32,6 +33,11 @@ namespace BR.Core.Extensions
                 string.IsNullOrWhiteSpace(s) || s.ToLower().Equals(defaultNullString?.ToLower()) ?
                 null : 
                 s;
+        }
+
+        public static string Latinize(this string s)
+        {
+            return Latinizer.Latinize(s);
         }
     }
 }

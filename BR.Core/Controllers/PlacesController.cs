@@ -1,4 +1,5 @@
 ﻿using BR.Core.Abstractions;
+using BR.Core.Extensions;
 using BR.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -47,7 +48,7 @@ namespace BR.Core.Controllers
             {
                 this.logger.LogInformation($"Getting children for {id}.");
 
-                var place = await this.repo.GetAsync(id);
+                var place = await this.repo.GetAsync(id.Latinize());
                 var children = place?.Children?.Select(c => new GetNextModel
                 {
                     Id = c,
