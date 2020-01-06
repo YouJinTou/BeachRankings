@@ -9,22 +9,22 @@ namespace BR.Seed.Extensions
     public static class SeedExtensions
     {
         public static string GetId(this SeedContinent continent) 
-            => continent.name;
+            => continent.name.Latinize();
 
         public static string GetId(this SeedContinentCountry country)
-            => $"{country.continent}_{country.name}";
+            => $"{country.continent}_{country.name}".Latinize();
 
         public static string GetId(this SeedContinentCountryL1 l1)
-            => $"{l1.continent}_{l1.country}_{l1.name}";
+            => $"{l1.continent}_{l1.country}_{l1.name}".Latinize();
 
         public static string GetId(this SeedContinentCountryL1L2 l2)
-            => $"{l2.continent}_{l2.country}_{l2.L1}_{l2.name}";
+            => $"{l2.continent}_{l2.country}_{l2.L1}_{l2.name}".Latinize();
 
         public static string GetId(this SeedContinentCountryL1L2L3 l3)
-           => $"{l3.continent}_{l3.country}_{l3.L1}_{l3.L2}_{l3.name}";
+           => $"{l3.continent}_{l3.country}_{l3.L1}_{l3.L2}_{l3.name}".Latinize();
 
         public static string GetId(this SeedContinentCountryL1L2L3L4 l4)
-            => $"{l4.continent}_{l4.country}_{l4.L1}_{l4.L2}_{l4.L3}_{l4.name}";
+            => $"{l4.continent}_{l4.country}_{l4.L1}_{l4.L2}_{l4.L3}_{l4.name}".Latinize();
 
         public static Place GetContinent(
             this SeedContinent continent, IEnumerable<string> waterBodies)
@@ -32,7 +32,7 @@ namespace BR.Seed.Extensions
             var place = new Place
             {
                 Id = continent.GetId(),
-                Name = continent.name,
+                Name = continent.name.Latinize(),
                 Type = PlaceType.Continent.ToString(),
                 WaterBodies = waterBodies.NonNullOrEmpty(),
                 Children = continent.Country.Select(c => c.GetId())
@@ -47,18 +47,18 @@ namespace BR.Seed.Extensions
             var place1 = new Place
             {
                 Id = country.GetId(),
-                Name = country.name,
+                Name = country.name.Latinize(),
                 Type = PlaceType.Country.ToString(),
-                Continent = country.continent,
+                Continent = country.continent.Latinize(),
                 WaterBodies = waterBodies.NonNullOrEmpty(),
                 Children = country.L1?.Select(l => l.GetId())
             };
             var place2 = new Place
             {
-                Id = country.name,
-                Name = country.name,
+                Id = country.name.Latinize(),
+                Name = country.name.Latinize(),
                 Type = PlaceType.Country.ToString(),
-                Continent = country.continent,
+                Continent = country.continent.Latinize(),
                 WaterBodies = waterBodies.NonNullOrEmpty(),
                 Children = country.L1?.Select(l => l.GetId())
             };
@@ -71,10 +71,10 @@ namespace BR.Seed.Extensions
             var place = new Place
             {
                 Id = l1.GetId(),
-                Name = l1.name,
+                Name = l1.name.Latinize(),
                 Type = PlaceType.L1.ToString(),
-                Continent = l1.continent,
-                Country = l1.country,
+                Continent = l1.continent.Latinize(),
+                Country = l1.country.Latinize(),
                 WaterBodies = waterBodies.NonNullOrEmpty(),
                 Children = l1.L2?.Select(l => l.GetId())
             };
@@ -88,11 +88,11 @@ namespace BR.Seed.Extensions
             var place = new Place
             {
                 Id = l2.GetId(),
-                Name = l2.name,
+                Name = l2.name.Latinize(),
                 Type = PlaceType.L2.ToString(),
-                Continent = l2.continent,
-                Country = l2.country,
-                L1 = l2.L1,
+                Continent = l2.continent.Latinize(),
+                Country = l2.country.Latinize(),
+                L1 = l2.L1.Latinize(),
                 WaterBodies = waterBodies.NonNullOrEmpty(),
                 Children = l2.L3?.Select(l => l.GetId())
             };
@@ -106,12 +106,12 @@ namespace BR.Seed.Extensions
             var place = new Place
             {
                 Id = l3.GetId(),
-                Name = l3.name,
+                Name = l3.name.Latinize(),
                 Type = PlaceType.L3.ToString(),
-                Continent = l3.continent,
-                Country = l3.country,
-                L1 = l3.L1,
-                L2 = l3.L2,
+                Continent = l3.continent.Latinize(),
+                Country = l3.country.Latinize(),
+                L1 = l3.L1.Latinize(),
+                L2 = l3.L2.Latinize(),
                 WaterBodies = waterBodies.NonNullOrEmpty(),
                 Children = l3.L4?.Select(l => l.GetId())
             };
@@ -125,13 +125,13 @@ namespace BR.Seed.Extensions
             var place = new Place
             {
                 Id = l4.GetId(),
-                Name = l4.name,
+                Name = l4.name.Latinize(),
                 Type = PlaceType.L4.ToString(),
-                Continent = l4.continent,
-                Country = l4.country,
-                L1 = l4.L1,
-                L2 = l4.L2,
-                L3 = l4.L3,
+                Continent = l4.continent.Latinize(),
+                Country = l4.country.Latinize(),
+                L1 = l4.L1.Latinize(),
+                L2 = l4.L2.Latinize(),
+                L3 = l4.L3.Latinize(),
                 WaterBodies = waterBodies.NonNullOrEmpty()
             };
 

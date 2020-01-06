@@ -44,31 +44,31 @@ namespace BR.Seed
                 {
                     var couWb = new HashSet<string>();
 
-                    country.waterBody.AddTo(conWb, couWb);
+                    country.waterBody.Latinize().AddTo(conWb, couWb);
 
                     foreach (var l1 in country.L1.NewIfNull())
                     {
                         var l1Wb = new HashSet<string>();
 
-                        l1.waterBody.AddTo(conWb, couWb, l1Wb);
+                        l1.waterBody.Latinize().AddTo(conWb, couWb, l1Wb);
 
                         foreach (var l2 in l1.L2.NewIfNull())
                         {
                             var l2Wb = new HashSet<string>();
 
-                            l2.waterBody.AddTo(conWb, couWb, l1Wb, l2Wb);
+                            l2.waterBody.Latinize().AddTo(conWb, couWb, l1Wb, l2Wb);
 
                             foreach (var l3 in l2.L3.NewIfNull())
                             {
                                 var l3Wb = new HashSet<string>();
 
-                                l3.waterBody.AddTo(conWb, couWb, l1Wb, l2Wb, l3Wb);
+                                l3.waterBody.Latinize().AddTo(conWb, couWb, l1Wb, l2Wb, l3Wb);
 
                                 foreach (var l4 in l3.L4.NewIfNull())
                                 {
                                     var l4Wb = new HashSet<string>();
 
-                                    l4.waterBody.AddTo(conWb, couWb, l1Wb, l2Wb, l3Wb, l4Wb);
+                                    l4.waterBody.Latinize().AddTo(conWb, couWb, l1Wb, l2Wb, l3Wb, l4Wb);
 
                                     places.Add(l4.GetL4(l4Wb));
                                 }
@@ -110,10 +110,10 @@ namespace BR.Seed
 
                 waterBodyPlaces.Add(new Place
                 {
-                    Id = waterBody,
+                    Id = waterBody.Latinize(),
                     Children = currentPlaces.Select(wbp => wbp.Id),
                     Type = PlaceType.WaterBody.ToString(),
-                    Name = waterBody,
+                    Name = waterBody.Latinize(),
                     Continent = GetWaterBodyPlace(currentPlaces, PlaceType.Continent),
                     Country = GetWaterBodyPlace(currentPlaces, PlaceType.Country),
                     L1 = GetWaterBodyPlace(currentPlaces, PlaceType.L1),
@@ -129,7 +129,7 @@ namespace BR.Seed
         private static string GetWaterBodyPlace(IEnumerable<Place> places, PlaceType type)
         {
             var results = places
-                .Where(p => p.Type == type.ToString()).Select(p => p.Id).Distinct();
+                .Where(p => p.Type == type.ToString()).Select(p => p.Id.Latinize()).Distinct();
             var result = string.Join('*', results);
 
             return result.NullIfEmpty();
