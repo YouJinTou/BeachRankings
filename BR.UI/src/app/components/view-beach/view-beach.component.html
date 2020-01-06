@@ -12,8 +12,9 @@
         <div>Scenery: {{ beach.beautifulScenery }}</div>
         <div>Crowd-free: {{ beach.crowdFree }}</div>
         <div>Infrastructure: {{ beach.infrastructure }}</div>
-        <div>Litter: {{ beach.litterFree }}</div>
-        <div>Sea floor: {{ beach.feetFriendlyBottom }}</div>
+        <div>Water visibility: {{ beach.waterVisibility }}</div>
+        <div>Litter-free: {{ beach.litterFree }}</div>
+        <div>Feet-friendly bottom: {{ beach.feetFriendlyBottom }}</div>
         <div>Biodiversity: {{ beach.seaLifeDiversity }}</div>
         <div>Coral reef: {{ beach.coralReef }}</div>
         <div>Snorkeling: {{ beach.snorkeling }}</div>
@@ -26,6 +27,12 @@
     </div>
     <div>
         <div *ngFor="let review of beach.reviews">
+            <button *ngIf="canEditReview(review)" (click)='redirectToEditReview(review.id)'>
+                Edit
+            </button>
+            <button *ngIf="canEditReview(review)" (click)='redirectToDeleteReview(review.id)'>
+                Delete
+            </button>
             <h3>REVIEW: {{ review.score }}</h3>
             <div>{{ review.text }}</div>
             <div>Sand quality: {{ review.sandQuality }}</div>
@@ -33,8 +40,9 @@
             <div>Scenery: {{ review.beautifulScenery }}</div>
             <div>Crowd-free: {{ review.crowdFree }}</div>
             <div>Infrastructure: {{ review.infrastructure }}</div>
-            <div>Litter: {{ review.litterFree }}</div>
-            <div>Sea floor: {{ review.feetFriendlyBottom }}</div>
+            <div>Water visibility: {{ review.waterVisibility }}</div>
+            <div>Litter-free: {{ review.litterFree }}</div>
+            <div>Feet-friendly bottom: {{ review.feetFriendlyBottom }}</div>
             <div>Biodiversity: {{ review.seaLifeDiversity }}</div>
             <div>Coral reef: {{ review.coralReef }}</div>
             <div>Snorkeling: {{ review.snorkeling }}</div>
