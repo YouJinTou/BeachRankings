@@ -1,54 +1,46 @@
 <div class="wrapper">
     <div>
+        <div>
+            <a href="http://maps.google.com/maps?q={{ beach.coordinates }}" target="_blank">
+                {{ beach.name }}
+            </a>
+            <h3>{{ beach.score }}</h3>
+        </div>
+        <h5>{{ beach.country }}, {{ beach.l2 }} ({{ beach.waterBody }})</h5>
+        <div>Sand quality: {{ beach.sandQuality }}</div>
+        <div>Cleanliness: {{ beach.beachCleanliness }}</div>
+        <div>Scenery: {{ beach.beautifulScenery }}</div>
+        <div>Crowd-free: {{ beach.crowdFree }}</div>
+        <div>Infrastructure: {{ beach.infrastructure }}</div>
+        <div>Litter: {{ beach.litterFree }}</div>
+        <div>Sea floor: {{ beach.feetFriendlyBottom }}</div>
+        <div>Biodiversity: {{ beach.seaLifeDiversity }}</div>
+        <div>Coral reef: {{ beach.coralReef }}</div>
+        <div>Snorkeling: {{ beach.snorkeling }}</div>
+        <div>Kayaking: {{ beach.kayaking }}</div>
+        <div>Walking: {{ beach.walking }}</div>
+        <div>Camping: {{ beach.camping }}</div>
+    </div>
+    <div>
         <button (click)='redirectToLeaveReview()'>Leave review</button>
     </div>
     <div>
-        <p>{{ beach.id }}</p>
-        <p>{{ beach.name }}</p>
-        <p>{{ beach.addedOn }}</p>
-        <p>{{ beach.addedBy }}</p>
-        <p>{{ beach.continent }}</p>
-        <p>{{ beach.country }}</p>
-        <p>{{ beach.l1 }}</p>
-        <p>{{ beach.l2 }}</p>
-        <p>{{ beach.l3 }}</p>
-        <p>{{ beach.l4 }}</p>
-        <p>{{ beach.waterBody }}</p>
-        <p>{{ beach.location }}</p>
-        <p>{{ beach.coordinates }}</p>
-        <p>{{ beach.score }}</p>
-        <p>{{ beach.sandQuality }}</p>
-        <p>{{ beach.beachCleanliness }}</p>
-        <p>{{ beach.beautifulScenery }}</p>
-        <p>{{ beach.crowdFree }}</p>
-        <p>{{ beach.infrastructure }}</p>
-        <p>{{ beach.litterFree }}</p>
-        <p>{{ beach.feetFriendlyBottom }}</p>
-        <p>{{ beach.seaLifeDiversity }}</p>
-        <p>{{ beach.coralReef }}</p>
-        <p>{{ beach.snorkeling }}</p>
-        <p>{{ beach.kayaking }}</p>
-        <p>{{ beach.walking }}</p>
-        <p>{{ beach.camping }}</p>
-    </div>
-    <div>
         <div *ngFor="let review of beach.reviews">
-            <h3>REVIEW</h3>
-            <p>{{ review.text }}</p>
-            <p>{{ review.score }}</p>
-            <p>{{ review.sandQuality }}</p>
-            <p>{{ review.beachCleanliness }}</p>
-            <p>{{ review.beautifulScenery }}</p>
-            <p>{{ review.crowdFree }}</p>
-            <p>{{ review.infrastructure }}</p>
-            <p>{{ review.litterFree }}</p>
-            <p>{{ review.feetFriendlyBottom }}</p>
-            <p>{{ review.seaLifeDiversity }}</p>
-            <p>{{ review.coralReef }}</p>
-            <p>{{ review.snorkeling }}</p>
-            <p>{{ review.kayaking }}</p>
-            <p>{{ review.walking }}</p>
-            <p>{{ review.camping }}</p>
+            <h3>REVIEW: {{ review.score }}</h3>
+            <div>{{ review.text }}</div>
+            <div>Sand quality: {{ review.sandQuality }}</div>
+            <div>Cleanliness: {{ review.beachCleanliness }}</div>
+            <div>Scenery: {{ review.beautifulScenery }}</div>
+            <div>Crowd-free: {{ review.crowdFree }}</div>
+            <div>Infrastructure: {{ review.infrastructure }}</div>
+            <div>Litter: {{ review.litterFree }}</div>
+            <div>Sea floor: {{ review.feetFriendlyBottom }}</div>
+            <div>Biodiversity: {{ review.seaLifeDiversity }}</div>
+            <div>Coral reef: {{ review.coralReef }}</div>
+            <div>Snorkeling: {{ review.snorkeling }}</div>
+            <div>Kayaking: {{ review.kayaking }}</div>
+            <div>Walking: {{ review.walking }}</div>
+            <div>Camping: {{ review.camping }}</div>
         </div>
     </div>
 </div>
