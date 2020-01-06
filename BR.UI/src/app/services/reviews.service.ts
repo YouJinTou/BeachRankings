@@ -23,4 +23,8 @@ export class ReviewsService {
   public editReview(review: ViewReviewModel) {
     return this.httpClient.put<ViewReviewModel>(environment.reviewsUrl, review);
   }
+
+  public deleteReview(id: string) {
+    this.httpClient.delete(environment.reviewsUrl + id);
+  }
 }

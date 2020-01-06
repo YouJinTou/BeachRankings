@@ -3,8 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BeachesService } from '../../services/beaches.service';
 import { ViewBeachModel } from '../../models/view.beach.model';
 import { ViewReviewModel } from '../../models/view-review-model';
-import { UsersService } from 'src/app/services/users.service';
-import { LoginResult } from 'src/app/models/login.result';
+import { UsersService } from '../../services/users.service';
+import { LoginResult } from '../../models/login.result';
+import { ReviewsService } from '../../services/reviews.service';
 
 @Component({
   selector: 'app-view-beach',
@@ -18,6 +19,7 @@ export class ViewBeachComponent implements OnInit {
   constructor(
     private beachesService: BeachesService, 
     private usersService: UsersService,
+    private reviewsService: ReviewsService,
     private route: ActivatedRoute, 
     private router: Router) { 
     this.beach = new ViewBeachModel();
@@ -40,7 +42,9 @@ export class ViewBeachComponent implements OnInit {
   }
 
   redirectToDeleteReview(id: string) {
-    this.router.navigate(['/reviews/' + id]);
+    this.reviewsService.deleteReview(id);
+
+    this.router.navigate(['/beaches/' + this.beach.id]);
   }
 
   canEditReview(review: ViewReviewModel) {
