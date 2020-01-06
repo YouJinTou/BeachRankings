@@ -17,13 +17,23 @@ namespace BR.Core.Models
 
         public string Country { get; set; }
 
+        public string CountryId { get; set; }
+
         public string L1 { get; set; }
+
+        public string L1Id { get; set; }
 
         public string L2 { get; set; }
 
+        public string L2Id { get; set; }
+
         public string L3 { get; set; }
 
+        public string L3Id { get; set; }
+
         public string L4 { get; set; }
+
+        public string L4Id { get; set; }
 
         public string WaterBody { get; set; }
 
