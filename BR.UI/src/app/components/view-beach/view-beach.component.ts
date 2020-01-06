@@ -51,6 +51,10 @@ export class ViewBeachComponent implements OnInit {
     });
   }
 
+  canEditBeach() {
+    return this.user.id == this.beach.addedBy;
+  }
+
   canEditReview(review: ViewReviewModel) {
     return this.user.id == review.userId;
   }

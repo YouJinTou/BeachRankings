@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div>
-        <div>
+        <div *ngIf="canEditBeach()">
             <button (click)='redirectToEditBeach()'>Edit beach</button>
         </div>
         <div>
