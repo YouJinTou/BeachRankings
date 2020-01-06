@@ -5,7 +5,6 @@ import { ViewBeachModel } from '../../models/view.beach.model';
 import { ViewReviewModel } from '../../models/view-review-model';
 import { UsersService } from 'src/app/services/users.service';
 import { LoginResult } from 'src/app/models/login.result';
-import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-view-beach',
