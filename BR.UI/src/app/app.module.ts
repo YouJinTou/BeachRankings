@@ -24,7 +24,7 @@ import { EditBeachComponent } from './components/edit-beach/edit-beach.component
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'add-beach', component: CreateBeachComponent, canActivate: [AuthGuardService] },
+  { path: 'beaches/new', component: CreateBeachComponent, canActivate: [AuthGuardService] },
   { path: 'beaches/:id', component: ViewBeachComponent },
   { path: 'beaches/:id/edit', component: CreateBeachComponent, canActivate: [AuthGuardService] },
   { path: 'beaches/:id/review', component: AddReviewComponent, canActivate: [AuthGuardService] },

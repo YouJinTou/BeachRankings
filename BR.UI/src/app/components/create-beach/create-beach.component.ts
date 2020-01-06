@@ -28,12 +28,13 @@ export class CreateBeachComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
     this.model = new CreateBeachModel();
-    this.placesForm = new FormGroup({
-      countryList: new FormControl(),
-      l1List: new FormControl(),
-      l2List: new FormControl(),
-      l3List: new FormControl(),
-      l4List: new FormControl()
+    this.placesForm = formBuilder.group({
+      coordinates: new FormControl(),
+      countryList: 0,
+      l1List: 0,
+      l2List: 0,
+      l3List: 0,
+      l4List: 0
     });
   }
 
@@ -58,36 +59,39 @@ export class CreateBeachComponent implements OnInit {
                 this.model.coordinates = b.coordinates;
                 let group = {};
                 group['countryList'] = b.country ? b.country : 0;
+                group['coordinates'] = b.coordinates;
 
                 if (b.l1) {
-                  this.placesService.getNextLevel(b.country).subscribe(l1s => {
+                  this.placesService.getNextLevel(b.countryId).subscribe(l1s => {
                     this.l1s = l1s;
-                    group['l1List'] = b.l1;
+                    group['l1List'] = b.l1Id;
+                    this.placesForm = this.formBuilder.group(group);
                   });
                 }
 
                 if (b.l2) {
-                  this.placesService.getNextLevel(b.l1).subscribe(l2s => {
+                  this.placesService.getNextLevel(b.l1Id).subscribe(l2s => {
                     this.l2s = l2s;
-                    group['l2List'] = b.l2;
+                    group['l2List'] = b.l2Id;
+                    this.placesForm = this.formBuilder.group(group);
                   });
                 }
 
                 if (b.l3) {
-                  this.placesService.getNextLevel(b.l2).subscribe(l3s => {
+                  this.placesService.getNextLevel(b.l2Id).subscribe(l3s => {
                     this.l3s = l3s;
-                    group['l3List'] = b.l3;
+                    group['l3List'] = b.l3Id;
+                    this.placesForm = this.formBuilder.group(group);
                   });
                 }
 
                 if (b.l4) {
-                  this.placesService.getNextLevel(b.l3).subscribe(l4s => {
+                  this.placesService.getNextLevel(b.l3Id).subscribe(l4s => {
                     this.l4s = l4s;
-                    group['l4List'] = b.l4;
+                    group['l4List'] = b.l4Id;
+                    this.placesForm = this.formBuilder.group(group);
                   });
                 }
-
-                this.placesForm = this.formBuilder.group(group);
               });
             });
           }

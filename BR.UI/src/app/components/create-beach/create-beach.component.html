@@ -1,11 +1,11 @@
 <div class="wrapper">
-    <legend>Add Beach</legend>
+    <legend>{{ model?.name }}</legend>
     <p>
-        <input #name type="text" placeholder="Name" [(ngModel)]="model.name" />
+        <input type="text" placeholder="Name" [(ngModel)]="model.name" />
     </p>
     <fieldset [formGroup]="placesForm">
-        <div *ngIf="countries" >
-            <select #countryList (change)="onCountryChanged($event)" formControlName="countryList">
+        <div *ngIf="countries">
+            <select (change)="onCountryChanged($event)" formControlName="countryList">
                 <option value="0">Select a country</option>
                 <option *ngFor="let country of countries" [value]="country.id">
                     {{ country.name }}
@@ -13,7 +13,7 @@
             </select>
         </div>
         <div *ngIf="l1s">
-            <select #l1List (change)="onL1Changed($event)" formControlName="l1List">
+            <select (change)="onL1Changed($event)" formControlName="l1List">
                 <option value="0">Select a region</option>
                 <option *ngFor="let l1 of l1s" [value]="l1.id">
                     {{ l1.name }}
@@ -21,7 +21,7 @@
             </select>
         </div>
         <div *ngIf="l2s">
-            <select #l2List (change)="onL2Changed($event)" formControlName="l2List">
+            <select (change)="onL2Changed($event)" formControlName="l2List">
                 <option value="0">Select a region</option>
                 <option *ngFor="let l2 of l2s" [value]="l2.id">
                     {{ l2.name }}
@@ -29,7 +29,7 @@
             </select>
         </div>
         <div *ngIf="l3s">
-            <select #l3List (change)="onL3Changed($event)" formControlName="l3List">
+            <select (change)="onL3Changed($event)" formControlName="l3List">
                 <option value="0">Select a region</option>
                 <option *ngFor="let l3 of l3s" [value]="l3.id">
                     {{ l3.name }}
@@ -45,8 +45,7 @@
             </select>
         </div>
         <p>
-            <input 
-                #coordinates type="text" placeholder="Coordinates[(ngModel)]="model.coordinates" />
+            <input type="text" placeholder="Coordinates" formControlName="coordinates" />
         </p>
     </fieldset>
     <input type="button" (click)="addBeach()" value="Submit" />

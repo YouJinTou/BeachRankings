@@ -12,6 +12,11 @@ export class ViewBeachModel extends Scorable {
     l2: string;
     l3: string;
     l4: string;
+    countryId: string;
+    l1Id: string;
+    l2Id: string;
+    l3Id: string;
+    l4Id: string;
     waterBody: string;
     location: string;
     coordinates: string;
