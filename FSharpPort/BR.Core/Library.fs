@@ -1,12 +1,8 @@
-namespace BR.Core
+﻿namespace BR.Core
 
 module Score =
-    let score s = 
-        if s = Option.None then None
-        elif s < 0.0 || s > 10.0 then None
-        else Some s
     type Average = private Average of float
-    type SandQuality = private SandQuality of float
+    type SandQuality = SandQuality of float
     type BeachCleanliness = BeachCleanliness of float
     type BeautifulScenery = BeautifulScenery of float
     type CrowdFree = CrowdFree of float
@@ -39,24 +35,48 @@ module Score =
         Camping: Camping option
         LongTermStay: LongTermStay option
     }
-    let create sq bc bs cf i wv lf ffb sld cr s k w c lts =
-        {
-            SandQuality = sq
-            BeachCleanliness = bc
-            BeautifulScenery = bs
-            CrowdFree = cf
-            Infrastructure = i
-            WaterVisibility = wv
-            LitterFree = lf
-            FeetFriendlyBottom = ffb
-            SeaLifeDiversity = sld
-            CoralReef = cr
-            Snorkeling = s
-            Kayaking = k
-            Walking = w
-            Camping = c
-            LongTermStay = lts
-        }
+    let empty = {
+        Average = None
+        SandQuality = None
+        BeachCleanliness = None
+        BeautifulScenery = None
+        CrowdFree = None
+        Infrastructure = None
+        WaterVisibility = None
+        LitterFree = None
+        FeetFriendlyBottom = None
+        SeaLifeDiversity = None
+        CoralReef = None
+        Snorkeling = None
+        Kayaking = None
+        Walking = None
+        Camping = None
+        LongTermStay = None
+    }
+    let create scores =
+        let t = empty
+        let rec assign scores =
+            match scores with
+            | [] -> t
+            | head :: rest -> 
+                match head with
+                | SandQuality -> { t with SandQuality = head } :: assign rest 
+                | BeachCleanliness -> { t with BeachCleanliness = head }  :: assign rest 
+                | BeautifulScenery -> { t with BeautifulScenery = head }  :: assign rest 
+                | CrowdFree -> { t with CrowdFree = head }  :: assign rest 
+                | Infrastructure -> { t with Infrastructure = head }  :: assign rest 
+                | WaterVisibility -> { t with WaterVisibility = head }  :: assign rest 
+                | LitterFree -> { t with LitterFree = head }  :: assign rest 
+                | FeetFriendlyBottom -> { t with FeetFriendlyBottom = head }  :: assign rest 
+                | SeaLifeDiversity -> { t with SeaLifeDiversity = head }  :: assign rest 
+                | CoralReef -> { t with CoralReef = head }  :: assign rest 
+                | Snorkeling -> { t with Snorkeling = head }  :: assign rest 
+                | Kayaking -> { t with Kayaking = head }  :: assign rest 
+                | Walking -> { t with Walking = head }  :: assign rest 
+                | Camping -> { t with Camping = head }  :: assign rest 
+                | LongTermStay -> { t with LongTermStay = head }  :: assign rest 
+        assign scores
+        
 
 module Place = 
     type Continent = Continent of string
