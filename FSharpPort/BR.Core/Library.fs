@@ -1,39 +1,40 @@
 ﻿namespace BR.Core
 
 module Score =
-    type Average = private Average of float
-    type SandQuality = SandQuality of float
-    type BeachCleanliness = BeachCleanliness of float
-    type BeautifulScenery = BeautifulScenery of float
-    type CrowdFree = CrowdFree of float
-    type Infrastructure = Infrastructure of float
-    type WaterVisibility = WaterVisibility of float
-    type LitterFree = LitterFree of float
-    type FeetFriendlyBottom = FeetFriendlyBottom of float
-    type SeaLifeDiversity = SeaLifeDiversity of float
-    type CoralReef = CoralReef of float
-    type Snorkeling = Snorkeling of float
-    type Kayaking = Kayaking of float
-    type Walking = Walking of float
-    type Camping = Camping of float
-    type LongTermStay = LongTermStay of float
+    type V =
+        | Average of float
+        | SandQuality of float
+        | BeachCleanliness of float
+        | BeautifulScenery of float
+        | CrowdFree of float
+        | Infrastructure of float
+        | WaterVisibility of float
+        | LitterFree of float
+        | FeetFriendlyBottom of float
+        | SeaLifeDiversity of float
+        | CoralReef of float
+        | Snorkeling of float
+        | Kayaking of float
+        | Walking of float
+        | Camping of float
+        | LongTermStay of float
     type T = private {
-        Average: Average option
-        SandQuality: SandQuality option
-        BeachCleanliness: BeachCleanliness option
-        BeautifulScenery: BeautifulScenery option
-        CrowdFree: CrowdFree option
-        Infrastructure: Infrastructure option
-        WaterVisibility: WaterVisibility option
-        LitterFree: LitterFree option
-        FeetFriendlyBottom: FeetFriendlyBottom option
-        SeaLifeDiversity: SeaLifeDiversity option
-        CoralReef: CoralReef option
-        Snorkeling: Snorkeling option
-        Kayaking: Kayaking option
-        Walking: Walking option
-        Camping: Camping option
-        LongTermStay: LongTermStay option
+        Average: V option
+        SandQuality: V option
+        BeachCleanliness: V option
+        BeautifulScenery: V option
+        CrowdFree: V option
+        Infrastructure: V option
+        WaterVisibility: V option
+        LitterFree: V option
+        FeetFriendlyBottom: V option
+        SeaLifeDiversity: V option
+        CoralReef: V option
+        Snorkeling: V option
+        Kayaking: V option
+        Walking: V option
+        Camping: V option
+        LongTermStay: V option
     }
     let empty = {
         Average = None
@@ -55,28 +56,35 @@ module Score =
     }
     let create scores =
         let t = empty
-        let rec assign scores =
+        let av c (l: int) (v: float) =
+            match c with
+                | Some currVal -> (currVal + v) / (l |> float)
+                | None _ -> v
+        let rec assign scores acc avg =
+            let len = List.length scores
+            let av2 = av avg len
             match scores with
-            | [] -> t
-            | head :: rest -> 
+            | [] -> { acc with Average = avg }
+            | head :: tail -> 
                 match head with
-                | SandQuality -> { t with SandQuality = head } :: assign rest 
-                | BeachCleanliness -> { t with BeachCleanliness = head }  :: assign rest 
-                | BeautifulScenery -> { t with BeautifulScenery = head }  :: assign rest 
-                | CrowdFree -> { t with CrowdFree = head }  :: assign rest 
-                | Infrastructure -> { t with Infrastructure = head }  :: assign rest 
-                | WaterVisibility -> { t with WaterVisibility = head }  :: assign rest 
-                | LitterFree -> { t with LitterFree = head }  :: assign rest 
-                | FeetFriendlyBottom -> { t with FeetFriendlyBottom = head }  :: assign rest 
-                | SeaLifeDiversity -> { t with SeaLifeDiversity = head }  :: assign rest 
-                | CoralReef -> { t with CoralReef = head }  :: assign rest 
-                | Snorkeling -> { t with Snorkeling = head }  :: assign rest 
-                | Kayaking -> { t with Kayaking = head }  :: assign rest 
-                | Walking -> { t with Walking = head }  :: assign rest 
-                | Camping -> { t with Camping = head }  :: assign rest 
-                | LongTermStay -> { t with LongTermStay = head }  :: assign rest 
-        assign scores
-        
+                    | Average _ -> assign tail t avg
+                    | SandQuality v -> assign tail { t with SandQuality = Some head } (av2 v)
+                    | BeachCleanliness _ -> assign tail { t with BeachCleanliness = Some head } 
+                    | BeautifulScenery _ -> assign tail { t with BeautifulScenery = Some head } 
+                    | CrowdFree _ -> assign tail { t with CrowdFree = Some head } 
+                    | Infrastructure _ -> assign tail { t with Infrastructure = Some head } 
+                    | WaterVisibility _ -> assign tail { t with WaterVisibility = Some head } 
+                    | LitterFree _ -> assign tail { t with LitterFree = Some head } 
+                    | FeetFriendlyBottom _ -> assign tail { t with FeetFriendlyBottom = Some head } 
+                    | SeaLifeDiversity _ -> assign tail { t with SeaLifeDiversity = Some head } 
+                    | CoralReef _ -> assign tail { t with CoralReef = Some head } 
+                    | Snorkeling _ -> assign tail { t with Snorkeling = Some head } 
+                    | Kayaking _ -> assign tail { t with Kayaking = Some head } 
+                    | Walking _ -> assign tail { t with Walking = Some head } 
+                    | Camping _ -> assign tail { t with Camping = Some head } 
+                    | LongTermStay _ -> assign tail { t with LongTermStay = Some head } 
+        let result = assign scores t None
+        result
 
 module Place = 
     type Continent = Continent of string
@@ -96,26 +104,26 @@ module Place =
         L4: L4
     }
 
-module Beach = 
-    open System
+// module Beach = 
+//     open System
 
-    type Name = Name of string
-    type Coordinates = Coordinates of string
-    type Beach = private {
-        Id: Guid
-        Name: Name
-        Place: Place.T
-        Coordinates: Coordinates
-        Score: Score.T
-        AddedBy: Guid
-        CreatedAt: DateTime
-    }
-    let create name place coords score addedBy = 
-        {
-            Id = Guid.NewGuid()
-            Place = place
-            Coordinates = coords
-            Score = score
-            AddedBy = addedBy
-            CreatedAt = DateTime.UtcNow()
-        }
+//     type Name = Name of string
+//     type Coordinates = Coordinates of string
+//     type Beach = private {
+//         Id: Guid
+//         Name: Name
+//         Place: Place.T
+//         Coordinates: Coordinates
+//         Score: Score.T
+//         AddedBy: Guid
+//         CreatedAt: DateTime
+//     }
+//     let create name place coords score addedBy = 
+//         {
+//             Id = Guid.NewGuid()
+//             Place = place
+//             Coordinates = coords
+//             Score = score
+//             AddedBy = addedBy
+//             CreatedAt = DateTime.UtcNow()
+//         }
