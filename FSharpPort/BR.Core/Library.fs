@@ -37,9 +37,8 @@ module Score =
               Walking: V option
               Camping: V option
               LongTermStay: V option }
-
-    let empty =
-        { Average = None
+        static member Default = { 
+          Average = None
           SandQuality = None
           BeachCleanliness = None
           BeautifulScenery = None
@@ -57,7 +56,7 @@ module Score =
           LongTermStay = None }
 
     let create scores =
-        let t = empty
+        let t = T.Default
 
         let av acc (len: int) (v: float) =
             match acc with
@@ -96,44 +95,31 @@ module Score =
         let result = assign scores t None
         result
 
-module Place =
-    type Continent = Continent of string
-    type WaterBody = WaterBody of string
-    type Country = Country of string option
-    type L1 = L1 of string option
-    type L2 = L2 of string option
-    type L3 = L3 of string option
-    type L4 = L4 of string option
+module Beach =
+    open System
 
-    type T =
-        { Continent: Continent
-          WaterBody: WaterBody
-          Country: Country
-          L1: L1
-          L2: L2
-          L3: L3
-          L4: L4 }
+    type Place =
+        { Continent: string
+          WaterBody: string}
+    type Name = Name of string
+    type Coordinates = Coordinates of string
+    type Beach = private {
+        Id: Guid
+        Name: Name
+        Place: Place
+        Coordinates: Coordinates
+        Score: Score.T
+        AddedBy: Guid
+        CreatedAt: DateTime
+    }
+    let create name place coords score addedBy =
+        {
+            Id = Guid.NewGuid()
+            Name = name
+            Place = place
+            Coordinates = coords
+            Score = score
+            AddedBy = addedBy
+            CreatedAt = DateTime.UtcNow
+        }
 
-// module Beach =
-//     open System
-
-//     type Name = Name of string
-//     type Coordinates = Coordinates of string
-//     type Beach = private {
-//         Id: Guid
-//         Name: Name
-//         Place: Place.T
-//         Coordinates: Coordinates
-//         Score: Score.T
-//         AddedBy: Guid
-//         CreatedAt: DateTime
-//     }
-//     let create name place coords score addedBy =
-//         {
-//             Id = Guid.NewGuid()
-//             Place = place
-//             Coordinates = coords
-//             Score = score
-//             AddedBy = addedBy
-//             CreatedAt = DateTime.UtcNow()
-//         }
