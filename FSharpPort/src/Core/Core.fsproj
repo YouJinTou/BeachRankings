@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Score.fs" />
     <Compile Include="Beach.fs" />
   </ItemGroup>
 
