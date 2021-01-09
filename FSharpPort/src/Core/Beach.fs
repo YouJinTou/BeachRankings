@@ -63,30 +63,28 @@ let createScore criteria =
 
     let len = List.length criteria
 
-    let folder (avg, acc) c =
-        let av' = av avg len
+    let folder acc c =
+        let av' = av acc.Average len
 
         match c with
-        | SandQuality v -> (av' v, { acc with SandQuality = Some c })
-        | BeachCleanliness v -> (av' v, { acc with BeachCleanliness = Some c })
-        | BeautifulScenery v -> (av' v, { acc with BeautifulScenery = Some c })
-        | CrowdFree v -> (av' v, { acc with CrowdFree = Some c })
-        | Infrastructure v -> (av' v, { acc with Infrastructure = Some c })
-        | WaterVisibility v -> (av' v, { acc with WaterVisibility = Some c })
-        | LitterFree v -> (av' v, { acc with LitterFree = Some c })
-        | FeetFriendlyBottom v -> (av' v, { acc with FeetFriendlyBottom = Some c })
-        | SeaLifeDiversity v -> (av' v, { acc with SeaLifeDiversity = Some c })
-        | CoralReef v -> (av' v, { acc with CoralReef = Some c })
-        | Snorkeling v -> (av' v, { acc with Snorkeling = Some c })
-        | Kayaking v -> (av' v, { acc with Kayaking = Some c })
-        | Walking v -> (av' v, { acc with Walking = Some c })
-        | Camping v -> (av' v, { acc with Camping = Some c })
-        | LongTermStay v -> (av' v, { acc with LongTermStay = Some c })
+        | SandQuality v -> { acc with SandQuality = Some c; Average = av' v }
+        | BeachCleanliness v ->  { acc with BeachCleanliness = Some c; Average = av' v }
+        | BeautifulScenery v ->  { acc with BeautifulScenery = Some c; Average = av' v }
+        | CrowdFree v ->  { acc with CrowdFree = Some c; Average = av' v }
+        | Infrastructure v ->  { acc with Infrastructure = Some c; Average = av' v }
+        | WaterVisibility v ->  { acc with WaterVisibility = Some c; Average = av' v }
+        | LitterFree v ->  { acc with LitterFree = Some c; Average = av' v }
+        | FeetFriendlyBottom v ->  { acc with FeetFriendlyBottom = Some c; Average = av' v }
+        | SeaLifeDiversity v ->  { acc with SeaLifeDiversity = Some c; Average = av' v }
+        | CoralReef v ->  { acc with CoralReef = Some c; Average = av' v }
+        | Snorkeling v ->  { acc with Snorkeling = Some c; Average = av' v }
+        | Kayaking v ->  { acc with Kayaking = Some c; Average = av' v }
+        | Walking v ->  { acc with Walking = Some c; Average = av' v }
+        | Camping v ->  { acc with Camping = Some c; Average = av' v }
+        | LongTermStay v ->  { acc with LongTermStay = Some c; Average = av' v }
 
-    let (avg, t) =
-        List.fold folder (None, Score.Default) criteria
-
-    let result = { t with Average = avg }
+    let result =
+        List.fold folder Score.Default criteria
 
     result
 
