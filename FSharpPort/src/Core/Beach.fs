@@ -3,7 +3,6 @@
 open System
 
 type Criterion =
-    | Average of float
     | SandQuality of float
     | BeachCleanliness of float
     | BeautifulScenery of float
@@ -22,7 +21,7 @@ type Criterion =
 
 type Score =
     private
-        { Average: Criterion option
+        { Average: float option
           SandQuality: Criterion option
           BeachCleanliness: Criterion option
           BeautifulScenery: Criterion option
@@ -57,43 +56,37 @@ type Score =
           LongTermStay = None }
 
 let createScore criteria =
-    let av acc (len: int) (v: float) =
-        match acc with
-        | Some f -> Some((f + v) / (len |> float))
+    let av currentAverage len v =
+        match currentAverage with
+        | Some f -> Some((f + v) / (float len))
         | None _ -> Some v
 
     let len = List.length criteria
 
     let folder (avg, acc) c =
-        let av2 = av avg len
+        let av' = av avg len
 
         match c with
-        | Average _ -> (avg, acc)
-        | SandQuality v -> (av2 v, { acc with SandQuality = Some c })
-        | BeachCleanliness v -> (av2 v, { acc with BeachCleanliness = Some c })
-        | BeautifulScenery v -> (av2 v, { acc with BeautifulScenery = Some c })
-        | CrowdFree v -> (av2 v, { acc with CrowdFree = Some c })
-        | Infrastructure v -> (av2 v, { acc with Infrastructure = Some c })
-        | WaterVisibility v -> (av2 v, { acc with WaterVisibility = Some c })
-        | LitterFree v -> (av2 v, { acc with LitterFree = Some c })
-        | FeetFriendlyBottom v -> (av2 v, { acc with FeetFriendlyBottom = Some c })
-        | SeaLifeDiversity v -> (av2 v, { acc with SeaLifeDiversity = Some c })
-        | CoralReef v -> (av2 v, { acc with CoralReef = Some c })
-        | Snorkeling v -> (av2 v, { acc with Snorkeling = Some c })
-        | Kayaking v -> (av2 v, { acc with Kayaking = Some c })
-        | Walking v -> (av2 v, { acc with Walking = Some c })
-        | Camping v -> (av2 v, { acc with Camping = Some c })
-        | LongTermStay v -> (av2 v, { acc with LongTermStay = Some c })
+        | SandQuality v -> (av' v, { acc with SandQuality = Some c })
+        | BeachCleanliness v -> (av' v, { acc with BeachCleanliness = Some c })
+        | BeautifulScenery v -> (av' v, { acc with BeautifulScenery = Some c })
+        | CrowdFree v -> (av' v, { acc with CrowdFree = Some c })
+        | Infrastructure v -> (av' v, { acc with Infrastructure = Some c })
+        | WaterVisibility v -> (av' v, { acc with WaterVisibility = Some c })
+        | LitterFree v -> (av' v, { acc with LitterFree = Some c })
+        | FeetFriendlyBottom v -> (av' v, { acc with FeetFriendlyBottom = Some c })
+        | SeaLifeDiversity v -> (av' v, { acc with SeaLifeDiversity = Some c })
+        | CoralReef v -> (av' v, { acc with CoralReef = Some c })
+        | Snorkeling v -> (av' v, { acc with Snorkeling = Some c })
+        | Kayaking v -> (av' v, { acc with Kayaking = Some c })
+        | Walking v -> (av' v, { acc with Walking = Some c })
+        | Camping v -> (av' v, { acc with Camping = Some c })
+        | LongTermStay v -> (av' v, { acc with LongTermStay = Some c })
 
     let (avg, t) =
         List.fold folder (None, Score.Default) criteria
 
-    let average x =
-        match x with
-        | Some v -> Some(Average v)
-        | None _ -> None
-
-    let result = { t with Average = average avg }
+    let result = { t with Average = avg }
 
     result
 
