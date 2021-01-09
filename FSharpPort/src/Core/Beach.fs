@@ -56,35 +56,55 @@ type Score =
           LongTermStay = None }
 
 let createScore criteria =
+    let validate score =
+        if score < 0. || score > 10. then
+            Error "Score must be between 0 and 10."
+        else
+            Ok score
+
+    let bind continueWith score =
+        match score with
+        | Ok s -> continueWith s
+        | Error s -> Error s
+
     let av currentAverage len v =
         match currentAverage with
         | Some f -> Some((f + v) / (float len))
         | None _ -> Some v
 
-    let len = List.length criteria
-
     let folder acc c =
-        let av' = av acc.Average len
+        let aggregate acc =
+            let av' = av acc.Average (List.length criteria)
 
-        match c with
-        | SandQuality v -> { acc with SandQuality = Some c; Average = av' v }
-        | BeachCleanliness v ->  { acc with BeachCleanliness = Some c; Average = av' v }
-        | BeautifulScenery v ->  { acc with BeautifulScenery = Some c; Average = av' v }
-        | CrowdFree v ->  { acc with CrowdFree = Some c; Average = av' v }
-        | Infrastructure v ->  { acc with Infrastructure = Some c; Average = av' v }
-        | WaterVisibility v ->  { acc with WaterVisibility = Some c; Average = av' v }
-        | LitterFree v ->  { acc with LitterFree = Some c; Average = av' v }
-        | FeetFriendlyBottom v ->  { acc with FeetFriendlyBottom = Some c; Average = av' v }
-        | SeaLifeDiversity v ->  { acc with SeaLifeDiversity = Some c; Average = av' v }
-        | CoralReef v ->  { acc with CoralReef = Some c; Average = av' v }
-        | Snorkeling v ->  { acc with Snorkeling = Some c; Average = av' v }
-        | Kayaking v ->  { acc with Kayaking = Some c; Average = av' v }
-        | Walking v ->  { acc with Walking = Some c; Average = av' v }
-        | Camping v ->  { acc with Camping = Some c; Average = av' v }
-        | LongTermStay v ->  { acc with LongTermStay = Some c; Average = av' v }
+            let update acc =
+                fun score -> Ok { acc with Average = av' score }
+
+            let vbu score acc = validate score |> bind (update acc)
+
+            match c with
+            | SandQuality v -> vbu v { acc with SandQuality = Some c }
+            | BeachCleanliness v -> vbu v { acc with BeachCleanliness = Some c }
+            | BeautifulScenery v -> vbu v { acc with BeautifulScenery = Some c }
+            | CrowdFree v -> vbu v { acc with CrowdFree = Some c }
+            | Infrastructure v -> vbu v { acc with Infrastructure = Some c }
+            | WaterVisibility v -> vbu v { acc with WaterVisibility = Some c }
+            | LitterFree v -> vbu v { acc with LitterFree = Some c }
+            | FeetFriendlyBottom v -> vbu v { acc with FeetFriendlyBottom = Some c }
+            | SeaLifeDiversity v -> vbu v { acc with SeaLifeDiversity = Some c }
+            | CoralReef v -> vbu v { acc with CoralReef = Some c }
+            | Snorkeling v -> vbu v { acc with Snorkeling = Some c }
+            | Kayaking v -> vbu v { acc with Kayaking = Some c }
+            | Walking v -> vbu v { acc with Walking = Some c }
+            | Camping v -> vbu v { acc with Camping = Some c }
+            | LongTermStay v -> vbu v { acc with LongTermStay = Some c }
+
+        match acc with
+        | Error e -> Error e
+        | Ok acc -> aggregate acc
+
 
     let result =
-        List.fold folder Score.Default criteria
+        List.fold folder (Ok Score.Default) criteria
 
     result
 
