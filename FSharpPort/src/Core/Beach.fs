@@ -112,7 +112,12 @@ type Coordinates = Coordinates of string
 
 type Place =
     { Continent: string
-      WaterBody: string }
+      WaterBody: string
+      Country: string option
+      L1: string option
+      L2: string option
+      L3: string option
+      L4: string option }
 
 type T =
     private
