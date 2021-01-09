@@ -55,13 +55,13 @@ type Score =
           Camping = None
           LongTermStay = None }
 
-let createScore criteria =
-    let validate score =
-        if score < 0. || score > 10. then
-            Error "Score must be between 0 and 10."
-        else
-            Ok score
+let validateScore score =
+    if score < 0. || score > 10. then
+        Error "Score must be between 0 and 10."
+    else
+        Ok score
 
+let createScore criteria =
     let bind continueWith score =
         match score with
         | Ok s -> continueWith s
@@ -79,7 +79,8 @@ let createScore criteria =
             let update acc =
                 fun score -> Ok { acc with Average = av' score }
 
-            let vbu score acc = validate score |> bind (update acc)
+            let vbu score acc =
+                validateScore score |> bind (update acc)
 
             match c with
             | SandQuality v -> vbu v { acc with SandQuality = Some c }
@@ -107,7 +108,6 @@ let createScore criteria =
 
     result
 
-type Name = Name of string
 type Coordinates = Coordinates of string
 
 type Place =
@@ -122,14 +122,14 @@ type Place =
 type T =
     private
         { Id: Guid
-          Name: Name
+          Name: string
           Place: Place
           Coordinates: Coordinates
           Score: Score
           AddedBy: Guid
           CreatedAt: DateTime }
 
-let create name place coords score addedBy =
+let createBeach name place coords score addedBy =
     { Id = Guid.NewGuid()
       Name = name
       Place = place
