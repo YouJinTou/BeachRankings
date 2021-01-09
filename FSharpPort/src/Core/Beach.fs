@@ -102,7 +102,6 @@ let createScore criteria =
         | Error e -> Error e
         | Ok acc -> aggregate acc
 
-
     let result =
         List.fold folder (Ok Score.Default) criteria
 
