@@ -17,14 +17,18 @@ let main argv =
           L4 = None }
 
     let c = Coordinates "123,456"
-    let s = Score.create [ SandQuality 8. ]
-    let a = AddedBy(System.Guid.NewGuid())
-
-    match s with
-    | Ok sc ->
-        let b = Beach.create n p c sc a
-
-        printfn "%O" b
+    let validationResult = Score.validate [ SandQuality 8.; BeachCleanliness 10.0]
+    match validationResult with
+    | Ok scores -> Score.create scores |> printfn "%O"
     | Error e -> printfn "%s" e
+    // let s = Score.create [ SandQuality 8. ]
+    // let a = AddedBy(System.Guid.NewGuid())
+
+    // match s with
+    // | Ok sc ->
+    //     let b = Beach.create n p c sc a
+
+    //     printfn "%O" b
+    // | Error e -> printfn "%s" e
 
     0
