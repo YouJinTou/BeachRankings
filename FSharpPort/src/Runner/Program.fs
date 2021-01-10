@@ -2,7 +2,7 @@ open BR.Core.Beach
 
 [<EntryPoint>]
 let main argv =
-    let n = "Rusalka"
+    let n = Name "Rusalka"
 
     let p =
         { Continent = "Europe"
@@ -15,11 +15,11 @@ let main argv =
 
     let c = Coordinates "123,456"
     let s = Score.create [ Score.SandQuality 8. ]
+    let a = AddedBy(System.Guid.NewGuid())
 
     match s with
     | Ok sc ->
-        let b =
-            createBeach n p c sc (System.Guid.NewGuid())
+        let b = create n p c sc a
 
         printfn "%O" b
     | Error e -> printfn "%s" e

@@ -109,7 +109,9 @@ module Score =
 
         result
 
+type Name = Name of string
 type Coordinates = Coordinates of string
+type AddedBy = AddedBy of Guid
 
 type Place =
     { Continent: string
@@ -123,14 +125,14 @@ type Place =
 type T =
     private
         { Id: Guid
-          Name: string
+          Name: Name
           Place: Place
           Coordinates: Coordinates
           Score: Score.T
-          AddedBy: Guid
+          AddedBy: AddedBy
           CreatedAt: DateTime }
 
-let createBeach name place coords score addedBy =
+let create name place coords score addedBy =
     { Id = Guid.NewGuid()
       Name = name
       Place = place
