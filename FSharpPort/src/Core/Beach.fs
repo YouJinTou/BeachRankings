@@ -1,7 +1,6 @@
 ﻿module Beach
 
 open Funcs
-
 open System
 
 module Name =
