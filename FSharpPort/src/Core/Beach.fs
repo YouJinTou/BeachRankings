@@ -24,7 +24,7 @@ module Name =
         | n -> ValidName n |> Ok
 
 module Coordinates =
-    type T = T of string
+    type T = T of string option
 
     type Coords =
         private
@@ -46,11 +46,14 @@ module Coordinates =
         let (T c) = coords
 
         match c with
-        | NullOrEmpty -> Ok EmptyCoordinates
-        | WhiteSpace -> Ok EmptyCoordinates
-        | MaxLength 27 -> Error "Max coordinates length is 27, separator included."
-        | CommaSeparated -> FullCoordinates(parse c) |> Ok
-        | _ -> Error "Could not parse coordinates."
+        | None -> Ok EmptyCoordinates
+        | Some c' ->
+            match c' with
+            | NullOrEmpty -> Ok EmptyCoordinates
+            | WhiteSpace -> Ok EmptyCoordinates
+            | MaxLength 27 -> Error "Max coordinates length is 27, separator included."
+            | CommaSeparated -> FullCoordinates(parse c') |> Ok
+            | _ -> Error "Could not parse coordinates."
 
 
 module Place =
