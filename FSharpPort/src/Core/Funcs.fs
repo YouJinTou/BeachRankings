@@ -1,4 +1,4 @@
-module BR.Core.Funcs
+module Funcs
 
 open System
 open System.Text.RegularExpressions

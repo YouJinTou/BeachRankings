@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Include="Funcs.fs" />
+    <Compile Include="Score.fs" />
     <Compile Include="Beach.fs" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
-open BR.Core.Beach
+open Beach
+open Score
 
 [<EntryPoint>]
 let main argv =
@@ -16,12 +17,12 @@ let main argv =
           L4 = None }
 
     let c = Coordinates "123,456"
-    let s = Score.create [ Score.SandQuality 8. ]
+    let s = Score.create [ SandQuality 8. ]
     let a = AddedBy(System.Guid.NewGuid())
 
     match s with
     | Ok sc ->
-        let b = create n p c sc a
+        let b = Beach.create n p c sc a
 
         printfn "%O" b
     | Error e -> printfn "%s" e
