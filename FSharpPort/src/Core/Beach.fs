@@ -1,6 +1,7 @@
 ﻿module BR.Core.Beach
 
 open System
+open BR.Core.Funcs
 
 module Score =
     type Criterion =
@@ -109,7 +110,22 @@ module Score =
 
         result
 
-type Name = Name of string
+module Name =
+    open System.Text.RegularExpressions
+
+    type T = T of string
+
+    let (|HasBadCharacters|_|) name =
+        Regex.IsMatch(name, "[^a-zA-Z0-9 -]") |> ifTrueThen HasBadCharacters
+    let validate name =
+        let (T n) = name
+        match n with
+        | NullOrEmpty -> Error "Name cannot be empty."
+        | WhiteSpace -> Error "Name cannot be empty."
+        | MaxLength 100 -> Error "Name cannot be more than 100 characters."
+        | HasBadCharacters -> Error "Name can only contain letters, numbers, spaces, and hyphens."
+        | n -> T n |> Ok
+    
 type Coordinates = Coordinates of string
 type AddedBy = AddedBy of Guid
 
@@ -125,7 +141,7 @@ type Place =
 type T =
     private
         { Id: Guid
-          Name: Name
+          Name: Name.T
           Place: Place
           Coordinates: Coordinates
           Score: Score.T

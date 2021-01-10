@@ -2,8 +2,10 @@ open BR.Core.Beach
 
 [<EntryPoint>]
 let main argv =
-    let n = Name "Rusalka"
-
+    let n = Name.T "Rusalka"
+    match Name.validate n with
+    | Ok _ -> printfn "ok"
+    | Error e -> printfn "%s" e
     let p =
         { Continent = "Europe"
           WaterBody = "Black Sea"

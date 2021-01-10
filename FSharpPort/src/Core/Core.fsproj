@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Funcs.fs" />
     <Compile Include="Beach.fs" />
   </ItemGroup>
 
