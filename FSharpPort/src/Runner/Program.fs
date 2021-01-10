@@ -14,7 +14,7 @@ let main argv =
           L4 = None }
 
     let c = Coordinates "123,456"
-    let s = createScore [ SandQuality 8. ]
+    let s = Score.create [ Score.SandQuality 8. ]
 
     match s with
     | Ok sc ->
