@@ -52,22 +52,32 @@ module Coordinates =
         | CommaSeparated -> FullCoordinates(parse c) |> Ok
         | _ -> Error "Could not parse coordinates."
 
-type AddedBy = AddedBy of Guid
 
-type Place =
-    { Continent: string
-      WaterBody: string
-      Country: string option
-      L1: string option
-      L2: string option
-      L3: string option
-      L4: string option }
+module Place =
+    type Continent = Continent of string
+    type WaterBody = WaterBody of string
+    type Country = Country of string option
+    type L1 = L1 of string option
+    type L2 = L2 of string option
+    type L3 = L3 of string option
+    type L4 = L4 of string option
+
+    type T =
+        { Continent: Continent
+          WaterBody: WaterBody
+          Country: Country
+          L1: L1
+          L2: L2
+          L3: L3
+          L4: L4 }
+
+type AddedBy = AddedBy of Guid
 
 type T =
     private
         { Id: Guid
           Name: Name.ValidName
-          Place: Place
+          Place: Place.T
           Coordinates: Coordinates.Coords
           Score: Score.T
           AddedBy: AddedBy
