@@ -53,7 +53,7 @@ type T =
           Camping = None
           LongTermStay = None }
 
-type ValidCriteria = ValidCriteria of list<Criterion>
+type ValidCriteria = private ValidCriteria of list<Criterion>
 
 let validate criteria =
     let validate' score criterion =

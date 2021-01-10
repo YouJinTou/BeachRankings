@@ -2,11 +2,12 @@
 
 open Funcs
 open System
+open System.Text.RegularExpressions
 
 module Name =
-    open System.Text.RegularExpressions
-
     type T = T of string
+
+    type ValidName = private ValidName of string
 
     let (|HasBadCharacters|_|) name =
         Regex.IsMatch(name, "[^a-zA-Z0-9 -]")
@@ -20,9 +21,37 @@ module Name =
         | WhiteSpace -> Error "Name cannot be empty."
         | MaxLength 100 -> Error "Name cannot be more than 100 characters."
         | HasBadCharacters -> Error "Name can only contain letters, numbers, spaces, and hyphens."
-        | n -> T n |> Ok
+        | n -> ValidName n |> Ok
 
-type Coordinates = Coordinates of string
+module Coordinates =
+    type T = T of string
+
+    type Coords =
+        private
+        | FullCoordinates of float * float
+        | EmptyCoordinates
+
+    let (|CommaSeparated|_|) coords =
+        let pattern =
+            "^([-+]?)([\d]{1,2})(((\.)(\d+)(,)))(\s*)(([-+]?)([\d]{1,3})((\.)(\d+))?)$"
+
+        Regex.IsMatch(coords, pattern)
+        |> ifTrueThen CommaSeparated
+
+    let parse (coords: string) =
+        coords.Split [| ',' |]
+        |> fun tokens -> (float tokens.[0], float tokens.[1])
+
+    let validate coords =
+        let (T c) = coords
+
+        match c with
+        | NullOrEmpty -> Ok EmptyCoordinates
+        | WhiteSpace -> Ok EmptyCoordinates
+        | MaxLength 27 -> Error "Max coordinates length is 27, separator included."
+        | CommaSeparated -> FullCoordinates(parse c) |> Ok
+        | _ -> Error "Could not parse coordinates."
+
 type AddedBy = AddedBy of Guid
 
 type Place =
@@ -37,9 +66,9 @@ type Place =
 type T =
     private
         { Id: Guid
-          Name: Name.T
+          Name: Name.ValidName
           Place: Place
-          Coordinates: Coordinates
+          Coordinates: Coordinates.Coords
           Score: Score.T
           AddedBy: AddedBy
           CreatedAt: DateTime }
