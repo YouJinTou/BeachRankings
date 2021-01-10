@@ -74,21 +74,43 @@ module Place =
           L3: L3
           L4: L4 }
 
+module Description =
+    type T = T of string option
+
+    type ValidDescription =
+        private
+        | ValidDescription of string
+        | EmptyDescription
+
+    let validate description =
+        let (T d) = description
+
+        match d with
+        | None -> Ok EmptyDescription
+        | Some c' ->
+            match c' with
+            | NullOrEmpty -> Ok EmptyDescription
+            | WhiteSpace -> Ok EmptyDescription
+            | MaxLength 500 -> Error "Max description length is 500 symbols."
+            | desc -> ValidDescription desc |> Ok
+
 type AddedBy = AddedBy of Guid
 
 type T =
     private
         { Id: Guid
           Name: Name.ValidName
+          Description: Description.ValidDescription
           Place: Place.T
           Coordinates: Coordinates.Coords
           Score: Score.T
           AddedBy: AddedBy
           CreatedAt: DateTime }
 
-let create name place coords score addedBy =
+let create name description place coords score addedBy =
     { Id = Guid.NewGuid()
       Name = name
+      Description = description
       Place = place
       Coordinates = coords
       Score = score
