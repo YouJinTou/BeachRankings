@@ -8,6 +8,7 @@
     <Compile Include="Funcs.fs" />
     <Compile Include="Score.fs" />
     <Compile Include="Beach.fs" />
+    <Compile Include="Commands.fs" />
   </ItemGroup>
 
 </Project>
