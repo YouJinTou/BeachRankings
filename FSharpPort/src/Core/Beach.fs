@@ -55,7 +55,6 @@ module Coordinates =
             | CommaSeparated -> FullCoordinates(parse c') |> Ok
             | _ -> Error "Could not parse coordinates."
 
-
 module Place =
     type Continent = Continent of string
     type WaterBody = WaterBody of string
