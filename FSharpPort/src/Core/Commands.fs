@@ -1,7 +1,8 @@
 module Commands
 
 type AddBeach =
-    { Name: string
+    { Id: System.Guid
+      Name: string
       Description: string option
       Continent: string
       WaterBody: string
@@ -14,7 +15,8 @@ type AddBeach =
       AddedBy: System.Guid }
 
 type UpdateBeach =
-    { Name: string
+    { Id: System.Guid
+      Name: string
       Description: string option
       Continent: string
       WaterBody: string
@@ -34,3 +36,8 @@ type Command =
     | AddBeach of AddBeach
     | UpdateBeach of UpdateBeach
     | DeleteBeach of DeleteBeach
+
+type Event =
+    | BeachAdded of AddBeach
+    | BeachUpdated of UpdateBeach
+    | BeachDeleted of DeleteBeach

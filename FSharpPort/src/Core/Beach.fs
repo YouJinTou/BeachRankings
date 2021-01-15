@@ -107,8 +107,8 @@ type T =
           AddedBy: AddedBy
           CreatedAt: DateTime }
 
-let create name description place coords score addedBy =
-    { Id = Guid.NewGuid()
+let create id name description place coords score addedBy =
+    { Id = id
       Name = name
       Description = description
       Place = place
