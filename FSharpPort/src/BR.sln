@@ -12,6 +12,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Core", "Core\Core.fsproj", 
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Runner", "Runner\Runner.fsproj", "{68BDB55B-EC7C-43FF-8DFD-A08238F1F7BB}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Seed", "Seed\Seed.fsproj", "{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,5 +51,17 @@ Global
 		{68BDB55B-EC7C-43FF-8DFD-A08238F1F7BB}.Release|x64.Build.0 = Release|Any CPU
 		{68BDB55B-EC7C-43FF-8DFD-A08238F1F7BB}.Release|x86.ActiveCfg = Release|Any CPU
 		{68BDB55B-EC7C-43FF-8DFD-A08238F1F7BB}.Release|x86.Build.0 = Release|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Debug|x64.Build.0 = Debug|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Debug|x86.Build.0 = Debug|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Release|x64.ActiveCfg = Release|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Release|x64.Build.0 = Release|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2BEF9464-0F3D-42A6-89CA-FDC5EF50B28A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
